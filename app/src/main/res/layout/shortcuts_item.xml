@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.htc.launcher.widget.RLRelativelayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x_154"
+    android:layout_height="@dimen/y_144"
+    android:minWidth="@dimen/x_154"
+    android:minHeight="@dimen/y_144"
+    style="@style/focusStyle"
+    android:id="@+id/rl_item"
+    android:background="@drawable/home_app_bg"
+    >
+    <ImageView
+        android:layout_width="@dimen/x_59"
+        android:layout_height="@dimen/y_59"
+        android:id="@+id/icon"
+        android:duplicateParentState="true"
+        android:background="@drawable/home_add"
+        android:layout_marginTop="@dimen/y_20"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:layout_width="@dimen/x_154"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"
+        android:layout_below="@id/icon"
+        android:layout_marginTop="@dimen/y_15"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x_21"
+        android:layout_centerHorizontal="true"
+        android:duplicateParentState="true"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:paddingStart="@dimen/x_15"
+        android:paddingEnd="@dimen/x_15"
+        android:text="@string/app"
+        />
+
+</com.htc.launcher.widget.RLRelativelayout>

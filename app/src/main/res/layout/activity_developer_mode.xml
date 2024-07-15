@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_other"
+    android:id="@+id/rl_main"
+    tools:context=".activity.DeveloperModeActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x_40"
+        android:text="@string/developer_mode"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_40"
+        android:id="@+id/title"
+        />
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_1032"
+        android:layout_height="@dimen/y_80"
+        android:layout_below="@id/title"
+        android:id="@+id/rl_usb_debug"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_30"
+        android:background="@drawable/main_settings_bg"
+        style="@style/focusStyle"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x_50"
+            android:layout_centerVertical="true"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_27"
+            android:text="USB 调试"
+            android:duplicateParentState="true"
+            />
+        <Switch
+            android:layout_width="@dimen/x_98"
+            android:layout_height="@dimen/y_50"
+            android:id="@+id/usb_debug_switch"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_50"
+            android:layout_centerVertical="true"
+            android:checked="false"
+            android:thumb="@null"
+            android:background="@drawable/switch_bg"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_1032"
+        android:layout_height="@dimen/y_80"
+        android:layout_below="@id/rl_usb_debug"
+        android:id="@+id/rl_adb_debug"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_19"
+        android:background="@drawable/main_settings_bg"
+        style="@style/focusStyle"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x_50"
+            android:layout_centerVertical="true"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_27"
+            android:text="adb 调试"
+            android:duplicateParentState="true"
+            />
+        
+        <Switch
+            android:layout_width="@dimen/x_98"
+            android:layout_height="@dimen/y_50"
+            android:id="@+id/adb_debug_switch"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_50"
+            android:layout_centerVertical="true"
+            android:checked="false"
+            android:thumb="@null"
+            android:background="@drawable/switch_bg"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

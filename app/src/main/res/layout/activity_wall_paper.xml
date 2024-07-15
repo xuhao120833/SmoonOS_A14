@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_other"
+    android:id="@+id/rl_main"
+    tools:context=".activity.WallPaperActivity">
+
+    <com.htc.launcher.widget.WallButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/local_item"
+        android:layout_marginStart="@dimen/x_500"
+        android:layout_marginTop="@dimen/y_30"
+        android:background="#20000000"
+        android:text="@string/local"
+        android:textSize="@dimen/x_28"
+        android:textColor="@color/wallpaper_button_color"
+        android:paddingStart="@dimen/x_20"
+        android:paddingEnd="@dimen/x_20"
+        android:paddingTop="@dimen/y_10"
+        android:paddingBottom="@dimen/y_10"
+
+        />
+
+    <com.htc.launcher.widget.WallButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/usb_item"
+        android:layout_marginTop="@dimen/y_30"
+        android:layout_marginStart="@dimen/x_750"
+        android:background="#20000000"
+        android:text="@string/usb_dir"
+        android:textSize="@dimen/x_28"
+        android:textColor="@color/wallpaper_button_color"
+        android:paddingStart="@dimen/x_20"
+        android:paddingEnd="@dimen/x_20"
+        android:paddingTop="@dimen/y_10"
+        android:paddingBottom="@dimen/y_10"
+        />
+
+    <com.htc.launcher.widget.FocusKeepRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/y_120"
+        android:layout_marginStart="@dimen/x_30"
+        android:layout_marginEnd="@dimen/x_30"
+        android:id="@+id/wallpaper_rv"
+        />
+
+    <View
+        android:layout_width="@dimen/x_300"
+        android:layout_height="@dimen/y_300"
+        android:id="@+id/folder_result"
+        android:layout_centerInParent="true"
+        android:background="@drawable/folder"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>

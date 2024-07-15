@@ -1,0 +1,543 @@
+package com.htc.launcher.activity;
+
+import android.bluetooth.BluetoothAdapter;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.wifi.WifiManager;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemProperties;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
+
+import com.google.gson.Gson;
+import com.htc.launcher.R;
+import com.htc.launcher.adapter.ShortcutsAdapter;
+import com.htc.launcher.databinding.ActivityMainBinding;
+import com.htc.launcher.entry.AppInfoBean;
+import com.htc.launcher.entry.AppSimpleBean;
+import com.htc.launcher.entry.AppsData;
+import com.htc.launcher.entry.ChannelData;
+import com.htc.launcher.entry.ShortInfoBean;
+import com.htc.launcher.manager.RequestManager;
+import com.htc.launcher.receiver.BluetoothCallBcak;
+import com.htc.launcher.receiver.BluetoothReceiver;
+import com.htc.launcher.receiver.MyTimeCallBack;
+import com.htc.launcher.receiver.MyTimeReceiver;
+import com.htc.launcher.receiver.MyWifiCallBack;
+import com.htc.launcher.receiver.MyWifiReceiver;
+import com.htc.launcher.receiver.NetWorkCallBack;
+import com.htc.launcher.receiver.NetworkReceiver;
+import com.htc.launcher.utils.AppUtils;
+import com.htc.launcher.utils.BluetoothUtils;
+import com.htc.launcher.utils.Contants;
+import com.htc.launcher.utils.DBUtils;
+import com.htc.launcher.utils.ShareUtil;
+import com.htc.launcher.utils.TimeUtils;
+import com.htc.launcher.utils.ToastUtil;
+import com.htc.launcher.utils.Uri;
+import com.htc.launcher.widget.ManualQrDialog;
+import com.htc.launcher.widget.SpacesItemDecoration;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
+public class MainActivity extends BaseMainActivity implements BluetoothCallBcak, MyWifiCallBack, MyTimeCallBack, NetWorkCallBack {
+
+    private ActivityMainBinding mainBinding;
+    private ArrayList<ShortInfoBean> short_list = new ArrayList<>();
+
+    boolean  get_default_url = false;
+    private boolean isFrist = true;
+    private ChannelData channelData;
+    private List<AppsData> appsDataList;
+    /**
+     * receiver
+     */
+
+    private NetworkReceiver networkReceiver = null;
+    // 时间
+    private IntentFilter timeFilter = new IntentFilter();
+    private MyTimeReceiver timeReceiver = null;
+    // wifi
+    private IntentFilter wifiFilter = new IntentFilter();
+    private MyWifiReceiver wifiReceiver = null;
+    // 蓝牙
+    private IntentFilter blueFilter = new IntentFilter();
+    private BluetoothReceiver blueReceiver = null;
+
+    Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            switch (msg.what){
+                case 202:
+                    ShortcutsAdapter shortcutsAdapter = new ShortcutsAdapter(MainActivity.this,short_list);
+                    shortcutsAdapter.setItemCallBack(itemCallBack);
+                    mainBinding.shortcutsRv.setAdapter(shortcutsAdapter);
+                    break;
+            }
+
+            return false;
+        }
+    });
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mainBinding = ActivityMainBinding.inflate(LayoutInflater.from(this)); //ViewBinding
+        setContentView(mainBinding.getRoot());
+        initView();
+        initData();
+        initReceiver();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateTime();
+        updateBle();
+        if ((boolean)ShareUtil.get(this,Contants.MODIFY,false)){
+            short_list =loadHomeAppData();
+            handler.sendEmptyMessage(202);
+            ShareUtil.put(this,Contants.MODIFY,false);
+        }
+    }
+
+    private void initView(){
+        mainBinding.rlApps.setOnClickListener(this);
+        mainBinding.rlGoogle.setOnClickListener(this);
+        mainBinding.rlSettings.setOnClickListener(this);
+        mainBinding.rlUsb.setOnClickListener(this);
+        mainBinding.rlAv.setOnClickListener(this);
+        mainBinding.rlHdmi1.setOnClickListener(this);
+        mainBinding.rlHdmi2.setOnClickListener(this);
+        mainBinding.rlVga.setOnClickListener(this);
+        mainBinding.rlManual.setOnClickListener(this);
+        mainBinding.rlWifi.setOnClickListener(this);
+        mainBinding.rlBluetooth.setOnClickListener(this);
+
+        mainBinding.rlWallpapers.setOnClickListener(this);
+
+
+        mainBinding.rlApps.setOnHoverListener(this);
+        mainBinding.rlGoogle.setOnHoverListener(this);
+        mainBinding.rlSettings.setOnHoverListener(this);
+        mainBinding.rlUsb.setOnHoverListener(this);
+        mainBinding.rlAv.setOnHoverListener(this);
+        mainBinding.rlHdmi1.setOnHoverListener(this);
+        mainBinding.rlHdmi2.setOnHoverListener(this);
+        mainBinding.rlVga.setOnHoverListener(this);
+        mainBinding.rlManual.setOnHoverListener(this);
+        mainBinding.rlWifi.setOnHoverListener(this);
+        mainBinding.rlBluetooth.setOnHoverListener(this);
+
+        /*mainBinding.rlApps.setOnFocusChangeListener(this);
+        mainBinding.rlGoogle.setOnFocusChangeListener(this);
+        mainBinding.rlSettings.setOnFocusChangeListener(this);
+        mainBinding.rlUsb.setOnFocusChangeListener(this);
+        mainBinding.rlAv.setOnFocusChangeListener(this);
+        mainBinding.rlHdmi1.setOnFocusChangeListener(this);
+        mainBinding.rlHdmi2.setOnFocusChangeListener(this);
+        mainBinding.rlVga.setOnFocusChangeListener(this);
+        mainBinding.rlManual.setOnFocusChangeListener(this);
+
+        mainBinding.rlWifi.setOnFocusChangeListener(focusChangeListener);
+        mainBinding.rlBluetooth.setOnFocusChangeListener(focusChangeListener);*/
+
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mainBinding.shortcutsRv.addItemDecoration(new SpacesItemDecoration(0,
+                (int) (getWindowManager().getDefaultDisplay().getWidth()*0.03),0,0));
+        mainBinding.shortcutsRv.setLayoutManager(layoutManager);
+    }
+
+    private void initData(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                initDataApp();
+                short_list =loadHomeAppData();
+                handler.sendEmptyMessage(202);
+            }
+        }).start();
+    }
+
+    private void initReceiver(){
+        IntentFilter networkFilter = new IntentFilter(
+                ConnectivityManager.CONNECTIVITY_ACTION);
+        networkReceiver = new NetworkReceiver();
+        networkReceiver.setNetWorkCallBack(this);
+        registerReceiver(networkReceiver, networkFilter);
+
+        // 时间变化 分为单位
+        timeReceiver = new MyTimeReceiver(this);
+        timeFilter.addAction(Intent.ACTION_TIME_CHANGED);
+        timeFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
+        timeFilter.addAction(Intent.ACTION_LOCALE_CHANGED);
+        timeFilter.addAction(Intent.ACTION_CONFIGURATION_CHANGED);
+        timeFilter.addAction(Intent.ACTION_USER_SWITCHED);
+        timeFilter.addAction(Intent.ACTION_TIME_TICK);
+        registerReceiver(timeReceiver, timeFilter);
+
+        // wifi
+        wifiFilter.addAction(WifiManager.RSSI_CHANGED_ACTION);
+        wifiFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        wifiFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+
+        wifiReceiver = new MyWifiReceiver(this);
+        registerReceiver(wifiReceiver, wifiFilter);
+
+        // 蓝牙
+        // blueFilter.addAction("android.bluetooth.device.action.ACL_CONNECTED");
+        // blueFilter
+        // .addAction("android.bluetooth.device.action.ACL_DISCONNECTED");
+        // blueFilter.addAction("android.bluetooth.device.action.FOUND");
+        // blueFilter
+        // .addAction("android.bluetooth.device.action.ACL_DISCONNECT_REQUESTED");
+        blueFilter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);
+        blueFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
+        blueReceiver = new BluetoothReceiver(this);
+        registerReceiver(blueReceiver, blueFilter);
+
+    }
+    
+    ShortcutsAdapter.ItemCallBack itemCallBack = new ShortcutsAdapter.ItemCallBack() {
+        @Override
+        public void onItemClick(int i) {
+            if (i<short_list.size()){
+                if (short_list.get(i).getAppname()!=null) {
+                    AppUtils.startNewApp(MainActivity.this, short_list.get(i).getPackageName());
+                }
+                else if (appsDataList!=null) {
+                    AppsData appsData = findAppsData(short_list.get(i).getPackageName());
+                    if (appsData!=null){
+                        Intent intent = new Intent();
+                        intent.setComponent(new ComponentName("com.htc.storeos","com.htc.storeos.AppDetailActivity"));
+                        intent.putExtra("appData",new Gson().toJson(appsData));
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }else {
+                        ToastUtil.showShortToast(getBaseContext(),getString(R.string.data_none));
+                    }
+                }else {
+                    ToastUtil.showShortToast(getBaseContext(),getString(R.string.data_none));
+                }
+            }else {
+                AppUtils.startNewActivity(MainActivity.this, AppFavoritesActivity.class);
+            }
+        }
+    };
+
+    public AppsData findAppsData(String pkg){
+        for (AppsData appsData: appsDataList) {
+            if (appsData.getApp_id().equals(pkg))
+                return appsData;
+        }
+        return null;
+    }
+
+
+    private void requestAppData(){
+        String channel = SystemProperties.get("persist.sys.Channel","project");
+        String url = Uri.BASE_URL +channel+"/channel_apps_"+ Locale.getDefault().getLanguage()+".xml";
+        RequestManager.getInstance().getData(url,channelCallback);
+    }
+
+    Callback channelCallback = new Callback() {
+        @Override
+        public void onFailure(@NonNull Call call, @NonNull IOException e) {
+            e.printStackTrace();
+            responseErrorRedirect();
+        }
+
+        @Override
+        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            String content = response.body().string();
+            //LogUtils.d("channel_appData "+ content);
+
+            if (!content.equals("")){
+                if (content.contains("404 Not Found")){
+                    responseErrorRedirect();
+                    return;
+                }
+                channelData = new Gson().fromJson(content,ChannelData.class);
+                appsDataList = new ArrayList<>(channelData.getApps()) ;
+
+            }
+        }
+    };
+
+    private void responseErrorRedirect(){
+        if (!get_default_url){
+            get_default_url = true;
+            String channel = SystemProperties.get("persist.sys.Channel","project");
+            String url = Uri.BASE_URL+channel+"/channel_apps_global.xml";
+            RequestManager.getInstance().getData(url,channelCallback);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+
+            case R.id.rl_wallpapers:
+                startNewActivity(WallPaperActivity.class);
+                break;
+            case R.id.rl_Google:
+                AppUtils.startNewApp(MainActivity.this, "com.htc.storeos");
+                break;
+            case R.id.rl_apps:
+                startNewActivity(AppsActivity.class);
+                break;
+            case R.id.rl_settings:
+                startNewActivity(MainSettingActivity.class);
+                break;
+            case R.id.rl_usb:
+                AppUtils.startNewApp(MainActivity.this, "com.softwinner.TvdFileManager");
+                break;
+            case R.id.rl_av:
+                startSource("CVBS1");
+                break;
+            case R.id.rl_hdmi1:
+                startSource("HDMI1");
+                break;
+            case R.id.rl_hdmi2:
+                startSource("HDMI2");
+                break;
+            case R.id.rl_vga:
+                startSource("VGA");
+                break;
+            case R.id.rl_manual:
+                ManualQrDialog manualQrDialog = new ManualQrDialog(this,R.style.DialogTheme);
+                manualQrDialog.show();
+                break;
+            case R.id.rl_wifi:
+                startNewActivity(WifiActivity.class);
+                break;
+            case R.id.rl_bluetooth:
+                startNewActivity(BluetoothActivity.class);
+                break;
+        }
+
+    }
+
+    private void startSource(String sourceName){
+        Intent intent_hdmi = new Intent();
+        intent_hdmi.setComponent(new ComponentName("com.softwinner.awlivetv","com.softwinner.awlivetv.MainActivity"));
+        intent_hdmi.putExtra("input_source",sourceName);
+        intent_hdmi.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent_hdmi.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent_hdmi);
+    }
+
+    /**
+     * 第一次初始化默认快捷栏app数据
+     */
+    private boolean initDataApp() {
+
+        boolean isLoad = true;
+        SharedPreferences sharedPreferences = ShareUtil.getInstans(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        int code = sharedPreferences.getInt("code", 0);
+        if (code == 0) {
+            // 读取文件
+            File file = new File("/system/shortcuts.config");
+
+            if (!file.exists()) {
+                return false;
+            }
+
+            try {
+                FileInputStream is = new FileInputStream(file);
+                byte[] b = new byte[is.available()];
+                is.read(b);
+                String result = new String(b);
+                List<String> residentList = new ArrayList<>();
+                JSONObject obj = new JSONObject(result);
+                JSONArray jsonarrray = obj.getJSONArray("apps");
+                for (int i = 0; i < jsonarrray.length(); i++) {
+                    JSONObject jsonobject = jsonarrray.getJSONObject(i);
+                    String packageName = jsonobject.getString("packageName");
+                    boolean resident = jsonobject.getBoolean("resident");
+                    if (resident){
+                        residentList.add(packageName);
+                    }
+                    if (!DBUtils.getInstance(this).isExistData(
+                            packageName)) {
+                        long addCode = DBUtils.getInstance(this)
+                                .addFavorites(packageName);
+
+                    }
+                }
+                editor.putString("resident",residentList.toString());
+                editor.putInt("code", 1);
+                editor.apply();
+                is.close();
+            } catch (IOException | JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                isLoad = false;
+            }
+        }
+
+        return isLoad;
+    }
+
+
+    private ArrayList<ShortInfoBean> loadHomeAppData() {
+        ArrayList<AppSimpleBean> appSimpleBeans = DBUtils.getInstance(this).getFavorites();
+        ArrayList<ShortInfoBean> shortInfoBeans = new ArrayList<>();
+        ArrayList<AppInfoBean> appList = AppUtils.getApplicationMsg(this);
+
+        for (int i = 0; i < appSimpleBeans.size(); i++) {
+            ShortInfoBean shortInfoBean = new ShortInfoBean();
+            shortInfoBean.setPackageName(appSimpleBeans.get(i).getPackagename());
+
+            for (int j = 0; j < appList.size(); j++) {
+                if (appSimpleBeans.get(i).getPackagename()
+                        .equals(appList.get(j).getApppackagename())) {
+                    shortInfoBean.setAppicon(appList.get(j).getAppicon());
+                    shortInfoBean.setAppname(appList.get(j).getAppname());
+                    break;
+                }
+            }
+            shortInfoBeans.add(shortInfoBean);
+        }
+
+        return shortInfoBeans;
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode()==KeyEvent.KEYCODE_BACK)
+            return true;
+        return super.dispatchKeyEvent(event);
+    }
+
+    private void updateBle(){
+        boolean isConnected = BluetoothUtils.getInstance(this)
+                .isBluetoothConnected();
+        if (isConnected){
+            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_con);
+        }else {
+            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_not);
+        }
+    }
+
+    private void updateTime(){
+        String builder = TimeUtils.getCurrentDate() +
+                " | " +
+                TimeUtils
+                        .getCurrentTime(this);
+        mainBinding.timeTv.setText(builder);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(networkReceiver);
+        unregisterReceiver(timeReceiver);
+        unregisterReceiver(blueReceiver);
+        unregisterReceiver(wifiReceiver);
+        super.onDestroy();
+    }
+
+    @Override
+    public void bluetoothChange() {
+        updateBle();
+    }
+
+    @Override
+    public void changeTime() {
+        updateTime();
+    }
+
+    @Override
+    public void getWifiState(int state) {
+        if (state == 1) {
+            mainBinding.homeWifi.setBackgroundResource(R.drawable.wifi_not);
+        }
+    }
+
+    View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            AnimationSet animationSet = new AnimationSet(true);
+            v.bringToFront();
+            if (hasFocus) {
+                ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.50f,
+                        1.0f, 1.50f, Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f);
+                scaleAnimation.setDuration(150);
+                animationSet.addAnimation(scaleAnimation);
+                animationSet.setFillAfter(true);
+                v.startAnimation(animationSet);
+            } else {
+                ScaleAnimation scaleAnimation = new ScaleAnimation(1.50f, 1.0f,
+                        1.50f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f);
+                animationSet.addAnimation(scaleAnimation);
+                scaleAnimation.setDuration(150);
+                animationSet.setFillAfter(true);
+                v.startAnimation(animationSet);
+            }
+        }
+    };
+
+    @Override
+    public void getWifiNumber(int count) {
+        switch (count) {
+            case -1:
+                mainBinding.homeWifi.setBackgroundResource(R.drawable.wifi_not);
+                break;
+            case 0:
+                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_1_focus);
+                break;
+            case 1:
+                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_2_focus);
+                break;
+            default:
+                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_full_focus);
+                break;
+
+        }
+    }
+
+    @Override
+    public void connect() {
+        if (isFrist) {
+            isFrist = false;
+            requestAppData();
+        }
+    }
+
+    @Override
+    public void disConnect() {
+
+    }
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_other"
+    android:id="@+id/rl_main"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/inputmethod_listview"
+        android:layout_width="@dimen/x_1032"
+        android:layout_height="@dimen/y_600"
+        android:layout_centerInParent="true"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        />
+</RelativeLayout>

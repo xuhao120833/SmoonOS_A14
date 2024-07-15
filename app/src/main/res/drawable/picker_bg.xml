@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_focused="true">
+        <shape>
+            <corners android:radius="@dimen/x_10"/>
+            <stroke android:width="@dimen/x_2" android:color="@color/blue_tv_focus"/>
+        </shape>
+    </item>
+    <item android:state_selected="true">
+        <shape>
+            <corners android:radius="@dimen/x_10"/>
+            <stroke android:width="@dimen/x_2" android:color="@color/blue_tv_focus"/>
+        </shape>
+    </item>
+</selector>

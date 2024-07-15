@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x_1032"
+    android:layout_height="@dimen/y_60"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    android:minHeight="@dimen/y_60"
+    android:minWidth="@dimen/x_1032"
+    style="@style/focusStyle"
+    android:id="@+id/rl_item"
+    android:paddingStart="@dimen/x_50"
+    android:background="@drawable/main_settings_bg"
+    >
+
+    <ImageView
+        android:layout_width="@dimen/x_40"
+        android:layout_height="@dimen/y_40"
+        android:id="@+id/wifi_status_icon"
+        android:background="@drawable/connected_bg"
+        android:layout_centerVertical="true"
+        android:duplicateParentState="true"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:layout_width="@dimen/x_400"
+        android:layout_height="wrap_content"
+        android:id="@+id/wifi_name"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/x_10"
+        android:layout_toEndOf="@id/wifi_status_icon"
+        android:textSize="@dimen/x_23"
+        android:focusable="true"
+        android:textColor="@color/tv_color"
+        android:duplicateParentState="true"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        />
+
+    <ImageView
+        android:layout_width="@dimen/x_40"
+        android:layout_height="@dimen/y_40"
+        android:id="@+id/wifi_level"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x_190"
+        android:duplicateParentState="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/wifi_status"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x_280"
+        android:maxWidth="@dimen/x_150"
+        android:text="@string/connecting"
+        android:textSize="@dimen/x_20"
+        android:visibility="visible"
+        android:textColor="@color/tv_color"
+        android:duplicateParentState="true"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        />
+
+    <ImageView
+        android:layout_width="@dimen/x_27"
+        android:layout_height="@dimen/y_27"
+        android:id="@+id/lock_iv"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x_120"
+        android:duplicateParentState="true"
+        android:background="@drawable/lock_bg"
+        />
+
+    <View
+        android:layout_width="@dimen/x_53"
+        android:layout_height="@dimen/y_53"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x_50"
+        android:background="@drawable/arrow_right_bg"
+        android:duplicateParentState="true"
+        />
+    
+</RelativeLayout>

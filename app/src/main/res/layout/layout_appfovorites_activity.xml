@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rl_main"
+        android:background="@drawable/background_other"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:layout_marginTop="@dimen/y_30"
+            android:layout_marginStart="@dimen/x_50"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_35"
+            android:text="@string/shortcut_editor"
+            />
+
+
+        <GridView
+            android:id="@+id/appfavorites_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y_530"
+            android:layout_below="@id/title"
+            android:layout_marginTop="@dimen/y_30"
+            android:layout_marginStart="@dimen/x_50"
+            android:layout_marginEnd="@dimen/x_50"
+            android:horizontalSpacing="@dimen/x_55"
+            android:listSelector="@drawable/app_item_bg"
+            android:numColumns="6"
+            android:scrollbars="none"
+            android:verticalSpacing="@dimen/x_20" >
+        </GridView>
+
+        <TextView
+            android:id="@+id/select_number_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/x_20"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_30" />
+    </RelativeLayout>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x_600"
+    android:layout_height="@dimen/y_360"
+    android:background="@drawable/white_frame" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/configdisconnect_ssid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x_10"
+            android:layout_marginTop="@dimen/y_10"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x_28" />
+
+        <LinearLayout
+            android:id="@+id/signalstrength_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/configdisconnect_ssid"
+            android:layout_margin="@dimen/x_10"
+
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/signalstrength"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_23"
+                android:layout_marginStart="@dimen/x_15"/>
+
+            <TextView
+                android:id="@+id/signalstrength_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x_20"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_23" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/security_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/signalstrength_ll"
+            android:layout_margin="@dimen/x_10"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/security"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_23"
+                android:layout_marginStart="@dimen/x_15"/>
+
+            <TextView
+                android:id="@+id/security_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x_20"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_23" />
+        </LinearLayout>
+
+
+
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_23"
+            android:text="@string/link"
+            android:id="@+id/configdisconnect_connect"
+            android:layout_width="@dimen/x_150"
+            android:layout_height="@dimen/y_59"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/x_15"
+            android:layout_marginBottom="@dimen/y_15"
+            android:gravity="center"
+            android:background="@drawable/button_bg" />
+
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_23"
+            android:text="@string/forget"
+            android:id="@+id/configdisconnect_forget"
+            android:layout_width="@dimen/x_150"
+            android:layout_height="@dimen/y_59"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/y_15"
+            android:gravity="center"
+            android:background="@drawable/button_bg" />
+
+        <TextView
+             android:textColor="@color/white"
+            android:textSize="@dimen/x_23"
+            android:text="@string/cancel"
+            android:id="@+id/configdisconnect_cancel"
+            android:layout_width="@dimen/x_150"
+            android:layout_height="@dimen/y_59"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/y_15"
+            android:layout_marginEnd="@dimen/x_15"
+            android:gravity="center"
+            android:background="@drawable/button_bg" />
+    </RelativeLayout>
+
+</RelativeLayout>

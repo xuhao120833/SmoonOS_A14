@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_other"
+    android:id="@+id/rl_main"
+    tools:context=".activity.AppsActivity">
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/title"
+        android:layout_marginTop="@dimen/y_30"
+        android:layout_marginStart="@dimen/x_50"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x_35"
+        android:text="@string/all_apps"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/apps_rv"
+        android:layout_below="@id/title"
+        android:layout_marginStart="@dimen/x_50"
+        android:layout_marginEnd="@dimen/x_50"
+        android:layout_marginTop="@dimen/y_30" />
+</RelativeLayout>

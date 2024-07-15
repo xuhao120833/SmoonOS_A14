@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.AppsManagerActivity"
+    android:background="@drawable/background_other"
+    android:id="@+id/rl_main"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x_40"
+        android:text="@string/app_manager_settings"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_40"
+        android:id="@+id/title"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="@dimen/x_1032"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginTop="@dimen/y_30"
+        android:layout_marginStart="@dimen/x_100"
+        android:id="@+id/app_manager_rv"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        />
+
+</RelativeLayout>

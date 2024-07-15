@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_other"
+    android:id="@+id/rl_main"
+    tools:context=".activity.LanguageAndKeyboardActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x_40"
+        android:text="@string/language_keyboard"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_40"
+        android:id="@+id/title"
+        />
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_1032"
+        android:layout_height="@dimen/y_80"
+        android:layout_below="@id/title"
+        android:id="@+id/rl_language"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_19"
+        android:background="@drawable/main_settings_bg"
+        style="@style/focusStyle"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x_50"
+            android:layout_centerVertical="true"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_27"
+            android:text="@string/language_setting"
+            android:duplicateParentState="true"
+            />
+
+        <View
+            android:layout_width="@dimen/x_53"
+            android:layout_height="@dimen/y_53"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_50"
+            android:background="@drawable/arrow_right_bg"
+            android:duplicateParentState="true"
+            />
+
+    </RelativeLayout>
+
+    <com.htc.launcher.widget.RLRelativelayout
+        android:layout_width="@dimen/x_1032"
+        android:layout_height="@dimen/y_80"
+        android:layout_below="@id/rl_language"
+        android:id="@+id/rl_keyboard"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_19"
+        android:background="@drawable/main_settings_bg"
+        style="@style/focusStyle"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x_50"
+            android:layout_centerVertical="true"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_27"
+            android:text="@string/inputmethod"
+            android:duplicateParentState="true"
+            />
+
+        <View
+            android:layout_width="@dimen/x_53"
+            android:layout_height="@dimen/y_53"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_50"
+            android:background="@drawable/arrow_right_bg"
+            android:duplicateParentState="true"
+            />
+
+        <View
+            android:layout_width="@dimen/x_53"
+            android:layout_height="@dimen/y_53"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_468"
+            android:background="@drawable/arrow_left_bg"
+            android:duplicateParentState="true"
+            />
+
+    </com.htc.launcher.widget.RLRelativelayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_1032"
+        android:layout_height="@dimen/y_80"
+        android:layout_below="@id/rl_keyboard"
+        android:id="@+id/rl_keyboard_setting"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_19"
+        android:background="@drawable/main_settings_bg"
+        style="@style/focusStyle"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x_50"
+            android:layout_centerVertical="true"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_27"
+            android:text="@string/inputmethod_setting"
+            android:duplicateParentState="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/keyboard_tv"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x_103"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_23"
+            android:gravity="center"
+            android:text="0"
+            android:duplicateParentState="true"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            />
+
+        <View
+            android:layout_width="@dimen/x_53"
+            android:layout_height="@dimen/y_53"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_50"
+            android:background="@drawable/arrow_right_bg"
+            android:duplicateParentState="true"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x_1032"
+    android:layout_height="@dimen/y_60"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    android:minHeight="@dimen/y_60"
+    android:minWidth="@dimen/x_1032"
+    style="@style/focusStyle"
+    android:id="@+id/rl_item"
+    android:background="@drawable/main_settings_bg">
+
+    <TextView
+        android:layout_width="@dimen/x_300"
+        android:layout_height="wrap_content"
+        android:id="@+id/ble_name"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/ble_type"
+        android:layout_marginStart="@dimen/x_15"
+        android:textSize="@dimen/x_23"
+        android:focusable="true"
+        android:textColor="@color/tv_color"
+        android:duplicateParentState="true"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        />
+
+    <ImageView
+        android:layout_width="@dimen/x_27"
+        android:layout_height="@dimen/y_27"
+        android:id="@+id/ble_type"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/x_50"
+        android:duplicateParentState="true"
+        />
+
+    <TextView
+        android:layout_width="@dimen/x_150"
+        android:layout_height="wrap_content"
+        android:id="@+id/ble_status"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x_130"
+        android:text="@string/pairing"
+        android:textSize="@dimen/x_20"
+        android:visibility="gone"
+        android:gravity="end"
+        android:textColor="@color/tv_color"
+        android:duplicateParentState="true"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        />
+
+    <View
+        android:layout_width="@dimen/x_53"
+        android:layout_height="@dimen/y_53"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x_50"
+        android:background="@drawable/arrow_right_bg"
+        android:duplicateParentState="true"
+        />
+
+</RelativeLayout>

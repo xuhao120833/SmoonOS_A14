@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="@dimen/x_500"
+    android:layout_height="@dimen/y_500"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    android:background="@drawable/white_frame"
+    skin:enable="true">
+
+    <LinearLayout
+        android:id="@+id/networkName_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x_20"
+        android:layout_marginRight="@dimen/x_20"
+        android:layout_marginTop="@dimen/y_30"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wifi_ssid"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x_20"
+            skin:enable="true"
+            />
+
+        <EditText
+            android:id="@+id/networkName_et"
+            style="@style/focusStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_50"
+            android:layout_marginTop="@dimen/x_10"
+            android:background="@drawable/et_bg"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:paddingStart="@dimen/x_20"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_20"
+            skin:enable="true"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/wifi_security_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/networkName_ll"
+        android:layout_marginLeft="@dimen/x_20"
+        android:layout_marginRight="@dimen/x_20"
+        android:layout_marginTop="@dimen/x_10"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wifi_security"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x_20"
+            skin:enable="true"/>
+
+        <TextView
+            android:id="@+id/wifi_security"
+            style="@style/focusStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x_50"
+            android:layout_marginTop="@dimen/x_10"
+            android:background="@drawable/tv_et_bg"
+            android:gravity="center"
+            android:text="@string/none"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_20"
+            skin:enable="true"/>
+    </LinearLayout>
+
+    <LinearLayout
+		android:id="@+id/password_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/wifi_security_ll"
+        android:layout_marginEnd="@dimen/x_20"
+        android:layout_marginTop="@dimen/x_10"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/password_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x_20"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wifi_password"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_20"
+                skin:enable="true"/>
+
+            <EditText
+                android:id="@+id/password_et"
+                style="@style/focusStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x_50"
+                android:layout_marginTop="@dimen/x_10"
+                android:background="@drawable/et_bg"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:paddingStart="@dimen/x_20"
+                android:paddingEnd="@dimen/x_20"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x_20"
+                skin:enable="true"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x_20"
+            android:layout_marginRight="@dimen/x_20"
+            android:layout_marginTop="@dimen/x_10"
+            android:gravity="start"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/wifi_password_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:checked="false"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/wifi_password_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/x_20"
+                android:text="@string/wifi_show_password"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_20"
+                skin:enable="true"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/ok"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/x_50"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/y_15"
+        android:layout_marginStart="@dimen/x_50"
+        android:gravity="center"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="@drawable/tv_button_bg"
+        android:textColor="@color/white"
+        android:text="@string/enter"
+        android:textSize="@dimen/x_25"
+        android:minWidth="@dimen/x_120"
+        skin:enable="true"/>
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/x_50"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/y_15"
+        android:layout_marginEnd="@dimen/x_50"
+        android:gravity="center"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="@drawable/tv_button_bg"
+        android:textColor="@color/white"
+        android:text="@string/cancel"
+        android:textSize="@dimen/x_25"
+        android:minWidth="@dimen/x_120"
+        skin:enable="true"/>
+
+
+</RelativeLayout>

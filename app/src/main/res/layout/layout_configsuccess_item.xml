@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x_600"
+    android:layout_height="@dimen/y_360"
+    android:background="@drawable/white_frame"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/configsuccess_ssid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x_10"
+            android:layout_marginTop="@dimen/x_10"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x_28" />
+
+        <LinearLayout
+            android:id="@+id/configsuccess_state_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/configsuccess_ssid"
+            android:layout_margin="@dimen/x_5"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x_15"
+                android:text="@string/stateinfo"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_23" />
+
+            <TextView
+                android:id="@+id/configsuccess_state_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x_20"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_23" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/signalstrength_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/configsuccess_state_ll"
+            android:layout_margin="@dimen/x_5"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/signalstrength"
+                android:textColor="@color/black"
+                android:layout_marginStart="@dimen/x_15"
+                android:textSize="@dimen/x_23" />
+
+            <TextView
+                android:id="@+id/signalstrength_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x_20"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_23" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/security_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/signalstrength_ll"
+            android:layout_margin="@dimen/x_5"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/security"
+                android:textColor="@color/black"
+                android:layout_marginStart="@dimen/x_15"
+                android:textSize="@dimen/x_23" />
+
+            <TextView
+                android:id="@+id/security_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x_20"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_23" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/wifiipaddress_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/security_ll"
+            android:layout_margin="@dimen/x_5"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/x_10"
+                android:text="@string/wifiipaddress"
+                android:textColor="@color/black"
+                android:layout_marginStart="@dimen/x_15"
+                android:textSize="@dimen/x_23" />
+
+            <TextView
+                android:id="@+id/wifiipaddress_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x_20"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_23" />
+        </LinearLayout>
+
+
+
+        <TextView
+            android:textSize="@dimen/x_23"
+            android:textColor="@color/white"
+            android:text="@string/stop"
+            android:id="@+id/configsuccess_disconnect"
+            android:layout_width="@dimen/x_150"
+            android:layout_height="@dimen/y_59"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/button_bg"
+            android:gravity="center"
+            android:layout_marginStart="@dimen/x_15"
+            android:layout_marginBottom="@dimen/y_15"
+            />
+
+        <TextView
+            android:textSize="@dimen/x_23"
+            android:textColor="@color/white"
+            android:text="@string/forget"
+            android:id="@+id/configsuccess_forget"
+            android:layout_width="@dimen/x_150"
+            android:layout_height="@dimen/y_59"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_bg"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/y_15"
+            />
+
+        <TextView
+            android:textSize="@dimen/x_23"
+            android:text="@string/cancel"
+            android:textColor="@color/white"
+            android:id="@+id/configsuccess_cancel"
+            android:layout_width="@dimen/x_150"
+            android:layout_height="@dimen/y_59"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/button_bg"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/y_15"
+            android:layout_marginEnd="@dimen/x_15"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

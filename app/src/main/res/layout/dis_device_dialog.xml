@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x_600"
+    android:layout_height="@dimen/y_360"
+    android:background="@drawable/white_frame">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/delete_device_name"
+        android:textColor="@color/black"
+        android:textSize="@dimen/x_26"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/y_50"
+        />
+
+    <TextView
+        android:layout_width="@dimen/x_150"
+        android:layout_height="@dimen/y_60"
+        android:id="@+id/enter"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        style="@style/focusStyle"
+        android:background="@drawable/button_bg"
+        android:textColor="@color/white"
+        android:text="@string/disconnected"
+        android:textSize="@dimen/x_25"
+        android:layout_marginStart="@dimen/x_30"
+        android:layout_marginBottom="@dimen/y_30"
+        />
+
+    <TextView
+        android:layout_width="@dimen/x_150"
+        android:layout_height="@dimen/y_60"
+        android:id="@+id/clear"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        style="@style/focusStyle"
+        android:background="@drawable/button_bg"
+        android:textColor="@color/white"
+        android:text="@string/unpaired"
+        android:textSize="@dimen/x_25"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/y_30"
+        />
+
+    <TextView
+        android:layout_width="@dimen/x_150"
+        android:layout_height="@dimen/y_60"
+        android:id="@+id/cancel"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
+        style="@style/focusStyle"
+        android:background="@drawable/button_bg"
+        android:textColor="@color/white"
+        android:text="@string/cancel"
+        android:textSize="@dimen/x_25"
+        android:layout_marginBottom="@dimen/y_30"
+        android:layout_marginEnd="@dimen/x_30"
+        />
+
+</RelativeLayout>

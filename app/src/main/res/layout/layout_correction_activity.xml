@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl_main"
+    android:background="@drawable/background_other" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/y_30"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x_25"
+        android:text="@string/correct_tips"
+        />
+
+    <View
+        android:id="@+id/content_view"
+        android:layout_width="@dimen/x_935"
+        android:layout_height="@dimen/y_495"
+        android:layout_centerInParent="true"
+        android:background="@drawable/correction_background" />
+    
+
+    <CheckBox
+        android:id="@+id/check_lt"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/y_60"
+        android:layout_marginStart="@dimen/x_138"
+        android:layout_marginTop="@dimen/y_78"
+        android:background="@drawable/correction_checkbox_bg"
+        android:button="@null"
+        android:checked="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+    <TextView
+        android:id="@+id/textv_lt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x_130"
+        android:layout_marginTop="@dimen/y_130"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x_28"
+        android:textStyle="bold"
+        android:visibility="gone"
+        />
+
+    <View
+        android:id="@+id/lt_top"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/y_60"
+        android:layout_alignStart="@id/check_lt"
+        android:layout_marginTop="@dimen/y_15"
+        android:visibility="gone"
+        />
+
+
+    <View
+        android:id="@+id/lt_left"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/y_60"
+        android:layout_alignTop="@+id/check_lt"
+        android:layout_marginStart="@dimen/x_15"
+        android:visibility="gone"
+         />
+
+    <View
+        android:id="@+id/lt_bottom"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_30"
+        android:layout_height="@dimen/y_60"
+        android:layout_marginTop="@dimen/y_125"
+        android:layout_marginStart="@dimen/x_157"
+        android:background="@drawable/correction_arrow_down" />
+
+    <View
+        android:id="@+id/lt_right"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/y_30"
+        android:layout_marginTop="@dimen/y_97"
+        android:layout_marginStart="@dimen/x_180"
+        android:background="@drawable/correction_arrow_right" />
+
+    <CheckBox
+        android:id="@+id/check_lb"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/y_60"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="@dimen/y_73"
+        android:layout_marginStart="@dimen/x_123"
+        android:background="@drawable/correction_checkbox_bg"
+        android:button="@null"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+    <TextView
+        android:id="@+id/textv_lb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x_130"
+        android:layout_marginBottom="@dimen/y_130"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x_28"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <View
+        android:id="@+id/lb_top"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_30"
+        android:layout_height="@dimen/y_60"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/y_123"
+        android:layout_marginStart="@dimen/x_155"
+        android:background="@drawable/correction_arrow_up" />
+
+    <View
+        android:id="@+id/lb_left"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/y_60"
+        android:layout_alignTop="@+id/check_lb"
+        android:layout_marginStart="@dimen/x_15"
+        android:visibility="gone"
+        />
+
+    <View
+        android:id="@+id/lb_bottom"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/y_60"
+        android:layout_alignStart="@+id/check_lb"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/y_15"
+        android:visibility="gone"
+        />
+
+    <View
+        android:id="@+id/lb_right"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/x_30"
+        android:layout_marginStart="@dimen/x_180"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/y_95"
+        android:background="@drawable/correction_arrow_right" />
+
+    <CheckBox
+        android:id="@+id/check_rt"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/y_60"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x_123"
+        android:layout_marginTop="@dimen/y_73"
+        android:background="@drawable/correction_checkbox_bg"
+        android:button="@null"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+    <TextView
+        android:id="@+id/textv_rt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_130"
+        android:layout_marginEnd="@dimen/x_130"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x_28"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <View
+        android:id="@+id/rt_top"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/y_60"
+        android:layout_alignStart="@id/check_rt"
+        android:layout_marginTop="@dimen/y_15"
+        android:visibility="gone"
+        />
+
+    <View
+        android:id="@+id/rt_left"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/y_30"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/y_95"
+        android:layout_marginEnd="@dimen/x_180"
+        android:background="@drawable/correction_arrow_left" />
+
+    <View
+        android:id="@+id/rt_right"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/y_60"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/check_rt"
+        android:layout_marginEnd="@dimen/x_15"
+        android:visibility="gone"/>
+
+    <View
+        android:id="@+id/rt_bottom"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_30"
+        android:layout_height="@dimen/y_60"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x_155"
+        android:layout_marginTop="@dimen/y_120"
+        android:background="@drawable/correction_arrow_down" />
+
+    <CheckBox
+        android:id="@+id/check_rb"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/y_60"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/y_73"
+        android:layout_marginEnd="@dimen/x_123"
+        android:background="@drawable/correction_checkbox_bg"
+        android:button="@null"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+    <TextView
+        android:id="@+id/textv_rb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/y_130"
+        android:layout_marginEnd="@dimen/x_130"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x_28"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <View
+        android:id="@+id/rb_top"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_30"
+        android:layout_height="@dimen/y_60"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/y_123"
+        android:layout_marginEnd="@dimen/x_155"
+        android:background="@drawable/correction_arrow_up" />
+
+    <View
+        android:id="@+id/rb_right"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/x_60"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/check_rb"
+        android:layout_marginEnd="@dimen/x_15"
+        android:visibility="gone"
+        />
+
+    <View
+        android:id="@+id/rb_left"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/y_30"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/x_180"
+        android:layout_marginBottom="@dimen/y_95"
+        android:background="@drawable/correction_arrow_left" />
+
+    <View
+        android:id="@+id/rb_bottom"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_60"
+        android:layout_height="@dimen/y_60"
+        android:layout_alignStart="@+id/check_rb"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/y_15"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_120"
+        android:layout_height="@dimen/y_120"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:layout_width="@dimen/x_33"
+            android:layout_height="@dimen/y_33"
+            android:layout_marginStart="@dimen/x_30"
+            android:layout_marginTop="@dimen/y_25"
+            android:id="@+id/direction_x"
+            android:background="@drawable/correction_circle_right"
+            />
+        <ImageView
+            android:layout_width="@dimen/x_33"
+            android:layout_height="@dimen/y_33"
+            android:layout_marginStart="@dimen/x_30"
+            android:layout_marginTop="@dimen/y_15"
+            android:layout_below="@id/direction_x"
+            android:id="@+id/direction_y"
+            android:background="@drawable/correction_circle_down"
+            />
+        <TextView
+            android:layout_width="@dimen/x_40"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_21"
+            android:id="@+id/direction_value_x"
+            android:layout_toEndOf="@id/direction_x"
+            android:layout_marginStart="@dimen/x_5"
+            android:layout_marginTop="@dimen/y_28"
+            android:text="110"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_width="@dimen/x_40"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_21"
+            android:id="@+id/direction_value_y"
+            android:layout_toEndOf="@id/direction_y"
+            android:layout_below="@id/direction_value_x"
+            android:layout_marginStart="@dimen/x_5"
+            android:layout_marginTop="@dimen/y_15"
+            android:text="110"
+            android:gravity="center"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_800"
+        android:layout_height="@dimen/y_47"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/y_40"
+        android:background="@drawable/correction_notes"
+        android:focusable="false"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_21"
+            android:gravity="center_vertical"
+            android:maxWidth="@dimen/x_230"
+            android:layout_marginStart="@dimen/x_115"
+            android:text="@string/select_point"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:maxWidth="@dimen/x_150"
+            android:textSize="@dimen/x_21"
+            android:gravity="center_vertical"
+            android:layout_marginStart="@dimen/x_430"
+            android:text="@string/correct"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:maxWidth="@dimen/x_130"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_21"
+            android:gravity="center_vertical"
+            android:layout_marginStart="@dimen/x_640"
+            android:text="@string/exit"
+            />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x_400"
+    android:layout_height="@dimen/y_500"
+    android:paddingStart="@dimen/x_10"
+    android:paddingEnd="@dimen/x_10"
+    android:background="@drawable/white_frame_bg"
+    xmlns:skin="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="静态网络配置"
+        android:textColor="@color/black"
+        android:textSize="@dimen/x_28"
+        android:layout_marginTop="@dimen/y_10"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y_360"
+        android:layout_marginTop="@dimen/y_60">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/y_20">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ip_address"
+                android:id="@+id/ip_address_title"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_23"
+                />
+            <EditText
+                android:layout_width="@dimen/x_337"
+                android:layout_height="@dimen/y_45"
+                android:id="@+id/ip_address_et"
+                android:layout_below="@id/ip_address_title"
+                android:layout_marginTop="@dimen/y_5"
+                android:inputType="text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x_23"
+                android:text="192.168.1.128"
+                android:gravity="center_vertical"
+                android:background="@drawable/et_bg"
+                android:paddingStart="@dimen/x_10"
+                android:paddingEnd="@dimen/x_10"
+                android:textCursorDrawable="@drawable/color_cursor"
+                />
+
+            <TextView
+                android:id="@+id/subnet_mask_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ip_address_et"
+                android:layout_marginTop="@dimen/y_5"
+                android:text="@string/network_prefix_length"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_23" />
+
+            <EditText
+                android:layout_width="@dimen/x_337"
+                android:layout_height="@dimen/y_45"
+                android:id="@+id/subnet_mask_et"
+                android:layout_below="@id/subnet_mask_title"
+                android:layout_marginTop="@dimen/y_5"
+                android:inputType="text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x_23"
+                android:text="24"
+                android:gravity="center_vertical"
+                android:background="@drawable/et_bg"
+                android:paddingStart="@dimen/x_10"
+                android:paddingEnd="@dimen/x_10"
+                android:textCursorDrawable="@drawable/color_cursor"
+               
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y_5"
+                android:text="@string/gateway"
+                android:id="@+id/gateway_title"
+                android:layout_below="@id/subnet_mask_et"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_23"
+                />
+            <EditText
+                android:layout_width="@dimen/x_337"
+                android:layout_height="@dimen/y_45"
+                android:id="@+id/gateway_et"
+                android:layout_below="@id/gateway_title"
+                android:layout_marginTop="@dimen/y_5"
+                android:inputType="text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x_23"
+                android:text="192.168.1.1"
+                android:gravity="center_vertical"
+                android:background="@drawable/et_bg"
+                android:paddingStart="@dimen/x_10"
+                android:paddingEnd="@dimen/x_10"
+                android:textCursorDrawable="@drawable/color_cursor"
+               
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y_5"
+                android:text="@string/dns"
+                android:id="@+id/dns_title"
+                android:layout_below="@id/gateway_et"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_23"
+                />
+            <EditText
+                android:layout_width="@dimen/x_337"
+                android:layout_height="@dimen/y_45"
+                android:id="@+id/dns_et"
+                android:layout_below="@id/dns_title"
+                android:layout_marginTop="@dimen/y_5"
+                android:inputType="text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x_23"
+                android:text="8.8.4.4"
+                android:gravity="center_vertical"
+                android:background="@drawable/et_bg"
+                android:paddingStart="@dimen/x_10"
+                android:paddingEnd="@dimen/x_10"
+                android:textCursorDrawable="@drawable/color_cursor"
+               
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y_5"
+                android:text="@string/dns2"
+                android:id="@+id/dns2_title"
+                android:layout_below="@id/dns_et"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x_23"
+                />
+            <EditText
+                android:layout_width="@dimen/x_337"
+                android:layout_height="@dimen/y_45"
+                android:id="@+id/dns2_et"
+                android:layout_below="@id/dns2_title"
+                android:layout_marginTop="@dimen/y_5"
+                android:inputType="text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x_23"
+                android:text="114.114.114.114"
+                android:gravity="center_vertical"
+                android:background="@drawable/et_bg"
+                android:paddingStart="@dimen/x_10"
+                android:paddingEnd="@dimen/x_10"
+                android:textCursorDrawable="@drawable/color_cursor"
+               
+                />
+        </RelativeLayout>
+    </ScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/y_40"
+        android:id="@+id/enter"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/y_16"
+        android:layout_marginStart="@dimen/x_16"
+        android:gravity="center"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="@drawable/tv_button_bg"
+        android:textColor="@color/white"
+        android:nextFocusLeft="@id/cancel"
+        android:nextFocusRight="@id/cancel"
+        android:text="@string/enter"
+        android:textSize="@dimen/x_23"
+        android:minWidth="@dimen/x_100"
+       
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/y_40"
+        android:id="@+id/cancel"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/y_16"
+        android:layout_marginEnd="@dimen/x_50"
+        android:gravity="center"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="@drawable/tv_button_bg"
+        android:textColor="@color/white"
+        android:nextFocusLeft="@id/enter"
+        android:nextFocusRight="@id/enter"
+        android:text="@string/cancel"
+        android:textSize="@dimen/x_23"
+        android:minWidth="@dimen/x_100"
+       
+        />
+
+</RelativeLayout>

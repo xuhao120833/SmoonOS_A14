@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="lang_speciale_codes">
+        <item>zh_CN</item>
+        <item>zh_TW</item>
+    </array>
+    <array name="lang_special_names">
+        <item>中文 (简体)</item>
+        <item>中文 (繁體)</item>
+    </array>
+
+    <string-array name="screen_saver_title">
+        <item>@string/fine_minutes</item>
+        <item>@string/ten_minutes</item>
+        <item>@string/twenty_minutes</item>
+        <item>@string/an_hour</item>
+        <item>@string/off</item>
+    </string-array>
+    <integer-array name="screen_saver_value" translatable="false">
+        <item>300000</item>
+        <item>600000</item>
+        <item>1200000</item>
+        <item>3600000</item>
+        <item>2147483647</item>
+    </integer-array>
+
+    <string-array name="time_off_title">
+        <item>@string/off</item>
+        <item>@string/fine_minutes</item>
+        <item>@string/ten_minutes</item>
+        <item>@string/twenty_minutes</item>
+        <item>@string/an_hour</item>
+    </string-array>
+    <integer-array name="time_off_value" translatable="false">
+        <item>0</item>
+        <item>300</item>
+        <item>600</item>
+        <item>1200</item>
+        <item>3600</item>
+    </integer-array>
+
+    <string-array name="power_mode_name">
+        <item>@string/power_mode_1</item>
+        <item>@string/power_mode_2</item>
+    </string-array>
+
+    <string-array name="power_mode_value" translatable="false">
+        <item>shutdown</item>
+        <item>str</item>
+    </string-array>
+
+    <string-array name="boot_source_name">
+        <item>@string/boot_source_1</item>
+        <item>@string/boot_source_2</item>
+        <!--<item>@string/boot_source_3</item>-->
+    </string-array>
+
+    <string-array name="boot_source_value" translatable="false">
+        <item>LOCAL</item>
+        <item>HDMI1</item>
+        <!--<item>CVBS1</item>-->
+    </string-array>
+
+
+    <string-array name="picture_mode_choices">
+        <item>@string/picture_mode_standard_name</item>
+        <item>@string/picture_mode_cinema_name</item>
+        <item>@string/picture_mode_vivid_name</item>
+        <!--<item>@string/picture_mode_sports_name</item>
+        <item>@string/picture_mode_game_name</item>
+        <item>@string/picture_mode_bright_name</item>
+        <item>@string/picture_mode_soft_name</item>
+        <item>@string/picture_mode_computer_name</item>
+        <item>@string/picture_mode_hdr_name</item>-->
+        <item>@string/picture_mode_custom_name</item>
+    </string-array>
+
+    <string-array name="picture_mode_choices_no_custom">
+        <item>@string/picture_mode_standard_name</item>
+        <item>@string/picture_mode_cinema_name</item>
+        <item>@string/picture_mode_vivid_name</item>
+        <!--<item>@string/picture_mode_sports_name</item>
+        <item>@string/picture_mode_game_name</item>
+        <item>@string/picture_mode_bright_name</item>
+        <item>@string/picture_mode_soft_name</item>
+        <item>@string/picture_mode_computer_name</item>
+        <item>@string/picture_mode_hdr_name</item>
+        <item>@string/picture_mode_custom_name</item>-->
+    </string-array>
+
+    <string-array name="picture_mode_values" translatable="false">
+        <item>standard</item>
+        <item>cinema</item>
+        <item>vivid</item>
+        <!--<item>sports</item>
+        <item>game</item>
+        <item>bright</item>
+        <item>soft</item>
+        <item>computer</item>
+        <item>hdr</item>-->
+        <item>custom</item>
+    </string-array>
+
+    <string-array name="picture_mode_values_no_custom" translatable="false">
+        <item>standard</item>
+        <item>cinema</item>
+        <item>vivid</item>
+        <!--<item>sports</item>
+        <item>game</item>
+        <item>bright</item>
+        <item>soft</item>
+        <item>computer</item>
+        <item>hdr</item>
+        <item>custom</item>-->
+    </string-array>
+
+</resources>

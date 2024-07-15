@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_other"
+    android:id="@+id/rl_main"
+    tools:context=".activity.DateTimeActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x_40"
+        android:text="@string/date_time_settings"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_40"
+        android:id="@+id/title"
+        />
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_1032"
+        android:layout_height="@dimen/y_80"
+        android:layout_below="@id/title"
+        android:id="@+id/rl_auto"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_19"
+        android:background="@drawable/main_settings_bg"
+        style="@style/focusStyle"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x_50"
+            android:layout_centerVertical="true"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_27"
+            android:text="@string/auto_time"
+            android:duplicateParentState="true"
+            />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="@dimen/x_98"
+            android:layout_height="@dimen/y_60"
+            android:id="@+id/auto_switch"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_50"
+            android:layout_centerVertical="true"
+            android:checked="true"
+            android:thumb="@drawable/switch_thumb"
+            app:track="@drawable/switch_bg"
+            app:switchMinWidth="@dimen/x_90"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_1032"
+        android:layout_height="@dimen/y_80"
+        android:layout_below="@id/rl_auto"
+        android:id="@+id/rl_date"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_19"
+        android:background="@drawable/main_settings_bg"
+        style="@style/focusStyle"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x_50"
+            android:layout_centerVertical="true"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_27"
+            android:text="@string/date"
+            android:duplicateParentState="true"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/date_tv"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_130"
+            android:layout_centerVertical="true"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_27"
+            android:text="2022/03/14"
+            android:duplicateParentState="true"
+            />
+
+        <View
+            android:layout_width="@dimen/x_53"
+            android:layout_height="@dimen/y_53"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_50"
+            android:background="@drawable/arrow_right_bg"
+            android:duplicateParentState="true"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_1032"
+        android:layout_height="@dimen/y_80"
+        android:layout_below="@id/rl_date"
+        android:id="@+id/rl_time"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_19"
+        android:background="@drawable/main_settings_bg"
+        style="@style/focusStyle"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x_50"
+            android:layout_centerVertical="true"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_27"
+            android:text="@string/time"
+            android:duplicateParentState="true"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/time_tv"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_130"
+            android:layout_centerVertical="true"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_27"
+            android:text="PM 6:00"
+            android:duplicateParentState="true"
+            />
+
+        <View
+            android:layout_width="@dimen/x_53"
+            android:layout_height="@dimen/y_53"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_50"
+            android:background="@drawable/arrow_right_bg"
+            android:duplicateParentState="true"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_1032"
+        android:layout_height="@dimen/y_80"
+        android:layout_below="@id/rl_time"
+        android:id="@+id/rl_timezone"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_19"
+        android:background="@drawable/main_settings_bg"
+        style="@style/focusStyle"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x_50"
+            android:layout_centerVertical="true"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_27"
+            android:text="@string/timezone"
+            android:duplicateParentState="true"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/time_zone_tv"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_130"
+            android:layout_centerVertical="true"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_27"
+            android:text="GTM-05:00，美国东部时间"
+            android:duplicateParentState="true"
+            />
+
+        <View
+            android:layout_width="@dimen/x_53"
+            android:layout_height="@dimen/y_53"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_50"
+            android:background="@drawable/arrow_right_bg"
+            android:duplicateParentState="true"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_1032"
+        android:layout_height="@dimen/y_80"
+        android:layout_below="@id/rl_timezone"
+        android:id="@+id/rl_time_format"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_19"
+        android:background="@drawable/main_settings_bg"
+        style="@style/focusStyle"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x_50"
+            android:layout_centerVertical="true"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_27"
+            android:text="@string/time_format"
+            android:duplicateParentState="true"
+            />
+
+        <View
+            android:layout_width="@dimen/x_53"
+            android:layout_height="@dimen/y_53"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_50"
+            android:background="@drawable/arrow_right_bg"
+            android:duplicateParentState="true"
+            />
+
+        <View
+            android:layout_width="@dimen/x_53"
+            android:layout_height="@dimen/y_53"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_468"
+            android:background="@drawable/arrow_left_bg"
+            android:duplicateParentState="true"
+            />
+
+        <TextView
+            android:layout_width="@dimen/x_368"
+            android:layout_height="wrap_content"
+            android:id="@+id/time_format_tv"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x_103"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_23"
+            android:gravity="center"
+            android:text="下午 1：00"
+            android:duplicateParentState="true"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

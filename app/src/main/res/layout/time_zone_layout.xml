@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_main"
+    android:background="@drawable/background_other">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="@dimen/x_1032"
+        android:layout_height="@dimen/y_600"
+        android:id="@+id/time_zone_rv"
+        android:layout_centerInParent="true"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        />
+</RelativeLayout>

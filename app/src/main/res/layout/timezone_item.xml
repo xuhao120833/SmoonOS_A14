@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x_1032"
+    android:layout_height="@dimen/y_60"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:id="@+id/rl_item"
+    android:minHeight="@dimen/y_60"
+    android:minWidth="@dimen/x_1032"
+    android:background="@drawable/main_settings_bg"
+    android:paddingStart="@dimen/x_50"
+    android:paddingEnd="@dimen/x_50"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"
+        android:layout_marginStart="@dimen/x_15"
+        android:layout_marginTop="@dimen/y_5"
+        android:textSize="@dimen/x_21"
+        android:textColor="@color/tv_color"
+        android:duplicateParentState="true"
+        
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/GMT"
+        android:layout_marginStart="@dimen/x_15"
+        android:layout_marginTop="@dimen/y_30"
+        android:textSize="@dimen/x_21"
+        android:textColor="@color/tv_color"
+        android:duplicateParentState="true"
+        
+        />
+
+    <ImageView
+        android:layout_width="@dimen/x_40"
+        android:layout_height="@dimen/y_40"
+        android:id="@+id/status"
+        android:background="@drawable/set_option_on"
+        android:visibility="gone"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x_5"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>

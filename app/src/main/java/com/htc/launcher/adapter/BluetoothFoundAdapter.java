@@ -1,0 +1,129 @@
+package com.htc.launcher.adapter;
+
+import android.bluetooth.BluetoothClass;
+import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.htc.launcher.R;
+import com.htc.launcher.utils.ClsUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+/**
+ * Author:
+ * Date:
+ * Description:
+ */
+public class BluetoothFoundAdapter extends RecyclerView.Adapter<BluetoothFoundAdapter.MyViewHolder>{
+
+    private List<BluetoothDevice> deviceList = new ArrayList<>();
+    private Context mContext;
+    private BluetoothDevice CurrentPair;
+
+    public BluetoothFoundAdapter(List<BluetoothDevice> deviceList, Context mContext){
+        this.deviceList = deviceList;
+        this.mContext = mContext;
+    }
+
+    public void updateList(List<BluetoothDevice> deviceList){
+        this.deviceList = deviceList;
+    }
+    public void setCurrentPair(BluetoothDevice CurrentPair){
+        this.CurrentPair = CurrentPair;
+    }
+
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        return new MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.ble_item,null));
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, int i) {
+       final BluetoothDevice device = deviceList.get(i);
+        myViewHolder.ble_name.setText(device.getName());
+        if(device.getBluetoothClass()
+                .getMajorDeviceClass()== BluetoothClass.Device.Major.PHONE){
+            myViewHolder.ble_type.setImageResource(R.drawable.bluetooth);
+        }else if(device.getBluetoothClass()
+                .getMajorDeviceClass()== BluetoothClass.Device.Major.COMPUTER){
+            myViewHolder.ble_type.setImageResource(R.drawable.bluetooth);
+        } else if (device.getBluetoothClass().getMajorDeviceClass() == BluetoothClass.Device.Major.AUDIO_VIDEO) {
+            myViewHolder.ble_type.setImageResource(R.drawable.bluetooth);
+        }else if(device.getBluetoothClass().getMajorDeviceClass() == BluetoothClass.Device.Major.PERIPHERAL){
+            switch (device.getBluetoothClass().getDeviceClass()) {
+                case BluetoothClass.Device.PERIPHERAL_KEYBOARD:
+                case BluetoothClass.Device.PERIPHERAL_KEYBOARD_POINTING:
+                    // viewHolder.pair_iv.setImageResource(R.drawable.ic_lockscreen_ime);
+                    myViewHolder.ble_type.setImageResource(R.drawable.bluetooth);
+                    break;
+                case BluetoothClass.Device.PERIPHERAL_POINTING:
+                    myViewHolder.ble_type
+                            .setImageResource(R.drawable.bluetooth);
+                    break;
+                default:
+                    myViewHolder.ble_type.setImageResource(R.drawable.bluetooth);
+                    break;
+            }
+        }else{
+            myViewHolder.ble_type.setImageResource(R.drawable.bluetooth);
+        }
+        myViewHolder.rl_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    boolean result = ClsUtils.createBond(device.getClass(),
+                            device);
+                    if (result) {
+                        Log.i("hzj", "配对成功!");
+                    } else {
+                        Log.i("hzj", "配对失败!");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        if(CurrentPair!=null&&CurrentPair.getAddress().equals(device.getAddress())){
+            myViewHolder.ble_status.setText(mContext.getString(R.string.pairing));
+            myViewHolder.ble_status.setVisibility(View.VISIBLE);
+        }else{
+            myViewHolder.ble_status.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return deviceList.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    static class MyViewHolder extends RecyclerView.ViewHolder{
+        ImageView ble_type;
+        TextView ble_name;
+        TextView ble_status;
+        RelativeLayout rl_item;
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            ble_type = itemView.findViewById(R.id.ble_type);
+            ble_name = itemView.findViewById(R.id.ble_name);
+            ble_status = itemView.findViewById(R.id.ble_status);
+            rl_item = itemView.findViewById(R.id.rl_item);
+        }
+    }
+}

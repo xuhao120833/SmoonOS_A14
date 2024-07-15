@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape android:shape="oval"
+            >
+            <solid android:color="@color/bright_bar"/>
+            <size android:width="@dimen/x_21"
+                android:height="@dimen/y_21"/>
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="oval"
+            >
+            <solid android:color="@color/default_bar"/>
+            <size android:width="@dimen/x_21"
+                android:height="@dimen/y_21"/>
+        </shape>
+    </item>
+</selector>

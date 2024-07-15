@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background0"
+    android:id="@+id/rl_main"
+    android:clipChildren="false"
+    tools:context=".activity.MainActivity">
+
+    <ImageView
+        android:layout_width="@dimen/x_200"
+        android:layout_height="@dimen/y_70"
+        android:layout_marginStart="@dimen/x_80"
+        android:layout_marginTop="@dimen/y_20"
+        android:id="@+id/logo"/>
+
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_45"
+        android:layout_height="@dimen/y_45"
+        android:layout_toStartOf="@id/rl_wifi"
+        android:layout_marginTop="@dimen/y_50"
+        android:layout_marginEnd="@dimen/x_15"
+        android:background="@drawable/circle_bar_bg"
+        android:id="@+id/rl_wallpapers"
+        style="@style/focusStyle"
+        >
+
+        <ImageView
+            android:id="@+id/wallpaper"
+            android:layout_width="@dimen/x_27"
+            android:layout_height="@dimen/y_27"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bar_wand" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_45"
+        android:layout_height="@dimen/y_45"
+        android:layout_toStartOf="@id/rl_bluetooth"
+        android:layout_marginTop="@dimen/y_50"
+        android:layout_marginEnd="@dimen/x_15"
+        android:background="@drawable/circle_bar_bg"
+        android:id="@+id/rl_wifi"
+        style="@style/focusStyle"
+        >
+
+        <ImageView
+            android:id="@+id/home_wifi"
+            android:layout_width="@dimen/x_27"
+            android:layout_height="@dimen/y_27"
+            android:layout_centerInParent="true"
+            android:background="@drawable/wifi_not" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_45"
+        android:layout_height="@dimen/y_45"
+        android:layout_marginTop="@dimen/y_50"
+        android:layout_marginEnd="@dimen/x_10"
+        android:layout_toStartOf="@id/rl_date_time"
+        android:background="@drawable/circle_bar_bg"
+        android:id="@+id/rl_bluetooth"
+        style="@style/focusStyle"
+        >
+
+        <ImageView
+            android:id="@+id/home_bluetooth"
+            android:layout_width="@dimen/x_25"
+            android:layout_height="@dimen/y_25"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bluetooth_not" />
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/y_45"
+        android:id="@+id/rl_date_time"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/y_50"
+        android:layout_marginEnd="@dimen/x_80"
+        android:background="@drawable/bar_bg"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/time_tv"
+            android:layout_marginStart="@dimen/x_15"
+            android:layout_marginEnd="@dimen/x_15"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_21"
+            android:text="2024/4/22 23：10 | 下午"
+            android:gravity="center"
+            android:paddingStart="@dimen/x_5"
+            android:paddingEnd="@dimen/x_5"
+            />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_340"
+        android:layout_height="@dimen/y_330"
+        android:layout_marginStart="@dimen/x_80"
+        android:layout_marginTop="@dimen/y_160"
+        android:id="@+id/rl_signal"
+        android:background="@drawable/home_normal_bg"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y_215"
+            android:id="@+id/rl_hdmi1"
+            style="@style/focusStyle"
+            android:background="@drawable/home_sign_bg"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/x_80"
+                android:layout_height="@dimen/y_80"
+                android:layout_centerInParent="true"
+                android:background="@drawable/home_hdmi_bg"
+                android:duplicateParentState="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/y_15"
+                android:textSize="@dimen/x_28"
+                android:textColor="@color/tv_color"
+                android:text="@string/hdmi"
+                android:duplicateParentState="true"
+                />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y_2"
+            android:layout_below="@id/rl_hdmi1"
+            android:background="@color/home_stroke_default_color"
+            />
+        
+        <RelativeLayout
+            android:layout_width="@dimen/x_83"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rl_hdmi1"
+            android:id="@+id/rl_av"
+            style="@style/focusStyle"
+            android:visibility="gone"
+            android:background="@drawable/home_sign_bg"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/x_50"
+                android:layout_height="@dimen/y_50"
+                android:background="@drawable/home_usb"
+                android:id="@+id/av_icon"
+                android:layout_marginTop="@dimen/y_20"
+                android:layout_centerHorizontal="true"
+                android:duplicateParentState="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/x_18"
+                android:textColor="@color/tv_color"
+                android:layout_below="@id/av_icon"
+                android:layout_marginTop="@dimen/y_5"
+                android:text="@string/av"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="@dimen/x_170"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rl_hdmi1"
+            android:id="@+id/rl_usb"
+            android:layout_toEndOf="@id/rl_av"
+            style="@style/focusStyle"
+            android:background="@drawable/home_sign_bg"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/x_50"
+                android:layout_height="@dimen/y_50"
+                android:background="@drawable/home_usb"
+                android:id="@+id/hdmi1_icon"
+                android:layout_marginTop="@dimen/y_20"
+                android:layout_centerHorizontal="true"
+                android:duplicateParentState="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/x_18"
+                android:textColor="@color/tv_color"
+                android:layout_below="@id/hdmi1_icon"
+                android:layout_marginTop="@dimen/y_5"
+                android:text="@string/usb"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="@dimen/x_2"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/rl_usb"
+            android:layout_below="@id/rl_hdmi1"
+            android:background="@color/home_stroke_default_color"
+            />
+
+        <RelativeLayout
+            android:layout_width="@dimen/x_83"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rl_hdmi1"
+            android:id="@+id/rl_hdmi2"
+            android:layout_toEndOf="@id/rl_usb"
+            style="@style/focusStyle"
+            android:visibility="gone"
+            android:background="@drawable/home_sign_bg"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/x_50"
+                android:layout_height="@dimen/y_50"
+                android:background="@drawable/home_usb"
+                android:id="@+id/hdmi2_icon"
+                android:layout_marginTop="@dimen/y_20"
+                android:layout_centerHorizontal="true"
+                android:duplicateParentState="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/x_18"
+                android:textColor="@color/tv_color"
+                android:layout_below="@id/hdmi2_icon"
+                android:layout_marginTop="@dimen/y_5"
+                android:text="@string/hdmi2"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="@dimen/x_85"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rl_hdmi1"
+            android:id="@+id/rl_vga"
+            android:layout_toEndOf="@id/rl_usb"
+            style="@style/focusStyle"
+            android:background="@drawable/home_sign_bg"
+            android:visibility="gone"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/x_50"
+                android:layout_height="@dimen/y_50"
+                android:background="@drawable/home_usb"
+                android:id="@+id/vga_icon"
+                android:layout_marginTop="@dimen/y_20"
+                android:layout_centerHorizontal="true"
+                android:duplicateParentState="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/x_18"
+                android:textColor="@color/tv_color"
+                android:layout_below="@id/vga_icon"
+                android:layout_marginTop="@dimen/y_5"
+                android:text="@string/vga"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="@dimen/x_170"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rl_hdmi1"
+            android:id="@+id/rl_manual"
+            android:layout_toEndOf="@id/rl_usb"
+            style="@style/focusStyle"
+            android:background="@drawable/home_sign_bg"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/x_50"
+                android:layout_height="@dimen/y_50"
+                android:background="@drawable/manual_bg"
+                android:id="@+id/manual_icon"
+                android:layout_marginTop="@dimen/y_20"
+                android:layout_centerHorizontal="true"
+                android:duplicateParentState="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/x_18"
+                android:textColor="@color/tv_color"
+                android:layout_below="@id/manual_icon"
+                android:layout_marginTop="@dimen/y_5"
+                android:text="@string/manual"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_244"
+        android:layout_height="@dimen/y_338"
+        android:layout_marginTop="@dimen/y_154"
+        android:layout_toEndOf="@id/rl_signal"
+        android:layout_marginStart="@dimen/x_22"
+        android:background="@drawable/home_bg"
+        style="@style/focusStyle"
+        android:id="@+id/rl_apps"
+        android:padding="@dimen/x_6"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/app_iv"
+            android:background="@drawable/home_apps"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/y_45"
+            android:textSize="@dimen/x_28"
+            android:textColor="@color/white"
+            android:text="@string/apps"
+            android:duplicateParentState="true"
+            android:layout_centerHorizontal="true"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_244"
+        android:layout_height="@dimen/y_338"
+        android:layout_marginTop="@dimen/y_154"
+        android:layout_toEndOf="@id/rl_apps"
+        android:layout_marginStart="@dimen/x_16"
+        android:background="@drawable/home_bg"
+        style="@style/focusStyle"
+        android:id="@+id/rl_Google"
+        android:padding="@dimen/x_6"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/store_iv"
+            android:background="@drawable/home_store"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/y_45"
+            android:textSize="@dimen/x_28"
+            android:textColor="@color/white"
+            android:text="@string/google"
+            android:duplicateParentState="true"
+            android:layout_centerHorizontal="true"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_244"
+        android:layout_height="@dimen/y_338"
+        android:layout_marginTop="@dimen/y_154"
+        android:layout_toEndOf="@id/rl_Google"
+        android:layout_marginStart="@dimen/x_16"
+        android:background="@drawable/home_bg"
+        style="@style/focusStyle"
+        android:id="@+id/rl_settings"
+        android:padding="@dimen/x_6"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/set_iv"
+            android:background="@drawable/home_set"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/y_45"
+            android:textSize="@dimen/x_28"
+            android:textColor="@color/white"
+            android:text="@string/settings"
+            android:duplicateParentState="true"
+            android:layout_centerHorizontal="true"
+            />
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y_150"
+        android:id="@+id/shortcuts_rv"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/x_80"
+        android:layout_marginEnd="@dimen/x_30"
+        android:layout_marginBottom="@dimen/y_30"
+        tools:listitem="@layout/shortcuts_item"
+        />
+
+</RelativeLayout>

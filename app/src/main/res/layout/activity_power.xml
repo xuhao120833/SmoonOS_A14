@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl_top"
+    android:background="#20000000"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="@dimen/x_1136"
+        android:layout_height="@dimen/y_357"
+        android:background="@drawable/background_ko"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center">
+        <RelativeLayout
+            android:layout_width="@dimen/x_160"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:id="@+id/rl_sleep"
+            android:visibility="gone"
+            >
+            <View
+                android:layout_width="@dimen/x_160"
+                android:layout_height="@dimen/y_160"
+                android:duplicateParentState="true"
+                android:background="@drawable/oval_bg"/>
+            <ImageView
+                android:layout_width="@dimen/x_53"
+                android:layout_height="@dimen/y_53"
+                android:layout_marginTop="@dimen/y_53"
+                android:layout_marginStart="@dimen/x_53"
+                android:background="@drawable/popup_screen_off" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y_170"
+                android:layout_centerHorizontal="true"
+                android:text="@string/screen_off"
+                android:textColor="@color/power_tv_color"
+                android:textSize="@dimen/x_28"
+                android:duplicateParentState="true"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="@dimen/x_160"
+            android:layout_height="wrap_content"
+            
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:id="@+id/rl_shutdown"
+            android:layout_toEndOf="@id/rl_sleep"
+            android:layout_marginStart="@dimen/x_30"
+            >
+
+            <View
+                android:layout_width="@dimen/x_160"
+                android:layout_height="@dimen/y_160"
+                android:background="@drawable/oval_bg"
+                android:duplicateParentState="true"/>
+
+            <ImageView
+                android:layout_width="@dimen/x_53"
+                android:layout_height="@dimen/y_53"
+                android:layout_marginStart="@dimen/x_53"
+                android:layout_marginTop="@dimen/y_53"
+                android:background="@drawable/popup_power" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/count"
+                android:layout_marginTop="@dimen/y_120"
+                android:layout_centerHorizontal="true"
+                android:text="@string/second"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x_21"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y_170"
+                android:layout_centerHorizontal="true"
+                android:text="@string/power_off"
+                android:textColor="@color/power_tv_color"
+                android:textSize="@dimen/x_28"
+                android:duplicateParentState="true"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="@dimen/x_160"
+            android:layout_height="wrap_content"
+            
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:id="@+id/rl_reboot"
+            android:layout_toEndOf="@id/rl_shutdown"
+            android:layout_marginStart="@dimen/x_30"
+            >
+            <View
+                android:layout_width="@dimen/x_160"
+                android:layout_height="@dimen/y_160"
+                android:background="@drawable/oval_bg"
+                android:duplicateParentState="true"/>
+            <ImageView
+                android:layout_width="@dimen/x_53"
+                android:layout_height="@dimen/y_53"
+                android:layout_marginTop="@dimen/y_53"
+                android:layout_marginStart="@dimen/x_53"
+                android:background="@drawable/popup_reboot" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y_170"
+                android:layout_centerHorizontal="true"
+                android:text="@string/reboot"
+                android:textColor="@color/power_tv_color"
+                android:textSize="@dimen/x_28"
+                android:duplicateParentState="true"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="@dimen/x_160"
+            android:layout_height="wrap_content"
+            
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:id="@+id/rl_bluetooth_speaker"
+            android:layout_toEndOf="@id/rl_reboot"
+            android:layout_marginStart="@dimen/x_30"
+            >
+            <View
+                android:layout_width="@dimen/x_160"
+                android:layout_height="@dimen/y_160"
+                android:background="@drawable/oval_bg"
+                android:duplicateParentState="true"/>
+            <ImageView
+                android:layout_width="@dimen/x_53"
+                android:layout_height="@dimen/y_53"
+                android:layout_marginTop="@dimen/y_53"
+                android:layout_marginStart="@dimen/x_53"
+                android:background="@drawable/popup_bt_speaker" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y_170"
+                android:layout_centerHorizontal="true"
+                android:text="@string/bluetooth_speaker"
+                android:textColor="@color/power_tv_color"
+                android:gravity="center"
+                android:textSize="@dimen/x_28"
+                android:duplicateParentState="true"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="@dimen/x_160"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:id="@+id/rl_timer_off"
+            android:layout_toEndOf="@id/rl_bluetooth_speaker"
+            android:layout_marginStart="@dimen/x_30"
+            android:visibility="gone"
+            >
+            <View
+                android:layout_width="@dimen/x_160"
+                android:layout_height="@dimen/y_160"
+                android:background="@drawable/oval_bg"
+                android:duplicateParentState="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/y_53"
+                android:id="@+id/timer_off_tv"
+                android:layout_marginTop="@dimen/y_53"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x_23"
+                android:text="10 Min"
+                android:gravity="center"
+                android:layout_centerHorizontal="true" />
+
+            <View
+                android:layout_width="@dimen/x_30"
+                android:layout_height="@dimen/y_30"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/y_15"
+                android:background="@drawable/arrow_up"
+                />
+
+            <View
+                android:layout_width="@dimen/x_30"
+                android:layout_height="@dimen/y_30"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/y_115"
+                android:background="@drawable/arrow_down"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y_170"
+                android:layout_centerHorizontal="true"
+                android:text="@string/timer"
+                android:textColor="@color/power_tv_color"
+                android:textSize="@dimen/x_28"
+                android:duplicateParentState="true"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
