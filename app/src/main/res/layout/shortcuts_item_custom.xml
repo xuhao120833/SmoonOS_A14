@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.htc.launcher.widget.RLRelativelayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_item"
+    style="@style/focusStyle"
+    android:layout_width="160px"
+    android:layout_height="160px"
+    android:layout_gravity="center_vertical"
+    android:background="@drawable/home_app_custom">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/home_app_add"/>
+
+
+</com.htc.launcher.widget.RLRelativelayout>

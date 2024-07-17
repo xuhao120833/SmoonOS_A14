@@ -15,6 +15,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.htc.launcher.MyApplication;
@@ -237,12 +238,14 @@ public class AppUtils {
 			PackageManager packageManager = context.getPackageManager();
 			Intent intent = packageManager.getLaunchIntentForPackage(packageName);
 			if (intent != null) {
+				Log.d("xuhao","startNewApp getLaunchIntentForPackage");
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				context.startActivity(intent);
 				return;
 			}
 			intent = packageManager.getLeanbackLaunchIntentForPackage(packageName);
 			if (intent != null) {
+				Log.d("xuhao","startNewApp getLeanbackLaunchIntentForPackage");
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				context.startActivity(intent);
 			}

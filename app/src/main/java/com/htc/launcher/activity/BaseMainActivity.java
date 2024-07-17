@@ -36,7 +36,7 @@ public class BaseMainActivity extends Activity implements View.OnClickListener, 
 
     @Override
     protected void onResume() {
-        setWallPaper();
+//        setWallPaper();
         super.onResume();
     }
 

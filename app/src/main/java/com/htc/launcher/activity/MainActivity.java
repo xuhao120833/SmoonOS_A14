@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemProperties;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.google.gson.Gson;
 import com.htc.launcher.R;
 import com.htc.launcher.adapter.ShortcutsAdapter;
 import com.htc.launcher.databinding.ActivityMainBinding;
+import com.htc.launcher.databinding.ActivityMainCustomBinding;
 import com.htc.launcher.entry.AppInfoBean;
 import com.htc.launcher.entry.AppSimpleBean;
 import com.htc.launcher.entry.AppsData;
@@ -68,6 +70,8 @@ import okhttp3.Response;
 public class MainActivity extends BaseMainActivity implements BluetoothCallBcak, MyWifiCallBack, MyTimeCallBack, NetWorkCallBack {
 
     private ActivityMainBinding mainBinding;
+
+    private ActivityMainCustomBinding customBinding;
     private ArrayList<ShortInfoBean> short_list = new ArrayList<>();
 
     boolean  get_default_url = false;
@@ -89,6 +93,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     private IntentFilter blueFilter = new IntentFilter();
     private BluetoothReceiver blueReceiver = null;
 
+    private static String TAG = "MainActivity";
+
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -98,6 +104,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     shortcutsAdapter.setItemCallBack(itemCallBack);
                     mainBinding.shortcutsRv.setAdapter(shortcutsAdapter);
                     break;
+                    
             }
 
             return false;
@@ -107,24 +114,31 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mainBinding = ActivityMainBinding.inflate(LayoutInflater.from(this)); //ViewBinding
-        setContentView(mainBinding.getRoot());
-        initView();
-        initData();
-        initReceiver();
+//        mainBinding = ActivityMainBinding.inflate(LayoutInflater.from(this)); //ViewBinding
+//        setContentView(mainBinding.getRoot());
+
+        customBinding = ActivityMainCustomBinding.inflate(LayoutInflater.from(this));
+        setContentView(customBinding.getRoot());
+
+        initViewCustom();
+        initDataCustom();
+
+//        initView();
+//        initData();
+//        initReceiver();
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        updateTime();
-        updateBle();
-        if ((boolean)ShareUtil.get(this,Contants.MODIFY,false)){
-            short_list =loadHomeAppData();
-            handler.sendEmptyMessage(202);
-            ShareUtil.put(this,Contants.MODIFY,false);
-        }
+//        updateTime();
+//        updateBle();
+//        if ((boolean)ShareUtil.get(this,Contants.MODIFY,false)){
+//            short_list =loadHomeAppData();
+//            handler.sendEmptyMessage(202);
+//            ShareUtil.put(this,Contants.MODIFY,false);
+//        }
     }
 
     private void initView(){
@@ -132,15 +146,22 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         mainBinding.rlGoogle.setOnClickListener(this);
         mainBinding.rlSettings.setOnClickListener(this);
         mainBinding.rlUsb.setOnClickListener(this);
+
         mainBinding.rlAv.setOnClickListener(this);
+
         mainBinding.rlHdmi1.setOnClickListener(this);
         mainBinding.rlHdmi2.setOnClickListener(this);
+
         mainBinding.rlVga.setOnClickListener(this);
+
         mainBinding.rlManual.setOnClickListener(this);
+
         mainBinding.rlWifi.setOnClickListener(this);
+
         mainBinding.rlBluetooth.setOnClickListener(this);
 
         mainBinding.rlWallpapers.setOnClickListener(this);
+
 
 
         mainBinding.rlApps.setOnHoverListener(this);
@@ -155,25 +176,56 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         mainBinding.rlWifi.setOnHoverListener(this);
         mainBinding.rlBluetooth.setOnHoverListener(this);
 
-        /*mainBinding.rlApps.setOnFocusChangeListener(this);
-        mainBinding.rlGoogle.setOnFocusChangeListener(this);
-        mainBinding.rlSettings.setOnFocusChangeListener(this);
-        mainBinding.rlUsb.setOnFocusChangeListener(this);
-        mainBinding.rlAv.setOnFocusChangeListener(this);
-        mainBinding.rlHdmi1.setOnFocusChangeListener(this);
-        mainBinding.rlHdmi2.setOnFocusChangeListener(this);
-        mainBinding.rlVga.setOnFocusChangeListener(this);
-        mainBinding.rlManual.setOnFocusChangeListener(this);
-
-        mainBinding.rlWifi.setOnFocusChangeListener(focusChangeListener);
-        mainBinding.rlBluetooth.setOnFocusChangeListener(focusChangeListener);*/
-
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mainBinding.shortcutsRv.addItemDecoration(new SpacesItemDecoration(0,
                 (int) (getWindowManager().getDefaultDisplay().getWidth()*0.03),0,0));
         mainBinding.shortcutsRv.setLayoutManager(layoutManager);
+    }
+
+    private void initViewCustom() {
+
+        //总共12个
+        //1 我的应用 新的UI放到recyclerView里面去了
+
+        //2 应用商店
+        customBinding.rlGoogle.setOnClickListener(this);
+        customBinding.rlGoogle.setOnHoverListener(this);
+        //3 设置
+        customBinding.rlSettings.setOnClickListener(this);
+        customBinding.rlSettings.setOnHoverListener(this);
+        //4 文件管理
+        customBinding.rlUsb.setOnClickListener(this);
+        customBinding.rlUsb.setOnHoverListener(this);
+        //5 HDMI 1
+        customBinding.rlHdmi1.setOnClickListener(this);
+        customBinding.rlHdmi1.setOnHoverListener(this);
+        //6 rl_av
+        //7 rl_hdmi2
+        //8 rl_vga
+        //9 rl_manual 说明书，新的UI没这个功能
+        //10 wifi
+        customBinding.rlWifi.setOnClickListener(this);
+        customBinding.rlWifi.setOnHoverListener(this);
+        //11 蓝牙
+        customBinding.rlBluetooth.setOnClickListener(this);
+        customBinding.rlBluetooth.setOnHoverListener(this);
+        //12 切换背景
+        customBinding.rlWallpapers.setOnClickListener(this);
+        customBinding.rlWallpapers.setOnHoverListener(this);
+        //13 Eshare
+        customBinding.homeEshare.setOnClickListener(this);
+        customBinding.homeEshare.setOnHoverListener(this);
+        //14 Netflix
+        customBinding.homeNetflix.setOnClickListener(this);
+        customBinding.homeNetflix.setOnHoverListener(this);
+        //15 Youtube
+        customBinding.homeYoutube.setOnClickListener(this);
+        customBinding.homeYoutube.setOnHoverListener(this);
+        //16 迪士尼
+        customBinding.homeDisney.setOnClickListener(this);
+        customBinding.homeDisney.setOnHoverListener(this);
+
     }
 
     private void initData(){
@@ -183,6 +235,17 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 initDataApp();
                 short_list =loadHomeAppData();
                 handler.sendEmptyMessage(202);
+            }
+        }).start();
+    }
+
+    private void initDataCustom(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                initDataApp();
+                short_list =loadHomeAppData();
+                handler.sendEmptyMessage(204);
             }
         }).start();
     }
@@ -342,6 +405,21 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             case R.id.rl_bluetooth:
                 startNewActivity(BluetoothActivity.class);
                 break;
+            case R.id.home_eshare:
+                AppUtils.startNewApp(MainActivity.this, "com.ecloud.eshare.server");
+                break;
+            case R.id.home_disney:
+                AppUtils.startNewApp(MainActivity.this, "com.disney.disneyplus");
+                break;
+            case R.id.home_netflix:
+                Log.d("xuhao","打开奈飞");
+                AppUtils.startNewApp(MainActivity.this, "com.netflix.ninja");
+//                com.netflix.mediaclient
+                break;
+            case R.id.home_youtube:
+                Log.d("xuhao","打开YOUtube");
+                AppUtils.startNewApp(MainActivity.this, "com.google.android.youtube.tv");
+                break;
         }
 
     }
@@ -369,6 +447,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             File file = new File("/system/shortcuts.config");
 
             if (!file.exists()) {
+                   Log.d(TAG," initDataApp 配置文件不存在");
                 return false;
             }
 
@@ -460,10 +539,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(networkReceiver);
-        unregisterReceiver(timeReceiver);
-        unregisterReceiver(blueReceiver);
-        unregisterReceiver(wifiReceiver);
+//        unregisterReceiver(networkReceiver);
+//        unregisterReceiver(timeReceiver);
+//        unregisterReceiver(blueReceiver);
+//        unregisterReceiver(wifiReceiver);
         super.onDestroy();
     }
 

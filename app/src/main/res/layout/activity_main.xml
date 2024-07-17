@@ -9,12 +9,12 @@
     android:clipChildren="false"
     tools:context=".activity.MainActivity">
 
-    <ImageView
-        android:layout_width="@dimen/x_200"
-        android:layout_height="@dimen/y_70"
-        android:layout_marginStart="@dimen/x_80"
-        android:layout_marginTop="@dimen/y_20"
-        android:id="@+id/logo"/>
+<!--    <ImageView-->
+<!--        android:layout_width="@dimen/x_200"-->
+<!--        android:layout_height="@dimen/y_70"-->
+<!--        android:layout_marginStart="@dimen/x_80"-->
+<!--        android:layout_marginTop="@dimen/y_20"-->
+<!--        android:id="@+id/logo"/>-->
 
 
     <RelativeLayout
@@ -51,7 +51,6 @@
             android:id="@+id/home_wifi"
             android:layout_width="@dimen/x_27"
             android:layout_height="@dimen/y_27"
-            android:layout_centerInParent="true"
             android:background="@drawable/wifi_not" />
     </RelativeLayout>
 
@@ -83,19 +82,19 @@
         android:layout_marginEnd="@dimen/x_80"
         android:background="@drawable/bar_bg"
         >
+
         <TextView
+            android:id="@+id/time_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/time_tv"
             android:layout_marginStart="@dimen/x_15"
             android:layout_marginEnd="@dimen/x_15"
-            android:textColor="@color/white"
-            android:textSize="@dimen/x_21"
-            android:text="2024/4/22 23：10 | 下午"
             android:gravity="center"
             android:paddingStart="@dimen/x_5"
             android:paddingEnd="@dimen/x_5"
-            />
+            android:text="2024/4/22 23：10 | 下午"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_21" />
 
     </RelativeLayout>
 
@@ -337,12 +336,13 @@
         android:id="@+id/rl_apps"
         android:padding="@dimen/x_6"
         >
+
         <ImageView
+            android:id="@+id/app_iv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/app_iv"
-            android:background="@drawable/home_apps"
-            />
+            android:background="@drawable/home_apps" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
