@@ -88,7 +88,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/focusStyle"
-        android:background="@drawable/home_custom"
         android:layout_marginStart="96px"
         android:layout_marginTop="200px">
 
@@ -106,7 +105,6 @@
         android:layout_marginStart="36px"
         android:layout_marginTop="200px"
         style="@style/focusStyle"
-        android:background="@drawable/home_custom"
         android:layout_toRightOf="@+id/home_netflix">
 
         <ImageView
@@ -123,7 +121,6 @@
         android:layout_marginTop="46px"
         android:layout_marginStart="96px"
         style="@style/focusStyle"
-        android:background="@drawable/home_custom"
         android:layout_below="@+id/home_netflix">
 
         <ImageView
@@ -138,7 +135,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/focusStyle"
-        android:background="@drawable/home_custom"
         android:layout_marginTop="46px"
         android:layout_marginStart="36px"
         android:layout_toRightOf="@+id/home_disney"
@@ -284,7 +280,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="70px"
         android:layout_marginEnd="70px"
-        android:layout_marginBottom="@dimen/y_30"
+        android:layout_marginBottom="42px"
+        android:padding="26px"
         android:background="@drawable/home_recyclerview_bg"
         tools:listitem="@layout/shortcuts_item_custom" />
 

@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/settings_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90px"
+            android:layout_marginTop="160px"
+            android:shadowColor="#80000000"
+            android:shadowRadius="4"
+            android:text="连接设置"
+            android:textColor="#FFFFFF"
+            android:textSize="40px"
+            android:textStyle="bold"></TextView>
+
+        <!--    第一排功能-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90px"
+            android:layout_marginTop="69px"
+            android:orientation="horizontal">
+
+            <!--        wifi-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_wifi"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_wifi">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="Wi-Fi"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <!--        蓝牙-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="85px"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_bt"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_bt">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="Blutooth"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <!--        热点-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="85px"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_hot"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_hot">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="热点"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90px"
+            android:layout_marginTop="96px"
+            android:shadowColor="#80000000"
+            android:shadowRadius="4"
+            android:text="投影设置"
+            android:textColor="#FFFFFF"
+            android:textSize="40px"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <!--    第二排功能区-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90px"
+            android:layout_marginTop="69px"
+            android:orientation="horizontal">
+
+            <!--        -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_mode"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_mode">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="投影方式"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <!--        蓝牙-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="85px"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_trapezium"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_trapezium">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="梯形校正"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <!--        热点-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="85px"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_zoom"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_zoom">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="屏幕缩放"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="85px"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_focus"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    style="@style/focusStyle"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_focus">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="焦距"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="85px"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_signal"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    style="@style/focusStyle"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_signal">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="输入信号"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--    第三排-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90px"
+            android:layout_marginTop="90px"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/settings_cast"
+                style="@style/focusStyle"
+                android:layout_width="280px"
+                android:layout_height="180px"
+                android:background="@drawable/settings_button_bg">
+
+                <ImageView
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_gravity="center"
+                    android:src="@drawable/settings_cast">
+
+                </ImageView>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="34px"
+                android:shadowColor="#80000000"
+                android:shadowRadius="4"
+                android:text="镜像"
+                android:textColor="#FFFFFF"
+                android:textSize="32px">
+
+            </TextView>
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90px"
+            android:layout_marginTop="96px"
+            android:shadowColor="#50000000"
+            android:shadowRadius="4"
+            android:text="系统设置"
+            android:textColor="#FFFFFF"
+            android:textSize="40px"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <!--    第四排-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90px"
+            android:layout_marginTop="69px"
+            android:orientation="horizontal">
+
+            <!--        -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_app"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_app">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="应用管理"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <!--        蓝牙-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="85px"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_date"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_date">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="日期设置"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <!--        热点-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="85px"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_language"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_language">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="语言"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="85px"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_typewriting"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_typewriting">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="输入法"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="85px"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_voice"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_voice">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="声音"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <!--    第五排-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90px"
+            android:layout_marginTop="90px"
+            android:layout_marginBottom="180px"
+            android:orientation="horizontal">
+
+            <!--        -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_light"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_light">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="亮度"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <!--        蓝牙-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="85px"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_temperature"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_temperature">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="色温"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <!--        热点-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="85px"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_update"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_update">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="升级"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="85px"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_recovery"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_recovery">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="恢复出厂设置"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="85px"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/settings_about"
+                    style="@style/focusStyle"
+                    android:layout_width="280px"
+                    android:layout_height="180px"
+                    android:background="@drawable/settings_button_bg">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_about">
+
+                    </ImageView>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34px"
+                    android:shadowColor="#80000000"
+                    android:shadowRadius="4"
+                    android:text="系统信息"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32px">
+
+                </TextView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/focusStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TextView>
+
+    </LinearLayout>
+</ScrollView>

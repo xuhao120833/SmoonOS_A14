@@ -20,35 +20,34 @@
 
 
     <RelativeLayout
+        android:id="@+id/rl_project"
+        style="@style/focusStyle"
         android:layout_width="@dimen/x_213"
         android:layout_height="@dimen/y_213"
-        android:layout_marginTop="@dimen/y_134"
         android:layout_marginStart="@dimen/x_137"
+        android:layout_marginTop="@dimen/y_134"
         android:background="@drawable/main_settings_bg"
-        style="@style/focusStyle"
-        android:id="@+id/rl_project"
-        android:nextFocusLeft="@id/rl_about"
-        >
+        android:nextFocusLeft="@id/rl_about">
+
         <ImageView
+            android:id="@+id/project_icon"
             android:layout_width="@dimen/x_80"
             android:layout_height="@dimen/y_80"
-            android:id="@+id/project_icon"
-            android:background="@drawable/set_project_bg"
-            android:duplicateParentState="true"
-            android:layout_marginTop="@dimen/y_40"
             android:layout_centerHorizontal="true"
-            />
+            android:layout_marginTop="@dimen/y_40"
+            android:background="@drawable/set_project_bg"
+            android:duplicateParentState="true" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_below="@id/project_icon"
-            android:textSize="@dimen/x_28"
-            android:textColor="@color/tv_color"
-            android:text="@string/project_setting"
+            android:layout_centerHorizontal="true"
             android:duplicateParentState="true"
             android:gravity="center"
-            android:layout_centerHorizontal="true"
-            />
+            android:text="@string/project_setting"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_28" />
     </RelativeLayout>
 
     <RelativeLayout

@@ -3,7 +3,7 @@
     <item android:state_focused="true">
 
         <shape>
-            <stroke android:width="@dimen/x_3" android:color="#000000" />
+            <stroke android:width="@dimen/x_3" android:color="#FFFFFF" />
         </shape>
 
     </item>
