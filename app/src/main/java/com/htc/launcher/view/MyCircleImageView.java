@@ -6,12 +6,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.widget.RelativeLayout;
 
 import com.htc.launcher.utils.Utils;
 
 public class MyCircleImageView extends de.hdodenhof.circleimageview.CircleImageView {
     public boolean hasFocus;
     private Paint borderPaint;
+
+    public RelativeLayout rl_item;
 
     private static String TAG = "CircleImageView";
 
@@ -49,7 +52,8 @@ public class MyCircleImageView extends de.hdodenhof.circleimageview.CircleImageV
     @Override
     protected void onDraw(Canvas canvas) {
 
-        if (hasFocus) {
+        Log.d("触发焦点获取", " this.isFocused "+this.isFocused());
+        if (hasFocus || rl_item.isFocused()) {
             super.onDraw(canvas);
             // 绘制白色圆环
             int width = getWidth();

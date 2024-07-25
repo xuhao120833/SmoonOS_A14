@@ -39,11 +39,13 @@ import java.util.ArrayList;
  * Date:
  * Description:
  */
-public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapterCustom.MyViewHolder> implements View.OnFocusChangeListener{
+public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapterCustom.MyViewHolder> implements View.OnFocusChangeListener {
 
     Context mContext;
     private ArrayList<ShortInfoBean> short_list;
     ItemCallBack itemCallBack;
+
+    int number =-1;
 
     public ShortcutsAdapterCustom(Context mContext, ArrayList<ShortInfoBean> short_list) {
         this.mContext = mContext;
@@ -61,22 +63,31 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.shortcuts_item_custom, null));
+
+        MyViewHolder myViewHolder = new MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.shortcuts_item_custom, null));
+
+//        Log.d("触发焦点获取", " number值 "+number);
+//        if (number == i) {
+//            Log.d("触发焦点获取", " 焦点复位");
+//            myViewHolder.resetFocus();
+//        }
+
+        return myViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
-        if (i<short_list.size() && short_list.get(i).getAppname()!=null&&i>0){
+        if (i < short_list.size() && short_list.get(i).getAppname() != null && i > 0) {
             myViewHolder.icon.setImageDrawable(short_list.get(i).getAppicon());
 
 //            myViewHolder.icon.setImageDrawable(resizeDrawable(mContext, short_list.get(i).getAppicon(), 160, 160));
 
 //            myViewHolder.name.setText(short_list.get(i).getAppname());
-        } else if (i<short_list.size()&&i>0) {
+        } else if (i < short_list.size() && i > 0) {
 
             myViewHolder.icon.setImageResource(getAppIcon(short_list.get(i).getPackageName()));
 //            myViewHolder.name.setText(getAppName(short_list.get(i).getPackageName()));
-        } else if(i==0) {
+        } else if (i == 0) {
 
             myViewHolder.icon.setImageDrawable(short_list.get(i).getAppicon());
 
@@ -85,8 +96,10 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
         myViewHolder.rl_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (itemCallBack!=null)
+                if (itemCallBack != null)
                     itemCallBack.onItemClick(i);
+//                number = i;
+//                v.clearFocus();
             }
         });
         myViewHolder.rl_item.setOnLongClickListener(new View.OnLongClickListener() {
@@ -97,31 +110,32 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
             }
         });
 
-        myViewHolder.rl_item.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        myViewHolder.rl_item.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 synchronized (Utils.class) {
                     if (hasFocus) {
                         Log.d("触发焦点获取", " 画白圈");
-                        MyCircleImageView myCircleImageView = (MyCircleImageView)v.findViewById(R.id.icon);
-                        myCircleImageView.hasFocus =true;
+                        MyCircleImageView myCircleImageView = (MyCircleImageView) v.findViewById(R.id.icon);
+                        myCircleImageView.hasFocus = true;
                         myCircleImageView.invalidate();
 
                     } else {
                         Log.d("触发焦点获取", " 恢复默认");
-                        MyCircleImageView myCircleImageView = (MyCircleImageView)v.findViewById(R.id.icon);
-                        myCircleImageView.hasFocus =false;
+                        MyCircleImageView myCircleImageView = (MyCircleImageView) v.findViewById(R.id.icon);
+                        myCircleImageView.hasFocus = false;
                         myCircleImageView.invalidate();
                     }
                 }
             }
         });
+
     }
 
 
-    private String getAppName(String pkg){
-        switch (pkg){
+    private String getAppName(String pkg) {
+        switch (pkg) {
             case "com.netflix.ninja":
                 return "Netflix";
             case "com.disney.disneyplus":
@@ -151,8 +165,8 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
         }
     }
 
-    private int getAppIcon(String pkg){
-        switch (pkg){
+    private int getAppIcon(String pkg) {
+        switch (pkg) {
             case "com.netflix.ninja":
                 return R.drawable.netflix;
             case "com.disney.disneyplus":
@@ -184,9 +198,9 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
 
     @Override
     public int getItemCount() {
-        if(short_list.size()<8) {
+        if (short_list.size() < 8) {
             return short_list.size() + 1;
-        }else{
+        } else {
             return short_list.size();
         }
     }
@@ -201,13 +215,13 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
 
     }
 
-    public interface ItemCallBack{
+    public interface ItemCallBack {
         void onItemClick(int i);
     }
 
 
     static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnFocusChangeListener {
-//        TextView name;
+        //        TextView name;
         MyCircleImageView icon;
         RelativeLayout rl_item;
 
@@ -218,6 +232,8 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
 //            name = itemView.findViewById(R.id.name);
             rl_item = itemView.findViewById(R.id.rl_item);
             icon = itemView.findViewById(R.id.icon);
+
+            icon.rl_item =rl_item;
 
 //            rl_item.setOnFocusChangeListener(new View.OnFocusChangeListener(){
 //
@@ -232,6 +248,10 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
 //            });
 
 //            itemView.setOnFocusChangeListener(this);
+        }
+
+        public void resetFocus() {
+            rl_item.requestFocus();
         }
 
         @Override
@@ -266,16 +286,15 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
             return null;
         }
         Bitmap bitmap = drawableToBitamp(image);
-        return getScaledDrawable(bitmap,1.5f);
+        return getScaledDrawable(bitmap, 1.5f);
 
     }
 
-    public  Bitmap drawableToBitamp(Drawable drawable)
-    {
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),drawable.getIntrinsicHeight(),
-                drawable.getOpacity()!= PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888:Bitmap.Config.RGB_565);
+    public Bitmap drawableToBitamp(Drawable drawable) {
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
+                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
         Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0,0,drawable.getIntrinsicWidth(),drawable.getIntrinsicHeight());
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         drawable.draw(canvas);
         return bitmap;
     }
