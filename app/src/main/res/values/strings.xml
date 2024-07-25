@@ -61,7 +61,7 @@
     <string name="reset_factory_msg">初始化用户操作、应用程序设置和系统设置等。</string>
     <string name="short_max_tips">快捷应用已满</string>
     <string name="resident_app">固定快捷应用,不可删除</string>
-    <string name="about_device">关于设备</string>
+    <string name="about_device">关于</string>
     <string name="device_model">设备型号</string>
     <string name="ui_version">UI 版本</string>
     <string name="android_version">Android 版本</string>
@@ -72,7 +72,7 @@
     <string name="update_firmware">本地升级</string>
     <string name="all_apps">所有应用</string>
     <string name="app_manager_settings">应用程序设置</string>
-    <string name="bluetooth">蓝牙</string>
+    <string name="bluetooth">蓝牙设置</string>
     <string name="bluetooth_switch">蓝牙开关</string>
     <string name="search_bluetooth">搜索蓝牙设备</string>
     <string name="paired_devices">配对设备</string>
@@ -99,9 +99,9 @@
     <string name="settings">设置</string>
     <string name="project_setting">投影设置</string>
     <string name="wireless_network">无线网络</string>
-    <string name="apps_manager">应用管理</string>
+    <string name="apps_manager">应用设置</string>
     <string name="date_time">日期和时间</string>
-    <string name="other_settings">其他设置</string>
+    <string name="other_settings">其它设置</string>
     <string name="system_info">系统信息</string>
     <string name="boot_input">启动时外部输入</string>
     <string name="boot_apps">开机启动应用</string>
@@ -178,7 +178,6 @@
     <string name="connecting_ssid">正在连接 %1$s …</string>
 
     <string name="data_none">未找到相应的应用数据</string>
-    <string name="network_setting">网络设置</string>
     <string name="hotspot_settings">热点设置</string>
     <string name="wired_network">有线网络</string>
     <string name="hotspot_switch">热点开关</string>
@@ -222,4 +221,11 @@
     <string name="picture_mode_sony_name">索尼</string>
     <string name="picture_mode_samsung_name">三星</string>
     <string name="picture_mode_custom_name">自定义</string>
+
+    <string name="Eshare">投屏</string>
+    <string name="Filemanager">文件管理</string>
+    <string name="network_setting">网络设置</string>
+
+    <string name="choose_ap">选择AP频段</string>
+
 </resources>

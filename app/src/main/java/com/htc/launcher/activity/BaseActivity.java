@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -36,10 +37,13 @@ public class BaseActivity extends Activity implements View.OnClickListener, View
         super.onResume();
     }
 
-    public void setWallPaper(){
-        if (MyApplication.otherDrawable!=null){
-            RelativeLayout relativeLayout =findViewById(R.id.rl_main);
-            if (relativeLayout!=null)
+    public void setWallPaper() {
+        if (MyApplication.otherDrawable != null) {
+//            RelativeLayout relativeLayout = findViewById(R.id.rl_main);
+
+            ViewGroup relativeLayout = findViewById(R.id.rl_main);
+            if (relativeLayout != null)
+//                relativeLayout.setBackground(MyApplication.otherDrawable);
                 relativeLayout.setBackground(MyApplication.otherDrawable);
         }
     }
@@ -49,8 +53,8 @@ public class BaseActivity extends Activity implements View.OnClickListener, View
 
     }
 
-    public void startNewActivity(Class<?> cls){
-        Intent intent = new Intent(this,cls);
+    public void startNewActivity(Class<?> cls) {
+        Intent intent = new Intent(this, cls);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

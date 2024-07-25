@@ -13,6 +13,7 @@ import com.htc.launcher.adapter.SettingsCustomAdapter;
 import com.htc.launcher.adapter.ShortcutsAdapterCustom;
 import com.htc.launcher.databinding.ActivityMainSettingBinding;
 import com.htc.launcher.databinding.ActivitySettingsCustomBinding;
+import com.htc.launcher.databinding.MainSettingsCustomBinding;
 import com.htc.launcher.databinding.SettingsCustomBinding;
 import com.htc.launcher.utils.AppUtils;
 import com.htc.launcher.widget.SpacesItemDecoration;
@@ -24,15 +25,22 @@ public class MainSettingActivity extends BaseActivity {
 
     SettingsCustomBinding settingsCustomBinding;
 
+    MainSettingsCustomBinding mainSettingsCustomBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //定制逻辑
-        settingsCustomBinding = settingsCustomBinding.inflate(LayoutInflater.from(this));
-        setContentView(settingsCustomBinding.getRoot());
-        initViewCustom();
+//        settingsCustomBinding = settingsCustomBinding.inflate(LayoutInflater.from(this));
+//        setContentView(settingsCustomBinding.getRoot());
+//        initViewCustom();
 
+        //原生逻辑改进
+        mainSettingsCustomBinding = MainSettingsCustomBinding.inflate(LayoutInflater.from(this));
+        setContentView(mainSettingsCustomBinding.getRoot());
+        initView();
+        initData();
 
         //原生逻辑
 //        mainSettingBinding = ActivityMainSettingBinding.inflate(LayoutInflater.from(this));
@@ -85,26 +93,51 @@ public class MainSettingActivity extends BaseActivity {
 
 
     private void initView() {
-        mainSettingBinding.rlAbout.setOnClickListener(this);
-        mainSettingBinding.rlAppsManager.setOnClickListener(this);
-        mainSettingBinding.rlBluetooth.setOnClickListener(this);
-        mainSettingBinding.rlDateTime.setOnClickListener(this);
-        mainSettingBinding.rlLanguage.setOnClickListener(this);
-        mainSettingBinding.rlOther.setOnClickListener(this);
-        mainSettingBinding.rlProject.setOnClickListener(this);
-        mainSettingBinding.rlWifi.setOnClickListener(this);
 
-        mainSettingBinding.rlAbout.setOnHoverListener(this);
-        mainSettingBinding.rlAppsManager.setOnHoverListener(this);
-        mainSettingBinding.rlBluetooth.setOnHoverListener(this);
-        mainSettingBinding.rlDateTime.setOnHoverListener(this);
-        mainSettingBinding.rlLanguage.setOnHoverListener(this);
-        mainSettingBinding.rlOther.setOnHoverListener(this);
-        mainSettingBinding.rlProject.setOnHoverListener(this);
-        mainSettingBinding.rlWifi.setOnHoverListener(this);
+        //原生逻辑改进UI
+        mainSettingsCustomBinding.rlAbout.setOnClickListener(this);
+        mainSettingsCustomBinding.rlAppsManager.setOnClickListener(this);
+        mainSettingsCustomBinding.rlBluetooth.setOnClickListener(this);
+        mainSettingsCustomBinding.rlDateTime.setOnClickListener(this);
+        mainSettingsCustomBinding.rlLanguage.setOnClickListener(this);
+        mainSettingsCustomBinding.rlOther.setOnClickListener(this);
+        mainSettingsCustomBinding.rlProject.setOnClickListener(this);
+        mainSettingsCustomBinding.rlWifi.setOnClickListener(this);
 
-        mainSettingBinding.rlProject.requestFocus();
-        mainSettingBinding.rlProject.requestFocusFromTouch();
+        mainSettingsCustomBinding.rlAbout.setOnHoverListener(this);
+        mainSettingsCustomBinding.rlAppsManager.setOnHoverListener(this);
+        mainSettingsCustomBinding.rlBluetooth.setOnHoverListener(this);
+        mainSettingsCustomBinding.rlDateTime.setOnHoverListener(this);
+        mainSettingsCustomBinding.rlLanguage.setOnHoverListener(this);
+        mainSettingsCustomBinding.rlOther.setOnHoverListener(this);
+        mainSettingsCustomBinding.rlProject.setOnHoverListener(this);
+        mainSettingsCustomBinding.rlWifi.setOnHoverListener(this);
+
+        mainSettingsCustomBinding.rlProject.requestFocus();
+        mainSettingsCustomBinding.rlProject.requestFocusFromTouch();
+
+
+        //原生逻辑
+//        mainSettingBinding.rlAbout.setOnClickListener(this);
+//        mainSettingBinding.rlAppsManager.setOnClickListener(this);
+//        mainSettingBinding.rlBluetooth.setOnClickListener(this);
+//        mainSettingBinding.rlDateTime.setOnClickListener(this);
+//        mainSettingBinding.rlLanguage.setOnClickListener(this);
+//        mainSettingBinding.rlOther.setOnClickListener(this);
+//        mainSettingBinding.rlProject.setOnClickListener(this);
+//        mainSettingBinding.rlWifi.setOnClickListener(this);
+//
+//        mainSettingBinding.rlAbout.setOnHoverListener(this);
+//        mainSettingBinding.rlAppsManager.setOnHoverListener(this);
+//        mainSettingBinding.rlBluetooth.setOnHoverListener(this);
+//        mainSettingBinding.rlDateTime.setOnHoverListener(this);
+//        mainSettingBinding.rlLanguage.setOnHoverListener(this);
+//        mainSettingBinding.rlOther.setOnHoverListener(this);
+//        mainSettingBinding.rlProject.setOnHoverListener(this);
+//        mainSettingBinding.rlWifi.setOnHoverListener(this);
+//
+//        mainSettingBinding.rlProject.requestFocus();
+//        mainSettingBinding.rlProject.requestFocusFromTouch();
 
     }
 
@@ -114,96 +147,98 @@ public class MainSettingActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.settings_wifi:
-                startNewActivity(NetworkActivity.class);
-                break;
-            case R.id.settings_bt:
-                startNewActivity(BluetoothActivity.class);
-                break;
-            case R.id.settings_hot:
-                startNewActivity(HotspotActivity.class);
-                break;
-            case R.id.settings_mode:
-                startNewActivity(ProjectActivity.class);
-                break;
-            case R.id.settings_trapezium:
-                startNewActivity(CorrectionActivity.class);
-                break;
-            case R.id.settings_zoom:
-                startNewActivity(CorrectionActivity.class);
-                break;
-            case R.id.settings_focus:
-                startNewActivity(ProjectActivity.class);
-                break;
-            case R.id.settings_signal:
-                startSource("HDMI1");
-                break;
-            case R.id.settings_cast:
-                AppUtils.startNewApp(MainSettingActivity.this, "com.softwinner.miracastReceiver");
-                break;
-            case R.id.settings_app:
-                startNewActivity(AppsManagerActivity.class);
-                break;
-            case R.id.settings_date:
-                startNewActivity(DateTimeActivity.class);
-                break;
-            case R.id.settings_language:
-                startNewActivity(LanguageAndKeyboardActivity.class);
-                break;
-            case R.id.settings_typewriting:
-                startNewActivity(LanguageAndKeyboardActivity.class);
-                break;
-            case R.id.settings_voice:
-//                startNewActivity(LanguageAndKeyboardActivity.class);
-                break;
-            case R.id.settings_light:
-//                startNewActivity(LanguageAndKeyboardActivity.class);
-                break;
-            case R.id.settings_temperature:
-//                startNewActivity(LanguageAndKeyboardActivity.class);
-                break;
 
-            case R.id.settings_update:
-                startNewActivity(AboutActivity.class);
-                break;
-
-            case R.id.settings_recovery:
-                startNewActivity(OtherSettingsActivity.class);
-                break;
-
-            case R.id.settings_about:
-                startNewActivity(AboutActivity.class);
-                break;
-        }
-
-        //原生逻辑
-//        switch (v.getId()){
-//            case R.id.rl_wifi:
+        //定制逻辑
+//        switch (v.getId()) {
+//            case R.id.settings_wifi:
 //                startNewActivity(NetworkActivity.class);
 //                break;
-//            case R.id.rl_bluetooth:
+//            case R.id.settings_bt:
 //                startNewActivity(BluetoothActivity.class);
 //                break;
-//            case R.id.rl_project:
+//            case R.id.settings_hot:
+//                startNewActivity(HotspotActivity.class);
+//                break;
+//            case R.id.settings_mode:
 //                startNewActivity(ProjectActivity.class);
 //                break;
-//            case R.id.rl_apps_manager:
+//            case R.id.settings_trapezium:
+//                startNewActivity(CorrectionActivity.class);
+//                break;
+//            case R.id.settings_zoom:
+//                startNewActivity(CorrectionActivity.class);
+//                break;
+//            case R.id.settings_focus:
+//                startNewActivity(ProjectActivity.class);
+//                break;
+//            case R.id.settings_signal:
+//                startSource("HDMI1");
+//                break;
+//            case R.id.settings_cast:
+//                AppUtils.startNewApp(MainSettingActivity.this, "com.softwinner.miracastReceiver");
+//                break;
+//            case R.id.settings_app:
 //                startNewActivity(AppsManagerActivity.class);
 //                break;
-//            case R.id.rl_language:
-//                startNewActivity(LanguageAndKeyboardActivity.class);
-//                break;
-//            case R.id.rl_date_time:
+//            case R.id.settings_date:
 //                startNewActivity(DateTimeActivity.class);
 //                break;
-//            case R.id.rl_other:
+//            case R.id.settings_language:
+//                startNewActivity(LanguageAndKeyboardActivity.class);
+//                break;
+//            case R.id.settings_typewriting:
+//                startNewActivity(LanguageAndKeyboardActivity.class);
+//                break;
+//            case R.id.settings_voice:
+////                startNewActivity(LanguageAndKeyboardActivity.class);
+//                break;
+//            case R.id.settings_light:
+////                startNewActivity(LanguageAndKeyboardActivity.class);
+//                break;
+//            case R.id.settings_temperature:
+////                startNewActivity(LanguageAndKeyboardActivity.class);
+//                break;
+//
+//            case R.id.settings_update:
+//                startNewActivity(AboutActivity.class);
+//                break;
+//
+//            case R.id.settings_recovery:
 //                startNewActivity(OtherSettingsActivity.class);
 //                break;
-//            case R.id.rl_about:
+//
+//            case R.id.settings_about:
 //                startNewActivity(AboutActivity.class);
 //                break;
 //        }
+
+        //原生逻辑
+        switch (v.getId()){
+            case R.id.rl_wifi:
+                startNewActivity(NetworkActivity.class);
+                break;
+            case R.id.rl_bluetooth:
+                startNewActivity(BluetoothActivity.class);
+                break;
+            case R.id.rl_project:
+                startNewActivity(ProjectActivity.class);
+                break;
+            case R.id.rl_apps_manager:
+                startNewActivity(AppsManagerActivity.class);
+                break;
+            case R.id.rl_language:
+                startNewActivity(LanguageAndKeyboardActivity.class);
+                break;
+            case R.id.rl_date_time:
+                startNewActivity(DateTimeActivity.class);
+                break;
+            case R.id.rl_other:
+                startNewActivity(OtherSettingsActivity.class);
+                break;
+            case R.id.rl_about:
+                startNewActivity(AboutActivity.class);
+                break;
+        }
     }
 
     private void startSource(String sourceName) {

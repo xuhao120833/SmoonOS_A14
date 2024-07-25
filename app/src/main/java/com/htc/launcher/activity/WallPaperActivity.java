@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class WallPaperActivity extends BaseActivity {
+public class        WallPaperActivity extends BaseActivity {
 
     private ActivityWallPaperBinding wallPaperBinding;
     private ArrayList<File> file_toArray = new ArrayList<>();

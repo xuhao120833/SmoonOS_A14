@@ -19,6 +19,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.htc.launcher.MyApplication;
+import com.htc.launcher.R;
 import com.htc.launcher.entry.AppInfoBean;
 
 import java.util.ArrayList;
@@ -249,6 +250,8 @@ public class AppUtils {
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				context.startActivity(intent);
 			}
+
+			ToastUtil.showShortToast(context, context.getString(R.string.data_none));
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_other"
+    android:id="@+id/rl_main"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="185px"
+        android:layout_marginTop="120px"
+        android:shadowColor="#80000000"
+        android:shadowRadius="4"
+        android:text="@string/settings"
+        android:textColor="#FFFFFF"
+        android:textSize="60px"
+        android:textStyle="bold"></TextView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="185px"
+        android:layout_marginTop="90px"
+        android:orientation="horizontal">
+
+        <!--        wifi-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/rl_wifi"
+                style="@style/focusStyle"
+                android:layout_width="320px"
+                android:layout_height="200px"
+                android:background="@drawable/settings_button_bg">
+
+                <ImageView
+                    android:id="@+id/wifi_icon"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_gravity="center"
+                    android:src="@drawable/settings_wifi">
+
+                </ImageView>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="49px"
+                android:shadowColor="#80000000"
+                android:shadowRadius="4"
+                android:text="@string/network_setting"
+                android:textColor="#FFFFFF"
+                android:textSize="32px">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <!--        蓝牙-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90px"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/rl_bluetooth"
+                style="@style/focusStyle"
+                android:layout_width="320px"
+                android:layout_height="200px"
+                android:background="@drawable/settings_button_bg">
+
+                <ImageView
+                    android:id="@+id/bluetooth_icon"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_gravity="center"
+                    android:src="@drawable/settings_bt">
+
+                </ImageView>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="49px"
+                android:shadowColor="#80000000"
+                android:shadowRadius="4"
+                android:text="@string/bluetooth"
+                android:textColor="#FFFFFF"
+                android:textSize="32px">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <!--        热点-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="85px"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/rl_project"
+                style="@style/focusStyle"
+                android:layout_width="320px"
+                android:layout_height="200px"
+                android:background="@drawable/settings_button_bg">
+
+                <ImageView
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_gravity="center"
+                    android:src="@drawable/settings_mode">
+
+                </ImageView>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="49px"
+                android:shadowColor="#80000000"
+                android:shadowRadius="4"
+                android:text="@string/project_setting"
+                android:textColor="#FFFFFF"
+                android:textSize="32px">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="85px"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/rl_language"
+                style="@style/focusStyle"
+                android:layout_width="320px"
+                android:layout_height="200px"
+                android:background="@drawable/settings_button_bg">
+
+                <ImageView
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_gravity="center"
+                    android:src="@drawable/settings_typewriting">
+
+                </ImageView>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="49px"
+                android:shadowColor="#80000000"
+                android:shadowRadius="4"
+                android:text="@string/language_keyboard"
+                android:textColor="#FFFFFF"
+                android:textSize="32px">
+
+            </TextView>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="185px"
+        android:layout_marginTop="90px"
+        android:orientation="horizontal">
+
+        <!--        wifi-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/rl_apps_manager"
+                style="@style/focusStyle"
+                android:layout_width="320px"
+                android:layout_height="200px"
+                android:background="@drawable/settings_button_bg">
+
+                <ImageView
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_gravity="center"
+                    android:src="@drawable/settings_app">
+
+                </ImageView>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="49px"
+                android:shadowColor="#80000000"
+                android:shadowRadius="4"
+                android:text="@string/apps_manager"
+                android:textColor="#FFFFFF"
+                android:textSize="32px">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <!--        蓝牙-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90px"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/rl_date_time"
+                style="@style/focusStyle"
+                android:layout_width="320px"
+                android:layout_height="200px"
+                android:background="@drawable/settings_button_bg">
+
+                <ImageView
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_gravity="center"
+                    android:src="@drawable/settings_date">
+
+                </ImageView>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="49px"
+                android:shadowColor="#80000000"
+                android:shadowRadius="4"
+                android:text="@string/date_time"
+                android:textColor="#FFFFFF"
+                android:textSize="32px">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <!--        热点-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="85px"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/rl_other"
+                style="@style/focusStyle"
+                android:layout_width="320px"
+                android:layout_height="200px"
+                android:background="@drawable/settings_button_bg">
+
+                <ImageView
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_gravity="center"
+                    android:src="@drawable/settings_other">
+
+                </ImageView>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="49px"
+                android:shadowColor="#80000000"
+                android:shadowRadius="4"
+                android:text="@string/other_settings"
+                android:textColor="#FFFFFF"
+                android:textSize="32px">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="85px"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/rl_about"
+                style="@style/focusStyle"
+                android:layout_width="320px"
+                android:layout_height="200px"
+                android:background="@drawable/settings_button_bg">
+
+                <ImageView
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_gravity="center"
+                    android:src="@drawable/settings_about">
+
+                </ImageView>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="49px"
+                android:shadowColor="#80000000"
+                android:shadowRadius="4"
+                android:text="@string/about_device"
+                android:textColor="#FFFFFF"
+                android:textSize="32px">
+
+            </TextView>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

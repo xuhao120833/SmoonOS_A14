@@ -90,7 +90,7 @@
                     android:layout_centerVertical="true"
                     android:textColor="@color/tv_color"
                     android:textSize="@dimen/x_27"
-                    android:text="网络SSID"
+                    android:text="@string/wifi_ssid"
                     android:duplicateParentState="true"
                     />
 
@@ -130,7 +130,7 @@
                     android:layout_centerVertical="true"
                     android:textColor="@color/tv_color"
                     android:textSize="@dimen/x_27"
-                    android:text="密码"
+                    android:text="@string/wifi_password"
                     android:duplicateParentState="true"
                     />
 
@@ -168,7 +168,7 @@
                     android:layout_centerVertical="true"
                     android:textColor="@color/tv_color"
                     android:textSize="@dimen/x_27"
-                    android:text="显示密码"
+                    android:text="@string/wifi_show_password"
                     android:duplicateParentState="true"
                     />
 
@@ -204,7 +204,7 @@
                     android:layout_centerVertical="true"
                     android:textColor="@color/tv_color"
                     android:textSize="@dimen/x_27"
-                    android:text="安全性"
+                    android:text="@string/security"
                     android:duplicateParentState="true"
                     />
 
@@ -262,7 +262,7 @@
                     android:layout_centerVertical="true"
                     android:textColor="@color/tv_color"
                     android:textSize="@dimen/x_27"
-                    android:text="选择AP频段"
+                    android:text="@string/choose_ap"
                     android:duplicateParentState="true"
                     />
 
