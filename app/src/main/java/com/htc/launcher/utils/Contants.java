@@ -9,7 +9,8 @@ import com.htc.launcher.R;
  */
 public interface Contants {
     int[] drawables = new int[]{R.drawable.background0,R.drawable.background_main,R.drawable.background_custom,R.drawable.background1,R.drawable.background2,R.drawable.background3
-            ,R.drawable.background4,R.drawable.background5,R.drawable.background6,R.drawable.background7,R.drawable.background8, R.drawable.background9};
+            ,R.drawable.background4,R.drawable.background5,R.drawable.background6,R.drawable.background7,R.drawable.background8, R.drawable.background9,R.drawable.background10,
+            R.drawable.background11,R.drawable.background12};
 
     String FILE_NAME = "data";
     String MODIFY = "modify";

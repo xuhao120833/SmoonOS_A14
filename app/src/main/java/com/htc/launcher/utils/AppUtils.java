@@ -249,6 +249,7 @@ public class AppUtils {
 				Log.d("xuhao","startNewApp getLeanbackLaunchIntentForPackage");
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				context.startActivity(intent);
+				return;
 			}
 
 			ToastUtil.showShortToast(context, context.getString(R.string.data_none));

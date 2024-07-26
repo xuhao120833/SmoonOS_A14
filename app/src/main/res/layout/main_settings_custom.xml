@@ -242,7 +242,7 @@
                     android:layout_width="80px"
                     android:layout_height="80px"
                     android:layout_gravity="center"
-                    android:src="@drawable/settings_date">
+                    android:src="@drawable/settings_date2">
 
                 </ImageView>
             </FrameLayout>

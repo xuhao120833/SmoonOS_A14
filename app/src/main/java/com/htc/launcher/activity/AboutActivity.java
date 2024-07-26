@@ -36,6 +36,7 @@ import com.htc.launcher.widget.UpgradeCheckFailDialog;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,6 +128,7 @@ public class AboutActivity extends BaseActivity {
         aboutBinding.uiVersionTv.setText(SystemProperties.get("ro.build.version.incremental"));//产品ui版本
         aboutBinding.androidVersionTv.setText(Build.VERSION.RELEASE);//android version
         aboutBinding.serialNumberTv.setText(SystemProperties.get("ro.serialno","unknow"));
+//        aboutBinding.serialNumberTv.setText(getProperty("ro.serialno","unknow"));
         getMemorySize();
         getStorageSize();
         aboutBinding.resolutionTv.setText(getResolution());
@@ -422,4 +424,17 @@ public class AboutActivity extends BaseActivity {
             upgradeCheckFailDialog.show();
     }
 
+    public static String getProperty(String key, String defaultValue) {
+        String value = defaultValue;
+
+        try {
+            Class<?> c = Class.forName("android.os.SystemProperties");
+            Method get = c.getMethod("get", String.class, String.class);
+            value = (String)(get.invoke(c, key, defaultValue));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return value;
+        }
+    }
 }

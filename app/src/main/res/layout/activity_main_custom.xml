@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_custom"
     android:clipChildren="false"
+    android:clipToPadding="false"
     tools:context=".activity.MainActivity">
-
 
 <!--    第一排-->
 
@@ -57,7 +57,7 @@
             android:layout_height="60px"
             android:padding="3px"
             android:layout_centerInParent="true"
-            android:src="@drawable/bt_custom" />
+            android:src="@drawable/bt_custom2" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -143,7 +143,7 @@
 
             android:layout_width="470px"
             android:layout_height="250px"
-            android:src="@drawable/home_app_store" />
+            android:src="@drawable/app_store" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -281,6 +281,8 @@
         android:layout_marginEnd="70px"
         android:layout_marginBottom="42px"
         android:padding="26px"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:background="@drawable/home_recyclerview_bg"
         tools:listitem="@layout/shortcuts_item_custom" />
 

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.security.keystore.AndroidKeyStoreKeyPairGeneratorSpi;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -57,8 +58,12 @@ public class MyApplication extends Application {
         if (configContent==null || configContent.equals(""))
             return;
 
-        Gson gson = new Gson();
-        config = gson.fromJson(configContent,Config.class);
+        try{
+            Gson gson = new Gson();
+            config = gson.fromJson(configContent, Config.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
