@@ -75,10 +75,10 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
         if (i < short_list.size() && short_list.get(i).getAppname() != null && i > 0) {
             myViewHolder.icon.setImageDrawable(short_list.get(i).getAppicon());
-
+            myViewHolder.name.setText(short_list.get(i).getAppname());
         } else if (i < short_list.size() && i > 0) {
-
             myViewHolder.icon.setImageResource(getAppIcon(short_list.get(i).getPackageName()));
+            myViewHolder.name.setText(getAppName(short_list.get(i).getPackageName()));
         } else if (i == 0) {
 
             myViewHolder.icon.setImageDrawable(short_list.get(i).getAppicon());
@@ -89,7 +89,7 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
             @Override
             public void onClick(View v) {
                 if (itemCallBack != null)
-                    itemCallBack.onItemClick(i);
+                    itemCallBack.onItemClick(i,myViewHolder.name.getText().toString());
             }
         });
         myViewHolder.rl_item.setOnLongClickListener(new View.OnLongClickListener() {
@@ -230,18 +230,20 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
     }
 
     public interface ItemCallBack {
-        void onItemClick(int i);
+        void onItemClick(int i ,String name);
     }
 
 
     static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnFocusChangeListener , View.OnHoverListener{
+
+        TextView name;
         MyCircleImageView icon;
         RelativeLayout rl_item;
 
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-//            name = itemView.findViewById(R.id.name);
+            name = itemView.findViewById(R.id.name);
             rl_item = itemView.findViewById(R.id.rl_item);
             icon = itemView.findViewById(R.id.icon);
 

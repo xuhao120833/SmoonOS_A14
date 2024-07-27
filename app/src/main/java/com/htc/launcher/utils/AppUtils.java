@@ -239,29 +239,29 @@ public class AppUtils {
 	 * @param context
 	 * @param packageName
 	 */
-	public static void startNewApp(Context context, String packageName) {
+	public static boolean startNewApp(Context context, String packageName) {
+
+		Log.d(TAG," startNewApp "+packageName);
 		try {
 			PackageManager packageManager = context.getPackageManager();
 			Intent intent = packageManager.getLaunchIntentForPackage(packageName);
 			if (intent != null) {
-				Log.d("xuhao","startNewApp getLaunchIntentForPackage");
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				context.startActivity(intent);
-				return;
+				return true;
 			}
 			intent = packageManager.getLeanbackLaunchIntentForPackage(packageName);
 			if (intent != null) {
-				Log.d("xuhao","startNewApp getLeanbackLaunchIntentForPackage");
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				context.startActivity(intent);
-				return;
+				return true;
 			}
-
-			ToastUtil.showShortToast(context, context.getString(R.string.data_none));
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		ToastUtil.showShortToast(context, context.getString(R.string.data_none));
+		return false;
 	}
 
 	public static void startNewActivity(Context context,Class<?> cls){

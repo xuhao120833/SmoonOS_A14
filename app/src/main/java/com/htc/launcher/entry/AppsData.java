@@ -4,125 +4,150 @@ import java.io.Serializable;
 
 public class AppsData implements Serializable {
 
-    String app_id;
-    String app_name;
-    String app_package;
-    String app_des;
-    String app_icon;
-    String app_type;
-    String app_zone;
-    String app_size;
-    String app_version;
-    String app_version_des;
-    String app_md5;
-    String app_path;
+    String name;
+    String pkg;
+    String desc;
+    String icon;
+    String category;
+    String zone;
+    String verName;
+    int verCode;
+    String path;
+    int size;
+    String md5;
+    String developer;
 
-    String app_time;
+    String upDate;
 
-    String app_developer;
+    boolean isForce;
+    String verDesc;
+    int reverseLen;
 
-    public void setApp_id(String app_id) {
-        this.app_id = app_id;
+    public String getVerDesc() {
+        return verDesc;
     }
 
-    public String getApp_id() {
-        return app_id;
+    public void setVerDesc(String verDesc) {
+        this.verDesc = verDesc;
     }
 
-    public void setApp_name(String app_name) {
-        this.app_name = app_name;
+    public int getReverseLen() {
+        return reverseLen;
     }
 
-    public String getApp_name() {
-        return app_name;
+    public void setReverseLen(int reverseLen) {
+        this.reverseLen = reverseLen;
     }
 
-    public void setApp_des(String app_des) {
-        this.app_des = app_des;
+    public String getName() {
+        return name;
     }
 
-    public String getApp_des() {
-        return app_des;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setApp_icon(String app_icon) {
-        this.app_icon = app_icon;
+    public String getPkg() {
+        return pkg;
     }
 
-    public String getApp_icon() {
-        return app_icon;
+    public void setPkg(String pkg) {
+        this.pkg = pkg;
     }
 
-    public void setApp_md5(String app_md5) {
-        this.app_md5 = app_md5;
+    public String getDesc() {
+        return desc;
     }
 
-    public String getApp_md5() {
-        return app_md5;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public void setApp_path(String app_path) {
-        this.app_path = app_path;
+    public String getIcon() {
+        return icon;
     }
 
-    public String getApp_path() {
-        return app_path;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
-    public void setApp_size(String app_size) {
-        this.app_size = app_size;
+    public String getCategory() {
+        return category;
     }
 
-    public String getApp_size() {
-        return app_size;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public void setApp_type(String app_type) {
-        this.app_type = app_type;
+    public String getZone() {
+        return zone;
     }
 
-    public String getApp_type() {
-        return app_type;
+    public void setZone(String zone) {
+        this.zone = zone;
     }
 
-    public void setApp_version(String app_version) {
-        this.app_version = app_version;
+    public String getVerName() {
+        return verName;
     }
 
-    public String getApp_version() {
-        return app_version;
+    public void setVerName(String verName) {
+        this.verName = verName;
     }
 
-    public void setApp_zone(String app_zone) {
-        this.app_zone = app_zone;
+    public int getVerCode() {
+        return verCode;
     }
 
-    public String getApp_zone() {
-        return app_zone;
+    public void setVerCode(int verCode) {
+        this.verCode = verCode;
     }
 
-    public void setApp_developer(String app_developer) {
-        this.app_developer = app_developer;
+    public String getPath() {
+        return path;
     }
 
-    public String getApp_developer() {
-        return app_developer;
+    public void setPath(String path) {
+        this.path = path;
     }
 
-    public void setApp_time(String app_time) {
-        this.app_time = app_time;
+    public int getSize() {
+        return size;
     }
 
-    public String getApp_time() {
-        return app_time;
+    public void setSize(int size) {
+        this.size = size;
     }
 
-    public void setApp_version_des(String app_version_des) {
-        this.app_version_des = app_version_des;
+    public String getMd5() {
+        return md5;
     }
 
-    public String getApp_version_des() {
-        return app_version_des;
+    public void setMd5(String md5) {
+        this.md5 = md5;
     }
 
+    public String getDeveloper() {
+        return developer;
+    }
+
+    public void setDeveloper(String developer) {
+        this.developer = developer;
+    }
+
+    public String getUpDate() {
+        return upDate;
+    }
+
+    public void setUpDate(String upDate) {
+        this.upDate = upDate;
+    }
+
+    public boolean isForce() {
+        return isForce;
+    }
+
+    public void setForce(boolean force) {
+        isForce = force;
+    }
 }

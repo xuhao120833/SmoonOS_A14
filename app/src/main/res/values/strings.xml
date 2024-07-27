@@ -177,7 +177,7 @@
 
     <string name="connecting_ssid">正在连接 %1$s …</string>
 
-    <string name="data_none">未找到相应的应用数据</string>
+    <string name="data_none">未找到相应的应用数据，请前往应用商店下载</string>
     <string name="hotspot_settings">热点设置</string>
     <string name="wired_network">有线网络</string>
     <string name="hotspot_switch">热点开关</string>
@@ -227,5 +227,8 @@
     <string name="network_setting">网络设置</string>
 
     <string name="choose_ap">选择AP频段</string>
+
+    <string name="network_disconnect_tip">请链接网络后重试！</string>
+    <string name="data_err">获取数据异常！</string>
 
 </resources>

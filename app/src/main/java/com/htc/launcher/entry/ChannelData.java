@@ -4,60 +4,32 @@ import java.util.ArrayList;
 
 public class ChannelData {
 
-    String channel_id;
-    String channel_des;
-    ArrayList<AppsData> apps ;
-    ArrayList<AppsData> appsData ;
-    int status ;
+    int code;
+    String message;
+    ArrayList<AppsData> data ;
 
-    String msg ;
-
-
-    public void setChannel_id(String channel_id) {
-        this.channel_id = channel_id;
+    public int getCode() {
+        return code;
     }
 
-    public String getChannel_id() {
-        return channel_id;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public void setChannel_des(String channel_des) {
-        this.channel_des = channel_des;
+    public String getMessage() {
+        return message;
     }
 
-    public String getChannel_des() {
-        return channel_des;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public void setApps(ArrayList<AppsData> apps) {
-        this.apps = apps;
+    public ArrayList<AppsData> getData() {
+        return data;
     }
 
-    public ArrayList<AppsData> getApps() {
-        return apps;
+    public void setData(ArrayList<AppsData> data) {
+        this.data = data;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setAppsData(ArrayList<AppsData> appsData) {
-        this.appsData = appsData;
-    }
-
-    public ArrayList<AppsData> getAppsData() {
-        return appsData;
-    }
 }

@@ -1,6 +1,7 @@
 package com.htc.launcher.manager;
 
 import com.htc.launcher.utils.LogUtils;
+import com.htc.launcher.utils.VerifyUtil;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -23,4 +24,17 @@ public class RequestManager {
         call.enqueue(callback);
         return call;
     }
+
+    public String getSign(String body,String chanId,String time){
+        String stringBuilder = "body" + body +
+                "chanId" + chanId +
+                "chanKey" + VerifyUtil.KEY +
+                "timestamp" + time;
+        return VerifyUtil.sha1(stringBuilder);
+    }
+
+    public  static boolean isOne(int num , int n){
+        return (num >> (n - 1) & 1) == 1;
+    }
+
 }

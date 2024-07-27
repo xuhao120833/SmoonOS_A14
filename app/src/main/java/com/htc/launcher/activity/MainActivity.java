@@ -5,12 +5,14 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemProperties;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -41,12 +43,16 @@ import com.htc.launcher.receiver.NetWorkCallBack;
 import com.htc.launcher.receiver.NetworkReceiver;
 import com.htc.launcher.utils.AppUtils;
 import com.htc.launcher.utils.BluetoothUtils;
+import com.htc.launcher.utils.Constants;
 import com.htc.launcher.utils.Contants;
 import com.htc.launcher.utils.DBUtils;
+import com.htc.launcher.utils.LogUtils;
+import com.htc.launcher.utils.NetWorkUtils;
 import com.htc.launcher.utils.ShareUtil;
 import com.htc.launcher.utils.TimeUtils;
 import com.htc.launcher.utils.ToastUtil;
 import com.htc.launcher.utils.Uri;
+import com.htc.launcher.utils.VerifyUtil;
 import com.htc.launcher.widget.ManualQrDialog;
 import com.htc.launcher.widget.SpacesItemDecoration;
 
@@ -57,9 +63,12 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -67,6 +76,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends BaseMainActivity implements BluetoothCallBcak, MyWifiCallBack, MyTimeCallBack, NetWorkCallBack {
@@ -97,6 +110,13 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     private static String TAG = "MainActivity";
 
+    private String appName = "";
+
+    private boolean requestFlag = false;
+
+    private final int DATA_ERROR = 102;
+    private final int DATA_FINISH = 103;
+
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -110,6 +130,16 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     ShortcutsAdapterCustom shortcutsAdapterCustom = new ShortcutsAdapterCustom(MainActivity.this, short_list);
                     shortcutsAdapterCustom.setItemCallBack(itemCallBackCustom);
                     customBinding.shortcutsRv.setAdapter(shortcutsAdapterCustom);
+                    break;
+                case DATA_ERROR:
+                    requestFlag = false;
+                    ToastUtil.showShortToast(MainActivity.this,getString(R.string.data_err));
+                    break;
+                case DATA_FINISH:
+                    requestFlag = false;
+                    if (channelData!=null && channelData.getData().size()>0){
+                        startAppFormChannel();
+                    }
                     break;
             }
 
@@ -235,7 +265,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         customBinding.homeDisney.setOnHoverListener(this);
         customBinding.homeDisney.setOnFocusChangeListener(this);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this){
+        LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this) {
             @Override
             public boolean canScrollHorizontally() {
                 // 禁用水平滚动
@@ -247,7 +277,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 //                (int) (getWindowManager().getDefaultDisplay().getWidth() * 0.03), 0, 0));
         //定义Item之间的间距
         customBinding.shortcutsRv.addItemDecoration(new SpacesItemDecoration(0,
-                (int)(64*(getWindowManager().getDefaultDisplay().getWidth()/1920)),0, 0));
+                (int) (64 * (getWindowManager().getDefaultDisplay().getWidth() / 1920)), 0, 0));
         customBinding.shortcutsRv.setLayoutManager(layoutManager);
     }
 
@@ -315,70 +345,61 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     ShortcutsAdapter.ItemCallBack itemCallBack = new ShortcutsAdapter.ItemCallBack() {
         @Override
         public void onItemClick(int i) {
-            if (i < short_list.size()) {
-                if (short_list.get(i).getAppname() != null) {
-                    AppUtils.startNewApp(MainActivity.this, short_list.get(i).getPackageName());
-                } else if (appsDataList != null) {
-                    AppsData appsData = findAppsData(short_list.get(i).getPackageName());
-                    if (appsData != null) {
-                        Intent intent = new Intent();
-                        intent.setComponent(new ComponentName("com.htc.storeos", "com.htc.storeos.AppDetailActivity"));
-                        intent.putExtra("appData", new Gson().toJson(appsData));
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    } else {
-                        ToastUtil.showShortToast(getBaseContext(), getString(R.string.data_none));
-                    }
-                } else {
-                    ToastUtil.showShortToast(getBaseContext(), getString(R.string.data_none));
-                }
-            } else {
-                AppUtils.startNewActivity(MainActivity.this, AppFavoritesActivity.class);
-            }
+//            if (i < short_list.size()) {
+//                if (short_list.get(i).getAppname() != null) {
+//                    AppUtils.startNewApp(MainActivity.this, short_list.get(i).getPackageName());
+//                } else if (appsDataList != null) {
+//                    AppsData appsData = findAppsData(short_list.get(i).getPackageName());
+//                    if (appsData != null) {
+//                        Intent intent = new Intent();
+//                        intent.setComponent(new ComponentName("com.htc.storeos", "com.htc.storeos.AppDetailActivity"));
+//                        intent.putExtra("appData", new Gson().toJson(appsData));
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        startActivity(intent);
+//                    } else {
+//                        ToastUtil.showShortToast(getBaseContext(), getString(R.string.data_none));
+//                    }
+//                } else {
+//                    ToastUtil.showShortToast(getBaseContext(), getString(R.string.data_none));
+//                }
+//            } else {
+//                AppUtils.startNewActivity(MainActivity.this, AppFavoritesActivity.class);
+//            }
         }
     };
 
     ShortcutsAdapterCustom.ItemCallBack itemCallBackCustom = new ShortcutsAdapterCustom.ItemCallBack() {
         @Override
-        public void onItemClick(int i) {
+        public void onItemClick(int i, String name) {
             if (i < short_list.size()) {
 
-                Log.d(TAG," xuhao执行点击前 "+i);
-                if(i==0) {
-                    Log.d(TAG," 打开APP详情页");
-                    startNewActivity(AppsActivity.class );
+                Log.d(TAG, " xuhao执行点击前 " + i);
+                if (i == 0) {
+                    Log.d(TAG, " 打开APP详情页");
+                    startNewActivity(AppsActivity.class);
                     return;
                 }
 
-                if (short_list.get(i).getAppname() != null) {
-                    AppUtils.startNewApp(MainActivity.this, short_list.get(i).getPackageName());
-                } else if (appsDataList != null) {
-                    AppsData appsData = findAppsData(short_list.get(i).getPackageName());
-                    if (appsData != null) {
-                        Intent intent = new Intent();
-                        intent.setComponent(new ComponentName("com.htc.storeos", "com.htc.storeos.AppDetailActivity"));
-                        intent.putExtra("appData", new Gson().toJson(appsData));
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    } else {
-                        ToastUtil.showShortToast(getBaseContext(), getString(R.string.data_none));
+                if (i < short_list.size()) {
+                    if (!AppUtils.startNewApp(MainActivity.this, short_list.get(i).getPackageName())) {
+                        appName = name;
+                        requestChannelData();
                     }
                 } else {
-                    ToastUtil.showShortToast(getBaseContext(), getString(R.string.data_none));
+                    AppUtils.startNewActivity(MainActivity.this, AppFavoritesActivity.class);
                 }
-            } else {
-                AppUtils.startNewActivity(MainActivity.this, AppFavoritesActivity.class);
             }
         }
     };
 
-    public AppsData findAppsData(String pkg) {
-        for (AppsData appsData : appsDataList) {
-            if (appsData.getApp_id().equals(pkg))
-                return appsData;
-        }
-        return null;
-    }
+
+//    public AppsData findAppsData(String pkg) {
+//        for (AppsData appsData : appsDataList) {
+//            if (appsData.getApp_id().equals(pkg))
+//                return appsData;
+//        }
+//        return null;
+//    }
 
 
     private void requestAppData() {
@@ -391,22 +412,30 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         @Override
         public void onFailure(@NonNull Call call, @NonNull IOException e) {
             e.printStackTrace();
-            responseErrorRedirect();
+            LogUtils.d("onFailure()");
+            handler.sendEmptyMessage(DATA_ERROR);
         }
 
         @Override
         public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-            String content = response.body().string();
-            //LogUtils.d("channel_appData "+ content);
 
-            if (!content.equals("")) {
-                if (content.contains("404 Not Found")) {
-                    responseErrorRedirect();
-                    return;
+            try {
+                String content = response.body().string();
+                LogUtils.d("content "+ content);
+                if (RequestManager.isOne(Uri.complexType,3)) {
+                    byte[] bytes = Base64.decode(content, Base64.NO_WRAP);
+                    content = new String(VerifyUtil.gzipDecompress(bytes), StandardCharsets.UTF_8);
+                    LogUtils.d("content " + content);
                 }
                 channelData = new Gson().fromJson(content, ChannelData.class);
-                appsDataList = new ArrayList<>(channelData.getApps());
+                if (channelData.getCode()!=0){
+                    handler.sendEmptyMessage(DATA_ERROR);
+                }else {
+                    handler.sendEmptyMessage(DATA_FINISH);
+                }
 
+            }catch (Exception e){
+                handler.sendEmptyMessage(DATA_ERROR);
             }
         }
     };
@@ -504,7 +533,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             // 读取文件,优先读取oem分区
             File file = new File("/oem/shortcuts.config");
 
-            if(!file.exists()){
+            if (!file.exists()) {
                 file = new File("/system/shortcuts.config");
             }
 
@@ -695,10 +724,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     @Override
     public void connect() {
-        if (isFrist) {
-            isFrist = false;
-            requestAppData();
-        }
+//        if (isFrist) {
+//            isFrist = false;
+//            requestAppData();
+//        }
     }
 
     @Override
@@ -706,5 +735,67 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     }
 
+    private void requestChannelData() {
+        if (requestFlag)
+            return;
+
+        if (!NetWorkUtils.isNetworkConnected(this)) {
+            ToastUtil.showShortToast(this, getString(R.string.network_disconnect_tip));
+            return;
+        }
+        requestFlag = true;
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(10, TimeUnit.SECONDS);
+        OkHttpClient okHttpClient = builder.build();
+        String time = String.valueOf(System.currentTimeMillis());
+        String chan = Constants.getChannel();
+        LogUtils.d("chanId " + chan);
+        Request.Builder requestBuilder = new Request.Builder();
+        requestBuilder.addHeader("chanId", chan);
+        requestBuilder.addHeader("timestamp", time);
+        HashMap<String, Object> requestData = new HashMap<>();
+        requestData.put("chanId", chan);
+        String deviceId = Constants.getWan0Mac();
+        if (Constants.isOne(Uri.complexType, 1)) {
+            String aesKey = VerifyUtil.initKey();
+            LogUtils.d("aesKey " + aesKey);
+            deviceId = VerifyUtil.encrypt(deviceId, aesKey, aesKey, VerifyUtil.AES_CBC);
+            LogUtils.d("deviceId " + deviceId);
+        }
+        requestData.put("deviceId", deviceId);
+        requestData.put("model", SystemProperties.get("persist.sys.modelName", "project"));
+        requestData.put("sysVersion", Constants.getHtcDisplay());
+        try {
+            requestData.put("verCode", getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
+        } catch (PackageManager.NameNotFoundException e) {
+            requestData.put("verCode", 10);
+            throw new RuntimeException(e);
+        }
+
+        requestData.put("complexType", Uri.complexType);//
+        Gson gson = new Gson();
+        String json = gson.toJson(requestData);
+        requestBuilder.url(Uri.SIGN_APP_LIST_URL)
+                .post(RequestBody.create(json, MediaType.parse("application/json;charset=UTF-8")));
+        String sign = RequestManager.getInstance().getSign(json, chan, time);
+        LogUtils.d("sign " + sign);
+        requestBuilder.addHeader("sign", sign);
+        Request request = requestBuilder.build();
+        okHttpClient.newCall(request).enqueue(channelCallback);
+    }
+
+    private void startAppFormChannel(){
+        for (AppsData appsData:channelData.getData()){
+            if (appName.equals(appsData.getName())){
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName("com.htc.storeos","com.htc.storeos.AppDetailActivity"));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("appData",new Gson().toJson(appsData));
+                startActivity(intent);
+                return;
+            }
+        }
+        ToastUtil.showShortToast(this,getString(R.string.data_none));
+    }
 
 }
