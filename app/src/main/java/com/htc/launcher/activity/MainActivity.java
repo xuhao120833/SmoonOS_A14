@@ -501,8 +501,12 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         SharedPreferences.Editor editor = sharedPreferences.edit();
         int code = sharedPreferences.getInt("code", 0);
         if (code == 0) {
-            // 读取文件
-            File file = new File("/system/shortcuts.config");
+            // 读取文件,优先读取oem分区
+            File file = new File("/oem/shortcuts.config");
+
+            if(!file.exists()){
+                file = new File("/system/shortcuts.config");
+            }
 
             if (!file.exists()) {
                 Log.d(TAG, " initDataApp 配置文件不存在");

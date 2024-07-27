@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/rl_main"
     tools:context=".activity.ProjectActivity"
-    android:background="@drawable/background_other"
+    android:background="@drawable/background_custom"
     >
 
     <TextView

@@ -2,6 +2,7 @@
 <com.htc.launcher.widget.RLRelativelayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_item"
     style="@style/focusStyle"
+    android:clickable="true"
     android:layout_width="160px"
     android:layout_height="160px"
     android:clipChildren="false"

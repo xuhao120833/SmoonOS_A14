@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -233,7 +234,7 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
     }
 
 
-    static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnFocusChangeListener {
+    static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnFocusChangeListener , View.OnHoverListener{
         MyCircleImageView icon;
         RelativeLayout rl_item;
 
@@ -246,6 +247,7 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
 
             icon.rl_item = rl_item;
 
+            rl_item.setOnHoverListener(this);
 //            rl_item.setOnFocusChangeListener(this);
         }
 
@@ -273,6 +275,20 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
             }
         }
 
+        @Override
+        public boolean onHover(View v, MotionEvent event) {
+            int what = event.getAction();
+            switch (what) {
+                case MotionEvent.ACTION_HOVER_ENTER: // 鼠标进入view
+                    v.requestFocus();
+                    break;
+                case MotionEvent.ACTION_HOVER_MOVE: // 鼠标在view上
+                    break;
+                case MotionEvent.ACTION_HOVER_EXIT: // 鼠标离开view
+                    break;
+            }
+            return false;
+        }
     }
 
     //Drawable 放大成160x160

@@ -25,6 +25,8 @@ import java.io.File;
  */
 public class MyApplication extends Application {
 
+    private static String TAG = "MyApplication";
+
     public static Config config = new Config();
     public static BitmapDrawable mainDrawable = null;
     public static BitmapDrawable otherDrawable = null;
@@ -58,9 +60,12 @@ public class MyApplication extends Application {
         if (configContent==null || configContent.equals(""))
             return;
 
+        Log.d(TAG," 配置文件configContent " + configContent);
         try{
             Gson gson = new Gson();
             config = gson.fromJson(configContent, Config.class);
+
+            Log.d(TAG," 配置文件apps " + config.apps.get(0).resident);
         }catch (Exception e){
             e.printStackTrace();
         }

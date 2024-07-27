@@ -16,11 +16,13 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.htc.launcher.MyApplication;
 import com.htc.launcher.R;
+import com.htc.launcher.activity.MainActivity;
 import com.htc.launcher.entry.AppInfoBean;
+import com.htc.launcher.entry.AppsData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +30,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class AppUtils {
+
+	private static String TAG = "AppUtils";
 
 	/**
 	 * 获取全部应用程序的信息
@@ -62,6 +66,7 @@ public class AppUtils {
 			}
 		}
 		String[] filterApps = MyApplication.config.filterApps.split(";");
+		Log.d(TAG," 禁用名单 "+filterApps[0]);
 		List<String> stringList = Arrays.asList(filterApps);
 
 		// 调用系统排序 ， 根据name排序

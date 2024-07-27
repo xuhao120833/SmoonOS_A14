@@ -18,7 +18,6 @@ import android.widget.CompoundButton;
 import com.htc.launcher.R;
 import com.htc.launcher.adapter.WifiFoundAdapter;
 import com.htc.launcher.databinding.ActivityWifiBinding;
-import com.htc.launcher.entry.AppsData;
 import com.htc.launcher.receiver.WifiChanagerReceiver;
 import com.htc.launcher.receiver.WifiEnabledReceiver;
 import com.htc.launcher.utils.ShareUtil;
@@ -26,7 +25,6 @@ import com.htc.launcher.widget.AddNetWorkDialog;
 import com.htc.launcher.widget.SpacesItemDecoration;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;

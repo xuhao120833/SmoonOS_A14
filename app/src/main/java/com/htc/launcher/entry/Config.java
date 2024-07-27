@@ -1,5 +1,7 @@
 package com.htc.launcher.entry;
 
+import java.util.List;
+
 /**
  * Author:
  * Date:
@@ -8,6 +10,8 @@ package com.htc.launcher.entry;
 public class Config {
 
     public String filterApps = "";
+
+    public List<Apps> apps;
     public boolean ipSetting = true;
 
 
