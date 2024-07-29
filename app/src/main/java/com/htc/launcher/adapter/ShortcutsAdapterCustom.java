@@ -150,7 +150,9 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
 
     private String getAppName(String pkg) {
         switch (pkg) {
-            case "com.netflix.ninja":
+            case "com.netflix.ninja": //电视版
+                return "Netflix";
+            case "com.netflix.mediaclient": //手机版
                 return "Netflix";
             case "com.disney.disneyplus":
                 return "Disney+";
@@ -182,6 +184,8 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
     private int getAppIcon(String pkg) {
         switch (pkg) {
             case "com.netflix.ninja":
+                return R.drawable.netflix;
+            case "com.netflix.mediaclient":
                 return R.drawable.netflix;
             case "com.disney.disneyplus":
                 return R.drawable.disney;

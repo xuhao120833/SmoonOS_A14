@@ -133,11 +133,11 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     break;
                 case DATA_ERROR:
                     requestFlag = false;
-                    ToastUtil.showShortToast(MainActivity.this,getString(R.string.data_err));
+                    ToastUtil.showShortToast(MainActivity.this, getString(R.string.data_err));
                     break;
                 case DATA_FINISH:
                     requestFlag = false;
-                    if (channelData!=null && channelData.getData().size()>0){
+                    if (channelData != null && channelData.getData().size() > 0) {
                         startAppFormChannel();
                     }
                     break;
@@ -379,15 +379,14 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     startNewActivity(AppsActivity.class);
                     return;
                 }
-
-                if (i < short_list.size()) {
-                    if (!AppUtils.startNewApp(MainActivity.this, short_list.get(i).getPackageName())) {
-                        appName = name;
-                        requestChannelData();
-                    }
-                } else {
-                    AppUtils.startNewActivity(MainActivity.this, AppFavoritesActivity.class);
+                Log.d(TAG, " short_list.get(i).getPackageName() "+short_list.get(i).getPackageName());
+                if (!AppUtils.startNewApp(MainActivity.this, short_list.get(i).getPackageName())) {
+                    appName = name;
+                    requestChannelData();
                 }
+
+            } else {
+                AppUtils.startNewActivity(MainActivity.this, AppFavoritesActivity.class);
             }
         }
     };
@@ -421,20 +420,20 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
             try {
                 String content = response.body().string();
-                LogUtils.d("content "+ content);
-                if (RequestManager.isOne(Uri.complexType,3)) {
+                LogUtils.d("content " + content);
+                if (RequestManager.isOne(Uri.complexType, 3)) {
                     byte[] bytes = Base64.decode(content, Base64.NO_WRAP);
                     content = new String(VerifyUtil.gzipDecompress(bytes), StandardCharsets.UTF_8);
                     LogUtils.d("content " + content);
                 }
                 channelData = new Gson().fromJson(content, ChannelData.class);
-                if (channelData.getCode()!=0){
+                if (channelData.getCode() != 0) {
                     handler.sendEmptyMessage(DATA_ERROR);
-                }else {
+                } else {
                     handler.sendEmptyMessage(DATA_FINISH);
                 }
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 handler.sendEmptyMessage(DATA_ERROR);
             }
         }
@@ -495,17 +494,29 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 AppUtils.startNewApp(MainActivity.this, "com.ecloud.eshare.server");
                 break;
             case R.id.home_disney:
-                AppUtils.startNewApp(MainActivity.this, "com.disney.disneyplus");
+                if (!AppUtils.startNewApp(MainActivity.this, "com.disney.disneyplus")) {
+                    appName = "Disney+";
+                    requestChannelData();
+                }
+//                AppUtils.startNewApp(MainActivity.this, "com.disney.disneyplus");
                 break;
             case R.id.home_netflix:
                 Log.d("xuhao", "打开奈飞");
-                AppUtils.startNewApp(MainActivity.this, "com.netflix.mediaclient");
+                if (!AppUtils.startNewApp(MainActivity.this, "com.netflix.mediaclient")) {
+                    appName = "Netflix";
+                    requestChannelData();
+                }
+//                AppUtils.startNewApp(MainActivity.this, "com.netflix.mediaclient");
 //                com.netflix.mediaclient 手机版
 //                com.netflix.ninja 电视版
                 break;
             case R.id.home_youtube:
                 Log.d("xuhao", "打开YOUtube");
-                AppUtils.startNewApp(MainActivity.this, "com.google.android.youtube.tv");
+                if (!AppUtils.startNewApp(MainActivity.this, "com.google.android.youtube.tv")) {
+                    appName = "Youtube";
+                    requestChannelData();
+                }
+//                AppUtils.startNewApp(MainActivity.this, "com.google.android.youtube.tv");
                 break;
         }
 
@@ -561,7 +572,6 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                             packageName)) {
                         long addCode = DBUtils.getInstance(this)
                                 .addFavorites(packageName);
-
                     }
                 }
                 editor.putString("resident", residentList.toString());
@@ -621,10 +631,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 .isBluetoothConnected();
         if (isConnected) {
 //            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_con);
-            customBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_con);
+            customBinding.homeBluetooth.setBackgroundResource(R.drawable.bt_custom2);
         } else {
 //            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_not);
-            customBinding.homeBluetooth.setBackgroundResource(R.drawable.bt_custom);
+            customBinding.homeBluetooth.setBackgroundResource(R.drawable.bt_custom2);
         }
     }
 
@@ -784,18 +794,18 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         okHttpClient.newCall(request).enqueue(channelCallback);
     }
 
-    private void startAppFormChannel(){
-        for (AppsData appsData:channelData.getData()){
-            if (appName.equals(appsData.getName())){
+    private void startAppFormChannel() {
+        for (AppsData appsData : channelData.getData()) {
+            if (appName.equals(appsData.getName())) {
                 Intent intent = new Intent();
-                intent.setComponent(new ComponentName("com.htc.storeos","com.htc.storeos.AppDetailActivity"));
+                intent.setComponent(new ComponentName("com.htc.storeos", "com.htc.storeos.AppDetailActivity"));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("appData",new Gson().toJson(appsData));
+                intent.putExtra("appData", new Gson().toJson(appsData));
                 startActivity(intent);
                 return;
             }
         }
-        ToastUtil.showShortToast(this,getString(R.string.data_none));
+        ToastUtil.showShortToast(this, getString(R.string.data_none));
     }
 
 }
