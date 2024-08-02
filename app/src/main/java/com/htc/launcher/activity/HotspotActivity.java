@@ -240,6 +240,7 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
             case R.id.rl_frequency:
                 apBand = apBand==1?0:1;
                 hotspotBinding.frequencyTv.setText(apBandArray[apBand]);
+                Log.d(TAG," 确认键调整");
                 break;
             case R.id.rl_enter:
                 if (!hotspotBinding.rlHotspotSwitch.isEnabled())
@@ -312,7 +313,8 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (keyCode==KeyEvent.KEYCODE_DPAD_LEFT){
+
+        if (keyCode==KeyEvent.KEYCODE_DPAD_LEFT && event.getAction() ==KeyEvent.ACTION_DOWN){
             switch (v.getId()){
                 case R.id.rl_hotspot_security:
                     if (mSecurityType==0){
@@ -325,9 +327,10 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
                 case R.id.rl_frequency:
                     apBand = apBand==1?0:1;
                     hotspotBinding.frequencyTv.setText(apBandArray[apBand]);
+                    Log.d(TAG," 向左调整");
                     break;
             }
-        } else if (keyCode==KeyEvent.KEYCODE_DPAD_RIGHT) {
+        } else if (keyCode==KeyEvent.KEYCODE_DPAD_RIGHT && event.getAction() ==KeyEvent.ACTION_DOWN) {
             switch (v.getId()){
                 case R.id.rl_hotspot_security:
                     if (mSecurityType==2){
@@ -340,12 +343,12 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
                 case R.id.rl_frequency:
                     apBand = apBand==1?0:1;
                     hotspotBinding.frequencyTv.setText(apBandArray[apBand]);
+                    Log.d(TAG," 向右调整");
                     break;
             }
         }
         return false;
     }
-
 
     /**
      * 初事化热点开关状态

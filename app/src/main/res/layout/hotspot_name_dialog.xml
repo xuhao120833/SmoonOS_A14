@@ -29,6 +29,7 @@
         android:textColor="@color/black"
         android:textSize="@dimen/x_28"
         android:background="@drawable/et_bg"
+        android:maxLength="30"
         skin:enable="true"
         />
     <TextView

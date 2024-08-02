@@ -45,7 +45,7 @@ android {
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 // 显示app名称+当前版本号
-                def fileName = "Launcher_Public_QZ-V${variant.versionCode}"
+                def fileName = "Launcher_QZ_XU-V${variant.versionCode}"
                 // 如果有渠道，显示渠道名""
                 if (variant.flavorName!=""){
                     fileName = fileName + "-${variant.flavorName}"
@@ -78,5 +78,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.12'
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+//    implementation 'com.baidu.mobstat:mtj-sdk-circle:latest.integration'
 
+    compile files('libs/Baidu_Mtj_android_4.0.10.9.jar')
 }

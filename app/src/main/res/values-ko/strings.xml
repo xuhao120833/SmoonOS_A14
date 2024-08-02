@@ -175,4 +175,22 @@
     <string name="calibration">스마트 교정</string>
     <string name="shutdown_tips"><Data><![CDATA[<font color="#ff0000"><b>%1$d</b></font> 초 후 종료 ]]></Data></string>
     <string name="connecting_ssid">연결 중 %1$s …</string>
+
+    <string name="Eshare">화면 전송</string>
+    <string name="Filemanager">파일 관리</string>
+    <string name="network_setting">네트워크 설정</string>
+    <string name="hotspot_settings">핫스팟 설정</string>
+    <string name="add_network">네트워크 추가</string>
+    <string name="hotspot_switch">핫스팟 스위치</string>
+
+    <string name="choose_ap">AP 밴드 선택</string>
+
+    <string name="one_band">2.4GHz 대역</string>
+    <string name="two_band">5GHz 대역</string>
+
+    <string name="resolution">해결</string>
+    <string name="serial_number">일련번호</string>
+
+    <string name="usb_debug">USB 디버그</string>
+    <string name="adb_debug">ADB 디버그</string>
 </resources>

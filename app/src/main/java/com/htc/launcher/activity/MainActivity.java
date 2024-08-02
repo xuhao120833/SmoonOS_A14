@@ -21,6 +21,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 
+import com.baidu.mobstat.StatService;
 import com.htc.launcher.R;
 import com.google.gson.Gson;
 import com.htc.launcher.adapter.ShortcutsAdapter;
@@ -631,10 +632,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 .isBluetoothConnected();
         if (isConnected) {
 //            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_con);
-            customBinding.homeBluetooth.setBackgroundResource(R.drawable.bt_custom2);
+            customBinding.homeBluetooth.setImageResource(R.drawable.bt_custom2_blue);
         } else {
 //            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_not);
-            customBinding.homeBluetooth.setBackgroundResource(R.drawable.bt_custom2);
+            customBinding.homeBluetooth.setImageResource(R.drawable.bt_custom2);
         }
     }
 

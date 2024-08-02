@@ -189,4 +189,9 @@
 
 	<string name="serial_number">Serial Number</string>
 	<string name="resolution">Resolution</string>
+
+	<string name="add_network">Add network</string>
+
+	<string name="usb_debug">USB Debug</string>
+	<string name="adb_debug">ADB Debug</string>
 </resources>

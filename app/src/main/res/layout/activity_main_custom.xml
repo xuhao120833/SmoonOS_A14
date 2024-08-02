@@ -11,6 +11,13 @@
 
 <!--    第一排-->
 
+    <ImageView
+        android:layout_width="407px"
+        android:layout_height="54px"
+        android:layout_marginStart="85px"
+        android:layout_marginTop="73px"
+        android:src="@drawable/brand" />
+
     <TextView
         android:id="@+id/time_tv"
         android:layout_width="wrap_content"
@@ -65,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60px"
-        android:layout_marginRight="75px"
+        android:layout_marginEnd="75px"
         style="@style/focusStyle"
         android:background="@drawable/circle_bar_bg_custom"
         android:layout_alignParentEnd="true">
@@ -104,7 +111,7 @@
         android:layout_marginStart="36px"
         android:layout_marginTop="200px"
         style="@style/focusStyle"
-        android:layout_toRightOf="@+id/home_netflix">
+        android:layout_toEndOf="@+id/home_netflix">
 
         <ImageView
 
@@ -136,7 +143,7 @@
         style="@style/focusStyle"
         android:layout_marginTop="46px"
         android:layout_marginStart="36px"
-        android:layout_toRightOf="@+id/home_disney"
+        android:layout_toEndOf="@+id/home_disney"
         android:layout_below="@+id/home_youtube">
 
         <ImageView
@@ -156,7 +163,7 @@
         style="@style/focusStyle"
         android:background="@drawable/home_bg_custom"
         android:gravity="center_vertical"
-        android:layout_toRightOf="@id/home_youtube">
+        android:layout_toEndOf="@id/home_youtube">
 
         <ImageView
             android:id="@+id/eshare_icon"
@@ -171,7 +178,7 @@
             android:textColor="#ffffff"
             android:text="@string/Eshare"
             android:gravity="center"
-            android:layout_toRightOf="@+id/eshare_icon">
+            android:layout_toEndOf="@+id/eshare_icon">
 
         </TextView>
 
@@ -181,7 +188,7 @@
         android:id="@+id/rl_usb"
         android:layout_width="720px"
         android:layout_height="100px"
-        android:layout_toRightOf="@id/home_youtube"
+        android:layout_toEndOf="@id/home_youtube"
         android:layout_marginStart="34px"
         android:layout_marginTop="50px"
         android:paddingStart="36px"
@@ -203,7 +210,7 @@
             android:textColor="#ffffff"
             android:text="@string/Filemanager"
             android:gravity="center"
-            android:layout_toRightOf="@+id/file_icon">
+            android:layout_toEndOf="@+id/file_icon">
 
         </TextView>
     </RelativeLayout>
@@ -212,7 +219,7 @@
         android:id="@+id/rl_hdmi1"
         android:layout_width="720px"
         android:layout_height="100px"
-        android:layout_toRightOf="@id/rl_Google"
+        android:layout_toEndOf="@id/rl_Google"
         android:layout_marginStart="34px"
         android:layout_marginTop="46px"
         android:paddingStart="36px"
@@ -234,7 +241,7 @@
             android:textColor="#ffffff"
             android:text="HDMI"
             android:gravity="center"
-            android:layout_toRightOf="@+id/hdmi_icon">
+            android:layout_toEndOf="@+id/hdmi_icon">
 
         </TextView>
 
@@ -244,7 +251,7 @@
         android:id="@+id/rl_settings"
         android:layout_width="720px"
         android:layout_height="100px"
-        android:layout_toRightOf="@id/rl_Google"
+        android:layout_toEndOf="@id/rl_Google"
         android:layout_marginStart="34px"
         android:layout_marginTop="50px"
         android:paddingStart="36px"
@@ -266,7 +273,7 @@
             android:textColor="#ffffff"
             android:text="@string/settings"
             android:gravity="center"
-            android:layout_toRightOf="@+id/settings_icon">
+            android:layout_toEndOf="@+id/settings_icon">
 
         </TextView>
 

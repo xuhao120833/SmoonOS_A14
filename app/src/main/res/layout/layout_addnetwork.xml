@@ -38,6 +38,7 @@
             android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="@dimen/x_20"
+            android:maxLength="30"
             skin:enable="true"/>
     </LinearLayout>
 
@@ -112,6 +113,7 @@
                 android:singleLine="true"
                 android:textColor="@color/white"
                 android:textSize="@dimen/x_20"
+                android:maxLength="30"
                 skin:enable="true"/>
         </LinearLayout>
 

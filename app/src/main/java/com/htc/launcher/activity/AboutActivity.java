@@ -163,7 +163,11 @@ public class AboutActivity extends BaseActivity {
                 }
                 break;
             case R.id.rl_update_firmware:
-                goFindUpgradeFile();
+                try {
+                    goFindUpgradeFile();
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.rl_online_update:
                 AppUtils.startNewApp(this,"com.htc.htcotaupdate");

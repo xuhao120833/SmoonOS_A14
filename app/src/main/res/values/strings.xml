@@ -231,4 +231,7 @@
     <string name="network_disconnect_tip">请链接网络后重试！</string>
     <string name="data_err">获取数据异常！</string>
 
+    <string name="usb_debug">USB 调试</string>
+    <string name="adb_debug">ADB 调试</string>
+
 </resources>

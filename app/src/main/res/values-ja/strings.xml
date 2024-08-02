@@ -73,7 +73,7 @@
 	<string name="update_firmware">ローカル・アップグレード</string>
 	<string name="all_apps">すべてのアプリケーション</string>
 	<string name="app_manager_settings">アプリケーション設定</string>
-	<string name="bluetooth">Bluetooth</string>
+	<string name="bluetooth">Bluetooth設定</string>
 	<string name="bluetooth_switch">Bluetoothスイッチ</string>
 	<string name="search_bluetooth">Bluetoothデバイスの検索</string>
 	<string name="paired_devices">ペアデバイス</string>
@@ -176,4 +176,23 @@
 	<string name="calibration">インテリジェントひょうてい</string>
 	<string name="shutdown_tips"><Data><![CDATA[<font color="#ff0000"><b>%1$d</b></font> 秒後に自動的にシャットダウン]]></Data></string>
 	<string name="connecting_ssid">接続中 %1$s …</string>
+
+	<string name="Eshare">キャスト画面</string>
+	<string name="Filemanager">ファイル管理</string>
+	<string name="network_setting">ネットワーク設定</string>
+
+	<string name="choose_ap">AP バンドの選択</string>
+
+	<string name="usb_debug">USB デバッグ</string>
+	<string name="adb_debug">ADB デバッグ</string>
+	<string name="hotspot_settings">ホットスポット設定</string>
+	<string name="add_network">ネットワークの追加</string>
+	<string name="hotspot_switch">ホットスポットスイッチ</string>
+	<string name="serial_number">シリアルナンバー</string>
+	<string name="resolution">解決</string>
+
+	<string name="one_band">2.4 GHz 周波数帯域</string>
+	<string name="two_band">5 GHz 周波数帯域</string>
+
+
 </resources>

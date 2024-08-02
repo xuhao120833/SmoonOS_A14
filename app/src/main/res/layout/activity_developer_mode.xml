@@ -37,19 +37,32 @@
             android:layout_centerVertical="true"
             android:textColor="@color/tv_color"
             android:textSize="@dimen/x_27"
-            android:text="USB 调试"
+            android:text="@string/usb_debug"
             android:duplicateParentState="true"
             />
-        <Switch
+<!--        <Switch-->
+<!--            android:layout_width="@dimen/x_98"-->
+<!--            android:layout_height="@dimen/y_50"-->
+<!--            android:id="@+id/usb_debug_switch"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginEnd="@dimen/x_50"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:checked="false"-->
+<!--            android:thumb="@null"-->
+<!--            android:background="@drawable/switch_bg"-->
+<!--            />-->
+
+        <androidx.appcompat.widget.SwitchCompat
             android:layout_width="@dimen/x_98"
-            android:layout_height="@dimen/y_50"
+            android:layout_height="@dimen/y_60"
             android:id="@+id/usb_debug_switch"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/x_50"
             android:layout_centerVertical="true"
             android:checked="false"
-            android:thumb="@null"
-            android:background="@drawable/switch_bg"
+            android:thumb="@drawable/switch_thumb"
+            app:track="@drawable/switch_bg"
+            app:switchMinWidth="@dimen/x_98"
             />
     </RelativeLayout>
 
@@ -71,21 +84,35 @@
             android:layout_centerVertical="true"
             android:textColor="@color/tv_color"
             android:textSize="@dimen/x_27"
-            android:text="adb 调试"
+            android:text="@string/adb_debug"
             android:duplicateParentState="true"
             />
         
-        <Switch
+<!--        <Switch-->
+<!--            android:layout_width="@dimen/x_98"-->
+<!--            android:layout_height="@dimen/y_50"-->
+<!--            android:id="@+id/adb_debug_switch"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginEnd="@dimen/x_50"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:checked="false"-->
+<!--            android:thumb="@null"-->
+<!--            android:background="@drawable/switch_bg"-->
+<!--            />-->
+
+        <androidx.appcompat.widget.SwitchCompat
             android:layout_width="@dimen/x_98"
-            android:layout_height="@dimen/y_50"
+            android:layout_height="@dimen/y_60"
             android:id="@+id/adb_debug_switch"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/x_50"
             android:layout_centerVertical="true"
             android:checked="false"
-            android:thumb="@null"
-            android:background="@drawable/switch_bg"
+            android:thumb="@drawable/switch_thumb"
+            app:track="@drawable/switch_bg"
+            app:switchMinWidth="@dimen/x_98"
             />
+
     </RelativeLayout>
 
 </RelativeLayout>

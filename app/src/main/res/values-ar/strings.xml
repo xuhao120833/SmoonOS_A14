@@ -176,4 +176,20 @@
 	<string name="calibration">ذكي المعايرة</string>
 	<string name="shutdown_tips"><Data><![CDATA[<font color="#ff0000"><b>%1$d</b></font> الاغلاق التلقائي بعد ثانية ]]></Data></string>
 	<string name="connecting_ssid">الاتصال %1$s …</string>
+
+	<string name="Eshare">Eshare</string>
+	<string name="Filemanager">إدارة الملفات</string>
+
+	<string name="network_setting">اعدادات الشبكة</string>
+
+	<string name="hotspot_settings">إعدادات نقطة الاتصال</string>
+	<string name="hotspot_switch">تبديل نقطة الاتصال</string>
+
+	<string name="one_band">نطاق 2.4 جيجا هرتز</string>
+	<string name="two_band">نطاق 5 جيجا هرتز</string>
+
+	<string name="serial_number">رقم سري</string>
+	<string name="resolution">دقة</string>
+	<string name="choose_ap">حدد نطاق AP</string>
+
 </resources>

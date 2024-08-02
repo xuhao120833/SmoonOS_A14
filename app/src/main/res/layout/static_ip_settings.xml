@@ -46,6 +46,7 @@
                 android:background="@drawable/et_bg"
                 android:paddingStart="@dimen/x_10"
                 android:paddingEnd="@dimen/x_10"
+                android:maxLength="30"
                 android:textCursorDrawable="@drawable/color_cursor"
                 />
 
@@ -73,6 +74,7 @@
                 android:background="@drawable/et_bg"
                 android:paddingStart="@dimen/x_10"
                 android:paddingEnd="@dimen/x_10"
+                android:maxLength="30"
                 android:textCursorDrawable="@drawable/color_cursor"
                
                 />
@@ -101,6 +103,7 @@
                 android:background="@drawable/et_bg"
                 android:paddingStart="@dimen/x_10"
                 android:paddingEnd="@dimen/x_10"
+                android:maxLength="30"
                 android:textCursorDrawable="@drawable/color_cursor"
                
                 />
@@ -129,6 +132,7 @@
                 android:background="@drawable/et_bg"
                 android:paddingStart="@dimen/x_10"
                 android:paddingEnd="@dimen/x_10"
+                android:maxLength="30"
                 android:textCursorDrawable="@drawable/color_cursor"
                
                 />
@@ -157,6 +161,7 @@
                 android:background="@drawable/et_bg"
                 android:paddingStart="@dimen/x_10"
                 android:paddingEnd="@dimen/x_10"
+                android:maxLength="30"
                 android:textCursorDrawable="@drawable/color_cursor"
                
                 />
