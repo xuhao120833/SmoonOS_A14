@@ -1,5 +1,6 @@
 package com.htc.launcher.activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -18,6 +19,7 @@ import android.os.Message;
 import android.os.SystemProperties;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,10 +49,10 @@ public class AboutActivity extends BaseActivity {
     private ActivityAboutBinding aboutBinding;
 
     private final long GBYTE = 1024 * 1024 * 1024;
-    List<Integer> ENTER_FACTORY_REBOOT = new ArrayList<>() ;
-    List<Integer> ENTER_FACTORY = new ArrayList<>() ;
-    List<Integer> ENTER_MAC = new ArrayList<>() ;
-    List<Integer> record_list = new ArrayList<>() ;
+    List<Integer> ENTER_FACTORY_REBOOT = new ArrayList<>();
+    List<Integer> ENTER_FACTORY = new ArrayList<>();
+    List<Integer> ENTER_MAC = new ArrayList<>();
+    List<Integer> record_list = new ArrayList<>();
     boolean isRecord = false;
     boolean isDebug = false;
     int mPosition = 5;
@@ -63,16 +65,16 @@ public class AboutActivity extends BaseActivity {
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
-                if (msg.what==1){
-                    if (progressDialog!=null && progressDialog.isShowing())
-                        progressDialog.dismiss();
-                    if (msg.obj!=null){
-                        String path = (String) msg.obj;
-                        startSystemUpdate(path);
-                    }else {
-                        showUpgradeCheckFailDialog();
-                    }
+            if (msg.what == 1) {
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+                if (msg.obj != null) {
+                    String path = (String) msg.obj;
+                    startSystemUpdate(path);
+                } else {
+                    showUpgradeCheckFailDialog();
                 }
+            }
             return false;
         }
     });
@@ -88,46 +90,46 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-        if (isNetworkConnect()){
+        if (isNetworkConnect()) {
             aboutBinding.rlWiredMac.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             aboutBinding.rlWiredMac.setVisibility(View.GONE);
         }
         super.onResume();
     }
 
-    private boolean isNetworkConnect(){
+    private boolean isNetworkConnect() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET);
-        return networkInfo!=null&& networkInfo.isConnected();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
-    private void initView(){
+    private void initView() {
         aboutBinding.rlDeviceModel.setOnClickListener(this);
         aboutBinding.rlUpdateFirmware.setOnClickListener(this);
         aboutBinding.rlOnlineUpdate.setOnClickListener(this);
         aboutBinding.rlDeviceModel.requestFocus();
         aboutBinding.rlDeviceModel.requestFocusFromTouch();
 
-        aboutBinding.rlDeviceModel.setVisibility(MyApplication.config.deviceMode?View.VISIBLE:View.GONE);
-        aboutBinding.rlUiVersion.setVisibility(MyApplication.config.uiVersion?View.VISIBLE:View.GONE);
-        aboutBinding.rlAndroidVersion.setVisibility(MyApplication.config.androidVersion?View.VISIBLE:View.GONE);
-        aboutBinding.rlResolution.setVisibility(MyApplication.config.resolution?View.VISIBLE:View.GONE);
-        aboutBinding.rlMemory.setVisibility(MyApplication.config.memory?View.VISIBLE:View.GONE);
-        aboutBinding.rlStorage.setVisibility(MyApplication.config.storage?View.VISIBLE:View.GONE);
-        aboutBinding.rlWirelessMac.setVisibility(MyApplication.config.wlanMacAddress?View.VISIBLE:View.GONE);
-        aboutBinding.rlSerialNumber.setVisibility(MyApplication.config.serialNumber?View.VISIBLE:View.GONE);
-        aboutBinding.rlUpdateFirmware.setVisibility(MyApplication.config.updateFirmware?View.VISIBLE:View.GONE);
-        aboutBinding.rlOnlineUpdate.setVisibility(MyApplication.config.onlineUpdate?View.VISIBLE:View.GONE);
+        aboutBinding.rlDeviceModel.setVisibility(MyApplication.config.deviceMode ? View.VISIBLE : View.GONE);
+        aboutBinding.rlUiVersion.setVisibility(MyApplication.config.uiVersion ? View.VISIBLE : View.GONE);
+        aboutBinding.rlAndroidVersion.setVisibility(MyApplication.config.androidVersion ? View.VISIBLE : View.GONE);
+        aboutBinding.rlResolution.setVisibility(MyApplication.config.resolution ? View.VISIBLE : View.GONE);
+        aboutBinding.rlMemory.setVisibility(MyApplication.config.memory ? View.VISIBLE : View.GONE);
+        aboutBinding.rlStorage.setVisibility(MyApplication.config.storage ? View.VISIBLE : View.GONE);
+        aboutBinding.rlWirelessMac.setVisibility(MyApplication.config.wlanMacAddress ? View.VISIBLE : View.GONE);
+        aboutBinding.rlSerialNumber.setVisibility(MyApplication.config.serialNumber ? View.VISIBLE : View.GONE);
+        aboutBinding.rlUpdateFirmware.setVisibility(MyApplication.config.updateFirmware ? View.VISIBLE : View.GONE);
+        aboutBinding.rlOnlineUpdate.setVisibility(MyApplication.config.onlineUpdate ? View.VISIBLE : View.GONE);
     }
 
-    private void initData(){
+    private void initData() {
         sp = ShareUtil.getInstans(this);
-        isDebug = sp.getBoolean(Contants.KEY_DEVELOPER_MODE,false);
-        aboutBinding.deviceModelTv.setText(SystemProperties.get("persist.sys.modelName","Projecter"));//产品型号
+        isDebug = sp.getBoolean(Contants.KEY_DEVELOPER_MODE, false);
+        aboutBinding.deviceModelTv.setText(SystemProperties.get("persist.sys.modelName", "Projecter"));//产品型号
         aboutBinding.uiVersionTv.setText(SystemProperties.get("ro.build.version.incremental"));//产品ui版本
         aboutBinding.androidVersionTv.setText(Build.VERSION.RELEASE);//android version
-        aboutBinding.serialNumberTv.setText(SystemProperties.get("ro.serialno","unknow"));
+        aboutBinding.serialNumberTv.setText(SystemProperties.get("ro.serialno", "unknow"));
 //        aboutBinding.serialNumberTv.setText(getProperty("ro.serialno","unknow"));
         getMemorySize();
         getStorageSize();
@@ -140,12 +142,12 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.rl_device_model:
                 if (!isDebug) {
                     if (mPosition == 0) {
-                        sp.edit().putBoolean(Contants.KEY_DEVELOPER_MODE,true).apply();
-                        isDebug =true;
+                        sp.edit().putBoolean(Contants.KEY_DEVELOPER_MODE, true).apply();
+                        isDebug = true;
                         mPosition = 5;
                         ToastUtil.showShortToast(this,
                                 getString(R.string.developer_mode_on));
@@ -153,8 +155,8 @@ public class AboutActivity extends BaseActivity {
                     mPosition--;
                 } else {
                     if (mPosition == 0) {
-                        sp.edit().putBoolean(Contants.KEY_DEVELOPER_MODE,false).apply();
-                        isDebug =false;
+                        sp.edit().putBoolean(Contants.KEY_DEVELOPER_MODE, false).apply();
+                        isDebug = false;
                         mPosition = 5;
                         ToastUtil.showShortToast(this,
                                 getString(R.string.developer_mode_off));
@@ -165,32 +167,32 @@ public class AboutActivity extends BaseActivity {
             case R.id.rl_update_firmware:
                 try {
                     goFindUpgradeFile();
-                }catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case R.id.rl_online_update:
-                AppUtils.startNewApp(this,"com.htc.htcotaupdate");
+                AppUtils.startNewApp(this, "com.htc.htcotaupdate");
                 break;
         }
         super.onClick(v);
     }
 
-    private void goFindUpgradeFile(){
+    private void goFindUpgradeFile() {
         showCheckingDialog();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 String path = findUpdateFile();
                 Message message = handler.obtainMessage();
-                message.what=1;
-                message.obj=path;
+                message.what = 1;
+                message.obj = path;
                 handler.sendMessage(message);
             }
         }).start();
     }
 
-    private void initQuickKey(){
+    private void initQuickKey() {
         //进厂测先重启测试组合键
         ENTER_FACTORY_REBOOT.add(KeyEvent.KEYCODE_VOLUME_DOWN);
         ENTER_FACTORY_REBOOT.add(KeyEvent.KEYCODE_DPAD_UP);
@@ -217,22 +219,22 @@ public class AboutActivity extends BaseActivity {
     }
 
 
-    private void getMemorySize(){
+    private void getMemorySize() {
         String total_memory = "1GB";
         long memorySize = ClearMemoryUtils.getTotalMemorySize(this);
         memorySize = memorySize * MyApplication.config.memoryScale;
         try {
             if (memorySize > 8 * GBYTE)
                 total_memory = "10GB";
-            else if (memorySize > 6 *GBYTE)
+            else if (memorySize > 6 * GBYTE)
                 total_memory = "8GB";
-            else if (memorySize > 4 *GBYTE)
+            else if (memorySize > 4 * GBYTE)
                 total_memory = "6GB";
-            else if (memorySize > 2 *GBYTE)
+            else if (memorySize > 2 * GBYTE)
                 total_memory = "4GB";
             else if (memorySize > GBYTE)
                 total_memory = "2GB";
-        }catch (Exception e){
+        } catch (Exception e) {
             total_memory = "1GB";
         }
 
@@ -241,7 +243,7 @@ public class AboutActivity extends BaseActivity {
                 .getAvailableMemory(this) * MyApplication.config.memoryScale, false));
     }
 
-    private void getStorageSize(){
+    private void getStorageSize() {
         long totalSize = ClearMemoryUtils
                 .getRomTotalSizeLong(this);
         totalSize = totalSize * MyApplication.config.storageScale;
@@ -267,20 +269,20 @@ public class AboutActivity extends BaseActivity {
         /*aboutBinding.storageTv.setText(getString(R.string.memory_info,
                 ClearMemoryUtils.getRomAvailableSize(this),total));*/
 
-        aboutBinding.storageTv.setText(total+ "/"
-                + ClearMemoryUtils.getRomAvailableSize(this,MyApplication.config.storageScale));
+        aboutBinding.storageTv.setText(total + "/"
+                + ClearMemoryUtils.getRomAvailableSize(this, MyApplication.config.storageScale));
     }
 
-    private String getResolution(){
+    private String getResolution() {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        return displayMetrics.widthPixels+" X "+displayMetrics.heightPixels;
+        return displayMetrics.widthPixels + " X " + displayMetrics.heightPixels;
     }
 
 
-    private String  getWlanMacAddress(){
+    private String getWlanMacAddress() {
         WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        if (wifiManager.isWifiEnabled() &&wifiInfo!=null){
+        if (wifiManager.isWifiEnabled() && wifiInfo != null) {
             return wifiInfo.getMacAddress();
         }
         return "00:00:00:00:00:00";
@@ -289,34 +291,34 @@ public class AboutActivity extends BaseActivity {
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_MUTE){
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_MUTE) {
             isRecord = true;
         }
-        LogUtils.d("hzj","onKeyDown "+keyCode);
-        if (isRecord && event.getAction()==KeyEvent.ACTION_UP){
+        LogUtils.d("hzj", "onKeyDown " + keyCode);
+        if (isRecord && event.getAction() == KeyEvent.ACTION_UP) {
             record_list.add(keyCode);
-            if (record_list.size() >= 6){
-                LogUtils.d("hzj","record_list "+record_list.toString());
-                if (isEqual(record_list,ENTER_FACTORY_REBOOT)){
+            if (record_list.size() >= 6) {
+                LogUtils.d("hzj", "record_list " + record_list.toString());
+                if (isEqual(record_list, ENTER_FACTORY_REBOOT)) {
                     Intent intent = new Intent();
-                    intent.setComponent(new ComponentName("com.hotack.hotackfeaturestest","com.hotack.activity.TestActivity"));
+                    intent.setComponent(new ComponentName("com.hotack.hotackfeaturestest", "com.hotack.activity.TestActivity"));
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("reboot_test",true);
+                    intent.putExtra("reboot_test", true);
                     startActivity(intent);
-                }else if (isEqual(record_list,ENTER_FACTORY)){
-                    AppUtils.startNewApp(this,"com.hotack.hotackfeaturestest","com.hotack.activity.TestActivity");
-                }else if (isEqual(record_list,ENTER_MAC)){
-                    AppUtils.startNewApp(this,"com.hotack.writesn","com.hotack.writesn.MainActivity");
+                } else if (isEqual(record_list, ENTER_FACTORY)) {
+                    AppUtils.startNewApp(this, "com.hotack.hotackfeaturestest", "com.hotack.activity.TestActivity");
+                } else if (isEqual(record_list, ENTER_MAC)) {
+                    AppUtils.startNewApp(this, "com.hotack.writesn", "com.hotack.writesn.MainActivity");
                 }
-                isRecord =false;
+                isRecord = false;
                 record_list.clear();
             }
         }
         return super.dispatchKeyEvent(event);
     }
 
-    private boolean isEqual(List<Integer> list1, List<Integer> list2){
-        for (int i =0; i<list1.size();i++) {
+    private boolean isEqual(List<Integer> list1, List<Integer> list2) {
+        for (int i = 0; i < list1.size(); i++) {
             if (!list1.get(i).equals(list2.get(i)))
                 return false;
         }
@@ -324,38 +326,60 @@ public class AboutActivity extends BaseActivity {
     }
 
 
-    private String findUpdateFile(){
+    private String findUpdateFile() {
 
-            String dataPath = FLASH_ROOT+"/"+OTA_PACKAGE_FILE;
-            if (new File(dataPath).exists())
-                return dataPath;
+        String dataPath = FLASH_ROOT + "/" + OTA_PACKAGE_FILE;
+        Log.d("findUpdateFile", " dataPath " + dataPath);
 
-            //find usb device update package
-            if (USB_ROOT==null){
-                return null;
-            }
+        if (new File(dataPath).exists())  //优先检查本地存储有没有 storage/emulated/0/update.zip
+            return dataPath;
 
-            File usbRoot = new File(USB_ROOT);
-            File[] pfiles = usbRoot.listFiles();
-            if(pfiles == null){
-                return null;
-            }
+        File usbRoot = new File(USB_ROOT);//本地没有，再去检查mnt/media_rw下面是否挂载了U盘
+        File[] pfiles = usbRoot.listFiles();//支持检测多个U盘
+        if (pfiles == null) {
+            return null;
+        }
 
-            for(File tmp : pfiles) {
-                if(tmp.isDirectory()){
-                    File[] subfiles = tmp.listFiles();
-                    for(File subtmp : subfiles){
+        for (File tmp : pfiles) {//findUpdateFile:  tmp F3DE-C571 1 /mnt/media_rw/F3DE-C571
+            Log.d("findUpdateFile", " tmp " + tmp.getName()+" "+pfiles.length+" "+tmp.getAbsolutePath() );
+            if (tmp.isDirectory()) {
 
-                        if(subtmp.isDirectory()){
+                //解决方案1，换成去storage下读取
+//                String modifiedPath = tmp.getAbsolutePath().replace("/mnt/media_rw/", "/storage/");
+//
+//                Log.d("findUpdateFile ", modifiedPath);
+//
+//                File subtmp = new File(modifiedPath+"/update.zip");
+//                if(subtmp.exists()) {
+//
+//                    Log.d("findUpdateFile", " 检测到升级包");
+//
+//                    return subtmp.getAbsolutePath();
+//                }
+
+                File[] subfiles = tmp.listFiles();
+
+                if (subfiles == null) {
+                    Log.d("findUpdateFile", " subfiles  null ");
+//                        continue;//跳过当前目录，进入下一个循环
+                }
+
+
+                if (subfiles != null) {
+
+                    for (File subtmp : subfiles) {
+
+                        Log.d("findUpdateFile", " subtmp " + subtmp.getName());
+                        if (subtmp.isDirectory()) {
                             File[] files = subtmp.listFiles(new FileFilter() {
                                 @Override
                                 public boolean accept(File arg0) {
 
-                                    if(arg0.isDirectory()) {
+                                    if (arg0.isDirectory()) {
                                         return false;
                                     }
 
-                                    if(arg0.getName().equals(OTA_PACKAGE_FILE)){
+                                    if (arg0.getName().equals(OTA_PACKAGE_FILE)) {
 
                                         return true;
                                     }
@@ -363,37 +387,39 @@ public class AboutActivity extends BaseActivity {
                                 }
                             });
 
-                            if(files != null && files.length > 0) {
+                            if (files != null && files.length > 0) {
 
                                 return files[0].getAbsolutePath();
                             }
-                        }else{
-                            if( subtmp.getName().equals(OTA_PACKAGE_FILE)){
+                        } else {
+                            if (subtmp.getName().equals(OTA_PACKAGE_FILE)) {
 
                                 return subtmp.getAbsolutePath();
-                            }else{
+                            } else {
                                 continue;
                             }
                             //continue;
                         }
                     }
-                }else if(tmp.isFile()){
-                    if( tmp.getName().equals(OTA_PACKAGE_FILE)){
-
-                        return tmp.getAbsolutePath();
-                    }else{
-                        continue;
-                    }
                 }
             }
+//            else if (tmp.isFile()) {
+//                if (tmp.getName().equals(OTA_PACKAGE_FILE)) {
+//
+//                    return tmp.getAbsolutePath();
+//                } else {
+//                    continue;
+//                }
+//            }
+        }
 
 
         return null;
     }
 
-    private void startSystemUpdate(String path){
+    private void startSystemUpdate(String path) {
         Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.softwinner.update","com.softwinner.update.ui.AbUpdate"));
+        intent.setComponent(new ComponentName("com.softwinner.update", "com.softwinner.update.ui.AbUpdate"));
         Bundle bundle = new Bundle();
         bundle.putString("update_path", path);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -405,16 +431,17 @@ public class AboutActivity extends BaseActivity {
      * 拷贝文件
      */
     ProgressDialog progressDialog;
-    private void showCheckingDialog(){
-         progressDialog=new ProgressDialog(this);
+
+    private void showCheckingDialog() {
+        progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.checking));
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
     }
 
-    private void showUpgradeCheckFailDialog(){
-        if (upgradeCheckFailDialog==null){
+    private void showUpgradeCheckFailDialog() {
+        if (upgradeCheckFailDialog == null) {
             upgradeCheckFailDialog = new UpgradeCheckFailDialog(AboutActivity.this);
             upgradeCheckFailDialog.setOnClickCallBack(new UpgradeCheckFailDialog.OnClickCallBack() {
                 @Override
@@ -434,7 +461,7 @@ public class AboutActivity extends BaseActivity {
         try {
             Class<?> c = Class.forName("android.os.SystemProperties");
             Method get = c.getMethod("get", String.class, String.class);
-            value = (String)(get.invoke(c, key, defaultValue));
+            value = (String) (get.invoke(c, key, defaultValue));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
