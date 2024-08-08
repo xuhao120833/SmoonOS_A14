@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<string name="app_name">Launcher</string>
+	<string name="app_name">LuminaOS</string>
 	<string name="wifi_remembered">Saved</string>
 	<string name="isconnected">(Connected)</string>
 	<string name="wifi_disabled_password_failure">Problem with authentication</string>

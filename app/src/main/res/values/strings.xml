@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Launcher</string>
+    <string name="app_name">LuminaOS</string>
     <string name="wifi_remembered">已保存</string>
     <string name="isconnected">(已连接)</string>
     <string name="wifi_disabled_password_failure">身份验证出现问题</string>

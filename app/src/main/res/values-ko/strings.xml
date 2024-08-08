@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Levata</string>
+    <string name="app_name">LuminaOS</string>
     <string name="wifi_remembered">저장됨</string>
     <string name="isconnected">(연결됨)</string>
     <string name="wifi_disabled_password_failure">잘못된 패스워드</string>

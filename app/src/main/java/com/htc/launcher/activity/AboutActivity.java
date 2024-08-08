@@ -344,19 +344,6 @@ public class AboutActivity extends BaseActivity {
             Log.d("findUpdateFile", " tmp " + tmp.getName()+" "+pfiles.length+" "+tmp.getAbsolutePath() );
             if (tmp.isDirectory()) {
 
-                //解决方案1，换成去storage下读取
-//                String modifiedPath = tmp.getAbsolutePath().replace("/mnt/media_rw/", "/storage/");
-//
-//                Log.d("findUpdateFile ", modifiedPath);
-//
-//                File subtmp = new File(modifiedPath+"/update.zip");
-//                if(subtmp.exists()) {
-//
-//                    Log.d("findUpdateFile", " 检测到升级包");
-//
-//                    return subtmp.getAbsolutePath();
-//                }
-
                 File[] subfiles = tmp.listFiles();
 
                 if (subfiles == null) {
