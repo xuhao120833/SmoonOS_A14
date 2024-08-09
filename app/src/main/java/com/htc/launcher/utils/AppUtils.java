@@ -65,6 +65,8 @@ public class AppUtils {
 
 			}
 		}
+
+		//排除"filterApps" 屏蔽掉的APP
 		String[] filterApps = MyApplication.config.filterApps.split(";");
 		Log.d(TAG," 禁用名单 "+filterApps[0]);
 		List<String> stringList = Arrays.asList(filterApps);

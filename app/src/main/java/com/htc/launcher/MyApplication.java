@@ -43,11 +43,14 @@ public class MyApplication extends Application {
             editor.putBoolean(Contants.TimeOffStatus, false);
             editor.putInt(Contants.TimeOffIndex, 0);
             editor.apply();
+
+
             if (new File(Contants.WALLPAPER_MAIN).exists())
                 mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
             if (new File(Contants.WALLPAPER_OTHER).exists())
                 otherDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_OTHER));
 
+            //json解析1
             parseConfigFile();
 
             initDisplaySize();
@@ -77,6 +80,8 @@ public class MyApplication extends Application {
 
     private void parseConfigFile() {
         String configContent;
+
+        //优先读取oem分区，其次读取system分区
         if (new File("/oem/shortcuts.config").exists()) {
             configContent = FileUtils.readFileContent("/oem/shortcuts.config"); //这里的作用就是从shortcuts.config中一行一行的读取字符，然后将它们合并成一行字符串
         } else {

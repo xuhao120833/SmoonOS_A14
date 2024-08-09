@@ -77,7 +77,8 @@ public class AppsManagerActivity extends BaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<AppInfoBean> appInfoBeans = AppUtils.getApplicationMsg(AppsManagerActivity.this,true);
+//                List<AppInfoBean> appInfoBeans = AppUtils.getApplicationMsg(AppsManagerActivity.this,true);
+                List<AppInfoBean> appInfoBeans = AppUtils.getApplicationMsg(AppsManagerActivity.this);
                 Message message = handler.obtainMessage();
                 message.what=1;
                 message.obj =appInfoBeans;
