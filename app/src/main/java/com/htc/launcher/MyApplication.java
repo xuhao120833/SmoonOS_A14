@@ -100,6 +100,8 @@ public class MyApplication extends Application {
             e.printStackTrace();
         }
 
+
+
     }
 
     private void initDisplaySize() {

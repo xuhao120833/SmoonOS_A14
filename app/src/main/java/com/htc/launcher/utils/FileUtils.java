@@ -1,5 +1,10 @@
 package com.htc.launcher.utils;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
 import java.io.BufferedReader;
@@ -174,6 +179,31 @@ public class FileUtils {
 			if (fileWriter != null) {
 				try {
 					fileWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public static Drawable loadImageAsDrawable(Context context, String filePath){
+		FileInputStream fileInputStream = null;
+		try {
+			// 读取图像文件
+			File file = new File(filePath);
+			fileInputStream = new FileInputStream(file);
+			Bitmap bitmap = BitmapFactory.decodeStream(fileInputStream);
+
+			// 转换为Drawable
+			Drawable drawable = new BitmapDrawable(context.getResources(), bitmap);
+			return drawable;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (fileInputStream != null) {
+				try {
+					fileInputStream.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

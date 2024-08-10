@@ -98,7 +98,7 @@
         android:layout_marginTop="200px">
 
         <ImageView
-
+            android:id="@+id/icon1"
             android:layout_width="470px"
             android:layout_height="250px"
             android:src="@drawable/home_app_netflix" />
@@ -114,7 +114,7 @@
         android:layout_toEndOf="@+id/home_netflix">
 
         <ImageView
-
+            android:id="@+id/icon2"
             android:layout_width="470px"
             android:layout_height="250px"
             android:src="@drawable/home_app_youtube" />
@@ -130,7 +130,7 @@
         android:layout_below="@+id/home_netflix">
 
         <ImageView
-
+            android:id="@+id/icon3"
             android:layout_width="470px"
             android:layout_height="250px"
             android:src="@drawable/home_app_disney" />
@@ -147,7 +147,7 @@
         android:layout_below="@+id/home_youtube">
 
         <ImageView
-
+            android:id="@+id/icon4"
             android:layout_width="470px"
             android:layout_height="250px"
             android:src="@drawable/app_store" />

@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import com.htc.launcher.utils.FileUtils;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemProperties;
@@ -537,92 +539,165 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
      */
     private boolean initDataApp() {
 
-        //Favorites app packagename清空
-//        DBUtils.getInstance(this).clearFavorites();
+
+
 
         boolean isLoad = true;
         SharedPreferences sharedPreferences = ShareUtil.getInstans(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         int code = sharedPreferences.getInt("code", 0);
 
-//        if (code == 0) {
+//        if (code == 0) {  //保证配置文件只在最初读一次
 
-        Log.d(TAG, " MainActivity开始读取配置文件 ");
+            Log.d(TAG, " MainActivity开始读取配置文件 ");
 
-        // 读取文件,优先读取oem分区
-        File file = new File("/oem/shortcuts.config");
+            // 读取文件,优先读取oem分区
+            File file = new File("/oem/shortcuts.config");
 
-        if (!file.exists()) {
-            file = new File("/system/shortcuts.config");
-        }
+            if (!file.exists()) {
+                file = new File("/system/shortcuts.config");
+            }
 
-        if (!file.exists()) {
-            Log.d(TAG, " 配置文件不存在 ");
-            return false;
-        }
+            if (!file.exists()) {
+                Log.d(TAG, " 配置文件不存在 ");
+                return false;
+            }
 
-        try {
-            FileInputStream is = new FileInputStream(file);
-            byte[] b = new byte[is.available()];
-            is.read(b);
-            String result = new String(b);
+            try {
+                FileInputStream is = new FileInputStream(file);
+                byte[] b = new byte[is.available()];
+                is.read(b);
+                String result = new String(b);
 
-            Log.d(TAG, " MainActivity读取到的配置文件 " + result); //这里把配置文件原封不动的读取出来，不做一整行处理
+                Log.d(TAG, " MainActivity读取到的配置文件 " + result); //这里把配置文件原封不动的读取出来，不做一整行处理
 
-            List<String> residentList = new ArrayList<>();
-            JSONObject obj = new JSONObject(result);
-            JSONArray jsonarrray = obj.getJSONArray("apps");
+                List<String> residentList = new ArrayList<>();
+                JSONObject obj = new JSONObject(result);
 
-            //用户每次更新配置，必须把原来数据库中保存的上一次失效的数据清楚掉
-            ArrayList<AppSimpleBean> mylist = DBUtils.getInstance(this).getFavorites();
-            for (int i = 0; i < jsonarrray.length(); i++) {
-                JSONObject jsonobject = jsonarrray.getJSONObject(i);
-                String packageName = jsonobject.getString("packageName");
+                //读取首页四大APP图标
+                readMain(obj);
 
-                for (int d = 0; d < mylist.size(); d++) {
-                    Log.d(TAG, " 对比 " + mylist.get(d).getPackagename() + " " + packageName);
-                    if (mylist.get(d).getPackagename().equals(packageName)) { //去除掉两个队列中相同的部分
-                        Log.d(TAG, " 移除两个队列中的相同部分 " + packageName + mylist.size());
-                        mylist.remove(d);
-                        Log.d(TAG, " mylist.size " + mylist.size());
-                        break;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                JSONArray jsonarrray = obj.getJSONArray("apps");
+
+                //xuhao
+                //用户每次更新配置，必须把原来数据库中保存的上一次失效的数据清楚掉
+                ArrayList<AppSimpleBean> mylist = DBUtils.getInstance(this).getFavorites();
+                for (int i = 0; i < jsonarrray.length(); i++) {
+                    JSONObject jsonobject = jsonarrray.getJSONObject(i);
+                    String packageName = jsonobject.getString("packageName");
+
+                    for (int d = 0; d < mylist.size(); d++) {
+                        Log.d(TAG, " 对比 " + mylist.get(d).getPackagename() + " " + packageName);
+                        if (mylist.get(d).getPackagename().equals(packageName)) { //去除掉两个队列中相同的部分
+                            Log.d(TAG, " 移除两个队列中的相同部分 " + packageName + mylist.size());
+                            mylist.remove(d);
+                            Log.d(TAG, " mylist.size " + mylist.size());
+                            break;
+                        }
                     }
                 }
-            }
-            for (int d = 0; d < mylist.size(); d++) { //剩余的不同的就是无效的，把无效的delet，保证每次修改配置之后都正确生效
-                if (sharedPreferences.getString("resident", "").contains(mylist.get(d).getPackagename())) {
-                    Log.d(TAG, " 移除APP快捷图标栏废弃的配置 ");
-                    DBUtils.getInstance(this).deleteFavorites(mylist.get(d).getPackagename());
+                for (int d = 0; d < mylist.size(); d++) { //剩余的不同的就是无效的，把无效的delet，保证每次修改配置之后都正确生效
+                    if (sharedPreferences.getString("resident", "").contains(mylist.get(d).getPackagename())) {
+                        Log.d(TAG, " 移除APP快捷图标栏废弃的配置 ");
+                        DBUtils.getInstance(this).deleteFavorites(mylist.get(d).getPackagename());
+                    }
                 }
-            }
+                //xuhao
 
 
-            for (int i = 0; i < jsonarrray.length(); i++) {
-                JSONObject jsonobject = jsonarrray.getJSONObject(i);
-                String packageName = jsonobject.getString("packageName");
-                boolean resident = jsonobject.getBoolean("resident"); //用于标志移除上一轮配置文件和这一轮配置文件不需要的App
-                if (resident) {
-                    residentList.add(packageName);
-                }
+                for (int i = 0; i < jsonarrray.length(); i++) {
+                    JSONObject jsonobject = jsonarrray.getJSONObject(i);
+                    String packageName = jsonobject.getString("packageName");
+                    boolean resident = jsonobject.getBoolean("resident"); //用于标志移除上一轮配置文件和这一轮配置文件不需要的App
+                    if (resident) {
+                        residentList.add(packageName);
+                    }
 
-                if (!DBUtils.getInstance(this).isExistData(
-                        packageName)) {
-                    long addCode = DBUtils.getInstance(this)
-                            .addFavorites(packageName);
+                    if (!DBUtils.getInstance(this).isExistData(
+                            packageName)) {
+                        long addCode = DBUtils.getInstance(this)
+                                .addFavorites(packageName);
+                    }
                 }
+                editor.putString("resident", residentList.toString());
+                editor.putInt("code", 1);
+                editor.apply();
+                is.close();
+            } catch (IOException | JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                isLoad = false;
             }
-            editor.putString("resident", residentList.toString());
-            editor.putInt("code", 1);
-            editor.apply();
-            is.close();
-        } catch (IOException | JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            isLoad = false;
-        }
 //        }
 
         return isLoad;
+    }
+
+    private void readMain(JSONObject obj) {
+        try {
+            JSONArray jsonarrray = obj.getJSONArray("mainApp");
+
+            for (int i = 0; i < jsonarrray.length(); i++) {
+                JSONObject jsonobject = jsonarrray.getJSONObject(i);
+                String name = jsonobject.getString("name");
+                String iconPath = jsonobject.getString("iconPath");
+                String action = jsonobject.getString("action");
+
+                Log.d(TAG," 读取到的mainApp "+name+iconPath+action);
+
+                //从iconPath中把png读出来赋值给drawable
+                Drawable drawable = FileUtils.loadImageAsDrawable(this,iconPath);
+                switch (name) {
+                    case "icon1":
+                        Log.d(TAG," 设置icon1 ");
+                        customBinding.icon1.setImageDrawable(drawable);
+                        break;
+                    case "icon2":
+                        Log.d(TAG," 设置icon2 ");
+                        customBinding.icon2.setImageDrawable(drawable);
+                        break;
+                    case "icon3":
+                        Log.d(TAG," 设置icon3 ");
+                        customBinding.icon3.setImageDrawable(drawable);
+                        break;
+                    case "icon4":
+                        Log.d(TAG," 设置icon4 ");
+                        customBinding.icon4.setImageDrawable(drawable);
+                        break;
+                }
+
+
+//                if (resident) {
+//                    residentList.add(packageName);
+//                }
+//
+//                if (!DBUtils.getInstance(this).isExistData(
+//                        packageName)) {
+//                    long addCode = DBUtils.getInstance(this)
+//                            .addFavorites(packageName);
+//                }
+            }
+
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
 
