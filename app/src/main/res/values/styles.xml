@@ -45,4 +45,14 @@
         <item name="android:windowEnterAnimation">@anim/right_in_anim</item>
         <item name="android:windowExitAnimation">@anim/right_out_anim</item>
     </style>
+
+    <style name="RoundedCornerShape">
+        <item name="shapeAppearanceOverlay">@style/RoundedCorners</item>
+    </style>
+
+    <style name="RoundedCorners">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">15px</item>
+    </style>
+
 </resources>

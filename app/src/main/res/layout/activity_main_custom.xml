@@ -24,9 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="836px"
         android:layout_marginTop="30px"
-        android:alpha="0.5"
         android:text="11:01"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:textSize="96px"
         android:textStyle="bold" />
 
@@ -42,8 +41,8 @@
 
         <ImageView
             android:id="@+id/wallpaper"
-            android:layout_width="60px"
-            android:layout_height="60px"
+            android:layout_width="80px"
+            android:layout_height="80px"
             android:padding="5px"
             android:src="@drawable/wapper_custom" />
     </RelativeLayout>
@@ -60,8 +59,8 @@
 
         <ImageView
             android:id="@+id/home_bluetooth"
-            android:layout_width="60px"
-            android:layout_height="60px"
+            android:layout_width="80px"
+            android:layout_height="80px"
             android:padding="3px"
             android:layout_centerInParent="true"
             android:src="@drawable/bt_custom2" />
@@ -79,8 +78,8 @@
 
         <ImageView
             android:id="@+id/home_wifi"
-            android:layout_width="60px"
-            android:layout_height="60px"
+            android:layout_width="80px"
+            android:layout_height="80px"
             android:padding="5px"
             android:src="@drawable/wifi_custom_4" />
     </RelativeLayout>
@@ -155,9 +154,9 @@
 
     <RelativeLayout
         android:id="@+id/home_eshare"
-        android:layout_width="720px"
+        android:layout_width="710px"
         android:layout_height="100px"
-        android:layout_marginStart="34px"
+        android:layout_marginStart="40px"
         android:layout_marginTop="200px"
         android:paddingStart="36px"
         style="@style/focusStyle"
@@ -174,10 +173,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="32px"
+            android:textSize="40px"
             android:textColor="#ffffff"
             android:text="@string/Eshare"
             android:gravity="center"
+            android:textStyle="bold"
             android:layout_toEndOf="@+id/eshare_icon">
 
         </TextView>
@@ -186,10 +186,10 @@
 
     <RelativeLayout
         android:id="@+id/rl_usb"
-        android:layout_width="720px"
+        android:layout_width="710px"
         android:layout_height="100px"
         android:layout_toEndOf="@id/home_youtube"
-        android:layout_marginStart="34px"
+        android:layout_marginStart="40px"
         android:layout_marginTop="50px"
         android:paddingStart="36px"
         android:gravity="center_vertical"
@@ -206,10 +206,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="32px"
+            android:textSize="40px"
             android:textColor="#ffffff"
             android:text="@string/Filemanager"
             android:gravity="center"
+            android:textStyle="bold"
             android:layout_toEndOf="@+id/file_icon">
 
         </TextView>
@@ -217,10 +218,10 @@
 
     <RelativeLayout
         android:id="@+id/rl_hdmi1"
-        android:layout_width="720px"
+        android:layout_width="710px"
         android:layout_height="100px"
         android:layout_toEndOf="@id/rl_Google"
-        android:layout_marginStart="34px"
+        android:layout_marginStart="40px"
         android:layout_marginTop="46px"
         android:paddingStart="36px"
         android:gravity="center_vertical"
@@ -237,10 +238,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="32px"
+            android:textSize="40px"
             android:textColor="#ffffff"
             android:text="HDMI"
             android:gravity="center"
+            android:textStyle="bold"
             android:layout_toEndOf="@+id/hdmi_icon">
 
         </TextView>
@@ -249,10 +251,10 @@
 
     <RelativeLayout
         android:id="@+id/rl_settings"
-        android:layout_width="720px"
+        android:layout_width="710px"
         android:layout_height="100px"
         android:layout_toEndOf="@id/rl_Google"
-        android:layout_marginStart="34px"
+        android:layout_marginStart="40px"
         android:layout_marginTop="50px"
         android:paddingStart="36px"
         android:gravity="center_vertical"
@@ -269,10 +271,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="32px"
+            android:textSize="40px"
             android:textColor="#ffffff"
             android:text="@string/settings"
             android:gravity="center"
+            android:textStyle="bold"
             android:layout_toEndOf="@+id/settings_icon">
 
         </TextView>

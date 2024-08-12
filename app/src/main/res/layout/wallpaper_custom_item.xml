@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="460px"
+    android:layout_height="260px"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:minWidth="460px"
+    android:minHeight="260px"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:id="@+id/rl_item">
+
+    <ImageView
+        android:layout_width="460px"
+        android:layout_height="260px"
+        android:id="@+id/icon"
+        app:shapeAppearanceOverlay="@style/RoundedCornerShape"
+        />
+    <TextView
+        android:layout_width="460px"
+        android:layout_height="@dimen/y_40"
+        android:id="@+id/status"
+        android:layout_alignParentBottom="true"
+        android:textSize="@dimen/x_23"
+        android:textColor="@color/wallpaper_tv_color"
+        android:text="@string/enter"
+        android:background="@drawable/wallpaper_tv_bg"
+        android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:duplicateParentState="true"
+        />
+    
+</RelativeLayout>

@@ -2,6 +2,7 @@ package com.htc.launcher.activity;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -656,6 +657,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 String name = jsonobject.getString("name");
                 String iconPath = jsonobject.getString("iconPath");
                 String action = jsonobject.getString("action");
+
+                //把读到的数据放入db数据库
+//                DBUtils.getInstance(this).insertMainAppData(name,iconPath,action);
 
                 Log.d(TAG," 读取到的mainApp "+name+iconPath+action);
 

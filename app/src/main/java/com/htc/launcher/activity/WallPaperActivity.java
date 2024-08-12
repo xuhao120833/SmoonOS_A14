@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class        WallPaperActivity extends BaseActivity {
+public class WallPaperActivity extends BaseActivity {
 
     private ActivityWallPaperBinding wallPaperBinding;
     private ArrayList<File> file_toArray = new ArrayList<>();
@@ -125,9 +125,10 @@ public class        WallPaperActivity extends BaseActivity {
     private void initView(){
         wallPaperBinding.localItem.setOnClickListener(this);
         wallPaperBinding.usbItem.setOnClickListener(this);
-        GridLayoutManager layoutManager = new GridLayoutManager(this,6);
+//        GridLayoutManager layoutManager = new GridLayoutManager(this,6);//原生是6列
+        GridLayoutManager layoutManager = new GridLayoutManager(this,3);
         wallPaperBinding.wallpaperRv.setLayoutManager(layoutManager);
-        wallPaperBinding.wallpaperRv.addItemDecoration(new SpacesItemDecoration(SpacesItemDecoration.pxAdapter(10),SpacesItemDecoration.pxAdapter(10),SpacesItemDecoration.pxAdapter(10),SpacesItemDecoration.pxAdapter(10)));
+        wallPaperBinding.wallpaperRv.addItemDecoration(new SpacesItemDecoration(SpacesItemDecoration.pxAdapter(40),SpacesItemDecoration.pxAdapter(40),SpacesItemDecoration.pxAdapter(10),SpacesItemDecoration.pxAdapter(10)));
 
 
         IntentFilter intentFilter = new IntentFilter();
