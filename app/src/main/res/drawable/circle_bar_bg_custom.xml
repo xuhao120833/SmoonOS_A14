@@ -6,6 +6,7 @@
 <!--            <solid android:color="#20000000"/>-->
 <!--        </shape>-->
         <shape android:shape="oval" android:dither="false">
+            <stroke android:width="@dimen/x_3" android:color="#FFFFFF" />
             <solid android:color="#3D7BFF"/>
         </shape>
     </item>

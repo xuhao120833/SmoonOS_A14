@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.htc.launcher",
+  "applicationId": "com.htc.luminaos",
   "variantName": "release",
   "elements": [
     {
@@ -12,9 +12,9 @@
       "filters": [],
       "properties": [],
       "versionCode": 1,
-      "versionName": "2408121420",
+      "versionName": "2408140955",
       "enabled": true,
-      "outputFile": "LuminaOS_QZ-V1-2408121420-release.apk"
+      "outputFile": "LuminaOS_QZ-V1-2408140955-release.apk"
     }
   ]
 }

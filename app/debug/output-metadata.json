@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.htc.launcher",
+  "applicationId": "com.htc.luminaos",
   "variantName": "debug",
   "elements": [
     {

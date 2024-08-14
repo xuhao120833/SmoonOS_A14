@@ -10,7 +10,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.htc.launcher"
+        applicationId "com.htc.luminaos"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
@@ -81,4 +81,7 @@ dependencies {
 //    implementation 'com.baidu.mobstat:mtj-sdk-circle:latest.integration'
 
     compile files('libs/Baidu_Mtj_android_4.0.10.9.jar')
+
+    implementation 'androidx.cardview:cardview:1.0.0'
+
 }

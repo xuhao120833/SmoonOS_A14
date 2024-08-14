@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.htc.launcher.widget.RLRelativelayout
+<com.htc.luminaos.widget.RLRelativelayout
     android:layout_width="@dimen/x_210"
     android:layout_height="@dimen/y_170"
     android:minWidth="@dimen/x_210"
@@ -36,4 +36,4 @@
             android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="@dimen/x_24" />
-    </com.htc.launcher.widget.RLRelativelayout>
+    </com.htc.luminaos.widget.RLRelativelayout>

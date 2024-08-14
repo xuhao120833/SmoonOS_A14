@@ -1,4 +1,4 @@
-package com.htc.launcher;
+package com.htc.luminaos;
 
 import org.junit.Test;
 

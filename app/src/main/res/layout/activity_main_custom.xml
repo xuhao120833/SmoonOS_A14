@@ -36,6 +36,7 @@
         android:layout_marginTop="60px"
         android:layout_marginEnd="30px"
         style="@style/focusStyle"
+        android:clickable="true"
         android:background="@drawable/circle_bar_bg_custom"
         android:layout_toStartOf="@+id/rl_bluetooth">
 
@@ -44,6 +45,7 @@
             android:layout_width="80px"
             android:layout_height="80px"
             android:padding="5px"
+            android:clickable="true"
             android:src="@drawable/wapper_custom" />
     </RelativeLayout>
 
@@ -54,6 +56,7 @@
         android:layout_marginTop="60px"
         android:layout_marginEnd="30px"
         style="@style/focusStyle"
+        android:clickable="true"
         android:background="@drawable/circle_bar_bg_custom"
         android:layout_toStartOf="@+id/rl_wifi">
 
@@ -62,6 +65,7 @@
             android:layout_width="80px"
             android:layout_height="80px"
             android:padding="3px"
+            android:clickable="true"
             android:layout_centerInParent="true"
             android:src="@drawable/bt_custom2" />
     </RelativeLayout>
@@ -73,6 +77,7 @@
         android:layout_marginTop="60px"
         android:layout_marginEnd="75px"
         style="@style/focusStyle"
+        android:clickable="true"
         android:background="@drawable/circle_bar_bg_custom"
         android:layout_alignParentEnd="true">
 
@@ -81,6 +86,7 @@
             android:layout_width="80px"
             android:layout_height="80px"
             android:padding="5px"
+            android:clickable="true"
             android:src="@drawable/wifi_custom_4" />
     </RelativeLayout>
 
