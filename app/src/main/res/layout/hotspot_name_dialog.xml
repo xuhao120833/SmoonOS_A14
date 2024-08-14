@@ -45,7 +45,7 @@
         skin:enable="true"
         />
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="180px"
         android:layout_height="@dimen/y_40"
         android:id="@+id/enter"
         android:layout_alignParentBottom="true"
@@ -65,7 +65,7 @@
         />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="180px"
         android:layout_height="@dimen/y_40"
         android:id="@+id/cancel"
         android:layout_alignParentBottom="true"

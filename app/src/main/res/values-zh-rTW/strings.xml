@@ -176,4 +176,9 @@
 	<string name="calibration">智慧標定</string>
 	<string name="shutdown_tips"><Data><![CDATA[<font color="#ff0000"><b>%1$d</b></font> 秒後自動關機 ]]></Data></string>
 	<string name="connecting_ssid">正在連接 %1$s …</string>
+
+	<string name="data_none">未找到相應的應用數據，請前往應用程式商店下載</string>
+
+	<string name="time_format_24">使用24小時格式</string>
+	<string name="time_format_12">使用12小時格式</string>
 </resources>

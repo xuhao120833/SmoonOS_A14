@@ -167,7 +167,7 @@
 	<string name="device_name">デバイス名</string>
 	<string name="online_update">オンラインアップグレード</string>
 	<string name="manual">説明書</string>
-	<string name="local">ローカル＃ローカル＃</string>
+	<string name="local">地元</string>
 	<string name="usb_dir">USB</string>
 	<string name="auto_focus">オートフォーカス</string>
 	<string name="auto_four_corner">じどうよんかくほせい</string>
@@ -193,6 +193,11 @@
 
 	<string name="one_band">2.4 GHz 周波数帯域</string>
 	<string name="two_band">5 GHz 周波数帯域</string>
+	<string name="passwordmsglength">入力したパスワードは 8 桁未満にすることはできません。</string>
 
+	<string name="data_none">対応するアプリケーション データが見つかりませんでした。App Store にアクセスしてダウンロードしてください。</string>
+
+	<string name="time_format_24">24 時間形式を使用する</string>
+	<string name="time_format_12">12 時間形式を使用する</string>
 
 </resources>

@@ -181,9 +181,11 @@ public class DateTimeActivity extends BaseActivity implements View.OnKeyListener
     private void updateFormat(){
         if (DateFormat.is24HourFormat(this)) {
             dateTimeBinding.timeFormatTv.setText(getString(R.string.hour24));
+            dateTimeBinding.timeFormat.setText(getString(R.string.time_format_24));
             is24HourFormat = true;
         } else {
             dateTimeBinding.timeFormatTv.setText(getString(R.string.hour12));
+            dateTimeBinding.timeFormat.setText(getString(R.string.time_format_12));
             is24HourFormat = false;
         }
     }

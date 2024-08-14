@@ -176,4 +176,11 @@
 	<string name="calibration">Умная калибровка</string>
 	<string name="shutdown_tips"><Data><![CDATA[<font color="#ff0000"><b>%1$d</b></font> Автоматическое выключение через секунду]]></Data></string>
 	<string name="connecting_ssid">Подключается %1$s …</string>
+
+	<string name="passwordmsglength">Введенный пароль не может быть менее 8 цифр!</string>
+
+	<string name="data_none">Соответствующие данные приложения не найдены, перейдите в магазин приложений для загрузки.</string>
+
+	<string name="time_format_24">Используйте 24-часовой формат</string>
+	<string name="time_format_12">Используйте 12-часовой формат</string>
 </resources>

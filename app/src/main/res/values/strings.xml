@@ -50,7 +50,7 @@
     <string name="reset_keystore">是否重置矫正画面</string>
     <string name="day_am">上午</string>
     <string name="day_pm">下午</string>
-    <string name="hour12">下午1:00</string>
+    <string name="hour12">1:00|下午</string>
     <string name="hour24">13:00</string>
     <string name="auto_time_hint">正在使用自动时间,不可手动修改</string>
     <string name="fine_minutes">五分钟</string>
@@ -233,5 +233,8 @@
 
     <string name="usb_debug">USB 调试</string>
     <string name="adb_debug">ADB 调试</string>
+
+    <string name="time_format_24">使用24小时格式</string>
+    <string name="time_format_12">使用12小时格式</string>
 
 </resources>

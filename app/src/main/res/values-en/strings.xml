@@ -194,4 +194,10 @@
 
 	<string name="usb_debug">USB Debug</string>
 	<string name="adb_debug">ADB Debug</string>
+
+	<string name="passwordmsglength">The entered password cannot be less than 8 digits!</string>
+	<string name="data_none">The corresponding application data was not found, please go to the app store to download</string>
+
+	<string name="time_format_24">Use 24 hour format</string>
+	<string name="time_format_12">Use 12 hour format</string>
 </resources>

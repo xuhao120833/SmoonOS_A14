@@ -657,7 +657,16 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
 
             //读取APP快捷图标
-            //readShortcuts(obj)
+            //readShortcuts(obj);
+
+            //读取右边list第一个、第三个的配置
+            //readListConfig(obj);
+
+            //读取品牌图标
+            //readBrand();
+
+            //是否显示时间
+            //readTime();
 
 
             JSONArray jsonarrray = obj.getJSONArray("apps");
@@ -790,7 +799,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 .isBluetoothConnected();
         if (isConnected) {
 //            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_con);
-            customBinding.homeBluetooth.setImageResource(R.drawable.bt_custom2_blue);
+            customBinding.homeBluetooth.setImageResource(R.drawable.bt_custom_green);
         } else {
 //            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_not);
             customBinding.homeBluetooth.setImageResource(R.drawable.bt_custom2);
@@ -831,7 +840,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     public void getWifiState(int state) {
         if (state == 1) {
 //            mainBinding.homeWifi.setBackgroundResource(R.drawable.wifi_not);
-            customBinding.homeWifi.setBackgroundResource(R.drawable.wifi_custom_4);
+            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_4);
         }
     }
 
@@ -865,27 +874,27 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         switch (count) {
             case -1:
 //                mainBinding.homeWifi.setBackgroundResource(R.drawable.wifi_not);
-                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_0);
+                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_4);
                 break;
             case 0:
 //                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_1_focus);
-                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_1);
+                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_1);
                 break;
             case 1:
 //                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_2_focus);
-                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_2);
+                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_2);
                 break;
             case 2:
 //                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_2_focus);
-                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_3);
+                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_3);
                 break;
             case 3:
 //                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_2_focus);
-                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_4);
+                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
                 break;
             default:
 //                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_full_focus);
-                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_4);
+                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
                 break;
 
         }

@@ -192,4 +192,10 @@
 	<string name="resolution">دقة</string>
 	<string name="choose_ap">حدد نطاق AP</string>
 
+	<string name="passwordmsglength">لا يمكن أن تكون كلمة المرور المدخلة أقل من 8 أرقام!</string>
+	<string name="data_none">لم يتم العثور على بيانات التطبيق المقابلة، يرجى الذهاب إلى متجر التطبيقات للتنزيل</string>
+
+	<string name="time_format_24">استخدم تنسيق 24 ساعة</string>
+	<string name="time_format_12">استخدم تنسيق 12 ساعة</string>
+
 </resources>
