@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- 当控件处于聚焦状态时的样式 -->
+    <!-- 选中状态下的背景 -->
     <item android:state_focused="true">
-        <shape>
-            <stroke android:width="@dimen/x_3" android:color="#FFFFFF" />
-            <corners android:radius="15px" /> <!-- 这里使用 dp 作为单位更为常见 -->
-            <gradient
-                android:endColor="#ffffff"
-                android:startColor="#ffffff" />
-        </shape>
-    </item>
-
-    <!-- 默认状态的样式 -->
-    <item>
-        <shape>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <stroke android:width="4px" android:color="@android:color/white" />
             <corners android:radius="15px" />
-            <gradient
-                android:endColor="#ffffff"
-                android:startColor="#ffffff" />
         </shape>
     </item>
 </selector>
+
