@@ -255,9 +255,9 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
         AnimationSet animationSet = new AnimationSet(true);
         v.bringToFront();
         if (hasFocus) {
-            if(position != selectpostion) {
-                check.setVisibility(View.VISIBLE);
-            }
+//            if(position != selectpostion) {
+//                check.setVisibility(View.VISIBLE);
+//            }
             ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.10f,
                     1.0f, 1.10f, Animation.RELATIVE_TO_SELF, 0.5f,
                     Animation.RELATIVE_TO_SELF, 0.5f);
@@ -266,10 +266,10 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
             animationSet.setFillAfter(true);
             v.startAnimation(animationSet);
         } else {
-            if(position != selectpostion) {
-                check.setImageResource(R.drawable.check_no);
-                check.setVisibility(View.GONE);
-            }
+//            if(position != selectpostion) {
+//                check.setImageResource(R.drawable.check_no);
+//                check.setVisibility(View.GONE);
+//            }
             ScaleAnimation scaleAnimation = new ScaleAnimation(1.10f, 1.0f,
                     1.10f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
                     Animation.RELATIVE_TO_SELF, 0.5f);
