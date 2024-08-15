@@ -188,6 +188,8 @@
     <string name="empty_string">不能设为空！</string>
     <string name="add_network">添加网络</string>
 
+    <string name="refresh_network">刷新网络</string>
+
     <string name="dhcp">DHCP</string>
     <string name="static_ip">静态</string>
     <string name="ip_settings">IP设置</string>

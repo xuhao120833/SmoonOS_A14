@@ -181,4 +181,6 @@
 
 	<string name="time_format_24">使用24小時格式</string>
 	<string name="time_format_12">使用12小時格式</string>
+
+	<string name="refresh_network">重新整理網路</string>
 </resources>

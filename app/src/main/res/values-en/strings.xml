@@ -200,4 +200,6 @@
 
 	<string name="time_format_24">Use 24 hour format</string>
 	<string name="time_format_12">Use 12 hour format</string>
+
+	<string name="refresh_network">refresh network</string>
 </resources>

@@ -183,4 +183,6 @@
 
 	<string name="time_format_24">Используйте 24-часовой формат</string>
 	<string name="time_format_12">Используйте 12-часовой формат</string>
+
+	<string name="refresh_network">обновить сеть</string>
 </resources>

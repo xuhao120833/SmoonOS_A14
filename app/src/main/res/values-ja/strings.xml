@@ -200,4 +200,6 @@
 	<string name="time_format_24">24 時間形式を使用する</string>
 	<string name="time_format_12">12 時間形式を使用する</string>
 
+	<string name="refresh_network">ネットワークを更新する</string>
+
 </resources>

@@ -13,6 +13,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.CompoundButton;
 
 import com.htc.luminaos.R;
@@ -64,6 +67,10 @@ public class WifiActivity extends BaseActivity  implements WifiEnabledReceiver.W
                     wifiFoundAdapter.notifyDataSetChanged();
                 }
             }
+
+            //wifi已经刷新完毕
+            startanim(false);
+
             return false;
         }
     });
@@ -85,6 +92,8 @@ public class WifiActivity extends BaseActivity  implements WifiEnabledReceiver.W
         wifiBinding.rlWifiSwitch.setOnHoverListener(this);
         wifiBinding.rlAddNetwork.setOnHoverListener(this);
         wifiBinding.wifiSwitch.setOnClickListener(this);
+        wifiBinding.rlRefreshNetwork.setOnClickListener(this);
+        wifiBinding.rlRefreshNetwork.setOnHoverListener(this);
         wifiBinding.wifiSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,final boolean isChecked) {
@@ -129,6 +138,10 @@ public class WifiActivity extends BaseActivity  implements WifiEnabledReceiver.W
             case R.id.rl_add_network:
                 AddNetWorkDialog addNetWorkDialog = new AddNetWorkDialog(this,R.style.DialogTheme);
                 addNetWorkDialog.show();
+                break;
+            case R.id.rl_refresh_network:
+                mWifiManager.startScan();
+                startanim(true);
                 break;
         }
     }
@@ -306,6 +319,8 @@ public class WifiActivity extends BaseActivity  implements WifiEnabledReceiver.W
     @Override
     public void wifiStatueChange(int state) {
 
+
+
     }
 
     @Override
@@ -329,5 +344,42 @@ public class WifiActivity extends BaseActivity  implements WifiEnabledReceiver.W
         destroyReceiver();
         super.onDestroy();
     }
+
+    private void startanim(boolean startornot) {
+
+        if(!startornot) {
+            wifiBinding.refreshNet.setVisibility(View.GONE);
+            wifiBinding.refreshNet.clearAnimation();
+            return;
+        }
+
+        Animation anim = AnimationUtils.loadAnimation(
+                WifiActivity.this, R.anim.search_anim);
+        LinearInterpolator interpolator = new LinearInterpolator();
+        anim.setInterpolator(interpolator);
+
+        anim.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation arg0) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        wifiBinding.refreshNet.setVisibility(View.VISIBLE);
+        wifiBinding.refreshNet.startAnimation(anim);
+    }
+
 
 }

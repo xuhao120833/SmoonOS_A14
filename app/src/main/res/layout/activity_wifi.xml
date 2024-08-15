@@ -78,11 +78,47 @@
             />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="@dimen/x_1032"
+        android:layout_height="@dimen/y_80"
+        android:layout_below="@id/rl_add_network"
+        android:id="@+id/rl_refresh_network"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_10"
+        android:background="@drawable/main_settings_bg"
+        style="@style/focusStyle"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x_50"
+            android:layout_centerVertical="true"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_27"
+            android:text="@string/refresh_network"
+            android:duplicateParentState="true"
+            />
+
+        <ImageView
+            android:layout_width="@dimen/x_40"
+            android:layout_height="@dimen/y_40"
+            android:id="@+id/refresh_net"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x_130"
+            android:layout_centerVertical="true"
+            android:background="@drawable/menu_loader_bg"
+            android:duplicateParentState="true"
+            android:visibility="gone"
+            />
+
+    </RelativeLayout>
+
     <View
         android:layout_width="@dimen/x_1032"
         android:layout_height="@dimen/y_6"
         android:id="@+id/line"
-        android:layout_below="@id/rl_add_network"
+        android:layout_below="@id/rl_refresh_network"
         android:layout_marginStart="@dimen/x_100"
         android:layout_marginTop="@dimen/y_15"
         android:background="@drawable/corner_line"
