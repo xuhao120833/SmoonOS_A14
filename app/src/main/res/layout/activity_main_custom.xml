@@ -50,6 +50,27 @@
 <!--        android:textStyle="bold" />-->
 
     <RelativeLayout
+        android:id="@+id/rl_usb_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60px"
+        android:layout_marginEnd="30px"
+        style="@style/focusStyle"
+        android:clickable="true"
+        android:visibility="gone"
+        android:background="@drawable/circle_bar_bg_custom"
+        android:layout_toStartOf="@+id/rl_wallpapers">
+
+        <ImageView
+            android:id="@+id/usb_connect"
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:padding="5px"
+            android:clickable="true"
+            android:src="@drawable/usb_green" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/rl_wallpapers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

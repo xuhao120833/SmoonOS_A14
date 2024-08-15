@@ -7,10 +7,12 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.hardware.usb.UsbManager;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
+import com.htc.luminaos.receiver.UsbDeviceCallBack;
 import com.htc.luminaos.utils.FileUtils;
 
 import android.os.Handler;
@@ -45,6 +47,7 @@ import com.htc.luminaos.receiver.MyWifiCallBack;
 import com.htc.luminaos.receiver.MyWifiReceiver;
 import com.htc.luminaos.receiver.NetWorkCallBack;
 import com.htc.luminaos.receiver.NetworkReceiver;
+import com.htc.luminaos.receiver.UsbDeviceReceiver;
 import com.htc.luminaos.utils.AppUtils;
 import com.htc.luminaos.utils.BluetoothUtils;
 import com.htc.luminaos.utils.Constants;
@@ -56,6 +59,7 @@ import com.htc.luminaos.utils.ShareUtil;
 import com.htc.luminaos.utils.TimeUtils;
 import com.htc.luminaos.utils.ToastUtil;
 import com.htc.luminaos.utils.Uri;
+import com.htc.luminaos.utils.Utils;
 import com.htc.luminaos.utils.VerifyUtil;
 import com.htc.luminaos.widget.ManualQrDialog;
 import com.htc.luminaos.widget.SpacesItemDecoration;
@@ -86,7 +90,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class MainActivity extends BaseMainActivity implements BluetoothCallBcak, MyWifiCallBack, MyTimeCallBack, NetWorkCallBack {
+public class MainActivity extends BaseMainActivity implements BluetoothCallBcak, MyWifiCallBack, MyTimeCallBack, NetWorkCallBack, UsbDeviceCallBack {
 
     private ActivityMainBinding mainBinding;
 
@@ -110,7 +114,11 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     private MyWifiReceiver wifiReceiver = null;
     // 蓝牙
     private IntentFilter blueFilter = new IntentFilter();
+    //usbDevice
+    private IntentFilter usbDeviceFilter = new IntentFilter();
     private BluetoothReceiver blueReceiver = null;
+    //Usb 设备
+    private UsbDeviceReceiver usbDeviceReceiver =null;
 
     private static String TAG = "MainActivity";
 
@@ -158,11 +166,15 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 //        setContentView(R.layout.activity_main_custom);
 
         //定制逻辑 xuhao add 20240717
-        customBinding = ActivityMainCustomBinding.inflate(LayoutInflater.from(this));
-        setContentView(customBinding.getRoot());
-        initViewCustom();
-        initDataCustom();
-        initReceiver();
+        try {
+            customBinding = ActivityMainCustomBinding.inflate(LayoutInflater.from(this));
+            setContentView(customBinding.getRoot());
+            initViewCustom();
+            initDataCustom();
+            initReceiver();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //原生逻辑
 //        mainBinding = ActivityMainBinding.inflate(LayoutInflater.from(this)); //ViewBinding
@@ -271,6 +283,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         customBinding.homeDisney.setOnClickListener(this);
         customBinding.homeDisney.setOnHoverListener(this);
         customBinding.homeDisney.setOnFocusChangeListener(this);
+        //17 首页Usb插入、拔出图标
+//        customBinding.usbConnect
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this) {
             @Override
@@ -359,6 +373,12 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         blueFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         blueReceiver = new BluetoothReceiver(this);
         registerReceiver(blueReceiver, blueFilter);
+
+        //Usb设备插入、拔出
+        usbDeviceReceiver =new UsbDeviceReceiver(this);
+        usbDeviceFilter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
+        usbDeviceFilter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
+        registerReceiver(usbDeviceReceiver,usbDeviceFilter);
 
     }
 
@@ -660,7 +680,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             //readShortcuts(obj);
 
             //读取右边list第一个、第三个的配置
-            //readListConfig(obj);
+            readListModules(obj);
 
             //读取品牌图标
             //readBrand();
@@ -747,10 +767,44 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             }
 
 
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
+
+    }
+
+    private void readListModules(JSONObject obj) {
+        try {
+            JSONArray jsonarrray = obj.getJSONArray("listModules");
+
+            for (int i = 0; i < jsonarrray.length(); i++) {
+
+                JSONObject jsonobject = jsonarrray.getJSONObject(i);
+                String tag = jsonobject.getString("tag");
+                String iconPath = jsonobject.getString("iconPath");
+                JSONObject textObject = jsonobject.getJSONObject("text");
+                String zhCN = textObject.getString("zh-CN");
+                String zhTW = textObject.getString("zh-TW");
+                String zhHK = textObject.getString("zh-HK");
+                String ko = textObject.getString("ko");
+                String ja = textObject.getString("ja");
+                String en = textObject.getString("en");
+                String ru = textObject.getString("ru");
+                String ar = textObject.getString("ar");
+                String action = jsonobject.getString("action");
+
+                Log.d(TAG, " 读取到的listModules " + tag + iconPath + action);
+
+                //从iconPath中把png读出来赋值给drawable
+                Drawable drawable = FileUtils.loadImageAsDrawable(this, iconPath);
+                DBUtils.getInstance(this).insertListModulesData();
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -823,12 +877,27 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         unregisterReceiver(timeReceiver);
         unregisterReceiver(blueReceiver);
         unregisterReceiver(wifiReceiver);
+        unregisterReceiver(usbDeviceReceiver);
         super.onDestroy();
     }
 
     @Override
     public void bluetoothChange() {
         updateBle();
+    }
+
+    @Override
+    public void UsbDeviceChange() {
+
+        Log.d("UsbDeviceChange ", String.valueOf(Utils.hasUsbDevice));
+
+        if(Utils.hasUsbDevice) {
+            Log.d("UsbDeviceChange ", "usbConnect设为VISIBLE");
+            customBinding.rlUsbConnect.setVisibility(View.VISIBLE);
+        } else {
+            Log.d("UsbDeviceChange ", "usbConnect设为GONE");
+            customBinding.rlUsbConnect.setVisibility(View.GONE);
+        }
     }
 
     @Override

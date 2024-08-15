@@ -28,10 +28,12 @@ public class DBUtils extends SQLiteOpenHelper {
 	private static String TAG = "DBUtils";
 	private static DBUtils mInstance = null;
 	private final static String DATABASE_NAME = "htc_launcher.db";
-	private final static int VERSION = 1;
+	private final static int VERSION = 2;
 	private final String TABLENAME_FAVORITES = "table_favorites";// 我的收藏
 
 	private final String TABLENAME_MAINAPP ="mainApp";
+
+	private final String TABLENAME_LISTMODULES ="listModules";
 	private SharedPreferences sharedPreferences;
 
 	public static DBUtils getInstance(Context context) {
@@ -65,6 +67,24 @@ public class DBUtils extends SQLiteOpenHelper {
 				"iconData BLOB NOT NULL, " +
 				"action TEXT NOT NULL);";
 		db.execSQL(mainApp_sql);
+
+		// 创建listModules表
+		Log.d(TAG," 创建listModules表 ");
+		String listModules_sql = "CREATE TABLE " + TABLENAME_LISTMODULES + " (" +
+				"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+				"tag TEXT NOT NULL, " +
+				"iconData BLOB NOT NULL, " +
+				"text_zh_CN TEXT NOT NULL, " +
+				"text_zh_TW TEXT NOT NULL, " +
+				"text_zh_HK TEXT NOT NULL, " +
+				"text_ko TEXT NOT NULL, " +
+				"text_ja TEXT NOT NULL, " +
+				"text_en TEXT NOT NULL, " +
+				"text_ru TEXT NOT NULL, " +
+				"text_ar TEXT NOT NULL, " +
+				"action TEXT NOT NULL);";
+		db.execSQL(listModules_sql);
+
 	}
 
 	@Override
@@ -202,6 +222,10 @@ public class DBUtils extends SQLiteOpenHelper {
 			Log.d(TAG,"插入数据成功，行ID：" + code);
 //			System.out.println("插入数据成功，行ID：" + code);
 		}
+	}
+
+	public void insertListModulesData() {
+
 	}
 
 
