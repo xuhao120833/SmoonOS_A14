@@ -53,6 +53,7 @@ import com.htc.luminaos.utils.BluetoothUtils;
 import com.htc.luminaos.utils.Constants;
 import com.htc.luminaos.utils.Contants;
 import com.htc.luminaos.utils.DBUtils;
+import com.htc.luminaos.utils.LanguageUtil;
 import com.htc.luminaos.utils.LogUtils;
 import com.htc.luminaos.utils.NetWorkUtils;
 import com.htc.luminaos.utils.ShareUtil;
@@ -74,6 +75,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -118,7 +120,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     private IntentFilter usbDeviceFilter = new IntentFilter();
     private BluetoothReceiver blueReceiver = null;
     //Usb 设备
-    private UsbDeviceReceiver usbDeviceReceiver =null;
+    private UsbDeviceReceiver usbDeviceReceiver = null;
 
     private static String TAG = "MainActivity";
 
@@ -128,6 +130,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     private final int DATA_ERROR = 102;
     private final int DATA_FINISH = 103;
+
+    private Hashtable<String, String> hashtable = new Hashtable<>();
 
     Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -327,7 +331,11 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     @Override
                     public void run() {
                         // 设置首页的配置图标
-                        setIconOrText();
+                        try {
+                            setIconOrText();
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
 
@@ -375,10 +383,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         registerReceiver(blueReceiver, blueFilter);
 
         //Usb设备插入、拔出
-        usbDeviceReceiver =new UsbDeviceReceiver(this);
+        usbDeviceReceiver = new UsbDeviceReceiver(this);
         usbDeviceFilter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
         usbDeviceFilter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
-        registerReceiver(usbDeviceReceiver,usbDeviceFilter);
+        registerReceiver(usbDeviceReceiver, usbDeviceFilter);
 
     }
 
@@ -681,6 +689,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
             //读取右边list第一个、第三个的配置
             readListModules(obj);
+            Log.d(TAG, " 当前的语言环境是： " + LanguageUtil.getCurrentLanguage());
 
             //读取品牌图标
             //readBrand();
@@ -777,9 +786,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     private void readListModules(JSONObject obj) {
         try {
             JSONArray jsonarrray = obj.getJSONArray("listModules");
-
             for (int i = 0; i < jsonarrray.length(); i++) {
-
                 JSONObject jsonobject = jsonarrray.getJSONObject(i);
                 String tag = jsonobject.getString("tag");
                 String iconPath = jsonobject.getString("iconPath");
@@ -787,27 +794,32 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 String zhCN = textObject.getString("zh-CN");
                 String zhTW = textObject.getString("zh-TW");
                 String zhHK = textObject.getString("zh-HK");
-                String ko = textObject.getString("ko");
-                String ja = textObject.getString("ja");
-                String en = textObject.getString("en");
-                String ru = textObject.getString("ru");
-                String ar = textObject.getString("ar");
+                String ko = textObject.getString("ko-KR");
+                String ja = textObject.getString("ja-JP");
+                String en = textObject.getString("en-US");
+                String ru = textObject.getString("ru-RU");
+                String ar = textObject.getString("ar-EG");
                 String action = jsonobject.getString("action");
-
-                Log.d(TAG, " 读取到的listModules " + tag + iconPath + action);
-
+                hashtable.put("zh-CN", zhCN);
+                hashtable.put("zh-TW", zhTW);
+                hashtable.put("zh-HK", zhHK);
+                hashtable.put("ko-KR", ko);
+                hashtable.put("ja-JP", ja);
+                hashtable.put("en-US", en);
+                hashtable.put("ru-RU", ru);
+                hashtable.put("ar-EG", ar);
+                Log.d(TAG, " 读取到的listModules " + tag + iconPath + action + zhCN + ko + ar + ja);
                 //从iconPath中把png读出来赋值给drawable
                 Drawable drawable = FileUtils.loadImageAsDrawable(this, iconPath);
-                DBUtils.getInstance(this).insertListModulesData();
-
+                //将读取到的数据写入数据库
+                DBUtils.getInstance(this).insertListModulesData(tag, drawable, hashtable, action);
+                hashtable.clear();
+//                DBUtils.getInstance(this).getHashtableFromDatabase("list1");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
 
     private ArrayList<ShortInfoBean> loadHomeAppData() {
 
@@ -891,7 +903,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
         Log.d("UsbDeviceChange ", String.valueOf(Utils.hasUsbDevice));
 
-        if(Utils.hasUsbDevice) {
+        if (Utils.hasUsbDevice) {
             Log.d("UsbDeviceChange ", "usbConnect设为VISIBLE");
             customBinding.rlUsbConnect.setVisibility(View.VISIBLE);
         } else {
@@ -1046,6 +1058,18 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     }
 
     private void setIconOrText() {
+
+        //1、MainApp
+        setMainApp();
+
+        //2、ListModules
+        setListModules();
+
+        //3、brand
+
+    }
+
+    private void setMainApp() {
         Drawable drawable = DBUtils.getInstance(this).getIconDataByTag("icon1");
         if (drawable != null) {
             customBinding.icon1.setImageDrawable(drawable);
@@ -1065,27 +1089,63 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         if (drawable != null) {
             customBinding.icon4.setImageDrawable(drawable);
         }
+    }
+
+    private void setListModules() {
+        Drawable drawable = DBUtils.getInstance(this).getDrawableFromListModules("list1");
+        if (drawable != null) {
+            customBinding.eshareIcon.setImageDrawable(drawable);
+            drawable = null;
+        }
+
+        drawable = DBUtils.getInstance(this).getDrawableFromListModules("list3");
+        if (drawable != null) {
+            customBinding.hdmiIcon.setImageDrawable(drawable);
+            drawable = null;
+        }
+
+        Hashtable<String, String> mHashtable1 = DBUtils.getInstance(this).getHashtableFromListModules("list1");
+        Hashtable<String, String> mHashtable2 = DBUtils.getInstance(this).getHashtableFromListModules("list1");
+
+        Log.d(TAG,"xu当前语言"+LanguageUtil.getCurrentLanguage());
+        switch (LanguageUtil.getCurrentLanguage()) {
+            case "zh-CN":
+                Log.d(TAG,"中文设置eshareText和hdmiText");
+                customBinding.eshareText.setText(mHashtable1.get("zh-CN"));
+                customBinding.hdmiText.setText(mHashtable2.get("zh-CN"));
+                break;
+            case "zh-TW":
+                customBinding.eshareText.setText(mHashtable1.get("zh-TW"));
+                customBinding.hdmiText.setText(mHashtable2.get("zh-TW"));
+                break;
+            case "zh-HK":
+                customBinding.eshareText.setText(mHashtable1.get("zh-HK"));
+                customBinding.hdmiText.setText(mHashtable2.get("zh-HK"));
+                break;
+            case "ko-KR":
+                customBinding.eshareText.setText(mHashtable1.get("ko-KR"));
+                customBinding.hdmiText.setText(mHashtable2.get("ko-KR"));
+                break;
+            case "ja-JP":
+                customBinding.eshareText.setText(mHashtable1.get("ja-JP"));
+                customBinding.hdmiText.setText(mHashtable2.get("ja-JP"));
+                break;
+            case "en-US":
+                customBinding.eshareText.setText(mHashtable1.get("en-US"));
+                customBinding.hdmiText.setText(mHashtable2.get("en-US"));
+                break;
+            case "ru-RU":
+                customBinding.eshareText.setText(mHashtable1.get("ru-RU"));
+                customBinding.hdmiText.setText(mHashtable2.get("ru-RU"));
+                break;
+            case "ar-EG":
+                customBinding.eshareText.setText(mHashtable1.get("ar-EG"));
+                customBinding.hdmiText.setText(mHashtable2.get("ar-EG"));
+                break;
+        }
+
 
     }
 
-
-    //                switch (name) {
-//                    case "icon1":
-//                        Log.d(TAG," 设置icon1 ");
-//                        customBinding.icon1.setImageDrawable(drawable);
-//                        break;
-//                    case "icon2":
-//                        Log.d(TAG," 设置icon2 ");
-//                        customBinding.icon2.setImageDrawable(drawable);
-//                        break;
-//                    case "icon3":
-//                        Log.d(TAG," 设置icon3 ");
-//                        customBinding.icon3.setImageDrawable(drawable);
-//                        break;
-//                    case "icon4":
-//                        Log.d(TAG," 设置icon4 ");
-//                        customBinding.icon4.setImageDrawable(drawable);
-//                        break;
-//                }
 
 }

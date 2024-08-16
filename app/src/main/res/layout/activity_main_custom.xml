@@ -208,7 +208,6 @@
         android:paddingStart="36px"
         style="@style/focusStyle"
         android:background="@drawable/home_bg_custom"
-        android:gravity="center_vertical"
         android:layout_toEndOf="@id/home_youtube">
 
         <ImageView
@@ -218,6 +217,7 @@
             android:src="@drawable/home_icon_eshare" />
 
         <TextView
+            android:id="@+id/eshare_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="40px"
@@ -239,7 +239,6 @@
         android:layout_marginStart="40px"
         android:layout_marginTop="50px"
         android:paddingStart="36px"
-        android:gravity="center_vertical"
         style="@style/focusStyle"
         android:background="@drawable/home_bg_custom"
         android:layout_below="@+id/home_eshare">
@@ -271,7 +270,6 @@
         android:layout_marginStart="40px"
         android:layout_marginTop="46px"
         android:paddingStart="36px"
-        android:gravity="center_vertical"
         style="@style/focusStyle"
         android:background="@drawable/home_bg_custom"
         android:layout_below="@+id/rl_usb">
@@ -283,6 +281,7 @@
             android:src="@drawable/home_icon_hdmi" />
 
         <TextView
+            android:id="@+id/hdmi_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="40px"
@@ -304,7 +303,6 @@
         android:layout_marginStart="40px"
         android:layout_marginTop="50px"
         android:paddingStart="36px"
-        android:gravity="center_vertical"
         style="@style/focusStyle"
         android:background="@drawable/home_bg_custom"
         android:layout_below="@+id/rl_hdmi1">

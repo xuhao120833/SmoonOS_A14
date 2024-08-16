@@ -13,10 +13,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.htc.luminaos.entry.AppSimpleBean;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 
 /**
@@ -24,341 +28,436 @@ import java.util.ArrayList;
  * @version 创建时间 2020/9/8 下午3:50:51 类说�?
  */
 public class DBUtils extends SQLiteOpenHelper {
-	
-	private static String TAG = "DBUtils";
-	private static DBUtils mInstance = null;
-	private final static String DATABASE_NAME = "htc_launcher.db";
-	private final static int VERSION = 2;
-	private final String TABLENAME_FAVORITES = "table_favorites";// 我的收藏
 
-	private final String TABLENAME_MAINAPP ="mainApp";
+    private static String TAG = "DBUtils";
+    private static DBUtils mInstance = null;
+    private final static String DATABASE_NAME = "htc_launcher.db";
+    private final static int VERSION = 7;
+    private final String TABLENAME_FAVORITES = "table_favorites";// 我的收藏
 
-	private final String TABLENAME_LISTMODULES ="listModules";
-	private SharedPreferences sharedPreferences;
+    private final String TABLENAME_MAINAPP = "mainApp";
 
-	public static DBUtils getInstance(Context context) {
-		if (mInstance == null) {
-			mInstance = new DBUtils(context);
-		}
-		return mInstance;
-	}
+    private final String TABLENAME_LISTMODULES = "listModules";
+    private SharedPreferences sharedPreferences;
 
-	private DBUtils(Context context) {
-		super(context, DATABASE_NAME, null, VERSION);
-		sharedPreferences = ShareUtil.getInstans(context);
-	}
-	
+    public static DBUtils getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new DBUtils(context);
+        }
+        return mInstance;
+    }
 
-	@Override
-	public void onCreate(SQLiteDatabase db) {
-		// TODO Auto-generated method stub
-		// 创建我的收藏
-		Log.d(TAG," 创建我的收藏数据表 ");
-		String favorites_sql = "CREATE TABLE " + TABLENAME_FAVORITES
-						+ " ( id integer primary key,  packagename text );";
-		db.execSQL(favorites_sql);
+    private DBUtils(Context context) {
+        super(context, DATABASE_NAME, null, VERSION);
+        sharedPreferences = ShareUtil.getInstans(context);
+    }
 
-		// 创建mainApp表
-		Log.d(TAG," 创建mainApp数据表 ");
-		String mainApp_sql = "CREATE TABLE " + TABLENAME_MAINAPP + " (" +
-				"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-				"tag TEXT NOT NULL, " +
-				"appName TEXT NOT NULL, " +
-				"iconData BLOB NOT NULL, " +
-				"action TEXT NOT NULL);";
-		db.execSQL(mainApp_sql);
 
-		// 创建listModules表
-		Log.d(TAG," 创建listModules表 ");
-		String listModules_sql = "CREATE TABLE " + TABLENAME_LISTMODULES + " (" +
-				"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-				"tag TEXT NOT NULL, " +
-				"iconData BLOB NOT NULL, " +
-				"text_zh_CN TEXT NOT NULL, " +
-				"text_zh_TW TEXT NOT NULL, " +
-				"text_zh_HK TEXT NOT NULL, " +
-				"text_ko TEXT NOT NULL, " +
-				"text_ja TEXT NOT NULL, " +
-				"text_en TEXT NOT NULL, " +
-				"text_ru TEXT NOT NULL, " +
-				"text_ar TEXT NOT NULL, " +
-				"action TEXT NOT NULL);";
-		db.execSQL(listModules_sql);
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        try {
+            // TODO Auto-generated method stub
+            // 创建我的收藏表
+            Log.d(TAG, " 创建我的收藏数据表 ");
+            String favorites_sql = "CREATE TABLE " + TABLENAME_FAVORITES
+                    + " ( id integer primary key,  packagename text );";
+            db.execSQL(favorites_sql);
 
-	}
+            // 创建mainApp表
+            Log.d(TAG, " 创建mainApp数据表 ");
+            String mainApp_sql = "CREATE TABLE " + TABLENAME_MAINAPP + " (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "tag TEXT NOT NULL, " +
+                    "appName TEXT NOT NULL, " +
+                    "iconData BLOB NOT NULL, " +
+                    "action TEXT NOT NULL);";
+            db.execSQL(mainApp_sql);
 
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			// 创建listModules表
+            Log.d(TAG, " 创建 listModules 表 ");
+            String listModules_sql = "CREATE TABLE " + TABLENAME_LISTMODULES + " (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "tag TEXT NOT NULL, " +
+                    "iconData BLOB NOT NULL, " +
+                    "hashtable_data TEXT NOT NULL, " + // 用于存储序列化的 Hashtable
+                    "action TEXT NOT NULL);";
+            db.execSQL(listModules_sql);
 
-		Log.d(TAG," 执行onUpgrade ");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-		// TODO Auto-generated method stub
-		String favorites_sql = "DROP TABLE IF EXISTS " + TABLENAME_FAVORITES;
-		db.execSQL(favorites_sql);
+    }
 
-		favorites_sql = "DROP TABLE IF EXISTS " + TABLENAME_MAINAPP;
-		db.execSQL(favorites_sql);
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-		onCreate(db);
-	}
+        Log.d(TAG, " 执行onUpgrade ");
 
-	/**
-	 * 添加收藏
-	 * 
-	 * @param packagename
-	 * @return
-	 */
-	public long addFavorites(String packagename) {
-		long code = -1;
-		SQLiteDatabase db = getWritableDatabase();
-		ContentValues cv = new ContentValues();
-		cv.put("packagename", packagename);
-		code = db.insert(TABLENAME_FAVORITES, null, cv);
-		sharedPreferences.edit().putBoolean(Contants.MODIFY,true).apply();
-		db.close();
-		return code;
-	}
-	
-	/**
-	 * 获取收藏
-	 * 
-	 * @return
-	 */
-	public ArrayList<AppSimpleBean> getFavorites() {
-		ArrayList<AppSimpleBean> list = new ArrayList<AppSimpleBean>();
-		SQLiteDatabase db = getReadableDatabase();
-		String sql = "select id , packagename  from " + TABLENAME_FAVORITES;
-		Cursor cs = db.rawQuery(sql, null);
-		while (cs.moveToNext()) {
-			AppSimpleBean bean = new AppSimpleBean();
-			bean.setId(cs.getInt(0));
-			bean.setPackagename(cs.getString(1));
-			list.add(bean);
-		}
-		db.close();
-		return list;
-	}
-	
-	/**
-	 * 删除收藏
-	 * 
-	 * @param packagename
-	 * @return
-	 */
-	public int deleteFavorites(String packagename) {
-		int code = -1;
-		SQLiteDatabase db = getWritableDatabase();
-		code = db.delete(TABLENAME_FAVORITES, "packagename=?",
-				new String[] { packagename });
-		db.close();
-		sharedPreferences.edit().putBoolean(Contants.MODIFY,true).apply();
-		return code;
-	}
-	
-	/**
-	 * 清空收藏
-	 */
-	public void clearFavorites() {
-		SQLiteDatabase db = getWritableDatabase();
-		String sql = "delete from " + TABLENAME_FAVORITES;
-		db.execSQL(sql);
-		db.close();
-		sharedPreferences.edit().putBoolean(Contants.MODIFY,true).apply();
-	}
-	
-	/**
-	 * 查询数据库中条数
-	 * 
-	 * @return
-	 */
-	public long getCount() {
-		long count = 0;
-		SQLiteDatabase db = getWritableDatabase();
-		String sql = "select count(*) from " + TABLENAME_FAVORITES;
-		Cursor cursor = db.rawQuery(sql, null);
-		cursor.moveToFirst();
-		count = cursor.getLong(0);
-		cursor.close();
-		return count;
-	}
+        // TODO Auto-generated method stub
+        String favorites_sql = "DROP TABLE IF EXISTS " + TABLENAME_FAVORITES;
+        db.execSQL(favorites_sql);
 
-	public boolean isExistData(String packagename) {
-		boolean isExist = false;
-		SQLiteDatabase db = getWritableDatabase();
-		Cursor cs = db.rawQuery("select id , packagename  from "
-				+ TABLENAME_FAVORITES + " where packagename = ?",
-				new String[] { packagename });
-		while (cs.moveToNext()) {
-			isExist=true;
-		}
-		db.close();
-		return isExist;
-	}
+        favorites_sql = "DROP TABLE IF EXISTS " + TABLENAME_MAINAPP;
+        db.execSQL(favorites_sql);
 
-	/***
-	 * Time:2024/8/10
-	 * Author:xuhao
-	 * Usage:将从配置文件config中读出来的信息保存进本地的db数据库。
-	 * @param tag
-	 * @param appName
-	 * @param drawable
-	 * @param action
-	 */
-	public void insertMainAppData(String tag, String appName, Drawable drawable, String action) {
+        favorites_sql = "DROP TABLE IF EXISTS " + TABLENAME_LISTMODULES;
+        db.execSQL(favorites_sql);
 
-		long code = -1;
-		SQLiteDatabase db = getWritableDatabase();
-		ContentValues values = new ContentValues();
-		values.put("tag", tag);
-		values.put("appName", appName);
-		values.put("iconData", drawableToByteArray(drawable));  // 插入 BLOB 数据
-		values.put("action", action);
+        onCreate(db);
+    }
 
-		code = db.insert(TABLENAME_MAINAPP, null, values);
-		if (code == -1) {
-			Log.d(TAG,"插入数据失败");
+    /**
+     * 添加收藏
+     *
+     * @param packagename
+     * @return
+     */
+    public long addFavorites(String packagename) {
+        long code = -1;
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("packagename", packagename);
+        code = db.insert(TABLENAME_FAVORITES, null, cv);
+        sharedPreferences.edit().putBoolean(Contants.MODIFY, true).apply();
+        db.close();
+        return code;
+    }
+
+    /**
+     * 获取收藏
+     *
+     * @return
+     */
+    public ArrayList<AppSimpleBean> getFavorites() {
+        ArrayList<AppSimpleBean> list = new ArrayList<AppSimpleBean>();
+        SQLiteDatabase db = getReadableDatabase();
+        String sql = "select id , packagename  from " + TABLENAME_FAVORITES;
+        Cursor cs = db.rawQuery(sql, null);
+        while (cs.moveToNext()) {
+            AppSimpleBean bean = new AppSimpleBean();
+            bean.setId(cs.getInt(0));
+            bean.setPackagename(cs.getString(1));
+            list.add(bean);
+        }
+        db.close();
+        return list;
+    }
+
+    /**
+     * 删除收藏
+     *
+     * @param packagename
+     * @return
+     */
+    public int deleteFavorites(String packagename) {
+        int code = -1;
+        SQLiteDatabase db = getWritableDatabase();
+        code = db.delete(TABLENAME_FAVORITES, "packagename=?",
+                new String[]{packagename});
+        db.close();
+        sharedPreferences.edit().putBoolean(Contants.MODIFY, true).apply();
+        return code;
+    }
+
+    /**
+     * 清空收藏
+     */
+    public void clearFavorites() {
+        SQLiteDatabase db = getWritableDatabase();
+        String sql = "delete from " + TABLENAME_FAVORITES;
+        db.execSQL(sql);
+        db.close();
+        sharedPreferences.edit().putBoolean(Contants.MODIFY, true).apply();
+    }
+
+    /**
+     * 查询数据库中条数
+     *
+     * @return
+     */
+    public long getCount() {
+        long count = 0;
+        SQLiteDatabase db = getWritableDatabase();
+        String sql = "select count(*) from " + TABLENAME_FAVORITES;
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        count = cursor.getLong(0);
+        cursor.close();
+        return count;
+    }
+
+    public boolean isExistData(String packagename) {
+        boolean isExist = false;
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cs = db.rawQuery("select id , packagename  from "
+                        + TABLENAME_FAVORITES + " where packagename = ?",
+                new String[]{packagename});
+        while (cs.moveToNext()) {
+            isExist = true;
+        }
+        db.close();
+        return isExist;
+    }
+
+    /***
+     * Time:2024/8/10
+     * Author:xuhao
+     * Usage:将从配置文件config中读出来的信息保存进本地的db数据库。
+     * @param tag
+     * @param appName
+     * @param drawable
+     * @param action
+     */
+    public void insertMainAppData(String tag, String appName, Drawable drawable, String action) {
+
+        long code = -1;
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("tag", tag);
+        values.put("appName", appName);
+        values.put("iconData", drawableToByteArray(drawable));  // 插入 BLOB 数据
+        values.put("action", action);
+
+        code = db.insert(TABLENAME_MAINAPP, null, values);
+        if (code == -1) {
+            Log.d(TAG, "MainApp插入数据失败");
 //			System.out.println("插入数据失败");
-		} else {
-			Log.d(TAG,"插入数据成功，行ID：" + code);
+        } else {
+            Log.d(TAG, "MainApp插入数据成功，行ID：" + code);
 //			System.out.println("插入数据成功，行ID：" + code);
-		}
-	}
+        }
+    }
 
-	public void insertListModulesData() {
+    public void insertListModulesData(String tag, Drawable drawable, Hashtable hashtable, String action) {
+        long code = -1;
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("tag", tag);
+        values.put("iconData", drawableToByteArray(drawable));  // 插入 BLOB 数据
+        //hashtable序列化存入数据库
+        saveHashtableToDatabase(hashtable,values);
+        values.put("action", action);
 
-	}
+        code = db.insert(TABLENAME_LISTMODULES, null, values);
+        if (code == -1) {
+            Log.d(TAG, "ListModules插入数据失败");
+//			System.out.println("插入数据失败");
+        } else {
+            Log.d(TAG, "ListModules插入数据成功，行ID：" + code);
+//			System.out.println("插入数据成功，行ID：" + code);
+        }
+    }
+
+    public Hashtable<String, String> getHashtableFromListModules(String tag) {
+        SQLiteDatabase db = getWritableDatabase();
+        Hashtable<String, String> hashtable = null;
+
+        // 查询数据库获取保存的JSON字符串，通过tag筛选
+        Cursor cursor = db.query(
+                "listModules",            // 表名
+                new String[]{"hashtable_data"}, // 要查询的列
+                "tag = ?",                     // 查询条件
+                new String[]{tag},             // 查询条件的参数
+                null,                          // 不进行分组
+                null,                          // 不进行分组后的筛选
+                null                           // 不进行排序
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            String jsonString = cursor.getString(cursor.getColumnIndex("hashtable_data"));
+
+            Log.d(TAG," 读取到的jsonString的值为 "+jsonString);
+
+            // 使用Gson将JSON字符串反序列化为Hashtable
+            Gson gson = new Gson();
+            Type type = new TypeToken<Hashtable<String, String>>() {}.getType();
+            hashtable = gson.fromJson(jsonString, type);
+
+            Log.d(TAG," 获取到的阿拉伯语言 "+hashtable.get("ar"));
+
+            cursor.close();  // 关闭Cursor
+        }
+
+        return hashtable;  // 返回反序列化后的Hashtable
+    }
+
+    public Drawable getDrawableFromListModules(String tag) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        Drawable drawable =null;
+        // 查询数据库获取保存的JSON字符串，通过tag筛选
+        Cursor cursor = db.query(
+                "listModules",            // 表名
+                new String[]{"iconData"}, // 要查询的列
+                "tag = ?",                     // 查询条件
+                new String[]{tag},             // 查询条件的参数
+                null,                          // 不进行分组
+                null,                          // 不进行分组后的筛选
+                null                           // 不进行排序
+        );
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                byte[] iconData = cursor.getBlob(cursor.getColumnIndex("iconData"));
+                drawable = byteArrayToDrawable(iconData);  // 将字节数组转换为 Drawable
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // 关闭 Cursor 和数据库连接
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return drawable;
+    }
 
 
-	/***
-	 * Time:2024/8/10
-	 * Author:xuhao
-	 * Usage:将drawable转化成ByteArray，
-	 * 方便保存到SQLite数据库中。
-	 * @param drawable
-	 * @return
-	 */
-	public byte[] drawableToByteArray(Drawable drawable) {
-		Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-		return stream.toByteArray();
-	}
 
-	/***
-	 * Time:2024/8/12
-	 * Author:xuhao
-	 * Usage:通过name去查询数据库的数据，返回drawable
-	 * @param tag
-	 * @return
-	 */
-	public Drawable getIconDataByTag(String tag) {
-		SQLiteDatabase db = getReadableDatabase();
-		Drawable drawable = null;
-		Cursor cursor = null;
+    /***
+     * Time:2024/8/10
+     * Author:xuhao
+     * Usage:将drawable转化成ByteArray，
+     * 方便保存到SQLite数据库中。
+     * @param drawable
+     * @return
+     */
+    public byte[] drawableToByteArray(Drawable drawable) {
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
 
-		try {
-			// 查询数据库中的数据
-			cursor = db.query(
-					TABLENAME_MAINAPP,                   // 表名
-					new String[]{"iconData"},            // 需要查询的列名
-					"tag = ?",                          // 查询条件
-					new String[]{tag},                  // 查询条件的参数
-					null,                                // Group By
-					null,                                // Having
-					null                                 // Order By
-			);
+    /***
+     * Time:2024/8/12
+     * Author:xuhao
+     * Usage:通过name去查询数据库的数据，返回drawable
+     * @param tag
+     * @return
+     */
+    public Drawable getIconDataByTag(String tag) {
+        SQLiteDatabase db = getReadableDatabase();
+        Drawable drawable = null;
+        Cursor cursor = null;
 
-			// 检查是否查找到结果
-			if (cursor != null && cursor.moveToFirst()) {
-				byte[] iconData = cursor.getBlob(cursor.getColumnIndex("iconData"));
-				drawable = byteArrayToDrawable(iconData);  // 将字节数组转换为 Drawable
-			}
-			Log.d(TAG,"查询数据成功");
-		} finally {
-			// 关闭 Cursor 和数据库连接
-			if (cursor != null) {
-				cursor.close();
-			}
-			db.close();
-		}
+        try {
+            // 查询数据库中的数据
+            cursor = db.query(
+                    TABLENAME_MAINAPP,                   // 表名
+                    new String[]{"iconData"},            // 需要查询的列名
+                    "tag = ?",                          // 查询条件
+                    new String[]{tag},                  // 查询条件的参数
+                    null,                                // Group By
+                    null,                                // Having
+                    null                                 // Order By
+            );
 
-		return drawable;
-	}
+            // 检查是否查找到结果
+            if (cursor != null && cursor.moveToFirst()) {
+                byte[] iconData = cursor.getBlob(cursor.getColumnIndex("iconData"));
+                drawable = byteArrayToDrawable(iconData);  // 将字节数组转换为 Drawable
+            }
+            Log.d(TAG, "查询数据成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            // 关闭 Cursor 和数据库连接
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
 
-	/***
-	 * Time:2024/8/12
-	 * Author:xuhao
-	 * Usage:将ByteArray转化成drawable。
-	 * @param byteArray
-	 * @return
-	 */
-	private Drawable byteArrayToDrawable(byte[] byteArray) {
-		if (byteArray == null) {
-			return null;
-		}
-		return new BitmapDrawable(Resources.getSystem(), BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
-	}
+        return drawable;
+    }
 
-	public String getAppNameByTag(String tag) {
-		SQLiteDatabase db = getReadableDatabase();
-		String appName = null;
+    /***
+     * Time:2024/8/12
+     * Author:xuhao
+     * Usage:将ByteArray转化成drawable。
+     * @param byteArray
+     * @return
+     */
+    private Drawable byteArrayToDrawable(byte[] byteArray) {
+        if (byteArray == null) {
+            return null;
+        }
+        return new BitmapDrawable(Resources.getSystem(), BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
+    }
 
-		// 查询条件
-		String selection = "tag = ?";
-		String[] selectionArgs = { tag };
+    public String getAppNameByTag(String tag) {
+        SQLiteDatabase db = getReadableDatabase();
+        String appName = null;
 
-		// 查询数据库
-		Cursor cursor = db.query(
-				TABLENAME_MAINAPP,   // 表名
-				new String[]{"appName"}, // 查询的列
-				selection,          // 查询条件
-				selectionArgs,      // 查询条件参数
-				null,               // 分组
-				null,               // 分组条件
-				null                // 排序
-		);
+        // 查询条件
+        String selection = "tag = ?";
+        String[] selectionArgs = {tag};
 
-		// 处理查询结果
-		if (cursor != null) {
-			if (cursor.moveToFirst()) {
-				appName = cursor.getString(cursor.getColumnIndex("appName"));
-			}
-			cursor.close();
-		}
+        // 查询数据库
+        Cursor cursor = db.query(
+                TABLENAME_MAINAPP,   // 表名
+                new String[]{"appName"}, // 查询的列
+                selection,          // 查询条件
+                selectionArgs,      // 查询条件参数
+                null,               // 分组
+                null,               // 分组条件
+                null                // 排序
+        );
 
-		return appName;
-	}
+        // 处理查询结果
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                appName = cursor.getString(cursor.getColumnIndex("appName"));
+            }
+            cursor.close();
+        }
 
-	public String getActionByTag(String tag) {
-		SQLiteDatabase db = getReadableDatabase();
-		String action = null;
+        return appName;
+    }
 
-		// 查询条件
-		String selection = "tag = ?";
-		String[] selectionArgs = { tag };
+    public String getActionByTag(String tag) {
+        SQLiteDatabase db = getReadableDatabase();
+        String action = null;
 
-		// 查询数据库
-		Cursor cursor = db.query(
-				TABLENAME_MAINAPP,   // 表名
-				new String[]{"action"}, // 查询的列
-				selection,          // 查询条件
-				selectionArgs,      // 查询条件参数
-				null,               // 分组
-				null,               // 分组条件
-				null                // 排序
-		);
+        // 查询条件
+        String selection = "tag = ?";
+        String[] selectionArgs = {tag};
 
-		// 处理查询结果
-		if (cursor != null) {
-			if (cursor.moveToFirst()) {
-				action = cursor.getString(cursor.getColumnIndex("action"));
-			}
-			cursor.close();
-		}
+        // 查询数据库
+        Cursor cursor = db.query(
+                TABLENAME_MAINAPP,   // 表名
+                new String[]{"action"}, // 查询的列
+                selection,          // 查询条件
+                selectionArgs,      // 查询条件参数
+                null,               // 分组
+                null,               // 分组条件
+                null                // 排序
+        );
 
-		return action;
-	}
+        // 处理查询结果
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                action = cursor.getString(cursor.getColumnIndex("action"));
+            }
+            cursor.close();
+        }
 
+        return action;
+    }
+
+    public void saveHashtableToDatabase(Hashtable<String, String> hashtable, ContentValues values) {
+        // 使用Gson将Hashtable序列化为JSON字符串
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(hashtable);
+
+        Log.d(TAG,"序列化之后的hashtable_data值为 "+jsonString);
+
+        // 创建ContentValues用于插入数据
+        values.put("hashtable_data", jsonString);  // 将序列化后的字符串存入ContentValues
+    }
 
 
 
