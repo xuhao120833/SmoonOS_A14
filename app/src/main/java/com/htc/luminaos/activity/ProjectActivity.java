@@ -1,11 +1,15 @@
 package com.htc.luminaos.activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemProperties;
 import android.view.Display;
 import android.view.Gravity;
@@ -23,6 +27,7 @@ import com.htc.luminaos.utils.AppUtils;
 import com.htc.luminaos.utils.Contants;
 import com.htc.luminaos.utils.KeystoneUtils;
 import com.htc.luminaos.utils.LogUtils;
+import com.htc.luminaos.utils.ReflectUtil;
 import com.htc.luminaos.utils.ShareUtil;
 import com.htc.luminaos.utils.ToastUtil;
 import com.softwinner.tv.AwTvDisplayManager;
@@ -60,6 +65,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     private SharedPreferences sharedPreferences;
     long cur_time = 0;
 
+    Handler handler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +78,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     private void initView(){
         projectBinding.rlProjectMode.setOnClickListener(this);
         projectBinding.rlAutoKeystone.setOnClickListener(this);
+        projectBinding.rlInitAngle.setOnClickListener(this);
         projectBinding.autoKeystoneSwitch.setOnClickListener(this);
 
         projectBinding.rlProjectMode.setOnKeyListener(this);
@@ -96,6 +103,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         projectBinding.rlProjectMode.setVisibility(MyApplication.config.projectMode?View.VISIBLE:View.GONE);
         projectBinding.rlDigitalZoom.setVisibility(MyApplication.config.wholeZoom?View.VISIBLE:View.GONE);
         projectBinding.rlAutoKeystone.setVisibility(MyApplication.config.autoKeystone?View.VISIBLE:View.GONE);
+        projectBinding.rlInitAngle.setVisibility(MyApplication.config.initAngleCorrect?View.VISIBLE:View.GONE);
         projectBinding.rlManualKeystone.setVisibility(MyApplication.config.manualKeystone?View.VISIBLE:View.GONE);
         projectBinding.rlResetKeystone.setVisibility(MyApplication.config.resetKeystone?View.VISIBLE:View.GONE);
         projectBinding.rlAutoFocus.setVisibility(MyApplication.config.autoFocus?View.VISIBLE:View.GONE);
@@ -108,13 +116,13 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
             projectBinding.rlIntelligentObstacle.setVisibility(View.VISIBLE);
             projectBinding.rlScreenRecognition.setVisibility(View.VISIBLE);
             projectBinding.rlAutoFourCorner.setVisibility(View.VISIBLE);
-
+            projectBinding.rlInitAngle.setVisibility(View.GONE);
             projectBinding.rlAutoKeystone.setVisibility(View.GONE);
 
             if (SystemProperties.get("persist.sys.focusupdn", "0").equals("1")) {
                 //自动梯形
                 projectBinding.rlAutoKeystone.setVisibility(View.VISIBLE);
-
+                projectBinding.rlInitAngle.setVisibility(MyApplication.config.initAngleCorrect?View.VISIBLE:View.GONE);
                 projectBinding.rlAutoFourCorner.setVisibility(View.GONE);
                 projectBinding.rlIntelligentObstacle.setVisibility(View.GONE);
                 projectBinding.rlScreenRecognition.setVisibility(View.GONE);
@@ -122,7 +130,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
 
         } else {
             projectBinding.rlAutoKeystone.setVisibility(View.VISIBLE);
-
+            projectBinding.rlInitAngle.setVisibility(MyApplication.config.initAngleCorrect?View.VISIBLE:View.GONE);
             projectBinding.rlAutoFourCorner.setVisibility(View.GONE);
             projectBinding.rlIntelligentObstacle.setVisibility(View.GONE);
             projectBinding.rlScreenRecognition.setVisibility(View.GONE);
@@ -275,7 +283,36 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
             case R.id.rl_calibration:
                 AppUtils.startNewApp(this,"com.hysd.vafocus","com.hysd.vafocus.VajzActivity");
                 break;
+            case R.id.rl_init_angle:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                builder.setTitle(getString(R.string.hint));
+                builder.setMessage(getString(R.string.defaultcorrectionhint));
+                builder.setPositiveButton(getString(R.string.enter), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        initCorrectAngle();
+                    }
+                });
+                builder.setNegativeButton(getString(R.string.cancel), null);
+                builder.show();
+                break;
         }
+    }
+
+    private ProgressDialog dialog = null;
+    private void initCorrectAngle() {
+        ReflectUtil.invokeSet_angle_offset();
+        dialog = new ProgressDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+        dialog.setMessage(getString(R.string.defaultcorrectionin));
+        dialog.show();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (dialog!=null && dialog.isShowing())
+                    dialog.dismiss();
+                LogUtils.d("get_angle_offset "+ReflectUtil.invokeGet_angle_offset());
+            }
+        },3000);
     }
 
     @Override

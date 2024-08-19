@@ -202,4 +202,9 @@
 	<string name="time_format_12">Use 12 hour format</string>
 
 	<string name="refresh_network">refresh network</string>
+
+	<string name="hint">Hint</string>
+	<string name="defaultcorrection">Initial angle correction</string>
+	<string name="defaultcorrectionhint">Place the device on a level surface and press "OK" to calibrate. Do not move the device during calibration!</string>
+	<string name="defaultcorrectionin">Calibrating, please wait...</string>
 </resources>

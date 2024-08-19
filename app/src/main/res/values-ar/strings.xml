@@ -199,4 +199,9 @@
 	<string name="time_format_12">استخدم تنسيق 12 ساعة</string>
 
 	<string name="refresh_network">شكرا جزيلا</string>
+
+	<string name="hint">تَلمِيح</string>
+	<string name="defaultcorrection">تصحيح الزاوية الأولي</string>
+	<string name="defaultcorrectionhint">ضع الجهاز على سطح مستو واضغط على "موافق" للمعايرة. لا تحرك الجهاز أثناء المعايرة!</string>
+	<string name="defaultcorrectionin">جارٍ المعايرة، يرجى الانتظار...</string>
 </resources>

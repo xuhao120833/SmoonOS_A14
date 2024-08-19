@@ -12,6 +12,7 @@ public class Config {
     public String filterApps = "";
 
     public List<Apps> apps;
+    //IP设置
     public boolean ipSetting = true;
 
 
@@ -32,8 +33,15 @@ public class Config {
     public  boolean displayVoiceMode=false;
 
 
+    //自动梯形矫正
     public  boolean autoKeystone=true;
+
+    //初始角度矫正
+    public  boolean initAngleCorrect=true;
+
+    //自动四角矫正
     public  boolean autoFourCorner=true;
+
     public  boolean manualKeystone=true;
     public  boolean resetKeystone=true;
     public  int manualKeystoneWidth=1000;

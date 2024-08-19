@@ -32,12 +32,14 @@ public class DBUtils extends SQLiteOpenHelper {
     private static String TAG = "DBUtils";
     private static DBUtils mInstance = null;
     private final static String DATABASE_NAME = "htc_launcher.db";
-    private final static int VERSION = 7;
+    private final static int VERSION = 8;
     private final String TABLENAME_FAVORITES = "table_favorites";// 我的收藏
 
     private final String TABLENAME_MAINAPP = "mainApp";
 
     private final String TABLENAME_LISTMODULES = "listModules";
+
+    private final String TABLENAME_BRANDLOGO = "brandLogo";
     private SharedPreferences sharedPreferences;
 
     public static DBUtils getInstance(Context context) {
@@ -83,6 +85,14 @@ public class DBUtils extends SQLiteOpenHelper {
                     "action TEXT NOT NULL);";
             db.execSQL(listModules_sql);
 
+            // 创建brand品牌表
+            Log.d(TAG," 创建brand品牌表");
+            String brandLogo_sql = "CREATE TABLE " + TABLENAME_BRANDLOGO + " (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "iconData BLOB NOT NULL);";
+            db.execSQL(brandLogo_sql);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -102,6 +112,9 @@ public class DBUtils extends SQLiteOpenHelper {
         db.execSQL(favorites_sql);
 
         favorites_sql = "DROP TABLE IF EXISTS " + TABLENAME_LISTMODULES;
+        db.execSQL(favorites_sql);
+
+        favorites_sql = "DROP TABLE IF EXISTS " + TABLENAME_BRANDLOGO;
         db.execSQL(favorites_sql);
 
         onCreate(db);
@@ -249,6 +262,21 @@ public class DBUtils extends SQLiteOpenHelper {
         }
     }
 
+    public void insertBrandLogoData(Drawable drawable) {
+        long code = -1;
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("iconData", drawableToByteArray(drawable));
+        code = db.insert(TABLENAME_BRANDLOGO, null, values);
+        if (code == -1) {
+            Log.d(TAG, "ListModules插入数据失败");
+//			System.out.println("插入数据失败");
+        } else {
+            Log.d(TAG, "BrandLogo插入数据成功，行ID：" + code);
+//			System.out.println("插入数据成功，行ID：" + code);
+        }
+    }
+
     public Hashtable<String, String> getHashtableFromListModules(String tag) {
         SQLiteDatabase db = getWritableDatabase();
         Hashtable<String, String> hashtable = null;
@@ -284,7 +312,6 @@ public class DBUtils extends SQLiteOpenHelper {
 
     public Drawable getDrawableFromListModules(String tag) {
         SQLiteDatabase db = getWritableDatabase();
-
         Drawable drawable =null;
         // 查询数据库获取保存的JSON字符串，通过tag筛选
         Cursor cursor = db.query(
@@ -310,8 +337,36 @@ public class DBUtils extends SQLiteOpenHelper {
             }
             db.close();
         }
-
         return drawable;
+    }
+
+    public Drawable getDrawableFromBrandLogo(int id) {
+        SQLiteDatabase db = getReadableDatabase();
+        Drawable drawable = null;
+        Cursor cursor = db.query(
+                TABLENAME_BRANDLOGO,             // 表名
+                new String[]{"iconData"},        // 要查询的列
+                "id = ?",                        // 查询条件
+                new String[]{String.valueOf(id)}, // 查询条件的参数
+                null,                            // 不进行分组
+                null,                            // 不进行分组后的筛选
+                null                             // 不进行排序
+        );
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                byte[] iconData = cursor.getBlob(cursor.getColumnIndex("iconData"));
+                drawable = byteArrayToDrawable(iconData);  // 将字节数组转换为 Drawable
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // 关闭 Cursor 和数据库连接
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+        return drawable;  // 返回 Drawable
     }
 
 

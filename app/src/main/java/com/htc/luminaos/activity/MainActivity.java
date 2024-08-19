@@ -692,7 +692,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             Log.d(TAG, " 当前的语言环境是： " + LanguageUtil.getCurrentLanguage());
 
             //读取品牌图标
-            //readBrand();
+            readBrand(obj);
 
             //是否显示时间
             //readTime();
@@ -819,6 +819,18 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void readBrand(JSONObject obj) {
+        try {
+            JSONObject jsonobject = obj.getJSONObject("brandLogo");
+            String iconPath = jsonobject.getString("iconPath");
+            Drawable drawable = FileUtils.loadImageAsDrawable(this, iconPath);
+            DBUtils.getInstance(this).insertBrandLogoData(drawable);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private ArrayList<ShortInfoBean> loadHomeAppData() {
@@ -1065,7 +1077,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         //2、ListModules
         setListModules();
 
-        //3、brand
+        //3、brandLogo
+        setbrandLogo();
 
     }
 
@@ -1143,8 +1156,13 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 customBinding.hdmiText.setText(mHashtable2.get("ar-EG"));
                 break;
         }
+    }
 
-
+    private void setbrandLogo() {
+        Drawable drawable = DBUtils.getInstance(this).getDrawableFromBrandLogo(1);
+        if(drawable!=null) {
+            customBinding.brand.setImageDrawable(drawable);
+        }
     }
 
 

@@ -239,4 +239,10 @@
     <string name="time_format_24">使用24小时格式</string>
     <string name="time_format_12">使用12小时格式</string>
 
+    <string name="hint">提示</string>
+    <string name="defaultcorrection">初始角度矫正</string>
+    <string name="defaultcorrectionhint">将设备放置在水平面上，然后按\“确定\”进行校正。 校正过程中请勿移动设备！</string>
+    <string name="defaultcorrectionin">正在校正中，请稍候…</string>
+
+
 </resources>

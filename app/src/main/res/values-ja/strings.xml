@@ -202,4 +202,9 @@
 
 	<string name="refresh_network">ネットワークを更新する</string>
 
+	<string name="hint">ヒント</string>
+	<string name="defaultcorrection">初期角度補正</string>
+	<string name="defaultcorrectionhint">デバイスを水平面に置き、「OK」を押して調整します。 キャリブレーション中はデバイスを動かさないでください。</string>
+	<string name="defaultcorrectionin">調整中です。お待ちください...</string>
+
 </resources>
