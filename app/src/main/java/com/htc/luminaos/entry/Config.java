@@ -54,8 +54,11 @@ public class Config {
     public  boolean displaySetting=false;
     public  boolean wholeZoom=true;
 
-
+    //设备模式
     public boolean deviceMode = true;
+
+    //设备型号
+    public boolean deviceModel = true;
     public boolean uiVersion = true;
     public boolean androidVersion = true;
     public boolean resolution = true;

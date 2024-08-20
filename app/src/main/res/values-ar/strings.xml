@@ -204,4 +204,9 @@
 	<string name="defaultcorrection">تصحيح الزاوية الأولي</string>
 	<string name="defaultcorrectionhint">ضع الجهاز على سطح مستو واضغط على "موافق" للمعايرة. لا تحرك الجهاز أثناء المعايرة!</string>
 	<string name="defaultcorrectionin">جارٍ المعايرة، يرجى الانتظار...</string>
+
+	<string name="device_mode">وضع الجهاز</string>
+	<string name="device_mode0">الوضع القياسي</string>
+	<string name="device_mode1">وضع توفير الطاقة</string>
+	<string name="device_mode2">وضع تسليط الضوء</string>
 </resources>

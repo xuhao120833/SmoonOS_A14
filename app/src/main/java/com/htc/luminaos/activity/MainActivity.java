@@ -744,7 +744,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             editor.putInt("code", 1);
             editor.apply();
             is.close();
-        } catch (IOException | JSONException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             isLoad = false;
@@ -827,7 +827,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             String iconPath = jsonobject.getString("iconPath");
             Drawable drawable = FileUtils.loadImageAsDrawable(this, iconPath);
             DBUtils.getInstance(this).insertBrandLogoData(drawable);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

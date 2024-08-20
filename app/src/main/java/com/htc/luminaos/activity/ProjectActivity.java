@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemProperties;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -48,6 +49,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     List<String> project_name = new ArrayList<>();
     private AwTvDisplayManager tvDisplayManager;
 
+    private String TAG = "ProjectActivity";
+
     private ExecutorService singer;
     private int left = 100;
     private int top = 100;
@@ -63,6 +66,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     double zoom_step_x =(double) KeystoneUtils.lcd_w / 100 ;
     double zoom_step_y =(double) KeystoneUtils.lcd_h / 100 ;
     private SharedPreferences sharedPreferences;
+
+    private int cur_device_Mode = 0;
     long cur_time = 0;
 
     Handler handler = new Handler();
@@ -82,6 +87,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         projectBinding.autoKeystoneSwitch.setOnClickListener(this);
 
         projectBinding.rlProjectMode.setOnKeyListener(this);
+        projectBinding.rlDeviceMode2.setOnKeyListener(this);
         projectBinding.rlDigitalZoom.setOnKeyListener(this);
         projectBinding.rlHorizontalCorrect.setOnKeyListener(this);
         projectBinding.rlVerticalCorrect.setOnKeyListener(this);
@@ -101,6 +107,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
 
         projectBinding.rlDisplaySettings.setVisibility(MyApplication.config.displaySetting?View.VISIBLE:View.GONE);
         projectBinding.rlProjectMode.setVisibility(MyApplication.config.projectMode?View.VISIBLE:View.GONE);
+        projectBinding.rlDeviceMode2.setVisibility(MyApplication.config.deviceMode?View.VISIBLE:View.GONE);
         projectBinding.rlDigitalZoom.setVisibility(MyApplication.config.wholeZoom?View.VISIBLE:View.GONE);
         projectBinding.rlAutoKeystone.setVisibility(MyApplication.config.autoKeystone?View.VISIBLE:View.GONE);
         projectBinding.rlInitAngle.setVisibility(MyApplication.config.initAngleCorrect?View.VISIBLE:View.GONE);
@@ -326,6 +333,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         if (keyCode==KeyEvent.KEYCODE_DPAD_LEFT){
             switch (v.getId()){
                 case R.id.rl_project_mode:
+                    Log.d(TAG,"向左切换安装模式");
                     if (event.getAction()!=KeyEvent.ACTION_UP)
                         break;
 
@@ -351,10 +359,22 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
                     break;
                 case R.id.rl_vertical_correct:
                     break;
+                case R.id.rl_device_mode2:
+                    if (event.getAction()!=KeyEvent.ACTION_UP)
+                        break;
+                    Log.d(TAG,"向左切换设备模式");
+                    cur_device_Mode--;
+                    if(cur_device_Mode<0) {
+                        cur_device_Mode= 2;
+                    }
+                    updateText(cur_device_Mode);
+                    ReflectUtil.invokeSet_brightness_level(cur_device_Mode);
+                    break;
             }
         }else if (keyCode==KeyEvent.KEYCODE_DPAD_RIGHT ){
             switch (v.getId()){
                 case R.id.rl_project_mode:
+                    Log.d(TAG,"向右切换安装模式");
                     if (event.getAction()!=KeyEvent.ACTION_UP)
                         break;
                     if (cur_project_mode==project_name.size()-1)
@@ -379,10 +399,36 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
                     break;
                 case R.id.rl_vertical_correct:
                     break;
+                case R.id.rl_device_mode2:
+                    if (event.getAction()!=KeyEvent.ACTION_UP)
+                        break;
+                    Log.d(TAG,"向右切换设备模式");
+                    cur_device_Mode++;
+                    if(cur_device_Mode>2) {
+                        cur_device_Mode= 0;
+                    }
+                    updateText(cur_device_Mode);
+                    ReflectUtil.invokeSet_brightness_level(cur_device_Mode);
+                    break;
             }
         }
 
         return false;
+    }
+
+    private void updateText(int mode){
+        switch (mode) {
+            case 0:
+                projectBinding.deviceModeTv.setText(getString(R.string.device_mode0));
+                break;
+            case 1:
+                projectBinding.deviceModeTv.setText(getString(R.string.device_mode1));
+                break;
+            case 2:
+                projectBinding.deviceModeTv.setText(getString(R.string.device_mode2));
+                break;
+        }
+
     }
 
     private void updateProjectMode(){

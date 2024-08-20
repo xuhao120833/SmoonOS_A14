@@ -244,5 +244,11 @@
     <string name="defaultcorrectionhint">将设备放置在水平面上，然后按\“确定\”进行校正。 校正过程中请勿移动设备！</string>
     <string name="defaultcorrectionin">正在校正中，请稍候…</string>
 
+    <string name="device_mode">设备模式</string>
+    <string name="device_mode0">标准模式</string>
+    <string name="device_mode1">节能模式</string>
+    <string name="device_mode2">高亮模式</string>
+
+
 
 </resources>

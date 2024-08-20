@@ -197,14 +197,14 @@ public class FileUtils {
 			// 转换为Drawable
 			Drawable drawable = new BitmapDrawable(context.getResources(), bitmap);
 			return drawable;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		} finally {
 			if (fileInputStream != null) {
 				try {
 					fileInputStream.close();
-				} catch (IOException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}

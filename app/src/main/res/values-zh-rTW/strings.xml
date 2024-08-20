@@ -187,5 +187,10 @@
 	<string name="hint">提示</string>
 	<string name="defaultcorrection">初始角度矯正</string>
 	<string name="defaultcorrectionhint">將設備放置在水平面上，然後按\“確定\”進行校正。 校正過程中請勿移動設備！</string>
-	<string name="defaultcorrectionin">正在校正中，請稍候…</string>
+	<string name="defaultcorrectionin">正在校正中，請稍候…</string>jia
+
+	<string name="device_mode">設備模式</string>
+	<string name="device_mode0">標準模式</string>
+	<string name="device_mode1">節能模式</string>
+	<string name="device_mode2">高亮模式</string>
 </resources>

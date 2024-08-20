@@ -190,4 +190,9 @@
 	<string name="defaultcorrection">Начальная коррекция угла</string>
 	<string name="defaultcorrectionhint">Поместите устройство на ровную поверхность и нажмите «ОК» для калибровки. Не перемещайте устройство во время калибровки!</string>
 	<string name="defaultcorrectionin">Калибровка, пожалуйста, подождите...</string>
+
+	<string name="device_mode">режим устройства</string>
+	<string name="device_mode0">Стандартный режим</string>
+	<string name="device_mode1">Режим энергосбережения</string>
+	<string name="device_mode2">Режим выделения</string>
 </resources>

@@ -207,4 +207,9 @@
 	<string name="defaultcorrectionhint">デバイスを水平面に置き、「OK」を押して調整します。 キャリブレーション中はデバイスを動かさないでください。</string>
 	<string name="defaultcorrectionin">調整中です。お待ちください...</string>
 
+	<string name="device_mode">デバイスモード</string>
+	<string name="device_mode0">標準モード</string>
+	<string name="device_mode1">省エネモード</string>
+	<string name="device_mode2">ハイライトモード</string>
+
 </resources>

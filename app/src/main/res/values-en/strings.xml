@@ -207,4 +207,9 @@
 	<string name="defaultcorrection">Initial angle correction</string>
 	<string name="defaultcorrectionhint">Place the device on a level surface and press "OK" to calibrate. Do not move the device during calibration!</string>
 	<string name="defaultcorrectionin">Calibrating, please wait...</string>
+
+	<string name="device_mode">Device mode</string>
+	<string name="device_mode0">Standard mode</string>
+	<string name="device_mode1">Energy saving mode</string>
+	<string name="device_mode2">Highlight mode</string>
 </resources>

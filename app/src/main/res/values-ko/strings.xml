@@ -206,4 +206,9 @@
     <string name="defaultcorrection">초기 각도 보정</string>
     <string name="defaultcorrectionhint">장치를 평평한 표면에 놓고 "확인"을 눌러 보정하십시오. 교정 중에는 장치를 움직이지 마십시오!</string>
     <string name="defaultcorrectionin">교정 중입니다. 잠시 기다려 주십시오...</string>
+
+    <string name="device_mode">장치 모드</string>
+    <string name="device_mode0">표준 모드</string>
+    <string name="device_mode1">에너지 절약 모드</string>
+    <string name="device_mode2">하이라이트 모드</string>
 </resources>
