@@ -212,4 +212,7 @@
 	<string name="device_mode1">省エネモード</string>
 	<string name="device_mode2">ハイライトモード</string>
 
+	<string name="network_disconnect_tip">インターネットに接続して、もう一度お試しください。</string>
+	<string name="data_err">データの取得中に例外が発生しました!</string>
+
 </resources>

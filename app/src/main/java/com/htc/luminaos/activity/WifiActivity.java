@@ -2,6 +2,10 @@ package com.htc.luminaos.activity;
 
 import android.content.Context;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -17,6 +21,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.CompoundButton;
+
+import androidx.annotation.Nullable;
 
 import com.htc.luminaos.R;
 import com.htc.luminaos.adapter.WifiFoundAdapter;
@@ -316,12 +322,25 @@ public class WifiActivity extends BaseActivity  implements WifiEnabledReceiver.W
         singer.execute(RefreshRunnable);
     }
 
+
+    boolean connectingFlag = false;
     @Override
     public void wifiStatueChange(int state) {
+        Log.d("state", String.valueOf(state));
+        if (state==2 && connectingFlag){
 
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    inferConnectInfoLogin(WifiActivity.this);
+                }
+            },1000);
 
+        }
 
+        connectingFlag = state != 0 && state != 2;
     }
+
 
     @Override
     public void WifiConnectOrLose() {
@@ -379,6 +398,50 @@ public class WifiActivity extends BaseActivity  implements WifiEnabledReceiver.W
 
         wifiBinding.refreshNet.setVisibility(View.VISIBLE);
         wifiBinding.refreshNet.startAnimation(anim);
+    }
+
+    public static boolean inferConnectInfoLogin(Context context){
+        NetworkCapabilities wifiNetworkCapabilities = getActiveWifiNetworkCapabilities(context);
+        if (wifiNetworkCapabilities != null) {
+            if (wifiNetworkCapabilities.hasCapability(
+                    NetworkCapabilities.NET_CAPABILITY_CAPTIVE_PORTAL)) {
+                openCaptivePortalPage(context);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static void openCaptivePortalPage(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(
+                Context.CONNECTIVITY_SERVICE);
+
+        Network[] networks = connectivityManager.getAllNetworks();
+
+        for (Network network : networks) {
+            NetworkInfo networkInfo = connectivityManager.getNetworkInfo(network);
+            if (networkInfo.isConnected()
+                    && networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                connectivityManager.startCaptivePortalApp(network);
+                return;
+            }
+        }
+    }
+
+    @Nullable
+    public static NetworkCapabilities getActiveWifiNetworkCapabilities(Context context) {
+        ConnectivityManager mConnectivityManager =(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        Network[] networks = mConnectivityManager.getAllNetworks();
+
+        for (Network network : networks) {
+            NetworkInfo networkInfo = mConnectivityManager.getNetworkInfo(network);
+            if (networkInfo.isConnected()
+                    && networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                return mConnectivityManager.getNetworkCapabilities(network);
+            }
+        }
+        return null;
     }
 
 

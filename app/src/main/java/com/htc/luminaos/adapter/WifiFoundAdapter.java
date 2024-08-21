@@ -2,6 +2,10 @@ package com.htc.luminaos.adapter;
 
 import android.app.Service;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -26,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -41,12 +46,16 @@ public class WifiFoundAdapter extends RecyclerView.Adapter<WifiFoundAdapter.MyVi
     private ScanResult mCurrentScanResult;
     private WifiManager wifiManager = null;
 
+    private ConnectivityManager mConnectivityManager;
+
     public WifiFoundAdapter(List<ScanResult> scanResultList, Context mContext){
         this.scanResultList = scanResultList;
         this.mContext = mContext;
         linkWifi = new LinkWifi(mContext);
         this.wifiManager = (WifiManager) mContext
                 .getSystemService(Service.WIFI_SERVICE);
+        mConnectivityManager = (ConnectivityManager) mContext.getSystemService(
+                Context.CONNECTIVITY_SERVICE);
     }
 
     public void updateList(List<ScanResult> scanResultList){

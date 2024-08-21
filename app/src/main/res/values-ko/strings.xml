@@ -211,4 +211,7 @@
     <string name="device_mode0">표준 모드</string>
     <string name="device_mode1">에너지 절약 모드</string>
     <string name="device_mode2">하이라이트 모드</string>
+
+    <string name="network_disconnect_tip">인터넷에 연결한 후 다시 시도해 주세요!</string>
+    <string name="data_err">데이터를 가져오는 중 예외입니다!</string>
 </resources>

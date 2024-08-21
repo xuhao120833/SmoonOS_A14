@@ -195,4 +195,7 @@
 	<string name="device_mode0">Стандартный режим</string>
 	<string name="device_mode1">Режим энергосбережения</string>
 	<string name="device_mode2">Режим выделения</string>
+
+	<string name="network_disconnect_tip">Пожалуйста, подключитесь к Интернету и повторите попытку!</string>
+	<string name="data_err">Исключение при получении данных!</string>
 </resources>

@@ -12,6 +12,8 @@ import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
+import com.htc.luminaos.receiver.AppCallBack;
+import com.htc.luminaos.receiver.AppReceiver;
 import com.htc.luminaos.receiver.UsbDeviceCallBack;
 import com.htc.luminaos.utils.FileUtils;
 
@@ -92,7 +94,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class MainActivity extends BaseMainActivity implements BluetoothCallBcak, MyWifiCallBack, MyTimeCallBack, NetWorkCallBack, UsbDeviceCallBack {
+public class MainActivity extends BaseMainActivity implements BluetoothCallBcak, MyWifiCallBack, MyTimeCallBack, NetWorkCallBack, UsbDeviceCallBack, AppCallBack {
 
     private ActivityMainBinding mainBinding;
 
@@ -132,6 +134,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     private final int DATA_FINISH = 103;
 
     private Hashtable<String, String> hashtable = new Hashtable<>();
+
+    private AppReceiver appReceiver = null;
 
     Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -388,6 +392,14 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         usbDeviceFilter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
         registerReceiver(usbDeviceReceiver, usbDeviceFilter);
 
+        //APP安装、改变、卸载
+        appReceiver = new AppReceiver(this);
+        IntentFilter appFilter = new IntentFilter();
+        appFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        appFilter.addAction(Intent.ACTION_PACKAGE_REPLACED);
+        appFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        appFilter.addDataScheme("package");
+        registerReceiver(appReceiver, appFilter);
     }
 
     ShortcutsAdapter.ItemCallBack itemCallBack = new ShortcutsAdapter.ItemCallBack() {
@@ -902,6 +914,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         unregisterReceiver(blueReceiver);
         unregisterReceiver(wifiReceiver);
         unregisterReceiver(usbDeviceReceiver);
+        unregisterReceiver(appReceiver);
         super.onDestroy();
     }
 
@@ -1166,4 +1179,28 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     }
 
 
+    @Override
+    public void appChange(String packageName) {
+        Log.d(TAG,"MainActivity 收到Change广播");
+    }
+
+    @Override
+    public void appUnInstall(String packageName) {
+        Log.d(TAG,"MainActivity 收到卸载广播 "+packageName);
+        SharedPreferences sp = ShareUtil.getInstans(this);
+        SharedPreferences.Editor ed = sp.edit();
+        String resident =sp.getString("resident","");
+        if (resident.contains(packageName)){
+            Log.d(TAG," 配置文件中apps：\"resident\":true 常驻首页前台，应用删除了，也不能从首页APP快捷栏移除");
+            return;
+        }
+        DBUtils.getInstance(this).deleteFavorites(packageName);
+        short_list = loadHomeAppData();
+        handler.sendEmptyMessage(204);
+    }
+
+    @Override
+    public void appInstall(String packageName) {
+        Log.d(TAG,"MainActivity 收到安装广播");
+    }
 }

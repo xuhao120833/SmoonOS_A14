@@ -373,13 +373,17 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 
 	@Override
 	public void appUnInstall(String packageName) {
+
+		Log.d(tag," 收到卸载广播" + packageName);
 		
 		int code = DBUtils.getInstance(AppFavoritesActivity.this)
 				.deleteFavorites(packageName);
 
 		if (code > 0) {
+			Log.d(tag," 收到卸载广播,删除成功" + code);
 			currentPackageName = packageName;
 		} else {
+			Log.d(tag," 收到卸载广播,删除失败" + code);
 			currentPackageName = null;
 		}
 

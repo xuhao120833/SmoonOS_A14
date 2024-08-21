@@ -201,7 +201,7 @@
 	<string name="time_format_24">Use 24 hour format</string>
 	<string name="time_format_12">Use 12 hour format</string>
 
-	<string name="refresh_network">refresh network</string>
+	<string name="refresh_network">Refresh network</string>
 
 	<string name="hint">Hint</string>
 	<string name="defaultcorrection">Initial angle correction</string>
@@ -212,4 +212,7 @@
 	<string name="device_mode0">Standard mode</string>
 	<string name="device_mode1">Energy saving mode</string>
 	<string name="device_mode2">Highlight mode</string>
+
+	<string name="network_disconnect_tip">Please connect to the Internet and try again!</string>
+	<string name="data_err">Exception in getting data!</string>
 </resources>

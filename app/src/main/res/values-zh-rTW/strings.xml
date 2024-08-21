@@ -193,4 +193,7 @@
 	<string name="device_mode0">標準模式</string>
 	<string name="device_mode1">節能模式</string>
 	<string name="device_mode2">高亮模式</string>
+
+	<string name="network_disconnect_tip">請連結網路後重試！</string>
+	<string name="data_err">獲取數據異常！</string>
 </resources>
