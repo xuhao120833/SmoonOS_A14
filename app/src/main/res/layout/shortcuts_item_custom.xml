@@ -3,8 +3,8 @@
     android:id="@+id/rl_item"
     style="@style/focusStyle"
     android:clickable="true"
-    android:layout_width="160px"
-    android:layout_height="160px"
+    android:layout_width="@dimen/x_107"
+    android:layout_height="@dimen/y_107"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:layout_gravity="center_vertical"
@@ -12,8 +12,8 @@
 
     <com.htc.luminaos.view.MyCircleImageView
         android:id="@+id/icon"
-        android:layout_width="160px"
-        android:layout_height="160px"
+        android:layout_width="@dimen/x_107"
+        android:layout_height="@dimen/y_107"
         android:duplicateParentState="true"
         android:focusable="true"
         android:focusableInTouchMode="true"

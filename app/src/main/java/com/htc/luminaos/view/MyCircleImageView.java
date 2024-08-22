@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.RelativeLayout;
 
+import com.htc.luminaos.R;
+
 public class MyCircleImageView extends de.hdodenhof.circleimageview.CircleImageView {
     public boolean hasFocus;
     private Paint borderPaint;
@@ -36,7 +38,7 @@ public class MyCircleImageView extends de.hdodenhof.circleimageview.CircleImageV
         borderPaint.setAntiAlias(true);
         borderPaint.setColor(Color.WHITE);
         borderPaint.setStyle(Paint.Style.STROKE);
-        borderPaint.setStrokeWidth(8); // 设置圆环厚度为8px
+        borderPaint.setStrokeWidth(getResources().getDimension(R.dimen.y_8)); // 设置圆环厚度为8px
     }
 
     @Override

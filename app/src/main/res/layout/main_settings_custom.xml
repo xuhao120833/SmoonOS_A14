@@ -9,20 +9,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="185px"
-        android:layout_marginTop="120px"
+        android:layout_marginStart="@dimen/x_123"
+        android:layout_marginTop="@dimen/y_80"
         android:shadowColor="#80000000"
         android:shadowRadius="4"
         android:text="@string/settings"
         android:textColor="#FFFFFF"
-        android:textSize="60px"
+        android:textSize="@dimen/y_40"
         android:textStyle="bold"></TextView>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="185px"
-        android:layout_marginTop="90px"
+        android:layout_marginStart="@dimen/x_123"
+        android:layout_marginTop="@dimen/y_60"
         android:orientation="horizontal">
 
         <!--        wifi-->
@@ -34,14 +34,14 @@
             <FrameLayout
                 android:id="@+id/rl_wifi"
                 style="@style/focusStyle"
-                android:layout_width="320px"
-                android:layout_height="200px"
+                android:layout_width="@dimen/x_213"
+                android:layout_height="@dimen/y_133"
                 android:background="@drawable/settings_button_bg">
 
                 <ImageView
                     android:id="@+id/wifi_icon"
-                    android:layout_width="80px"
-                    android:layout_height="80px"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
                     android:layout_gravity="center"
                     android:src="@drawable/settings_wifi">
 
@@ -52,13 +52,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="49px"
+                android:layout_marginTop="@dimen/y_33"
                 android:shadowColor="#80000000"
                 android:shadowRadius="4"
                 android:text="@string/network_setting"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:textSize="34px">
+                android:textSize="@dimen/y_23">
 
             </TextView>
 
@@ -68,20 +68,20 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="90px"
+            android:layout_marginStart="@dimen/x_60"
             android:orientation="vertical">
 
             <FrameLayout
                 android:id="@+id/rl_bluetooth"
                 style="@style/focusStyle"
-                android:layout_width="320px"
-                android:layout_height="200px"
+                android:layout_width="@dimen/x_213"
+                android:layout_height="@dimen/y_133"
                 android:background="@drawable/settings_button_bg">
 
                 <ImageView
                     android:id="@+id/bluetooth_icon"
-                    android:layout_width="80px"
-                    android:layout_height="80px"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
                     android:layout_gravity="center"
                     android:src="@drawable/settings_bt">
 
@@ -92,13 +92,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="49px"
+                android:layout_marginTop="@dimen/y_33"
                 android:shadowColor="#80000000"
                 android:shadowRadius="4"
                 android:text="@string/bluetooth"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:textSize="34px">
+                android:textSize="@dimen/y_23">
 
             </TextView>
 
@@ -108,19 +108,19 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="85px"
+            android:layout_marginStart="@dimen/x_57"
             android:orientation="vertical">
 
             <FrameLayout
                 android:id="@+id/rl_project"
                 style="@style/focusStyle"
-                android:layout_width="320px"
-                android:layout_height="200px"
+                android:layout_width="@dimen/x_213"
+                android:layout_height="@dimen/y_133"
                 android:background="@drawable/settings_button_bg">
 
                 <ImageView
-                    android:layout_width="80px"
-                    android:layout_height="80px"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
                     android:layout_gravity="center"
                     android:src="@drawable/settings_mode">
 
@@ -131,13 +131,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="49px"
+                android:layout_marginTop="@dimen/y_33"
                 android:shadowColor="#80000000"
                 android:shadowRadius="4"
                 android:text="@string/project_setting"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:textSize="34px">
+                android:textSize="@dimen/y_23">
 
             </TextView>
 
@@ -146,19 +146,19 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="85px"
+            android:layout_marginStart="@dimen/x_57"
             android:orientation="vertical">
 
             <FrameLayout
                 android:id="@+id/rl_language"
                 style="@style/focusStyle"
-                android:layout_width="320px"
-                android:layout_height="200px"
+                android:layout_width="@dimen/x_213"
+                android:layout_height="@dimen/y_133"
                 android:background="@drawable/settings_button_bg">
 
                 <ImageView
-                    android:layout_width="80px"
-                    android:layout_height="80px"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
                     android:layout_gravity="center"
                     android:src="@drawable/settings_typewriting">
 
@@ -169,13 +169,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="49px"
+                android:layout_marginTop="@dimen/y_33"
                 android:shadowColor="#80000000"
                 android:shadowRadius="4"
                 android:text="@string/language_keyboard"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:textSize="34px">
+                android:textSize="@dimen/y_23">
 
             </TextView>
 
@@ -187,8 +187,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="185px"
-        android:layout_marginTop="90px"
+        android:layout_marginStart="@dimen/x_123"
+        android:layout_marginTop="@dimen/y_60"
         android:orientation="horizontal">
 
         <!--        wifi-->
@@ -200,13 +200,13 @@
             <FrameLayout
                 android:id="@+id/rl_apps_manager"
                 style="@style/focusStyle"
-                android:layout_width="320px"
-                android:layout_height="200px"
+                android:layout_width="@dimen/x_213"
+                android:layout_height="@dimen/y_133"
                 android:background="@drawable/settings_button_bg">
 
                 <ImageView
-                    android:layout_width="80px"
-                    android:layout_height="80px"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
                     android:layout_gravity="center"
                     android:src="@drawable/settings_app">
 
@@ -217,13 +217,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="49px"
+                android:layout_marginTop="@dimen/y_33"
                 android:shadowColor="#80000000"
                 android:shadowRadius="4"
                 android:text="@string/apps_manager"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:textSize="34px">
+                android:textSize="@dimen/y_23">
 
             </TextView>
 
@@ -233,19 +233,19 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="90px"
+            android:layout_marginStart="@dimen/x_60"
             android:orientation="vertical">
 
             <FrameLayout
                 android:id="@+id/rl_date_time"
                 style="@style/focusStyle"
-                android:layout_width="320px"
-                android:layout_height="200px"
+                android:layout_width="@dimen/x_213"
+                android:layout_height="@dimen/y_133"
                 android:background="@drawable/settings_button_bg">
 
                 <ImageView
-                    android:layout_width="80px"
-                    android:layout_height="80px"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
                     android:layout_gravity="center"
                     android:src="@drawable/settings_date2">
 
@@ -256,13 +256,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="49px"
+                android:layout_marginTop="@dimen/y_33"
                 android:shadowColor="#80000000"
                 android:shadowRadius="4"
                 android:text="@string/date_time"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:textSize="34px">
+                android:textSize="@dimen/x_23">
 
             </TextView>
 
@@ -272,19 +272,19 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="85px"
+            android:layout_marginStart="@dimen/x_57"
             android:orientation="vertical">
 
             <FrameLayout
                 android:id="@+id/rl_other"
                 style="@style/focusStyle"
-                android:layout_width="320px"
-                android:layout_height="200px"
+                android:layout_width="@dimen/x_213"
+                android:layout_height="@dimen/y_133"
                 android:background="@drawable/settings_button_bg">
 
                 <ImageView
-                    android:layout_width="80px"
-                    android:layout_height="80px"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
                     android:layout_gravity="center"
                     android:src="@drawable/settings_other">
 
@@ -295,13 +295,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="49px"
+                android:layout_marginTop="@dimen/y_33"
                 android:shadowColor="#80000000"
                 android:shadowRadius="4"
                 android:text="@string/other_settings"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:textSize="34px">
+                android:textSize="@dimen/y_23">
 
             </TextView>
 
@@ -310,19 +310,19 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="85px"
+            android:layout_marginStart="@dimen/x_57"
             android:orientation="vertical">
 
             <FrameLayout
                 android:id="@+id/rl_about"
                 style="@style/focusStyle"
-                android:layout_width="320px"
-                android:layout_height="200px"
+                android:layout_width="@dimen/x_213"
+                android:layout_height="@dimen/y_133"
                 android:background="@drawable/settings_button_bg">
 
                 <ImageView
-                    android:layout_width="80px"
-                    android:layout_height="80px"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
                     android:layout_gravity="center"
                     android:src="@drawable/settings_about">
 
@@ -333,13 +333,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="49px"
+                android:layout_marginTop="@dimen/y_33"
                 android:shadowColor="#80000000"
                 android:shadowRadius="4"
                 android:text="@string/about_device"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:textSize="34px">
+                android:textSize="@dimen/y_23">
 
             </TextView>
 

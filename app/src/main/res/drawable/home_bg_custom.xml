@@ -6,7 +6,7 @@
         <shape>
             <stroke android:width="@dimen/x_3" android:color="#FFFFFF" />
             <solid android:color="#80000000" /> <!-- 黑色透明度50% -->
-            <corners android:radius="100px" /> <!-- 圆角半径 -->
+            <corners android:radius="@dimen/y_67" /> <!-- 圆角半径 -->
         </shape>
 
     </item>
@@ -15,7 +15,7 @@
     <item>
         <shape>
             <solid android:color="#80000000" /> <!-- 黑色透明度50% -->
-            <corners android:radius="100px" /> <!-- 圆角半径 -->
+            <corners android:radius="@dimen/y_67" /> <!-- 圆角半径 -->
         </shape>
     </item>
 </selector>

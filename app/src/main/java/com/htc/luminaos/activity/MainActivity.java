@@ -306,7 +306,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 //                (int) (getWindowManager().getDefaultDisplay().getWidth() * 0.03), 0, 0));
         //定义Item之间的间距
         customBinding.shortcutsRv.addItemDecoration(new SpacesItemDecoration(0,
-                (int) (64 * (getWindowManager().getDefaultDisplay().getWidth() / 1920)), 0, 0));
+                (int) getResources().getDimension(R.dimen.x_43), 0, 0));
         customBinding.shortcutsRv.setLayoutManager(layoutManager);
     }
 
@@ -337,7 +337,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                         // 设置首页的配置图标
                         try {
                             setIconOrText();
-                        }catch (Exception e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -661,107 +661,107 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         SharedPreferences.Editor editor = sharedPreferences.edit();
         int code = sharedPreferences.getInt("code", 0);
 
-//        if (code == 0) {  //保证配置文件只在最初读一次
+        if (code == 0) {  //保证配置文件只在最初读一次
 
-        //1、优先连接服务区读配置
-
-
-        //2、服务器没有，就读本地
-        Log.d(TAG, " MainActivity开始读取配置文件 ");
-
-        // 读取文件,优先读取oem分区
-        File file = new File("/oem/shortcuts.config");
-
-        if (!file.exists()) {
-            file = new File("/system/shortcuts.config");
-        }
-
-        if (!file.exists()) {
-            Log.d(TAG, " 配置文件不存在 ");
-            return false;
-        }
-
-        try {
-            FileInputStream is = new FileInputStream(file);
-            byte[] b = new byte[is.available()];
-            is.read(b);
-            String result = new String(b);
-
-            Log.d(TAG, " MainActivity读取到的配置文件 " + result); //这里把配置文件原封不动的读取出来，不做一整行处理
-
-            List<String> residentList = new ArrayList<>();
-            JSONObject obj = new JSONObject(result);
-
-            //读取首页四大APP图标
-            readMain(obj);
+            //1、优先连接服务区读配置
 
 
-            //读取APP快捷图标
-            //readShortcuts(obj);
+            //2、服务器没有，就读本地
+            Log.d(TAG, " MainActivity开始读取配置文件 ");
 
-            //读取右边list第一个、第三个的配置
-            readListModules(obj);
-            Log.d(TAG, " 当前的语言环境是： " + LanguageUtil.getCurrentLanguage());
+            // 读取文件,优先读取oem分区
+            File file = new File("/oem/shortcuts.config");
 
-            //读取品牌图标
-            readBrand(obj);
+            if (!file.exists()) {
+                file = new File("/system/shortcuts.config");
+            }
 
-            //是否显示时间
-            //readTime();
+            if (!file.exists()) {
+                Log.d(TAG, " 配置文件不存在 ");
+                return false;
+            }
+
+            try {
+                FileInputStream is = new FileInputStream(file);
+                byte[] b = new byte[is.available()];
+                is.read(b);
+                String result = new String(b);
+
+                Log.d(TAG, " MainActivity读取到的配置文件 " + result); //这里把配置文件原封不动的读取出来，不做一整行处理
+
+                List<String> residentList = new ArrayList<>();
+                JSONObject obj = new JSONObject(result);
+
+                //读取首页四大APP图标
+                readMain(obj);
 
 
-            JSONArray jsonarrray = obj.getJSONArray("apps");
+                //读取APP快捷图标
+                //readShortcuts(obj);
 
-            //xuhao
-            //用户每次更新配置，必须把原来数据库中保存的上一次失效的数据清楚掉
-            ArrayList<AppSimpleBean> mylist = DBUtils.getInstance(this).getFavorites();
-            for (int i = 0; i < jsonarrray.length(); i++) {
-                JSONObject jsonobject = jsonarrray.getJSONObject(i);
-                String packageName = jsonobject.getString("packageName");
+                //读取右边list第一个、第三个的配置
+                readListModules(obj);
+                Log.d(TAG, " 当前的语言环境是： " + LanguageUtil.getCurrentLanguage());
 
-                for (int d = 0; d < mylist.size(); d++) {
-                    Log.d(TAG, " 对比 " + mylist.get(d).getPackagename() + " " + packageName);
-                    if (mylist.get(d).getPackagename().equals(packageName)) { //去除掉两个队列中相同的部分
-                        Log.d(TAG, " 移除两个队列中的相同部分 " + packageName + mylist.size());
-                        mylist.remove(d);
-                        Log.d(TAG, " mylist.size " + mylist.size());
-                        break;
+                //读取品牌图标
+                readBrand(obj);
+
+                //是否显示时间
+                //readTime();
+
+
+                JSONArray jsonarrray = obj.getJSONArray("apps");
+
+                //xuhao
+                //用户每次更新配置，必须把原来数据库中保存的上一次失效的数据清楚掉
+                ArrayList<AppSimpleBean> mylist = DBUtils.getInstance(this).getFavorites();
+                for (int i = 0; i < jsonarrray.length(); i++) {
+                    JSONObject jsonobject = jsonarrray.getJSONObject(i);
+                    String packageName = jsonobject.getString("packageName");
+
+                    for (int d = 0; d < mylist.size(); d++) {
+                        Log.d(TAG, " 对比 " + mylist.get(d).getPackagename() + " " + packageName);
+                        if (mylist.get(d).getPackagename().equals(packageName)) { //去除掉两个队列中相同的部分
+                            Log.d(TAG, " 移除两个队列中的相同部分 " + packageName + mylist.size());
+                            mylist.remove(d);
+                            Log.d(TAG, " mylist.size " + mylist.size());
+                            break;
+                        }
                     }
                 }
-            }
-            for (int d = 0; d < mylist.size(); d++) { //剩余的不同的就是无效的，把无效的delet，保证每次修改配置之后都正确生效
-                if (sharedPreferences.getString("resident", "").contains(mylist.get(d).getPackagename())) {
-                    Log.d(TAG, " 移除APP快捷图标栏废弃的配置 ");
-                    DBUtils.getInstance(this).deleteFavorites(mylist.get(d).getPackagename());
+                for (int d = 0; d < mylist.size(); d++) { //剩余的不同的就是无效的，把无效的delet，保证每次修改配置之后都正确生效
+                    if (sharedPreferences.getString("resident", "").contains(mylist.get(d).getPackagename())) {
+                        Log.d(TAG, " 移除APP快捷图标栏废弃的配置 ");
+                        DBUtils.getInstance(this).deleteFavorites(mylist.get(d).getPackagename());
+                    }
                 }
-            }
-            //xuhao
+                //xuhao
 
 
-            for (int i = 0; i < jsonarrray.length(); i++) {
-                JSONObject jsonobject = jsonarrray.getJSONObject(i);
-                String packageName = jsonobject.getString("packageName");
-                boolean resident = jsonobject.getBoolean("resident"); //用于标志移除上一轮配置文件和这一轮配置文件不需要的App
-                if (resident) {
-                    residentList.add(packageName);
-                }
+                for (int i = 0; i < jsonarrray.length(); i++) {
+                    JSONObject jsonobject = jsonarrray.getJSONObject(i);
+                    String packageName = jsonobject.getString("packageName");
+                    boolean resident = jsonobject.getBoolean("resident"); //用于标志移除上一轮配置文件和这一轮配置文件不需要的App
+                    if (resident) {
+                        residentList.add(packageName);
+                    }
 
-                if (!DBUtils.getInstance(this).isExistData(
-                        packageName)) {
-                    long addCode = DBUtils.getInstance(this)
-                            .addFavorites(packageName);
+                    if (!DBUtils.getInstance(this).isExistData(
+                            packageName)) {
+                        long addCode = DBUtils.getInstance(this)
+                                .addFavorites(packageName);
+                    }
                 }
+                editor.putString("resident", residentList.toString());
+                editor.putInt("code", 1);
+                editor.apply();
+                is.close();
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                isLoad = false;
             }
-            editor.putString("resident", residentList.toString());
-            editor.putInt("code", 1);
-            editor.apply();
-            is.close();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            isLoad = false;
         }
-//        }
 
         return isLoad;
     }
@@ -1133,10 +1133,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         Hashtable<String, String> mHashtable1 = DBUtils.getInstance(this).getHashtableFromListModules("list1");
         Hashtable<String, String> mHashtable2 = DBUtils.getInstance(this).getHashtableFromListModules("list1");
 
-        Log.d(TAG,"xu当前语言"+LanguageUtil.getCurrentLanguage());
+        Log.d(TAG, "xu当前语言" + LanguageUtil.getCurrentLanguage());
         switch (LanguageUtil.getCurrentLanguage()) {
             case "zh-CN":
-                Log.d(TAG,"中文设置eshareText和hdmiText");
+                Log.d(TAG, "中文设置eshareText和hdmiText");
                 customBinding.eshareText.setText(mHashtable1.get("zh-CN"));
                 customBinding.hdmiText.setText(mHashtable2.get("zh-CN"));
                 break;
@@ -1173,7 +1173,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     private void setbrandLogo() {
         Drawable drawable = DBUtils.getInstance(this).getDrawableFromBrandLogo(1);
-        if(drawable!=null) {
+        if (drawable != null) {
             customBinding.brand.setImageDrawable(drawable);
         }
     }
@@ -1181,17 +1181,17 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     @Override
     public void appChange(String packageName) {
-        Log.d(TAG,"MainActivity 收到Change广播");
+        Log.d(TAG, "MainActivity 收到Change广播");
     }
 
     @Override
     public void appUnInstall(String packageName) {
-        Log.d(TAG,"MainActivity 收到卸载广播 "+packageName);
+        Log.d(TAG, "MainActivity 收到卸载广播 " + packageName);
         SharedPreferences sp = ShareUtil.getInstans(this);
         SharedPreferences.Editor ed = sp.edit();
-        String resident =sp.getString("resident","");
-        if (resident.contains(packageName)){
-            Log.d(TAG," 配置文件中apps：\"resident\":true 常驻首页前台，应用删除了，也不能从首页APP快捷栏移除");
+        String resident = sp.getString("resident", "");
+        if (resident.contains(packageName)) {
+            Log.d(TAG, " 配置文件中apps：\"resident\":true 常驻首页前台，应用删除了，也不能从首页APP快捷栏移除");
             return;
         }
         DBUtils.getInstance(this).deleteFavorites(packageName);
@@ -1201,6 +1201,6 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     @Override
     public void appInstall(String packageName) {
-        Log.d(TAG,"MainActivity 收到安装广播");
+        Log.d(TAG, "MainActivity 收到安装广播");
     }
 }
