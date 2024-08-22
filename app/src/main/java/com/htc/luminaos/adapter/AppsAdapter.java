@@ -5,6 +5,9 @@ import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -58,13 +61,35 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.MyViewHolder> 
 
         myViewHolder.rl_item.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View view, boolean b) {
+            public void onFocusChange(View view, boolean hasFocus) {
                 if (recyclerView==null)
                     return;
 
-                if(b){
+                int position = ((RecyclerView) view.getParent()).getChildAdapterPosition(view);
+                if(hasFocus&&position!=0){
                     int[] amount = ScrollUtils.getScrollAmount(recyclerView, view);//计算需要滑动的距离
                     recyclerView.smoothScrollBy(amount[0], amount[1]);
+                }
+
+                AnimationSet animationSet = new AnimationSet(true);
+                view.bringToFront();
+                if (hasFocus) {
+
+                    ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.10f,
+                            1.0f, 1.10f, Animation.RELATIVE_TO_SELF, 0.5f,
+                            Animation.RELATIVE_TO_SELF, 0.5f);
+                    scaleAnimation.setDuration(150);
+                    animationSet.addAnimation(scaleAnimation);
+                    animationSet.setFillAfter(true);
+                    view.startAnimation(animationSet);
+                } else {
+                    ScaleAnimation scaleAnimation = new ScaleAnimation(1.10f, 1.0f,
+                            1.10f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
+                            Animation.RELATIVE_TO_SELF, 0.5f);
+                    animationSet.addAnimation(scaleAnimation);
+                    scaleAnimation.setDuration(150);
+                    animationSet.setFillAfter(true);
+                    view.startAnimation(animationSet);
                 }
             }
         });

@@ -196,7 +196,7 @@
             android:id="@+id/icon4"
             android:layout_width="@dimen/x_313"
             android:layout_height="@dimen/y_167"
-            android:src="@drawable/app_store" />
+            android:src="@drawable/appstore" />
     </RelativeLayout>
 
     <RelativeLayout
