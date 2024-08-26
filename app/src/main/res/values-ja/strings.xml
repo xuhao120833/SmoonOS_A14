@@ -215,4 +215,6 @@
 	<string name="network_disconnect_tip">インターネットに接続して、もう一度お試しください。</string>
 	<string name="data_err">データの取得中に例外が発生しました!</string>
 
+	<string name="system_app_cannot_uninstalled">システムAPPをアンインストールできません!</string>
+
 </resources>

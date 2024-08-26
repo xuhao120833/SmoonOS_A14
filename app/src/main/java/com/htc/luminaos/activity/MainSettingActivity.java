@@ -107,8 +107,8 @@ public class MainSettingActivity extends BaseActivity {
         mainSettingsCustomBinding.rlProject.setOnHoverListener(this);
         mainSettingsCustomBinding.rlWifi.setOnHoverListener(this);
 
-        mainSettingsCustomBinding.rlProject.requestFocus();
-        mainSettingsCustomBinding.rlProject.requestFocusFromTouch();
+        mainSettingsCustomBinding.rlWifi.requestFocus();
+        mainSettingsCustomBinding.rlWifi.requestFocusFromTouch();
 
 
         //原生逻辑

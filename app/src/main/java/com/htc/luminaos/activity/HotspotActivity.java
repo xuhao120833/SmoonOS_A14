@@ -213,6 +213,7 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
                     @Override
                     public void onClick(String password) {
                         hotspotBinding.passwordTv.setText(password);
+                        writeConfig();
                     }
                 });
                 passwordDialog.show();
@@ -224,6 +225,7 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
                     @Override
                     public void onClick(String password) {
                         hotspotBinding.hotspotNameTv.setText(password);
+                        writeConfig();
                     }
                 });
                 hotspotNameDialog.show();
@@ -297,6 +299,57 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
             case R.id.rl_cancel:
                 finish();
                 break;
+        }
+    }
+
+    private void writeConfig(){
+        if (!hotspotBinding.rlHotspotSwitch.isEnabled())
+            return;
+//        updateHotspotSwitchStatus(false);
+//        mHandler.sendEmptyMessageDelayed(1001,3000);
+        String msiid = hotspotBinding.hotspotNameTv.getText().toString();
+        if (msiid.isEmpty()) {
+            ToastUtil.showShortToast(HotspotActivity.this,
+                    getString(R.string.ssidmsg));
+            return;
+        }
+        String mpassword = "";
+        if (mSecurityType != OPEN_INDEX) {
+            mpassword = hotspotBinding.passwordTv.getText().toString();
+            if (mpassword.isEmpty()) {
+                ToastUtil.showShortToast(HotspotActivity.this,
+                        getString(R.string.passwordmsg));
+                return;
+            }
+
+            if (mpassword.length() < 8) {
+                ToastUtil.showShortToast(HotspotActivity.this,
+                        getString(R.string.passwordmsglength));
+                return;
+            }
+
+        }
+
+        WifiConfiguration mWifiConfig = getConfig(msiid, mSecurityType,
+                mpassword, apBand);
+
+        if (mWifiConfig != null && wifiHotUtil != null) {
+
+            if (mWifiManager.getWifiApState() == WifiManager.WIFI_AP_STATE_ENABLED) {
+                Log.d("TetheringSettings",
+                        "Wifi AP config changed while enabled, stop and restart");
+                mRestartWifiApAfterConfigChange = true;
+                mConnectivityManager
+                        .stopTethering(ConnectivityManager.TETHERING_WIFI);
+            }
+            if (mSecurityType == OPEN_INDEX) {
+                wifiHotUtil.turnOnWifiAps(msiid, mpassword,
+                        WifiHotUtil.WifiSecurityType.WIFICIPHER_NOPASS, apBand);
+            } else {
+                wifiHotUtil.turnOnWifiAps(msiid, mpassword,
+                        WifiHotUtil.WifiSecurityType.WIFICIPHER_WPA2, apBand);
+            }
+
         }
     }
 

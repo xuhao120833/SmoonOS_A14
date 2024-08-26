@@ -31,7 +31,7 @@
         />
 
     <TextView
-        android:layout_width="200px"
+        android:layout_width="@dimen/x_133"
         android:layout_height="@dimen/y_50"
         android:id="@+id/enter"
         android:layout_alignParentBottom="true"
@@ -48,7 +48,7 @@
         />
 
     <TextView
-        android:layout_width="200px"
+        android:layout_width="@dimen/x_133"
         android:layout_height="@dimen/y_50"
         android:id="@+id/cancel"
         android:layout_alignParentBottom="true"

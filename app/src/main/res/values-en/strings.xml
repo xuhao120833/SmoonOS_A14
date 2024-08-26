@@ -215,4 +215,6 @@
 
 	<string name="network_disconnect_tip">Please connect to the Internet and try again!</string>
 	<string name="data_err">Exception in getting data!</string>
+
+	<string name="system_app_cannot_uninstalled">System APP cannot be uninstalled!</string>
 </resources>

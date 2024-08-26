@@ -31,4 +31,11 @@
 
     <color name="default_bar">#aaaaaa</color>
     <color name="bright_bar">#4684f3</color>
+    <color name="second_bg_color">#07283D</color>
+    <color name="tv_color_select">#ffffff</color>
+    <color name="status_tv_color_select">#ffffff</color>
+    <color name="status_tv_color_default">#000000</color>
+    <color name="line_color">#07283D</color>
+    <color name="progress">#0C84FF</color>
+    <color name="progress_default">#C9E4FF</color>
 </resources>

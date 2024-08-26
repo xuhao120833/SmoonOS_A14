@@ -1,7 +1,9 @@
 package com.htc.luminaos.adapter;
 
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 
 import com.htc.luminaos.R;
 import com.htc.luminaos.entry.AppInfoBean;
+import com.htc.luminaos.utils.AppUtils;
 import com.htc.luminaos.utils.ScrollUtils;
 import com.htc.luminaos.widget.AppDetailDialog;
 
@@ -55,6 +58,23 @@ public class AppsManagerAdapter extends RecyclerView.Adapter<AppsManagerAdapter.
         myViewHolder.rl_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                boolean[] result = AppUtils.checkIfSystemAppAndCanUninstall(mContext, info.getApplicationInfo().packageName);
+                if (result[0] && !result[1]) {
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(mContext.getString(R.string.hint)) // 对话框标题
+                            .setMessage(mContext.getString(R.string.system_app_cannot_uninstalled)) // 对话框内容
+                            .setPositiveButton(mContext.getString(R.string.enter), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss(); // 点击“确定”按钮时，关闭对话框
+                                }
+                            })
+                            .setCancelable(false) // 使对话框不能通过点击外部区域关闭
+                            .show();
+                    return;
+                }
+
                 AppDetailDialog detailDialog = new AppDetailDialog(mContext,R.style.DialogTheme);
                 detailDialog.setData(info.getApplicationInfo());
                 detailDialog.setOnClickCallBack(new AppDetailDialog.OnAppDetailCallBack() {

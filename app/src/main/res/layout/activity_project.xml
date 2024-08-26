@@ -554,7 +554,7 @@
                     android:layout_centerVertical="true"
                     android:textColor="@color/tv_color"
                     android:textSize="@dimen/x_27"
-                    android:text="初始角度校正"
+                    android:text="@string/defaultcorrection"
                     android:duplicateParentState="true"
                     />
 

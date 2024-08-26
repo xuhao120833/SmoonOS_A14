@@ -32,7 +32,7 @@ public class DBUtils extends SQLiteOpenHelper {
     private static String TAG = "DBUtils";
     private static DBUtils mInstance = null;
     private final static String DATABASE_NAME = "htc_launcher.db";
-    private final static int VERSION = 1;
+    private final static int VERSION = 2;
     private final String TABLENAME_FAVORITES = "table_favorites";// 我的收藏
 
     private final String TABLENAME_MAINAPP = "mainApp";
@@ -222,9 +222,26 @@ public class DBUtils extends SQLiteOpenHelper {
      * @param drawable
      * @param action
      */
+//    public void insertMainAppData(String tag, String appName, Drawable drawable, String action) {
+//
+//        long code = -1;
+//        SQLiteDatabase db = getWritableDatabase();
+//        ContentValues values = new ContentValues();
+//        values.put("tag", tag);
+//        values.put("appName", appName);
+//        values.put("iconData", drawableToByteArray(drawable));  // 插入 BLOB 数据
+//        values.put("action", action);
+//
+//        code = db.insert(TABLENAME_MAINAPP, null, values);
+//        if (code == -1) {
+//            Log.d(TAG, "MainApp插入数据失败");
+////			System.out.println("插入数据失败");
+//        } else {
+//            Log.d(TAG, "MainApp插入数据成功，行ID：" + code);
+////			System.out.println("插入数据成功，行ID：" + code);
+//        }
+//    }
     public void insertMainAppData(String tag, String appName, Drawable drawable, String action) {
-
-        long code = -1;
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("tag", tag);
@@ -232,50 +249,110 @@ public class DBUtils extends SQLiteOpenHelper {
         values.put("iconData", drawableToByteArray(drawable));  // 插入 BLOB 数据
         values.put("action", action);
 
-        code = db.insert(TABLENAME_MAINAPP, null, values);
-        if (code == -1) {
-            Log.d(TAG, "MainApp插入数据失败");
-//			System.out.println("插入数据失败");
+        // 检查是否存在相同的 tag
+        String selection = "tag = ?";
+        String[] selectionArgs = { tag };
+        int rowsAffected = db.update(TABLENAME_MAINAPP, values, selection, selectionArgs);
+
+        if (rowsAffected == 0) {
+            // 如果没有记录被更新，说明不存在这个 tag，执行插入操作
+            long code = db.insert(TABLENAME_MAINAPP, null, values);
+            if (code == -1) {
+                Log.d(TAG, "MainApp插入数据失败");
+            } else {
+                Log.d(TAG, "MainApp插入数据成功，行ID：" + code);
+            }
         } else {
-            Log.d(TAG, "MainApp插入数据成功，行ID：" + code);
-//			System.out.println("插入数据成功，行ID：" + code);
+            Log.d(TAG, "MainApp数据更新成功，更新行数：" + rowsAffected);
         }
     }
 
+
+//    public void insertListModulesData(String tag, Drawable drawable, Hashtable hashtable, String action) {
+//        long code = -1;
+//        SQLiteDatabase db = getWritableDatabase();
+//        ContentValues values = new ContentValues();
+//        values.put("tag", tag);
+//        values.put("iconData", drawableToByteArray(drawable));  // 插入 BLOB 数据
+//        //hashtable序列化存入数据库
+//        saveHashtableToDatabase(hashtable,values);
+//        values.put("action", action);
+//
+//        code = db.insert(TABLENAME_LISTMODULES, null, values);
+////        db.update()
+//        if (code == -1) {
+//            Log.d(TAG, "ListModules插入数据失败");
+////			System.out.println("插入数据失败");
+//        } else {
+//            Log.d(TAG, "ListModules插入数据成功，行ID：" + code);
+////			System.out.println("插入数据成功，行ID：" + code);
+//        }
+//    }
+
     public void insertListModulesData(String tag, Drawable drawable, Hashtable hashtable, String action) {
-        long code = -1;
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("tag", tag);
         values.put("iconData", drawableToByteArray(drawable));  // 插入 BLOB 数据
-        //hashtable序列化存入数据库
-        saveHashtableToDatabase(hashtable,values);
+        // hashtable序列化存入数据库
+        saveHashtableToDatabase(hashtable, values);
         values.put("action", action);
 
-        code = db.insert(TABLENAME_LISTMODULES, null, values);
-        if (code == -1) {
-            Log.d(TAG, "ListModules插入数据失败");
-//			System.out.println("插入数据失败");
+        // 检查是否存在相同的 tag
+        String selection = "tag = ?";
+        String[] selectionArgs = { tag };
+        int rowsAffected = db.update(TABLENAME_LISTMODULES, values, selection, selectionArgs);
+
+        if (rowsAffected == 0) {
+            // 如果没有记录被更新，说明不存在这个 tag，执行插入操作
+            long code = db.insert(TABLENAME_LISTMODULES, null, values);
+            if (code == -1) {
+                Log.d(TAG, "ListModules插入数据失败");
+            } else {
+                Log.d(TAG, "ListModules插入数据成功，行ID：" + code);
+            }
         } else {
-            Log.d(TAG, "ListModules插入数据成功，行ID：" + code);
-//			System.out.println("插入数据成功，行ID：" + code);
+            Log.d(TAG, "ListModules数据更新成功，更新行数：" + rowsAffected);
         }
     }
 
+
+//    public void insertBrandLogoData(Drawable drawable) {
+//        long code = -1;
+//        SQLiteDatabase db = getWritableDatabase();
+//        ContentValues values = new ContentValues();
+//        values.put("iconData", drawableToByteArray(drawable));
+//        code = db.insert(TABLENAME_BRANDLOGO, null, values);
+//        if (code == -1) {
+//            Log.d(TAG, "ListModules插入数据失败");
+////			System.out.println("插入数据失败");
+//        } else {
+//            Log.d(TAG, "BrandLogo插入数据成功，行ID：" + code);
+////			System.out.println("插入数据成功，行ID：" + code);
+//        }
+//    }
+
     public void insertBrandLogoData(Drawable drawable) {
-        long code = -1;
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("iconData", drawableToByteArray(drawable));
-        code = db.insert(TABLENAME_BRANDLOGO, null, values);
-        if (code == -1) {
-            Log.d(TAG, "ListModules插入数据失败");
-//			System.out.println("插入数据失败");
+
+        // 检查是否存在数据（假设表中只有一个logo）
+        int rowsAffected = db.update(TABLENAME_BRANDLOGO, values, null, null);
+
+        if (rowsAffected == 0) {
+            // 如果没有记录被更新，说明表中还没有数据，执行插入操作
+            long code = db.insert(TABLENAME_BRANDLOGO, null, values);
+            if (code == -1) {
+                Log.d(TAG, "BrandLogo插入数据失败");
+            } else {
+                Log.d(TAG, "BrandLogo插入数据成功，行ID：" + code);
+            }
         } else {
-            Log.d(TAG, "BrandLogo插入数据成功，行ID：" + code);
-//			System.out.println("插入数据成功，行ID：" + code);
+            Log.d(TAG, "BrandLogo数据更新成功，更新行数：" + rowsAffected);
         }
     }
+
 
     public Hashtable<String, String> getHashtableFromListModules(String tag) {
         SQLiteDatabase db = getWritableDatabase();
@@ -308,6 +385,37 @@ public class DBUtils extends SQLiteOpenHelper {
         }
 
         return hashtable;  // 返回反序列化后的Hashtable
+    }
+
+    public String getActionFromListModules(String tag){
+
+        SQLiteDatabase db = getWritableDatabase();
+        String action = null;
+        Cursor cursor = null;
+        try {
+             cursor = db.query(
+                    "listModules",            // 表名
+                    new String[]{"action"},        // 要查询的列
+                    "tag = ?",                     // 查询条件
+                    new String[]{tag},             // 查询条件的参数
+                    null,                          // 不进行分组
+                    null,                          // 不进行分组后的筛选
+                    null                           // 不进行排序
+            );
+
+            // 检查是否有结果，并提取 action
+            if (cursor != null && cursor.moveToFirst()) {
+                action = cursor.getString(cursor.getColumnIndex("action"));
+            }
+            Log.d(TAG, "getActionFromListModules action " +action);
+        } catch (Exception e) {
+            Log.d(TAG, "getActionFromListModules查询失败", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return action;
     }
 
     public Drawable getDrawableFromListModules(String tag) {
@@ -515,5 +623,17 @@ public class DBUtils extends SQLiteOpenHelper {
     }
 
 
+    public void deleteTable(){
+        SQLiteDatabase db = getWritableDatabase();
+        int rowsAffected = -1;
+        try {
+            rowsAffected =db.delete(TABLENAME_FAVORITES, null, null);
+            rowsAffected =db.delete(TABLENAME_MAINAPP, null, null);
+            rowsAffected =db.delete(TABLENAME_LISTMODULES, null, null);
+            rowsAffected =db.delete(TABLENAME_BRANDLOGO, null, null);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -198,4 +198,6 @@
 
 	<string name="network_disconnect_tip">Пожалуйста, подключитесь к Интернету и повторите попытку!</string>
 	<string name="data_err">Исключение при получении данных!</string>
+
+	<string name="system_app_cannot_uninstalled">Системное приложение не может быть удалено!</string>
 </resources>

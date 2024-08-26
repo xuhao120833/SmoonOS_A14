@@ -4,8 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.NetworkInfo;
+import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.util.Log;
+
+import java.util.List;
 
 /**
  * wifi信号监听
@@ -16,6 +20,7 @@ import android.net.wifi.WifiManager;
 public class MyWifiReceiver extends BroadcastReceiver {
 
 	private MyWifiCallBack mCallBack;;
+	private String TAG = "MyWifiReceiver";
 
 	public MyWifiReceiver(MyWifiCallBack callback) {
 		this.mCallBack = callback;
@@ -49,9 +54,9 @@ public class MyWifiReceiver extends BroadcastReceiver {
 						.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
 				if (info.getState().equals(NetworkInfo.State.DISCONNECTED)) {
 					// 断开连接
-					mCallBack.getWifiNumber(-1);
+					mCallBack.getWifiNumber(1);
 				}else if (info.getState().equals(NetworkInfo.State.CONNECTED)){
-					mCallBack.getWifiNumber(2);
+					mCallBack.getWifiNumber(3);
 				}
 			}
 		}
@@ -68,14 +73,17 @@ public class MyWifiReceiver extends BroadcastReceiver {
 				.getSystemService(Context.WIFI_SERVICE);
 		WifiInfo info = wifiManager.getConnectionInfo();
 		if (info.getBSSID() != null) {
-			int strength = WifiManager.calculateSignalLevel(info.getRssi(), 3);
+			int strength = WifiManager.calculateSignalLevel(info.getRssi(), 4);
+
+			int level = info.getRssi();
 			// 链接速度
 			// int speed = info.getLinkSpeed();
 			// 链接速度单位
 			// String units = WifiInfo.LINK_SPEED_UNITS;
 			// Wifi源名称
 			// String ssid = info.getSSID();
-			return strength;
+			Log.d(TAG,"getStrength信号强度更新 "+strength + " "+level);
+			return level;
 		}
 		return 0;
 	}

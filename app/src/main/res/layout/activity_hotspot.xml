@@ -311,6 +311,7 @@
                 android:layout_marginTop="@dimen/y_30"
                 android:layout_marginStart="@dimen/x_100"
                 android:background="@drawable/main_settings_bg"
+                android:visibility="gone"
                 style="@style/focusStyle"
                 >
 
@@ -335,6 +336,7 @@
                 android:layout_marginTop="@dimen/y_10"
                 android:layout_marginStart="@dimen/x_100"
                 android:background="@drawable/main_settings_bg"
+                android:visibility="gone"
                 style="@style/focusStyle"
                 >
 

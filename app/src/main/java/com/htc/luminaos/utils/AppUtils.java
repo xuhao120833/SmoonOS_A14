@@ -10,6 +10,7 @@ import android.annotation.TargetApi;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
@@ -259,7 +260,7 @@ public class AppUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		ToastUtil.showShortToast(context, context.getString(R.string.data_none));
+		//ToastUtil.showShortToast(context, context.getString(R.string.data_none));
 		return false;
 	}
 
@@ -267,6 +268,38 @@ public class AppUtils {
 		Intent intent = new Intent(context,cls);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
+	}
+
+	/**
+	 * 判断应用是否是系统应用以及是否可以被卸载
+	 *
+	 * @param context 上下文
+	 * @param packageName 应用包名
+	 * @return 返回一个数组，第一个值为是否是系统应用，第二个值为是否可以被卸载
+	 */
+	public static boolean[] checkIfSystemAppAndCanUninstall(Context context, String packageName) {
+		boolean[] result = new boolean[2]; // result[0] 是系统应用标志，result[1] 是是否可卸载标志
+		PackageManager pm = context.getPackageManager();
+
+		try {
+			ApplicationInfo appInfo = pm.getApplicationInfo(packageName, 0);
+
+			// 判断是否是系统应用
+			boolean isSystemApp = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
+
+			// 判断是否可卸载
+			boolean canUninstall = (appInfo.flags & ApplicationInfo.FLAG_EXTERNAL_STORAGE) != 0;
+
+			result[0] = isSystemApp;
+			result[1] = !isSystemApp; // 系统应用通常不能被卸载，因此可卸载标志与是否是系统应用取反
+
+		} catch (PackageManager.NameNotFoundException e) {
+			// 应用未找到
+			result[0] = false;
+			result[1] = false;
+		}
+
+		return result;
 	}
 
 }

@@ -30,6 +30,8 @@
         <item>@string/ten_minutes</item>
         <item>@string/twenty_minutes</item>
         <item>@string/an_hour</item>
+        <item>@string/two_hour</item>
+        <item>@string/three_hour</item>
     </string-array>
     <integer-array name="time_off_value" translatable="false">
         <item>0</item>

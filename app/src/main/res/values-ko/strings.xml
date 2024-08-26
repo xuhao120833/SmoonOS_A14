@@ -214,4 +214,6 @@
 
     <string name="network_disconnect_tip">인터넷에 연결한 후 다시 시도해 주세요!</string>
     <string name="data_err">데이터를 가져오는 중 예외입니다!</string>
+
+    <string name="system_app_cannot_uninstalled">S시스템 앱을 제거할 수 없습니다!</string>
 </resources>

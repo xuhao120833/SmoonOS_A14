@@ -57,6 +57,8 @@
     <string name="ten_minutes">十分钟</string>
     <string name="twenty_minutes">二十分钟</string>
     <string name="an_hour">一小时</string>
+    <string name="two_hour">两小时</string>
+    <string name="three_hour">三小时</string>
     <string name="off">关闭</string>
     <string name="reset_factory_msg">初始化用户操作、应用程序设置和系统设置等。</string>
     <string name="short_max_tips">快捷应用已满</string>
@@ -249,6 +251,15 @@
     <string name="device_mode1">节能模式</string>
     <string name="device_mode2">高亮模式</string>
 
-
+    <string name="new_version">New Version</string>
+    <string name="update_content">Update Content</string>
+    <string name="best_version">Latest version already</string>
+    <string name="size">Size:</string>
+    <string name="check_update">Check for updates</string>
+    <string name="download_update">Download Update</string>
+    <string name="donwloading">Downloading</string>
+    <string name="cureent_version">Current Version</string>
+    
+    <string name="system_app_cannot_uninstalled">系统APP不可卸载！</string>
 
 </resources>

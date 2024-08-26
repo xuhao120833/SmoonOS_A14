@@ -212,4 +212,6 @@
 
 	<string name="network_disconnect_tip">الرجاء الاتصال بالإنترنت والمحاولة مرة أخرى!</string>
 	<string name="data_err">استثناء في الحصول على البيانات!</string>
+
+	<string name="system_app_cannot_uninstalled">لا يمكن إلغاء تثبيت تطبيق النظام</string>
 </resources>

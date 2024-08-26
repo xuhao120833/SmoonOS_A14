@@ -1,6 +1,7 @@
 package com.htc.luminaos.activity;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -58,6 +59,14 @@ public class BaseMainActivity extends Activity implements View.OnClickListener, 
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
+    public void startNewActivity(String packageName ,String activity){
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName(packageName, activity));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {

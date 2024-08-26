@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
-    android:clipToPadding="false"
+    android:clipChildren="true"
+    android:clipToPadding="true"
     android:background="@drawable/background_custom"
     android:id="@+id/rl_main"
     tools:context=".activity.WallPaperActivity">
@@ -46,12 +46,15 @@
     <com.htc.luminaos.widget.FocusKeepRecyclerView
         android:id="@+id/wallpaper_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/x_30"
-        android:layout_marginTop="@dimen/y_120"
+        android:layout_marginTop="@dimen/y_25"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:clipChildren="true"
+        android:clipToPadding="true"
         android:clickable="true"
+        android:layout_below="@+id/usb_item"
         android:layout_marginEnd="@dimen/x_30" />
 
     <View

@@ -8,7 +8,10 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.View;
 
 import com.htc.luminaos.R;
 import com.htc.luminaos.adapter.AppsAdapter;
@@ -21,13 +24,15 @@ import com.htc.luminaos.widget.SpacesItemDecoration;
 
 import java.util.List;
 
-public class AppsActivity extends BaseActivity {
+public class AppsActivity extends BaseActivity{
 
     private ActivityAppsBinding appsBinding;
 
     //app
     private IntentFilter appFilter=new IntentFilter();
     private AppReceiver appReceiver=null;
+
+    private String TAG = "AppsActivity";
 
     Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -100,4 +105,5 @@ public class AppsActivity extends BaseActivity {
         unregisterReceiver(appReceiver);
         super.onDestroy();
     }
+
 }

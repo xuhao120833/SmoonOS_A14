@@ -247,38 +247,38 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
+        RecyclerView parent = (RecyclerView) v.getParent();
 
-        int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
+        if (parent != null) {
+            int position = parent.getChildAdapterPosition(v);
+            Log.d(TAG, " 放大图片 " + position);
 
-        Log.d(TAG," 放大图片 " +position);
-        ImageView check = (ImageView)v.findViewById(R.id.check);
-        AnimationSet animationSet = new AnimationSet(true);
-        v.bringToFront();
-        if (hasFocus) {
-//            if(position != selectpostion) {
-//                check.setVisibility(View.VISIBLE);
-//            }
-            ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.10f,
-                    1.0f, 1.10f, Animation.RELATIVE_TO_SELF, 0.5f,
-                    Animation.RELATIVE_TO_SELF, 0.5f);
-            scaleAnimation.setDuration(150);
-            animationSet.addAnimation(scaleAnimation);
-            animationSet.setFillAfter(true);
-            v.startAnimation(animationSet);
+            ImageView check = (ImageView) v.findViewById(R.id.check);
+            AnimationSet animationSet = new AnimationSet(true);
+            v.bringToFront();
+
+            if (hasFocus) {
+                ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.10f,
+                        1.0f, 1.10f, Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f);
+                scaleAnimation.setDuration(150);
+                animationSet.addAnimation(scaleAnimation);
+                animationSet.setFillAfter(true);
+                v.startAnimation(animationSet);
+            } else {
+                ScaleAnimation scaleAnimation = new ScaleAnimation(1.10f, 1.0f,
+                        1.10f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f);
+                scaleAnimation.setDuration(150);
+                animationSet.addAnimation(scaleAnimation);
+                scaleAnimation.setFillAfter(true);
+                v.startAnimation(animationSet);
+            }
         } else {
-//            if(position != selectpostion) {
-//                check.setImageResource(R.drawable.check_no);
-//                check.setVisibility(View.GONE);
-//            }
-            ScaleAnimation scaleAnimation = new ScaleAnimation(1.10f, 1.0f,
-                    1.10f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
-                    Animation.RELATIVE_TO_SELF, 0.5f);
-            animationSet.addAnimation(scaleAnimation);
-            scaleAnimation.setDuration(150);
-            animationSet.setFillAfter(true);
-            v.startAnimation(animationSet);
+            Log.d(TAG, "Parent is null or not a RecyclerView");
         }
     }
+
 
     private void writeShared (int postion) {
 

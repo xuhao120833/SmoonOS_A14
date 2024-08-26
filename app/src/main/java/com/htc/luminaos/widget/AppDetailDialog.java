@@ -51,6 +51,8 @@ public class AppDetailDialog extends Dialog implements View.OnClickListener {
     private static final String ATTR_PACKAGE_STATS = "PackageStats";
     private ApplicationInfo info;
 
+    private String TAG = "AppDetailDialog" ;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -98,6 +100,7 @@ public class AppDetailDialog extends Dialog implements View.OnClickListener {
     }
 
     private void init() {
+        Log.d(TAG," 执行AppDetailDialog init");
         appDetailLayoutBinding = AppDetailLayoutBinding.inflate(LayoutInflater.from(mContext));
         /*View view = LayoutInflater.from(mContext).inflate(
                 R.layout.wifi_settings_layout, null);*/

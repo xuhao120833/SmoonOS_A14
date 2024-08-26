@@ -12,6 +12,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.text.TextUtils;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,8 @@ public class WifiFoundAdapter extends RecyclerView.Adapter<WifiFoundAdapter.MyVi
     private WifiManager wifiManager = null;
 
     private ConnectivityManager mConnectivityManager;
+
+    private String TAG = "WifiFoundAdapter";
 
     public WifiFoundAdapter(List<ScanResult> scanResultList, Context mContext){
         this.scanResultList = scanResultList;
@@ -119,17 +122,19 @@ public class WifiFoundAdapter extends RecyclerView.Adapter<WifiFoundAdapter.MyVi
         }
 
         int level = scanResult.level;
+        Log.d(TAG," 信号强度更新 "+level);
         if (level < -85){
-            myViewHolder.wifi_level.setBackgroundResource(R.drawable.wifi_01);
+            myViewHolder.wifi_level.setBackgroundResource(R.drawable.wifi_custom_1);
         }else if (level < -70){
-            myViewHolder.wifi_level.setBackgroundResource(R.drawable.wifi_01);
+            myViewHolder.wifi_level.setBackgroundResource(R.drawable.wifi_custom_2);
         }else if (level < -60){
-            myViewHolder.wifi_level.setBackgroundResource(R.drawable.wifi_02);
+            myViewHolder.wifi_level.setBackgroundResource(R.drawable.wifi_custom_3);
         }else if (level < -50){
-            myViewHolder.wifi_level.setBackgroundResource(R.drawable.wifi_03);
+            myViewHolder.wifi_level.setBackgroundResource(R.drawable.wifi_custom_4);
         }else {
-            myViewHolder.wifi_level.setBackgroundResource(R.drawable.wifi_03);
+            myViewHolder.wifi_level.setBackgroundResource(R.drawable.wifi_custom_4);
         }
+
         myViewHolder.wifi_name.setText(scanResult.SSID);
         myViewHolder.rl_item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -457,4 +462,29 @@ public class WifiFoundAdapter extends RecyclerView.Adapter<WifiFoundAdapter.MyVi
             rl_item = itemView.findViewById(R.id.rl_item);
         }
     }
+
+    /**
+     * 获取信号
+     *
+     * @param context
+     * @return
+     */
+    public int getStrength(Context context) {
+        WifiManager wifiManager = (WifiManager) context
+                .getSystemService(Context.WIFI_SERVICE);
+        WifiInfo info = wifiManager.getConnectionInfo();
+        if (info.getBSSID() != null) {
+            int strength = WifiManager.calculateSignalLevel(info.getRssi(), 4);
+            // 链接速度
+            // int speed = info.getLinkSpeed();
+            // 链接速度单位
+            // String units = WifiInfo.LINK_SPEED_UNITS;
+            // Wifi源名称
+            // String ssid = info.getSSID();
+            Log.d(TAG,"getStrength信号强度更新 "+strength);
+            return strength;
+        }
+        return 0;
+    }
+
 }

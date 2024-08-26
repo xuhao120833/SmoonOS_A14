@@ -1,6 +1,7 @@
 package com.htc.luminaos;
 
 import android.app.Application;
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -79,10 +80,12 @@ public class MyApplication extends Application {
         String configContent;
 
         //优先读取oem分区，其次读取system分区
-        if (new File("/oem/shortcuts.config").exists()) {
-            configContent = FileUtils.readFileContent("/oem/shortcuts.config"); //这里的作用就是从shortcuts.config中一行一行的读取字符，然后将它们合并成一行字符串
+        if (new File("/oem/config.ini").exists()) {
+            configContent = FileUtils.readFileContent("/oem/config.ini"); //这里的作用就是从shortcuts.config中一行一行的读取字符，然后将它们合并成一行字符串
+        } else if(new File("/system/config.ini").exists()){
+            configContent = FileUtils.readFileContent("/system/config.ini");
         } else {
-            configContent = FileUtils.readFileContent("/system/shortcuts.config");
+            configContent = FileUtils.readFileContent("/product/config.ini");
         }
         if (configContent == null || configContent.equals(""))
             return;
@@ -110,5 +113,6 @@ public class MyApplication extends Application {
         KeystoneUtils.minH_size = config.manualKeystoneWidth;
         KeystoneUtils.minV_size = config.manualKeystoneHeight;
     }
+
 
 }

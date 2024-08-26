@@ -196,4 +196,6 @@
 
 	<string name="network_disconnect_tip">請連結網路後重試！</string>
 	<string name="data_err">獲取數據異常！</string>
+
+	<string name="system_app_cannot_uninstalled">系統APP不可卸載！</string>
 </resources>

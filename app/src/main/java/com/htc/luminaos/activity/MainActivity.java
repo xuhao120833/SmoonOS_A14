@@ -1,5 +1,6 @@
 package com.htc.luminaos.activity;
 
+import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -9,6 +10,8 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.hardware.usb.UsbManager;
 import android.net.ConnectivityManager;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
@@ -136,6 +139,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     private Hashtable<String, String> hashtable = new Hashtable<>();
 
     private AppReceiver appReceiver = null;
+    private WifiManager wifiManager = null;
 
     Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -180,6 +184,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             initViewCustom();
             initDataCustom();
             initReceiver();
+            wifiManager=(WifiManager) getSystemService(Service.WIFI_SERVICE);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -328,20 +333,6 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
                 //读取首页的配置文件，优先读取网络服务器配置，其次读本地配置
                 initDataApp();
-
-                //设置首页的配置图标
-                // 在主线程中更新 UI
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // 设置首页的配置图标
-                        try {
-                            setIconOrText();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
 
                 short_list = loadHomeAppData();
                 handler.sendEmptyMessage(204);
@@ -524,6 +515,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
                 appname = DBUtils.getInstance(this).getAppNameByTag("icon4");
                 action = DBUtils.getInstance(this).getActionByTag("icon4");
+                Log.d(TAG," appnameaction"+appname+" "+action);
 
                 if (appname != null && action != null) {
                     if (!AppUtils.startNewApp(MainActivity.this, action)) {
@@ -551,7 +543,17 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 startSource("CVBS1");
                 break;
             case R.id.rl_hdmi1:
-                startSource("HDMI1");
+//                startSource("HDMI1");
+                try {
+                    String listaction = DBUtils.getInstance(this).getActionFromListModules("list3");
+                    if (listaction != null) { //读取配置
+                        goAction(listaction);
+                    } else {// 默认跳转
+                        startSource("HDMI1");
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.rl_hdmi2:
                 startSource("HDMI2");
@@ -570,7 +572,16 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 startNewActivity(BluetoothActivity.class);
                 break;
             case R.id.home_eshare:
-                AppUtils.startNewApp(MainActivity.this, "com.ecloud.eshare.server");
+                try {
+                    String listaction = DBUtils.getInstance(this).getActionFromListModules("list1");
+                    if (listaction != null) { //读取配置
+                        goAction(listaction);
+                    } else {// 默认跳转
+                        AppUtils.startNewApp(MainActivity.this, "com.ecloud.eshare.server");
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.home_disney:
                 Log.d("xuhao", "打开迪士尼");
@@ -603,8 +614,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     }
 
                 } else if (!AppUtils.startNewApp(MainActivity.this, "com.netflix.mediaclient")) {
-                    appName = "Netflix";
-                    requestChannelData();
+                    if(!AppUtils.startNewApp(MainActivity.this, "com.netflix.ninja")) {
+                        appName = "Netflix";
+                        requestChannelData();
+                    }
                 }
 
 //                if (!AppUtils.startNewApp(MainActivity.this, "com.netflix.mediaclient")) {
@@ -643,6 +656,19 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     }
 
+    private void goAction(String listaction) {
+        Log.d(TAG," goAction list配置跳转 "+listaction);
+        if(listaction.contains("/")){
+            String[] parts = listaction.split("/", 2);
+            String packageName = parts[0];
+            String activityName = parts[1];
+            Log.d(TAG," goAction 包名活动名 "+packageName+" "+activityName);
+            startNewActivity(packageName,activityName);
+        }else {
+            AppUtils.startNewApp(MainActivity.this, listaction);
+        }
+    }
+
     private void startSource(String sourceName) {
         Intent intent_hdmi = new Intent();
         intent_hdmi.setComponent(new ComponentName("com.softwinner.awlivetv", "com.softwinner.awlivetv.MainActivity"));
@@ -661,7 +687,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         SharedPreferences.Editor editor = sharedPreferences.edit();
         int code = sharedPreferences.getInt("code", 0);
 
-        if (code == 0) {  //保证配置文件只在最初读一次
+//        if (code == 0) {  //保证配置文件只在最初读一次
 
             //1、优先连接服务区读配置
 
@@ -678,6 +704,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
             if (!file.exists()) {
                 Log.d(TAG, " 配置文件不存在 ");
+                DBUtils.getInstance(this).deleteTable();
                 return false;
             }
 
@@ -694,7 +721,6 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
                 //读取首页四大APP图标
                 readMain(obj);
-
 
                 //读取APP快捷图标
                 //readShortcuts(obj);
@@ -753,6 +779,21 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     }
                 }
                 editor.putString("resident", residentList.toString());
+
+                //设置首页的配置图标
+                // 在主线程中更新 UI
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 设置首页的配置图标
+                        try {
+                            setIconOrText();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
                 editor.putInt("code", 1);
                 editor.apply();
                 is.close();
@@ -761,7 +802,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 e.printStackTrace();
                 isLoad = false;
             }
-        }
+//        }
 
         return isLoad;
     }
@@ -975,34 +1016,65 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
     };
 
+//    @Override
+//    public void getWifiNumber(int count) {
+//
+//        List<ScanResult> wifiList = wifiManager.getScanResults();
+//        Log.d(TAG,"getWifiNumber "+count);
+//        switch (count) {
+//            case -1:
+////                mainBinding.homeWifi.setBackgroundResource(R.drawable.wifi_not);
+//                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_4);
+//                break;
+//            case 0:
+////                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_1_focus);
+//                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_1);
+//                break;
+//            case 1:
+////                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_2_focus);
+//                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_2);
+//                break;
+//            case 2:
+////                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_2_focus);
+//                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_3);
+//                break;
+//            case 3:
+////                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_2_focus);
+//                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
+//                break;
+//            default:
+////                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_full_focus);
+//                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
+//                break;
+//
+//        }
+//    }
+
     @Override
     public void getWifiNumber(int count) {
-        switch (count) {
-            case -1:
-//                mainBinding.homeWifi.setBackgroundResource(R.drawable.wifi_not);
-                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_4);
-                break;
-            case 0:
-//                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_1_focus);
-                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_1);
-                break;
-            case 1:
-//                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_2_focus);
-                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_2);
-                break;
-            case 2:
-//                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_2_focus);
-                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_3);
-                break;
-            case 3:
-//                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_2_focus);
-                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
-                break;
-            default:
-//                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_full_focus);
-                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
-                break;
 
+        List<ScanResult> wifiList = wifiManager.getScanResults();
+        Log.d(TAG,"getWifiNumber "+count);
+
+        if(count == 1) {
+            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_4);
+            return;
+        } else if(count == 3) {
+            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
+            return;
+        }
+
+        Log.d(TAG," level数据"+count);
+        if (count < -85){
+            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_1);
+        }else if (count < -70){
+            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_2);
+        }else if (count < -60){
+            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_3);
+        }else if (count < -50){
+            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
+        }else {
+            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
         }
     }
 
