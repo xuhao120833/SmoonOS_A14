@@ -57,8 +57,8 @@
     <string name="ten_minutes">十分钟</string>
     <string name="twenty_minutes">二十分钟</string>
     <string name="an_hour">一小时</string>
-    <string name="two_hour">两小时</string>
-    <string name="three_hour">三小时</string>
+    <string name="two_hours">两小时</string>
+    <string name="three_hours">三小时</string>
     <string name="off">关闭</string>
     <string name="reset_factory_msg">初始化用户操作、应用程序设置和系统设置等。</string>
     <string name="short_max_tips">快捷应用已满</string>

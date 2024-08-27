@@ -56,6 +56,8 @@
     <string name="ten_minutes">10분</string>
     <string name="twenty_minutes">20분</string>
     <string name="an_hour">60분</string>
+    <string name="two_hours">두 시간</string>
+    <string name="three_hours">세 시간</string>
     <string name="off">끄기</string>
     <string name="reset_factory_msg">앱 설정, 시스템 설정, 사용자 설정을 모두 초기화하여 공장출고 상태로 됩니다.</string>
     <string name="short_max_tips">바로가기 추가할 자리가 없습니다.</string>

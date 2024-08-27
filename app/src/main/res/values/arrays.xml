@@ -30,8 +30,8 @@
         <item>@string/ten_minutes</item>
         <item>@string/twenty_minutes</item>
         <item>@string/an_hour</item>
-        <item>@string/two_hour</item>
-        <item>@string/three_hour</item>
+        <item>@string/two_hours</item>
+        <item>@string/three_hours</item>
     </string-array>
     <integer-array name="time_off_value" translatable="false">
         <item>0</item>
@@ -39,6 +39,8 @@
         <item>600</item>
         <item>1200</item>
         <item>3600</item>
+        <item>7200</item>
+        <item>10800</item>
     </integer-array>
 
     <string-array name="power_mode_name">

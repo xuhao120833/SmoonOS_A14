@@ -59,6 +59,8 @@
 	<string name="ten_minutes">Десять минут.</string>
 	<string name="twenty_minutes">Двадцать минут.</string>
 	<string name="an_hour">Час</string>
+	<string name="two_hours">два часа</string>
+	<string name="three_hours">три часа</string>
 	<string name="off">Закрыть</string>
 	<string name="reset_factory_msg">Инициализация пользовательских операций, настроек приложений и системных настроек.</string>
 	<string name="short_max_tips">Быстрое применение заполнено.</string>

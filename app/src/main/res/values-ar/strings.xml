@@ -59,6 +59,8 @@
 	<string name="ten_minutes">عشر دقائق</string>
 	<string name="twenty_minutes">عشرين دقيقة</string>
 	<string name="an_hour">ساعة</string>
+	<string name="two_hours">ساعتين</string>
+	<string name="three_hours">ثلاث ساعات</string>
 	<string name="off">غلق</string>
 	<string name="reset_factory_msg">تهيئة المستخدم العملية ، إعدادات التطبيق ، إعدادات النظام ، الخ .</string>
 	<string name="short_max_tips">تطبيق سريع كامل</string>

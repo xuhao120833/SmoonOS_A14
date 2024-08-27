@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemProperties;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ public class OtherSettingsActivity extends BaseActivity implements View.OnKeyLis
     String[] power_mode_name;
     String[] power_mode_value;
     private int power_mode_index = 0;
+    private String TAG = "OtherSettingsActivity";
 
 
     @Override
@@ -131,6 +133,7 @@ public class OtherSettingsActivity extends BaseActivity implements View.OnKeyLis
     }
 
     private void setTimeOff(int index){
+        Log.d(TAG," 定时关机时间为 "+time_off_title.length+" "+index);
         otherSettingsBinding.timerOffTv.setText(time_off_title[index]);
         ShareUtil.put(this,Contants.TimeOffIndex,index);
         Intent intent = new Intent(this, TimeOffService.class);

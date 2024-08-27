@@ -59,6 +59,8 @@
 	<string name="ten_minutes">十分鐘</string>
 	<string name="twenty_minutes">二十分鐘</string>
 	<string name="an_hour">一小時</string>
+	<string name="two_hours">兩小時</string>
+	<string name="three_hours">三小時</string>
 	<string name="off">關閉</string>
 	<string name="reset_factory_msg">初始化用戶操作、應用程序設定和系統設置等。</string>
 	<string name="short_max_tips">快捷應用已滿</string>

@@ -59,6 +59,8 @@
 	<string name="ten_minutes">Ten minutes</string>
 	<string name="twenty_minutes">Twenty minutes</string>
 	<string name="an_hour">An hour</string>
+	<string name="two_hours">Two hours</string>
+	<string name="three_hours">Three hours</string>
 	<string name="off">Off</string>
 	<string name="reset_factory_msg">Initialize user operations, application settings, and system settings, etc.</string>
 	<string name="short_max_tips">Quick app is full</string>

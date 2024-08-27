@@ -2,6 +2,7 @@ package com.htc.luminaos.activity;
 
 import static android.net.ConnectivityManager.ACTION_TETHER_STATE_CHANGED;
 import static android.net.wifi.WifiManager.WIFI_AP_STATE_CHANGED_ACTION;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
+
 import com.android.internal.annotations.VisibleForTesting;
 import com.htc.luminaos.R;
 import com.htc.luminaos.databinding.ActivityHotspotBinding;
@@ -45,7 +47,7 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
     public static final int OPEN_INDEX = 0;
     public static final int WPA_INDEX = 1;
     public static final int WPA2_INDEX = 2;
-    public String[] securityArray ;
+    public String[] securityArray;
     private int apBand = 0;
     public String[] apBandArray;
     private ConnectivityManager mConnectivityManager;
@@ -90,14 +92,14 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
         super.onCreate(savedInstanceState);
         hotspotBinding = ActivityHotspotBinding.inflate(LayoutInflater.from(this));
         setContentView(hotspotBinding.getRoot());
-        securityArray = new String[]{getString(R.string.none),getString(R.string.wpa_psk),getString(R.string.wpa2_psk)};
-        apBandArray = new String[]{getString(R.string.one_band),getString(R.string.two_band)};
+        securityArray = new String[]{getString(R.string.none), getString(R.string.wpa_psk), getString(R.string.wpa2_psk)};
+        apBandArray = new String[]{getString(R.string.one_band), getString(R.string.two_band)};
         wifiHotUtil = new WifiHotUtil(HotspotActivity.this);
         initView();
         initData();
     }
 
-    private void initView(){
+    private void initView() {
         hotspotBinding.rlCancel.setOnClickListener(this);
         hotspotBinding.rlEnter.setOnClickListener(this);
         hotspotBinding.rlHotspotName.setOnClickListener(this);
@@ -124,7 +126,7 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
 
     }
 
-    private void initData(){
+    private void initData() {
         mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         mStartTetheringCallback = new OnStartTetheringCallback();
 
@@ -155,13 +157,13 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // TODO Auto-generated method stub
                 updateHotspotSwitchStatus(false);
-                mHandler.sendEmptyMessageDelayed(1001,3000);
+                mHandler.sendEmptyMessageDelayed(1001, 3000);
                 if (isChecked) {
                     if (wifiHotUtil != null) {
                         WifiConfiguration configuration = wifiHotUtil
                                 .getWifiConfig();
                         if (configuration != null) {
-                            if(!wifiHotUtil.isWifiApEnabled()){
+                            if (!wifiHotUtil.isWifiApEnabled()) {
 
                                 startTether();
                             }
@@ -172,7 +174,7 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
                     }
                 } else {
                     if (wifiHotUtil != null) {
-                        if(wifiHotUtil.isWifiApEnabled()){
+                        if (wifiHotUtil.isWifiApEnabled()) {
 
                             mConnectivityManager
                                     .stopTethering(ConnectivityManager.TETHERING_WIFI);
@@ -183,21 +185,21 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
         });
     }
 
-    private void updateHotspotSwitchStatus(boolean status){
-        if (status){
+    private void updateHotspotSwitchStatus(boolean status) {
+        if (status) {
             hotspotBinding.hotspotSwitch.setEnabled(true);
             hotspotBinding.rlHotspotSwitch.setEnabled(true);
             hotspotBinding.rlHotspotSwitch.setAlpha(1.0f);
-        }else {
+        } else {
             hotspotBinding.hotspotSwitch.setEnabled(false);
             hotspotBinding.rlHotspotSwitch.setEnabled(false);
-            hotspotBinding.rlHotspotSwitch.setAlpha( 0.5f);
+            hotspotBinding.rlHotspotSwitch.setAlpha(0.5f);
         }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.rl_hotspot_switch:
             case R.id.hotspot_switch:
                 hotspotBinding.hotspotSwitch.setChecked(!hotspotBinding.hotspotSwitch.isChecked());
@@ -207,7 +209,7 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
                 hotspotBinding.showPasswordSwitch.setChecked(!hotspotBinding.showPasswordSwitch.isChecked());
                 break;
             case R.id.rl_hotspot_password:
-                HotspotPasswordDialog passwordDialog = new HotspotPasswordDialog(this,R.style.DialogTheme);
+                HotspotPasswordDialog passwordDialog = new HotspotPasswordDialog(this, R.style.DialogTheme);
                 passwordDialog.HotspotConfig(wifiHotUtil);
                 passwordDialog.setOnClickCallBack(new HotspotPasswordDialog.HotspotPasswordCallBack() {
                     @Override
@@ -219,7 +221,7 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
                 passwordDialog.show();
                 break;
             case R.id.rl_hotspot_name:
-                HotspotNameDialog hotspotNameDialog = new HotspotNameDialog(this,R.style.DialogTheme);
+                HotspotNameDialog hotspotNameDialog = new HotspotNameDialog(this, R.style.DialogTheme);
                 hotspotNameDialog.HotspotConfig(wifiHotUtil);
                 hotspotNameDialog.setOnClickCallBack(new HotspotNameDialog.HotspotNameCallBack() {
                     @Override
@@ -231,24 +233,27 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
                 hotspotNameDialog.show();
                 break;
             case R.id.rl_hotspot_security:
-                if (mSecurityType==2){
-                    mSecurityType=0;
-                }else {
+                if (mSecurityType == 2) {
+                    mSecurityType = 0;
+                } else {
                     mSecurityType++;
                 }
 
                 updateSecurity();
+                writeConfig();
+
                 break;
             case R.id.rl_frequency:
-                apBand = apBand==1?0:1;
+                apBand = apBand == 1 ? 0 : 1;
                 hotspotBinding.frequencyTv.setText(apBandArray[apBand]);
-                Log.d(TAG," 确认键调整");
+                writeConfig();
+                Log.d(TAG, " 确认键调整");
                 break;
             case R.id.rl_enter:
                 if (!hotspotBinding.rlHotspotSwitch.isEnabled())
                     return;
                 updateHotspotSwitchStatus(false);
-                mHandler.sendEmptyMessageDelayed(1001,3000);
+                mHandler.sendEmptyMessageDelayed(1001, 3000);
                 String msiid = hotspotBinding.hotspotNameTv.getText().toString();
                 if (msiid.isEmpty()) {
                     ToastUtil.showShortToast(HotspotActivity.this,
@@ -260,7 +265,7 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
                     mpassword = hotspotBinding.passwordTv.getText().toString();
                     if (mpassword.isEmpty()) {
                         ToastUtil.showShortToast(HotspotActivity.this,
-                                        getString(R.string.passwordmsg));
+                                getString(R.string.passwordmsg));
                         return;
                     }
 
@@ -302,7 +307,7 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
         }
     }
 
-    private void writeConfig(){
+    private void writeConfig() {
         if (!hotspotBinding.rlHotspotSwitch.isEnabled())
             return;
 //        updateHotspotSwitchStatus(false);
@@ -353,13 +358,15 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
         }
     }
 
-    private void updateSecurity(){
-        if (mSecurityType==0) {
-            password="";
+    private void updateSecurity() {
+        if (mSecurityType == 0) {
+            password = "";
             hotspotBinding.passwordTv.setText(password);
-        }else {
-            password="12345678";
-            hotspotBinding.passwordTv.setText(password);
+        } else {
+//            password="12345678";
+//            hotspotBinding.passwordTv.setText(password);
+            WifiConfiguration configuration = wifiHotUtil.getWifiConfig();
+            hotspotBinding.passwordTv.setText(configuration.preSharedKey);
         }
         hotspotBinding.securityTv.setText(securityArray[mSecurityType]);
     }
@@ -367,36 +374,43 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
 
-        if (keyCode==KeyEvent.KEYCODE_DPAD_LEFT && event.getAction() ==KeyEvent.ACTION_DOWN){
-            switch (v.getId()){
+        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT && event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (v.getId()) {
                 case R.id.rl_hotspot_security:
-                    if (mSecurityType==0){
-                        mSecurityType=2;
-                    }else {
+                    if (mSecurityType == 0) {
+                        mSecurityType = 2;
+                    } else {
                         mSecurityType--;
                     }
                     updateSecurity();
+                    writeConfig();
+
                     break;
                 case R.id.rl_frequency:
-                    apBand = apBand==1?0:1;
+                    apBand = apBand == 1 ? 0 : 1;
                     hotspotBinding.frequencyTv.setText(apBandArray[apBand]);
-                    Log.d(TAG," 向左调整");
+                    Log.d(TAG, " 向左调整");
+                    writeConfig();
                     break;
             }
-        } else if (keyCode==KeyEvent.KEYCODE_DPAD_RIGHT && event.getAction() ==KeyEvent.ACTION_DOWN) {
-            switch (v.getId()){
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT && event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (v.getId()) {
                 case R.id.rl_hotspot_security:
-                    if (mSecurityType==2){
-                        mSecurityType=0;
-                    }else {
+                    if (mSecurityType == 2) {
+                        mSecurityType = 0;
+                    } else {
                         mSecurityType++;
                     }
                     updateSecurity();
+
+                    writeConfig();
+
                     break;
                 case R.id.rl_frequency:
-                    apBand = apBand==1?0:1;
+                    apBand = apBand == 1 ? 0 : 1;
                     hotspotBinding.frequencyTv.setText(apBandArray[apBand]);
-                    Log.d(TAG," 向右调整");
+                    writeConfig();
+                    Log.d(TAG, " 向右调整");
                     break;
             }
         }
@@ -444,7 +458,7 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
 
                     case 1:
                     default:
-                        apBand=1;
+                        apBand = 1;
                         hotspotBinding.frequencyTv.setText(getString(R.string.two_band));
                         break;
                 }
@@ -552,7 +566,7 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
         }
     }
 
-   private void startTether() {
+    private void startTether() {
         mRestartWifiApAfterConfigChange = false;
         // wifiHotUtil.openWifiAp(configuration);
         mConnectivityManager.startTethering(ConnectivityManager.TETHERING_WIFI,
