@@ -344,38 +344,38 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 Log.d(TAG,"电池状态 初始化 正在充电");
                 switch (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryLevel)) {
                     case "0":
-                        customBinding.battery.setImageResource(R.drawable.battery_charging_0);
-                        break;
-                    case "1":
                         customBinding.battery.setImageResource(R.drawable.battery_charging_1);
                         break;
-                    case "2":
+                    case "1":
                         customBinding.battery.setImageResource(R.drawable.battery_charging_2);
                         break;
-                    case "3":
+                    case "2":
                         customBinding.battery.setImageResource(R.drawable.battery_charging_3);
                         break;
-                    case "4":
+                    case "3":
                         customBinding.battery.setImageResource(R.drawable.battery_charging_4);
+                        break;
+                    case "4":
+                        customBinding.battery.setImageResource(R.drawable.battery_charging_5);
                         break;
                 }
             } else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
                 Log.d(TAG,"电池状态 初始化 没充电");
                 switch (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryLevel)) {
                     case "0":
-                        customBinding.battery.setImageResource(R.drawable.battery_0);
-                        break;
-                    case "1":
                         customBinding.battery.setImageResource(R.drawable.battery_1);
                         break;
-                    case "2":
+                    case "1":
                         customBinding.battery.setImageResource(R.drawable.battery_2);
                         break;
-                    case "3":
+                    case "2":
                         customBinding.battery.setImageResource(R.drawable.battery_3);
                         break;
-                    case "4":
+                    case "3":
                         customBinding.battery.setImageResource(R.drawable.battery_4);
+                        break;
+                    case "4":
+                        customBinding.battery.setImageResource(R.drawable.battery_5);
                         break;
                 }
             }
@@ -391,37 +391,37 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         switch (level) {
             case "0":
                 if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
-                    customBinding.battery.setImageResource(R.drawable.battery_charging_0);
-                }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
-                    customBinding.battery.setImageResource(R.drawable.battery_0);
-                }
-                break;
-            case "1":
-                if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
                     customBinding.battery.setImageResource(R.drawable.battery_charging_1);
                 }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
                     customBinding.battery.setImageResource(R.drawable.battery_1);
                 }
                 break;
-            case "2":
+            case "1":
                 if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
                     customBinding.battery.setImageResource(R.drawable.battery_charging_2);
                 }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
                     customBinding.battery.setImageResource(R.drawable.battery_2);
                 }
                 break;
-            case "3":
+            case "2":
                 if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
                     customBinding.battery.setImageResource(R.drawable.battery_charging_3);
                 }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
                     customBinding.battery.setImageResource(R.drawable.battery_3);
                 }
                 break;
-            case "4":
+            case "3":
                 if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
                     customBinding.battery.setImageResource(R.drawable.battery_charging_4);
                 }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
                     customBinding.battery.setImageResource(R.drawable.battery_4);
+                }
+                break;
+            case "4":
+                if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
+                    customBinding.battery.setImageResource(R.drawable.battery_charging_5);
+                }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
+                    customBinding.battery.setImageResource(R.drawable.battery_5);
                 }
                 break;
         }
@@ -433,19 +433,19 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         Log.d(TAG,"电池状态 Plug_in_charger");
         switch (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryLevel)) {
             case "0":
-                customBinding.battery.setImageResource(R.drawable.battery_charging_0);
-                break;
-            case "1":
                 customBinding.battery.setImageResource(R.drawable.battery_charging_1);
                 break;
-            case "2":
+            case "1":
                 customBinding.battery.setImageResource(R.drawable.battery_charging_2);
                 break;
-            case "3":
+            case "2":
                 customBinding.battery.setImageResource(R.drawable.battery_charging_3);
                 break;
-            case "4":
+            case "3":
                 customBinding.battery.setImageResource(R.drawable.battery_charging_4);
+                break;
+            case "4":
+                customBinding.battery.setImageResource(R.drawable.battery_charging_5);
                 break;
         }
     }
@@ -455,19 +455,19 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         Log.d(TAG,"电池状态 Unplug_the_charger");
         switch (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryLevel)) {
             case "0":
-                customBinding.battery.setImageResource(R.drawable.battery_0);
-                break;
-            case "1":
                 customBinding.battery.setImageResource(R.drawable.battery_1);
                 break;
-            case "2":
+            case "1":
                 customBinding.battery.setImageResource(R.drawable.battery_2);
                 break;
-            case "3":
+            case "2":
                 customBinding.battery.setImageResource(R.drawable.battery_3);
                 break;
-            case "4":
+            case "3":
                 customBinding.battery.setImageResource(R.drawable.battery_4);
+                break;
+            case "4":
+                customBinding.battery.setImageResource(R.drawable.battery_5);
                 break;
         }
     }

@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/rl_main"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:background="@drawable/background_custom" >
 
     <TextView
@@ -355,6 +357,17 @@
             android:maxWidth="@dimen/x_230"
             android:layout_marginStart="@dimen/x_115"
             android:text="@string/select_point"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x_21"
+            android:gravity="center_vertical"
+            android:maxWidth="@dimen/x_230"
+            android:layout_marginStart="@dimen/x_220"
+            android:text="@string/Menu_reset"
             />
 
         <TextView

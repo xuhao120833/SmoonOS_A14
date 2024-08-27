@@ -219,4 +219,6 @@
 	<string name="data_err">Exception in getting data!</string>
 
 	<string name="system_app_cannot_uninstalled">System APP cannot be uninstalled!</string>
+
+	<string name="Menu_reset">Menu key reset</string>
 </resources>

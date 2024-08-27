@@ -54,7 +54,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     private ExecutorService singer;
     private int left = 100;
     private int top = 100;
-    private  int right = 100;
+    private int right = 100;
     private int bottom = 100;
     private int max_value = 100;
     private int All;
@@ -63,14 +63,15 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     private double scale = 1D;//缩放比例，根据选中的屏幕缩放模式
     private int step_x = 16;//X轴步进
     private int step_y = 9;//Y轴步进
-    double zoom_step_x =(double) KeystoneUtils.lcd_w / 100 ;
-    double zoom_step_y =(double) KeystoneUtils.lcd_h / 100 ;
+    double zoom_step_x = (double) KeystoneUtils.lcd_w / 100;
+    double zoom_step_y = (double) KeystoneUtils.lcd_h / 100;
     private SharedPreferences sharedPreferences;
 
     private int cur_device_Mode = 0;
     long cur_time = 0;
 
     Handler handler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +81,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         initData();
     }
 
-    private void initView(){
+    private void initView() {
         projectBinding.rlProjectMode.setOnClickListener(this);
         projectBinding.rlAutoKeystone.setOnClickListener(this);
         projectBinding.rlInitAngle.setOnClickListener(this);
@@ -105,18 +106,18 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         projectBinding.intelligentObstacleSwitch.setOnClickListener(this);
         projectBinding.rlCalibration.setOnClickListener(this);
 
-        projectBinding.rlDisplaySettings.setVisibility(MyApplication.config.displaySetting?View.VISIBLE:View.GONE);
-        projectBinding.rlProjectMode.setVisibility(MyApplication.config.projectMode?View.VISIBLE:View.GONE);
-        projectBinding.rlDeviceMode2.setVisibility(MyApplication.config.deviceMode?View.VISIBLE:View.GONE);
-        projectBinding.rlDigitalZoom.setVisibility(MyApplication.config.wholeZoom?View.VISIBLE:View.GONE);
-        projectBinding.rlAutoKeystone.setVisibility(MyApplication.config.autoKeystone?View.VISIBLE:View.GONE);
-        projectBinding.rlInitAngle.setVisibility(MyApplication.config.initAngleCorrect?View.VISIBLE:View.GONE);
-        projectBinding.rlManualKeystone.setVisibility(MyApplication.config.manualKeystone?View.VISIBLE:View.GONE);
-        projectBinding.rlResetKeystone.setVisibility(MyApplication.config.resetKeystone?View.VISIBLE:View.GONE);
-        projectBinding.rlAutoFocus.setVisibility(MyApplication.config.autoFocus?View.VISIBLE:View.GONE);
-        projectBinding.rlAutoFourCorner.setVisibility(MyApplication.config.autoFourCorner?View.VISIBLE:View.GONE);
-        projectBinding.rlScreenRecognition.setVisibility(MyApplication.config.screenRecognition?View.VISIBLE:View.GONE);
-        projectBinding.rlIntelligentObstacle.setVisibility(MyApplication.config.intelligentObstacle?View.VISIBLE:View.GONE);
+        projectBinding.rlDisplaySettings.setVisibility(MyApplication.config.displaySetting ? View.VISIBLE : View.GONE);
+        projectBinding.rlProjectMode.setVisibility(MyApplication.config.projectMode ? View.VISIBLE : View.GONE);
+        projectBinding.rlDeviceMode2.setVisibility(MyApplication.config.deviceMode ? View.VISIBLE : View.GONE);
+        projectBinding.rlDigitalZoom.setVisibility(MyApplication.config.wholeZoom ? View.VISIBLE : View.GONE);
+        projectBinding.rlAutoKeystone.setVisibility(MyApplication.config.autoKeystone ? View.VISIBLE : View.GONE);
+        projectBinding.rlInitAngle.setVisibility(MyApplication.config.initAngleCorrect ? View.VISIBLE : View.GONE);
+        projectBinding.rlManualKeystone.setVisibility(MyApplication.config.manualKeystone ? View.VISIBLE : View.GONE);
+        projectBinding.rlResetKeystone.setVisibility(MyApplication.config.resetKeystone ? View.VISIBLE : View.GONE);
+        projectBinding.rlAutoFocus.setVisibility(MyApplication.config.autoFocus ? View.VISIBLE : View.GONE);
+        projectBinding.rlAutoFourCorner.setVisibility(MyApplication.config.autoFourCorner ? View.VISIBLE : View.GONE);
+        projectBinding.rlScreenRecognition.setVisibility(MyApplication.config.screenRecognition ? View.VISIBLE : View.GONE);
+        projectBinding.rlIntelligentObstacle.setVisibility(MyApplication.config.intelligentObstacle ? View.VISIBLE : View.GONE);
 
         if (SystemProperties.get("persist.sys.camok", "0").equals("1")) {
             projectBinding.rlAutoFocus.setVisibility(View.VISIBLE);
@@ -129,7 +130,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
             if (SystemProperties.get("persist.sys.focusupdn", "0").equals("1")) {
                 //自动梯形
                 projectBinding.rlAutoKeystone.setVisibility(View.VISIBLE);
-                projectBinding.rlInitAngle.setVisibility(MyApplication.config.initAngleCorrect?View.VISIBLE:View.GONE);
+                projectBinding.rlInitAngle.setVisibility(MyApplication.config.initAngleCorrect ? View.VISIBLE : View.GONE);
                 projectBinding.rlAutoFourCorner.setVisibility(View.GONE);
                 projectBinding.rlIntelligentObstacle.setVisibility(View.GONE);
                 projectBinding.rlScreenRecognition.setVisibility(View.GONE);
@@ -137,7 +138,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
 
         } else {
             projectBinding.rlAutoKeystone.setVisibility(View.VISIBLE);
-            projectBinding.rlInitAngle.setVisibility(MyApplication.config.initAngleCorrect?View.VISIBLE:View.GONE);
+            projectBinding.rlInitAngle.setVisibility(MyApplication.config.initAngleCorrect ? View.VISIBLE : View.GONE);
             projectBinding.rlAutoFourCorner.setVisibility(View.GONE);
             projectBinding.rlIntelligentObstacle.setVisibility(View.GONE);
             projectBinding.rlScreenRecognition.setVisibility(View.GONE);
@@ -145,8 +146,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
 
         }
 
-        if ((boolean)ShareUtil.get(this,Contants.KEY_DEVELOPER_MODE,false)
-                && projectBinding.rlAutoFourCorner.getVisibility()==View.VISIBLE){
+        if ((boolean) ShareUtil.get(this, Contants.KEY_DEVELOPER_MODE, false)
+                && projectBinding.rlAutoFourCorner.getVisibility() == View.VISIBLE) {
             projectBinding.rlCalibration.setVisibility(View.VISIBLE);
         }
 
@@ -154,7 +155,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         projectBinding.rlProjectMode.requestFocusFromTouch();
     }
 
-    private void initData(){
+    private void initData() {
         tvDisplayManager = AwTvDisplayManager.getInstance();
         project_name.add(getString(R.string.project_mode_1));
         project_name.add(getString(R.string.project_mode_2));
@@ -164,7 +165,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         projectBinding.projectModeTv.setText(project_name.get(cur_project_mode));
         singer = Executors.newSingleThreadExecutor();
         sharedPreferences = ShareUtil.getInstans(this);
-        String zoom_mode = sharedPreferences.getString("zoom_mode","16:9");
+        String zoom_mode = sharedPreferences.getString("zoom_mode", "16:9");
         assert zoom_mode != null;
         switch (zoom_mode) {
             case "16:9":
@@ -187,7 +188,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
                 break;
         }
 
-        All = KeystoneUtils.readGlobalSettings(this,KeystoneUtils.ZOOM_VALUE,0);
+        All = KeystoneUtils.readGlobalSettings(this, KeystoneUtils.ZOOM_VALUE, 0);
         updateZoomView();
         initAuto();
         initBstacle();
@@ -196,11 +197,11 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         projectBinding.autoFocusSwitch.setChecked(get_auto_focus());
     }
 
-    private void  initAuto(){
+    private void initAuto() {
         boolean auto = getAuto();
-        if (!auto){
+        if (!auto) {
             projectBinding.autoKeystoneSwitch.setChecked(false);
-        }else {
+        } else {
             projectBinding.autoKeystoneSwitch.setChecked(true);
         }
     }
@@ -211,18 +212,18 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         boolean auto = getAuto();
         SystemProperties.set("persist.sys.tpryauto", String.valueOf(auto ? 0 : 1));
         //自动梯形打开的时候发送一次更新
-        if (!auto){
+        if (!auto) {
             sendKeystoneBroadcast();
-        }else {
+        } else {
             updateZoomValue();
         }
         initAuto();
     }
 
-    private void updateZoomValue(){
-        String value = SystemProperties.get("persist.sys.zoom.value","0,0,0,0,0,0,0,0");
+    private void updateZoomValue() {
+        String value = SystemProperties.get("persist.sys.zoom.value", "0,0,0,0,0,0,0,0");
         String[] va = value.split(",");
-        if (va.length==8){
+        if (va.length == 8) {
             KeystoneUtils.lb_X = Integer.parseInt(va[0]);
             KeystoneUtils.lb_Y = Integer.parseInt(va[1]);
             KeystoneUtils.lt_X = Integer.parseInt(va[2]);
@@ -237,30 +238,30 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.rl_power_mode:
-                if (cur_project_mode==project_name.size()-1)
-                    cur_project_mode=0;
+                if (cur_project_mode == project_name.size() - 1)
+                    cur_project_mode = 0;
                 else
                     cur_project_mode++;
 
                 updateProjectMode();
                 break;
             case R.id.rl_manual_keystone:
-                if (getAuto() && projectBinding.rlAutoKeystone.getVisibility()==View.VISIBLE) {
+                if (getAuto() && projectBinding.rlAutoKeystone.getVisibility() == View.VISIBLE) {
                     ToastUtil.showShortToast(this, getString(R.string.auto_keystone_on));
                     break;
-                }else if (get_AutoFourCorner() && projectBinding.rlAutoFourCorner.getVisibility()==View.VISIBLE){
+                } else if (get_AutoFourCorner() && projectBinding.rlAutoFourCorner.getVisibility() == View.VISIBLE) {
                     ToastUtil.showShortToast(this, getString(R.string.auto_four_corner_on));
                     break;
                 }
-                    startNewActivity(CorrectionActivity.class);
+                startNewActivity(CorrectionActivity.class);
                 break;
             case R.id.rl_reset_keystone:
-                if (getAuto() && projectBinding.rlAutoKeystone.getVisibility()==View.VISIBLE) {
+                if (getAuto() && projectBinding.rlAutoKeystone.getVisibility() == View.VISIBLE) {
                     ToastUtil.showShortToast(this, getString(R.string.auto_keystone_on));
                     break;
-                }else if (get_AutoFourCorner() && projectBinding.rlAutoFourCorner.getVisibility()==View.VISIBLE){
+                } else if (get_AutoFourCorner() && projectBinding.rlAutoFourCorner.getVisibility() == View.VISIBLE) {
                     ToastUtil.showShortToast(this, getString(R.string.auto_four_corner_on));
                     break;
                 }
@@ -288,7 +289,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
                 setBstacle();
                 break;
             case R.id.rl_calibration:
-                AppUtils.startNewApp(this,"com.hysd.vafocus","com.hysd.vafocus.VajzActivity");
+                AppUtils.startNewApp(this, "com.hysd.vafocus", "com.hysd.vafocus.VajzActivity");
                 break;
             case R.id.rl_init_angle:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
@@ -307,6 +308,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     }
 
     private ProgressDialog dialog = null;
+
     private void initCorrectAngle() {
         ReflectUtil.invokeSet_angle_offset();
         dialog = new ProgressDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
@@ -315,44 +317,44 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (dialog!=null && dialog.isShowing())
+                if (dialog != null && dialog.isShowing())
                     dialog.dismiss();
-                LogUtils.d("get_angle_offset "+ReflectUtil.invokeGet_angle_offset());
+                LogUtils.d("get_angle_offset " + ReflectUtil.invokeGet_angle_offset());
             }
-        },3000);
+        }, 3000);
     }
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
 
-        if ((event.getKeyCode()==KeyEvent.KEYCODE_DPAD_LEFT ||event.getKeyCode()==KeyEvent.KEYCODE_DPAD_RIGHT)
-                && (System.currentTimeMillis()-cur_time<150)){
+        if ((event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT || event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT)
+                && (System.currentTimeMillis() - cur_time < 150)) {
             return true;
         }
 
-        if (keyCode==KeyEvent.KEYCODE_DPAD_LEFT){
-            switch (v.getId()){
+        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+            switch (v.getId()) {
                 case R.id.rl_project_mode:
-                    Log.d(TAG,"向左切换安装模式");
-                    if (event.getAction()!=KeyEvent.ACTION_UP)
+                    Log.d(TAG, "向左切换安装模式");
+                    if (event.getAction() != KeyEvent.ACTION_UP)
                         break;
 
-                    if (cur_project_mode==0)
-                        cur_project_mode=project_name.size()-1;
+                    if (cur_project_mode == 0)
+                        cur_project_mode = project_name.size() - 1;
                     else
                         cur_project_mode--;
 
                     updateProjectMode();
                     break;
                 case R.id.rl_digital_zoom:
-                    if (event.getAction()!=KeyEvent.ACTION_DOWN)
+                    if (event.getAction() != KeyEvent.ACTION_DOWN)
                         break;
 
-                    if (All<=0)
+                    if (All <= 0)
                         break;
 
                     All--;
-                    set_screen_zoom(All,All,All,All);
+                    set_screen_zoom(All, All, All, All);
                     updateZoomView();
                     break;
                 case R.id.rl_horizontal_correct:
@@ -360,39 +362,39 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
                 case R.id.rl_vertical_correct:
                     break;
                 case R.id.rl_device_mode2:
-                    if (event.getAction()!=KeyEvent.ACTION_UP)
+                    if (event.getAction() != KeyEvent.ACTION_UP)
                         break;
-                    Log.d(TAG,"向左切换设备模式");
+                    Log.d(TAG, "向左切换设备模式");
                     cur_device_Mode--;
-                    if(cur_device_Mode<0) {
-                        cur_device_Mode= 2;
+                    if (cur_device_Mode < 0) {
+                        cur_device_Mode = 2;
                     }
                     updateText(cur_device_Mode);
                     ReflectUtil.invokeSet_brightness_level(cur_device_Mode);
                     break;
             }
-        }else if (keyCode==KeyEvent.KEYCODE_DPAD_RIGHT ){
-            switch (v.getId()){
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+            switch (v.getId()) {
                 case R.id.rl_project_mode:
-                    Log.d(TAG,"向右切换安装模式");
-                    if (event.getAction()!=KeyEvent.ACTION_UP)
+                    Log.d(TAG, "向右切换安装模式");
+                    if (event.getAction() != KeyEvent.ACTION_UP)
                         break;
-                    if (cur_project_mode==project_name.size()-1)
-                        cur_project_mode=0;
+                    if (cur_project_mode == project_name.size() - 1)
+                        cur_project_mode = 0;
                     else
                         cur_project_mode++;
 
                     updateProjectMode();
                     break;
                 case R.id.rl_digital_zoom:
-                    if (event.getAction()!=KeyEvent.ACTION_DOWN)
+                    if (event.getAction() != KeyEvent.ACTION_DOWN)
                         break;
 
-                    if (All>=ZOOM_MAX)
+                    if (All >= ZOOM_MAX)
                         break;
 
                     All++;
-                    set_screen_zoom(All,All,All,All);
+                    set_screen_zoom(All, All, All, All);
                     updateZoomView();
                     break;
                 case R.id.rl_horizontal_correct:
@@ -400,12 +402,12 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
                 case R.id.rl_vertical_correct:
                     break;
                 case R.id.rl_device_mode2:
-                    if (event.getAction()!=KeyEvent.ACTION_UP)
+                    if (event.getAction() != KeyEvent.ACTION_UP)
                         break;
-                    Log.d(TAG,"向右切换设备模式");
+                    Log.d(TAG, "向右切换设备模式");
                     cur_device_Mode++;
-                    if(cur_device_Mode>2) {
-                        cur_device_Mode= 0;
+                    if (cur_device_Mode > 2) {
+                        cur_device_Mode = 0;
                     }
                     updateText(cur_device_Mode);
                     ReflectUtil.invokeSet_brightness_level(cur_device_Mode);
@@ -416,7 +418,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         return false;
     }
 
-    private void updateText(int mode){
+    private void updateText(int mode) {
         switch (mode) {
             case 0:
                 projectBinding.deviceModeTv.setText(getString(R.string.device_mode0));
@@ -431,40 +433,40 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
 
     }
 
-    private void updateProjectMode(){
-        tvDisplayManager.factorySetPanelValue(AwTvDisplayTypes.EnumPanelConfigType.E_AW_PANEL_CONFIG_MIRROR,cur_project_mode);
+    private void updateProjectMode() {
+        tvDisplayManager.factorySetPanelValue(AwTvDisplayTypes.EnumPanelConfigType.E_AW_PANEL_CONFIG_MIRROR, cur_project_mode);
         projectBinding.projectModeTv.setText(project_name.get(cur_project_mode));
         if (getAuto())
             sendProjectBroadCast();
     }
 
-    private void sendProjectBroadCast(){
+    private void sendProjectBroadCast() {
         Intent intent = new Intent("android.intent.projective_mode");
         intent.setFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         sendBroadcast(intent);
     }
 
-    public  void get_screen_zoom() {
+    public void get_screen_zoom() {
         String zoomV = SystemProperties.get("persist.vendor.overscan.main", "overscan 100,100,100,100");
         LogUtils.i("PrjScreen", "get_screen_zoom zoomV=" + zoomV);
         if (!zoomV.equals("")) {
             String[] arraysZoom = zoomV.substring(9).split(",");
-            if (arraysZoom.length == 4){
+            if (arraysZoom.length == 4) {
                 left = (int) Double.parseDouble(arraysZoom[0]);
-                top =(int) Double.parseDouble(arraysZoom[1]);
-                right =(int) Double.parseDouble(arraysZoom[2]);
-                bottom =(int) Double.parseDouble(arraysZoom[3]);
+                top = (int) Double.parseDouble(arraysZoom[1]);
+                right = (int) Double.parseDouble(arraysZoom[2]);
+                bottom = (int) Double.parseDouble(arraysZoom[3]);
             }
         }
     }
 
-    private void updateZoomView(){
+    private void updateZoomView() {
         projectBinding.digitalZoomTv.setText(String.valueOf(All));
-        if (All<=0)
+        if (All <= 0)
             projectBinding.digitalZoomLeft.setVisibility(View.GONE);
-        else if (All>=ZOOM_MAX)
+        else if (All >= ZOOM_MAX)
             projectBinding.digitalZoomRight.setVisibility(View.GONE);
-        else{
+        else {
             projectBinding.digitalZoomRight.setVisibility(View.VISIBLE);
             projectBinding.digitalZoomLeft.setVisibility(View.VISIBLE);
         }
@@ -472,50 +474,51 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     }
 
 
-    public  void set_screen_zoom(int l,int t,int r,int b){
-        KeystoneUtils.writeGlobalSettings(this,KeystoneUtils.ZOOM_VALUE,l);
+    public void set_screen_zoom(int l, int t, int r, int b) {
+        KeystoneUtils.writeGlobalSettings(this, KeystoneUtils.ZOOM_VALUE, l);
         l = max_value - l;
         t = max_value - t;
         r = max_value - r;
         b = max_value - b;
-        changeform(l,t,r,b);
+        changeform(l, t, r, b);
     }
 
-    public  void changeform(int l,int t,int right,int bottom){
-        KeystoneUtils.lt_X = Integer.parseInt(df.format(((100-100*scale)*zoom_step_x + (100-l)*step_x)*1000/KeystoneUtils.lcd_w ));
-        KeystoneUtils.lt_Y =1000- Integer.parseInt(df.format((KeystoneUtils.lcd_h -(100-t)*step_y)*1000/KeystoneUtils.lcd_h));
+    public void changeform(int l, int t, int right, int bottom) {
+        KeystoneUtils.lt_X = Integer.parseInt(df.format(((100 - 100 * scale) * zoom_step_x + (100 - l) * step_x) * 1000 / KeystoneUtils.lcd_w));
+        KeystoneUtils.lt_Y = 1000 - Integer.parseInt(df.format((KeystoneUtils.lcd_h - (100 - t) * step_y) * 1000 / KeystoneUtils.lcd_h));
 
-        KeystoneUtils.lb_X = Integer.parseInt(df.format(((100-100*scale)*zoom_step_x + (100-l)*step_x)*1000/KeystoneUtils.lcd_w));
-        KeystoneUtils.lb_Y = Integer.parseInt(df.format(((100-bottom)*step_y)*1000/KeystoneUtils.lcd_h));
+        KeystoneUtils.lb_X = Integer.parseInt(df.format(((100 - 100 * scale) * zoom_step_x + (100 - l) * step_x) * 1000 / KeystoneUtils.lcd_w));
+        KeystoneUtils.lb_Y = Integer.parseInt(df.format(((100 - bottom) * step_y) * 1000 / KeystoneUtils.lcd_h));
 
-        KeystoneUtils.rt_X =1000- Integer.parseInt(df.format((KeystoneUtils.lcd_w *scale - (100-right)*step_x)*1000/KeystoneUtils.lcd_w));
-        KeystoneUtils.rt_Y =1000- Integer.parseInt(df.format((KeystoneUtils.lcd_h -(100-t)*step_y)*1000/KeystoneUtils.lcd_h));
+        KeystoneUtils.rt_X = 1000 - Integer.parseInt(df.format((KeystoneUtils.lcd_w * scale - (100 - right) * step_x) * 1000 / KeystoneUtils.lcd_w));
+        KeystoneUtils.rt_Y = 1000 - Integer.parseInt(df.format((KeystoneUtils.lcd_h - (100 - t) * step_y) * 1000 / KeystoneUtils.lcd_h));
 
-        KeystoneUtils.rb_X =1000- Integer.parseInt(df.format((KeystoneUtils.lcd_w *scale - (100-right)*step_x)*1000/KeystoneUtils.lcd_w));
-        KeystoneUtils.rb_Y = Integer.parseInt(df.format(((100-bottom)*step_y)*1000/KeystoneUtils.lcd_h));
+        KeystoneUtils.rb_X = 1000 - Integer.parseInt(df.format((KeystoneUtils.lcd_w * scale - (100 - right) * step_x) * 1000 / KeystoneUtils.lcd_w));
+        KeystoneUtils.rb_Y = Integer.parseInt(df.format(((100 - bottom) * step_y) * 1000 / KeystoneUtils.lcd_h));
 
-        if (getAuto()){
+        if (getAuto()) {
             KeystoneUtils.UpdateKeystoneZOOM(false);
             sendKeystoneBroadcast();
-        }else {
+        } else {
             KeystoneUtils.UpdateKeystoneZOOM(true);
         }
     }
 
-    private void sendKeystoneBroadcast(){
+    private void sendKeystoneBroadcast() {
         Intent intent = new Intent("android.intent.hotack_keystone");
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         sendBroadcast(intent);
     }
 
-    public  boolean getAuto(){
-        return SystemProperties.getBoolean("persist.sys.tpryauto",false);
+    public boolean getAuto() {
+        return SystemProperties.getBoolean("persist.sys.tpryauto", false);
     }
 
-    public  boolean get_auto_focus(){
-        return SystemProperties.getBoolean("persist.sys.vafocus",false);
+    public boolean get_auto_focus() {
+        return SystemProperties.getBoolean("persist.sys.vafocus", false);
     }
-    public  void set_auto_focus(boolean b) {
+
+    public void set_auto_focus(boolean b) {
         if (b) {
             SystemProperties.set("persist.sys.vafocus", "1");
         } else {
@@ -523,7 +526,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         }
     }
 
-    private void initAutoFourCorner(){
+    private void initAutoFourCorner() {
         boolean auto = get_AutoFourCorner();
         if (!auto) {
             // 手动
@@ -541,7 +544,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         initAutoFourCorner();
     }
 
-    public  void set_AutoFourCorner(boolean b) {
+    public void set_AutoFourCorner(boolean b) {
         if (b) {
             SystemProperties.set("persist.sys.tpryxcrt", "1");
         } else {
@@ -549,17 +552,17 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         }
     }
 
-    public  boolean get_AutoFourCorner(){
-        return SystemProperties.getBoolean("persist.sys.tpryxcrt",false);
+    public boolean get_AutoFourCorner() {
+        return SystemProperties.getBoolean("persist.sys.tpryxcrt", false);
     }
 
-    private void initMbRecognize(){
+    private void initMbRecognize() {
         boolean auto = get_MbRecognize();
         projectBinding.screenRecognitionSwitch.setChecked(auto);
     }
 
     //智能避障状态更新
-    private void initBstacle(){
+    private void initBstacle() {
         boolean auto = get_Bstacle();
         projectBinding.intelligentObstacleSwitch.setChecked(auto);
     }
@@ -576,7 +579,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         initBstacle();
     }
 
-    public  void set_MbRecognize(boolean b) {
+    public void set_MbRecognize(boolean b) {
         if (b) {
             SystemProperties.set("persist.sys.mbrecognize", "1");
         } else {
@@ -584,7 +587,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
             SystemProperties.set("persist.sys.mbrecognize", "0");
         }
     }
-    public  void set_Bstacle(boolean b) {
+
+    public void set_Bstacle(boolean b) {
         if (b) {
             SystemProperties.set("persist.sys.obstacle", "1");
         } else {
@@ -593,17 +597,17 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         }
     }
 
-    public  boolean get_MbRecognize(){
-        return SystemProperties.getBoolean("persist.sys.mbrecognize",false);
+    public boolean get_MbRecognize() {
+        return SystemProperties.getBoolean("persist.sys.mbrecognize", false);
     }
 
-    public  boolean get_Bstacle(){
-        return SystemProperties.getBoolean("persist.sys.obstacle",false);
+    public boolean get_Bstacle() {
+        return SystemProperties.getBoolean("persist.sys.obstacle", false);
     }
 
-    private void ShowResetKeystoreDialog(){
+    private void ShowResetKeystoreDialog() {
         ResetKeystoreLayoutBinding resetKeystoreLayoutBinding = ResetKeystoreLayoutBinding.inflate(LayoutInflater.from(this));
-        Dialog dialoge = new Dialog(this,R.style.DialogTheme);
+        Dialog dialoge = new Dialog(this, R.style.DialogTheme);
         dialoge.setContentView(resetKeystoreLayoutBinding.getRoot());
         /*builder.setMessage(getString(R.string.reset_keystore));
         builder.setPositiveButton(R.string.enter, new DialogInterface.OnClickListener() {
@@ -616,7 +620,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
             }
         });*/
         Window window = dialoge.getWindow();
-        if (window!=null){
+        if (window != null) {
             window.setWindowAnimations(R.style.right_in_right_out_anim);
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             //设置dialog在界面中的属性
@@ -630,12 +634,13 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         params.height = (int) (d.getHeight() * 0.4);
         //params.x = parent.getWidth();
         window.setGravity(Gravity.CENTER);// 设置对话框位置
-        window.setAttributes(params);window.setAttributes(params);
+        window.setAttributes(params);
+        window.setAttributes(params);
         resetKeystoreLayoutBinding.enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 KeystoneUtils.resetKeystone();
-                All =0;
+                All = 0;
                 updateZoomView();
                 dialoge.dismiss();
             }
