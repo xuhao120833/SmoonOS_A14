@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.htc.luminaos"
     android:sharedUserId="android.uid.system">
-<!--    android:sharedUserId="android.uid.system"-->
 
+    <!-- android:sharedUserId="android.uid.system" -->
     <uses-permission android:name="android.permission.REBOOT" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -27,13 +27,12 @@
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
     <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_DEVICE_CONFIG" />
-
 
     <application
         android:name=".MyApplication"
@@ -45,38 +44,29 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <receiver
+            android:name=".receiver.BatteryReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
         <!-- 您从百度网站获取的APP KEY，根据实际您的APP申请的APP_KEY进行修改 -->
         <meta-data
             android:name="BaiduMobAd_STAT_ID"
-            android:value="5dd227fad8" />
-
-        <!-- 渠道商编号 -->
+            android:value="5dd227fad8" /> <!-- 渠道商编号 -->
         <meta-data
             android:name="BaiduMobAd_CHANNEL"
-            android:value="Baidu Market" />
-
-        <!-- 是否开启错误日志统计，默认为false -->
+            android:value="Baidu Market" /> <!-- 是否开启错误日志统计，默认为false -->
         <meta-data
             android:name="BaiduMobAd_EXCEPTION_LOG"
-            android:value="true" />
-
-        <!-- 日志仅在wifi网络下发送，默认为false -->
+            android:value="true" /> <!-- 日志仅在wifi网络下发送，默认为false -->
         <meta-data
             android:name="BaiduMobAd_ONLY_WIFI"
-            android:value="false" />
-
-        <!-- 是否获取基站位置信息 ,默认为true -->
+            android:value="false" /> <!-- 是否获取基站位置信息 ,默认为true -->
         <meta-data
             android:name="BaiduMobAd_CELL_LOCATION"
-            android:value="true" />
-
-        <!-- 是否获取GPS位置信息，默认为true -->
+            android:value="true" /> <!-- 是否获取GPS位置信息，默认为true -->
         <meta-data
             android:name="BaiduMobAd_GPS_LOCATION"
-            android:value="true" />
-
-        <!-- 是否获取WIFI位置信息，默认为true -->
+            android:value="true" /> <!-- 是否获取WIFI位置信息，默认为true -->
         <meta-data
             android:name="BaiduMobAd_WIFI_LOCATION"
             android:value="true" />
@@ -152,12 +142,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!--按如下格式添加整个intent-filter块，其中data字段只能有一个，其内容是mtj拼接上您的appkey-->
+            <!-- 按如下格式添加整个intent-filter块，其中data字段只能有一个，其内容是mtj拼接上您的appkey -->
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="mtj5dd227fad8"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="mtj5dd227fad8" />
             </intent-filter>
         </activity>
 

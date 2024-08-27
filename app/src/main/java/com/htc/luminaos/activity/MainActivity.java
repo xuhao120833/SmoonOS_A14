@@ -17,7 +17,9 @@ import android.os.Bundle;
 
 import com.htc.luminaos.receiver.AppCallBack;
 import com.htc.luminaos.receiver.AppReceiver;
+import com.htc.luminaos.receiver.BatteryReceiver;
 import com.htc.luminaos.receiver.UsbDeviceCallBack;
+import com.htc.luminaos.utils.BatteryCallBack;
 import com.htc.luminaos.utils.FileUtils;
 
 import android.os.Handler;
@@ -62,6 +64,7 @@ import com.htc.luminaos.utils.LanguageUtil;
 import com.htc.luminaos.utils.LogUtils;
 import com.htc.luminaos.utils.NetWorkUtils;
 import com.htc.luminaos.utils.ShareUtil;
+import com.htc.luminaos.utils.SystemPropertiesUtil;
 import com.htc.luminaos.utils.TimeUtils;
 import com.htc.luminaos.utils.ToastUtil;
 import com.htc.luminaos.utils.Uri;
@@ -97,7 +100,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class MainActivity extends BaseMainActivity implements BluetoothCallBcak, MyWifiCallBack, MyTimeCallBack, NetWorkCallBack, UsbDeviceCallBack, AppCallBack {
+public class MainActivity extends BaseMainActivity implements BluetoothCallBcak, MyWifiCallBack, MyTimeCallBack, NetWorkCallBack, UsbDeviceCallBack, AppCallBack, BatteryCallBack {
 
     private ActivityMainBinding mainBinding;
 
@@ -126,6 +129,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     private BluetoothReceiver blueReceiver = null;
     //Usb 设备
     private UsbDeviceReceiver usbDeviceReceiver = null;
+
+    //电池
+    private BatteryReceiver batteryReceiver = null;
 
     private static String TAG = "MainActivity";
 
@@ -298,6 +304,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         customBinding.homeDisney.setOnFocusChangeListener(this);
         //17 首页Usb插入、拔出图标
 //        customBinding.usbConnect
+        //18 电池状态
+        initBattery();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this) {
             @Override
@@ -324,6 +332,144 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 handler.sendEmptyMessage(202);
             }
         }).start();
+    }
+
+    public void initBattery() {
+        Log.d(TAG,"电池状态 初始化");
+
+        if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryEnable).equals("1")){//是否有电池
+            Log.d(TAG,"电池状态 初始化 有电池");
+            customBinding.rlBattery.setVisibility(View.VISIBLE);
+            if (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")) {
+                Log.d(TAG,"电池状态 初始化 正在充电");
+                switch (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryLevel)) {
+                    case "0":
+                        customBinding.battery.setImageResource(R.drawable.battery_charging_0);
+                        break;
+                    case "1":
+                        customBinding.battery.setImageResource(R.drawable.battery_charging_1);
+                        break;
+                    case "2":
+                        customBinding.battery.setImageResource(R.drawable.battery_charging_2);
+                        break;
+                    case "3":
+                        customBinding.battery.setImageResource(R.drawable.battery_charging_3);
+                        break;
+                    case "4":
+                        customBinding.battery.setImageResource(R.drawable.battery_charging_4);
+                        break;
+                }
+            } else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
+                Log.d(TAG,"电池状态 初始化 没充电");
+                switch (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryLevel)) {
+                    case "0":
+                        customBinding.battery.setImageResource(R.drawable.battery_0);
+                        break;
+                    case "1":
+                        customBinding.battery.setImageResource(R.drawable.battery_1);
+                        break;
+                    case "2":
+                        customBinding.battery.setImageResource(R.drawable.battery_2);
+                        break;
+                    case "3":
+                        customBinding.battery.setImageResource(R.drawable.battery_3);
+                        break;
+                    case "4":
+                        customBinding.battery.setImageResource(R.drawable.battery_4);
+                        break;
+                }
+            }
+        } else {
+            Log.d(TAG,"电池状态 初始化 没有电池");
+        }
+
+    }
+
+    @Override
+    public void setBatteryLevel(String level) {
+        Log.d(TAG,"电池状态 setBatteryLevel");
+        switch (level) {
+            case "0":
+                if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
+                    customBinding.battery.setImageResource(R.drawable.battery_charging_0);
+                }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
+                    customBinding.battery.setImageResource(R.drawable.battery_0);
+                }
+                break;
+            case "1":
+                if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
+                    customBinding.battery.setImageResource(R.drawable.battery_charging_1);
+                }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
+                    customBinding.battery.setImageResource(R.drawable.battery_1);
+                }
+                break;
+            case "2":
+                if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
+                    customBinding.battery.setImageResource(R.drawable.battery_charging_2);
+                }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
+                    customBinding.battery.setImageResource(R.drawable.battery_2);
+                }
+                break;
+            case "3":
+                if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
+                    customBinding.battery.setImageResource(R.drawable.battery_charging_3);
+                }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
+                    customBinding.battery.setImageResource(R.drawable.battery_3);
+                }
+                break;
+            case "4":
+                if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
+                    customBinding.battery.setImageResource(R.drawable.battery_charging_4);
+                }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
+                    customBinding.battery.setImageResource(R.drawable.battery_4);
+                }
+                break;
+        }
+
+    }
+
+    @Override
+    public void Plug_in_charger() {
+        Log.d(TAG,"电池状态 Plug_in_charger");
+        switch (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryLevel)) {
+            case "0":
+                customBinding.battery.setImageResource(R.drawable.battery_charging_0);
+                break;
+            case "1":
+                customBinding.battery.setImageResource(R.drawable.battery_charging_1);
+                break;
+            case "2":
+                customBinding.battery.setImageResource(R.drawable.battery_charging_2);
+                break;
+            case "3":
+                customBinding.battery.setImageResource(R.drawable.battery_charging_3);
+                break;
+            case "4":
+                customBinding.battery.setImageResource(R.drawable.battery_charging_4);
+                break;
+        }
+    }
+
+    @Override
+    public void Unplug_the_charger() {
+        Log.d(TAG,"电池状态 Unplug_the_charger");
+        switch (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryLevel)) {
+            case "0":
+                customBinding.battery.setImageResource(R.drawable.battery_0);
+                break;
+            case "1":
+                customBinding.battery.setImageResource(R.drawable.battery_1);
+                break;
+            case "2":
+                customBinding.battery.setImageResource(R.drawable.battery_2);
+                break;
+            case "3":
+                customBinding.battery.setImageResource(R.drawable.battery_3);
+                break;
+            case "4":
+                customBinding.battery.setImageResource(R.drawable.battery_4);
+                break;
+        }
     }
 
     private void initDataCustom() {
@@ -391,6 +537,15 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         appFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
         appFilter.addDataScheme("package");
         registerReceiver(appReceiver, appFilter);
+
+        //电量变化
+        batteryReceiver = new BatteryReceiver(this,this);
+        IntentFilter batteryFilter = new IntentFilter();
+        batteryFilter.addAction("action.projector.dcin");
+        batteryFilter.addAction("action.projector.batterylevel");
+        registerReceiver(batteryReceiver,batteryFilter);
+
+
     }
 
     ShortcutsAdapter.ItemCallBack itemCallBack = new ShortcutsAdapter.ItemCallBack() {
@@ -956,6 +1111,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         unregisterReceiver(wifiReceiver);
         unregisterReceiver(usbDeviceReceiver);
         unregisterReceiver(appReceiver);
+        unregisterReceiver(batteryReceiver);
         super.onDestroy();
     }
 

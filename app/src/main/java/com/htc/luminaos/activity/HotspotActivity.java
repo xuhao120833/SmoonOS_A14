@@ -238,9 +238,7 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
                 } else {
                     mSecurityType++;
                 }
-
                 updateSecurity();
-                writeConfig();
 
                 break;
             case R.id.rl_frequency:
@@ -362,13 +360,21 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
         if (mSecurityType == 0) {
             password = "";
             hotspotBinding.passwordTv.setText(password);
+            hotspotBinding.securityTv.setText(securityArray[mSecurityType]);
         } else {
 //            password="12345678";
 //            hotspotBinding.passwordTv.setText(password);
+
             WifiConfiguration configuration = wifiHotUtil.getWifiConfig();
-            hotspotBinding.passwordTv.setText(configuration.preSharedKey);
+            if (configuration.preSharedKey != null) {
+                hotspotBinding.passwordTv.setText(configuration.preSharedKey);
+            } else {
+                password = "12345678";
+                hotspotBinding.passwordTv.setText(password);
+            }
         }
         hotspotBinding.securityTv.setText(securityArray[mSecurityType]);
+        writeConfig();
     }
 
     @Override
@@ -383,7 +389,6 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
                         mSecurityType--;
                     }
                     updateSecurity();
-                    writeConfig();
 
                     break;
                 case R.id.rl_frequency:
@@ -402,8 +407,6 @@ public class HotspotActivity extends BaseActivity implements View.OnKeyListener 
                         mSecurityType++;
                     }
                     updateSecurity();
-
-                    writeConfig();
 
                     break;
                 case R.id.rl_frequency:
