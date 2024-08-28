@@ -200,4 +200,6 @@
 	<string name="data_err">獲取數據異常！</string>
 
 	<string name="system_app_cannot_uninstalled">系統APP不可卸載！</string>
+
+	<string name="Menu_reset">重置</string>
 </resources>

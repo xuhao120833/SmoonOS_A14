@@ -131,7 +131,7 @@
 	<string name="month">Month</string>
 	<string name="day">Day</string>
 	<string name="correct_tips">When the center is a circle, the screen has the best proportion.</string>
-	<string name="select_point">Selecting points</string>
+	<string name="select_point">Select</string>
 	<string name="correct">Correct</string>
 	<string name="exit">Exit</string>
 	<string name="app">APP</string>
@@ -220,5 +220,5 @@
 
 	<string name="system_app_cannot_uninstalled">System APP cannot be uninstalled!</string>
 
-	<string name="Menu_reset">Menu key reset</string>
+	<string name="Menu_reset">Reset</string>
 </resources>

@@ -344,7 +344,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/y_40"
-        android:background="@drawable/correction_notes"
+        android:background="@drawable/correction_notes_custom"
         android:focusable="false"
         >
 
@@ -355,7 +355,7 @@
             android:textSize="@dimen/x_21"
             android:gravity="center_vertical"
             android:maxWidth="@dimen/x_230"
-            android:layout_marginStart="@dimen/x_115"
+            android:layout_marginStart="@dimen/x_70"
             android:text="@string/select_point"
             />
 
@@ -366,8 +366,19 @@
             android:maxWidth="@dimen/x_150"
             android:textSize="@dimen/x_21"
             android:gravity="center_vertical"
-            android:layout_marginStart="@dimen/x_430"
+            android:layout_marginStart="@dimen/x_240"
             android:text="@string/correct"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:maxWidth="@dimen/x_150"
+            android:textSize="@dimen/x_21"
+            android:gravity="center_vertical"
+            android:layout_marginStart="@dimen/x_450"
+            android:text="@string/Menu_reset"
             />
 
         <TextView
@@ -377,7 +388,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/x_21"
             android:gravity="center_vertical"
-            android:layout_marginStart="@dimen/x_640"
+            android:layout_marginStart="@dimen/x_660"
             android:text="@string/exit"
             />
     </RelativeLayout>

@@ -1360,7 +1360,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
 
         Hashtable<String, String> mHashtable1 = DBUtils.getInstance(this).getHashtableFromListModules("list1");
-        Hashtable<String, String> mHashtable2 = DBUtils.getInstance(this).getHashtableFromListModules("list1");
+        Hashtable<String, String> mHashtable2 = DBUtils.getInstance(this).getHashtableFromListModules("list3");
 
         Log.d(TAG, "xu当前语言" + LanguageUtil.getCurrentLanguage());
         switch (LanguageUtil.getCurrentLanguage()) {
