@@ -82,10 +82,10 @@ public class MyApplication extends Application {
         //优先读取oem分区，其次读取system分区
         if (new File("/oem/config.ini").exists()) {
             configContent = FileUtils.readFileContent("/oem/config.ini"); //这里的作用就是从shortcuts.config中一行一行的读取字符，然后将它们合并成一行字符串
-        } else if(new File("/system/config.ini").exists()){
-            configContent = FileUtils.readFileContent("/system/config.ini");
+        } else if(new File("/product/etc/config.ini").exists()){
+            configContent = FileUtils.readFileContent("/product/etc/config.ini");
         } else {
-            configContent = FileUtils.readFileContent("/product/config.ini");
+            configContent = FileUtils.readFileContent("/system/config.ini");
         }
         if (configContent == null || configContent.equals(""))
             return;

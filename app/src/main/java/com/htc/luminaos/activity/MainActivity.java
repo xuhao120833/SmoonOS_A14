@@ -819,6 +819,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             String activityName = parts[1];
             Log.d(TAG," goAction 包名活动名 "+packageName+" "+activityName);
             startNewActivity(packageName,activityName);
+        }else if(listaction.equals("HDMI1")||listaction.equals("HDMI2")||listaction.equals("VGA")||listaction.equals("CVBS1")){
+            startSource(listaction);
         }else {
             AppUtils.startNewApp(MainActivity.this, listaction);
         }
@@ -844,8 +846,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
 //        if (code == 0) {  //保证配置文件只在最初读一次
 
-            //1、优先连接服务区读配置
-
+            //1、优先连接服务器读取配置
 
             //2、服务器没有，就读本地
             Log.d(TAG, " MainActivity开始读取配置文件 ");
