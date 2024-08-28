@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,7 @@ public class AppsManagerAdapter extends RecyclerView.Adapter<AppsManagerAdapter.
 
                 boolean[] result = AppUtils.checkIfSystemAppAndCanUninstall(mContext, info.getApplicationInfo().packageName);
                 if (result[0] && !result[1]) {
-                    new AlertDialog.Builder(mContext)
+                    AlertDialog dialog =new AlertDialog.Builder(mContext)
                             .setTitle(mContext.getString(R.string.hint)) // 对话框标题
                             .setMessage(mContext.getString(R.string.system_app_cannot_uninstalled)) // 对话框内容
                             .setPositiveButton(mContext.getString(R.string.enter), new DialogInterface.OnClickListener() {
@@ -71,7 +72,20 @@ public class AppsManagerAdapter extends RecyclerView.Adapter<AppsManagerAdapter.
                                 }
                             })
                             .setCancelable(false) // 使对话框不能通过点击外部区域关闭
-                            .show();
+                            .create();
+
+                    dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                        @Override
+                        public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                                dialog.dismiss(); // 按下返回键时关闭对话框
+                                return true; // 表示已经处理了返回键事件
+                            }
+                            return false; // 没有处理返回键事件，继续传递事件
+                        }
+                    });
+
+                    dialog.show();
                     return;
                 }
 

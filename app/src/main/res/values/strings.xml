@@ -129,7 +129,7 @@
     <string name="year">年</string>
     <string name="month">月</string>
     <string name="day">日</string>
-    <string name="correct_tips">当中心是圆圈时,屏幕的比例最好</string>
+    <string name="correct_tips">当中心是圆圈时,屏幕的比例最好。</string>
     <string name="select_point">选点</string>
     <string name="Menu_reset">菜单键重置</string>
     <string name="correct">矫正</string>

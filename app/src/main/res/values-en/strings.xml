@@ -65,11 +65,11 @@
 	<string name="reset_factory_msg">Initialize user operations, application settings, and system settings, etc.</string>
 	<string name="short_max_tips">Quick app is full</string>
 	<string name="about_device">About devices</string>
-	<string name="device_model">Equipment model</string>
+	<string name="device_model">Model</string>
 	<string name="ui_version">UI version</string>
 	<string name="android_version">Android version</string>
-	<string name="memory">Running memory</string>
-	<string name="storage">Storage space</string>
+	<string name="memory">Memory</string>
+	<string name="storage">Storage</string>
 	<string name="wired_mac">Wired MAC</string>
 	<string name="wireless_mac">Wireless MAC</string>
 	<string name="update_firmware">Local upgrade</string>
@@ -130,7 +130,7 @@
 	<string name="year">Year</string>
 	<string name="month">Month</string>
 	<string name="day">Day</string>
-	<string name="correct_tips">When the center is a circle, the screen has the best proportion</string>
+	<string name="correct_tips">When the center is a circle, the screen has the best proportion.</string>
 	<string name="select_point">Selecting points</string>
 	<string name="correct">Correct</string>
 	<string name="exit">Exit</string>

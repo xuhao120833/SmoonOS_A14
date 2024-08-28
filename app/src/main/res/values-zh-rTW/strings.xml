@@ -130,7 +130,7 @@
 	<string name="year">年</string>
 	<string name="month">月</string>
 	<string name="day">日</string>
-	<string name="correct_tips">當中心是圓圈時，荧幕的比例最好</string>
+	<string name="correct_tips">當中心是圓圈時，荧幕的比例最好。</string>
 	<string name="select_point">選點</string>
 	<string name="correct">矯正</string>
 	<string name="exit">退出</string>

@@ -130,7 +130,7 @@
 	<string name="year">年</string>
 	<string name="month">月</string>
 	<string name="day">日</string>
-	<string name="correct_tips">中心が円の場合、画面の比率が最も良い</string>
+	<string name="correct_tips">中心が円の場合、画面の比率が最も良い.</string>
 	<string name="select_point">ポイントの選択</string>
 	<string name="correct">矯正する</string>
 	<string name="exit">終了</string>

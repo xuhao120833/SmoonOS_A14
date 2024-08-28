@@ -1,6 +1,7 @@
 package com.htc.luminaos.widget;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,6 +24,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -69,12 +71,12 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
-            if (msg.what==1){
+            if (msg.what == 1) {
                 if (hasRemove && connectFlag) {
                     wifiManager.removeNetwork(networkId);
                     networkId = -1;
                 }
-            }else if (msg.what==2){
+            } else if (msg.what == 2) {
                 connectFlag = true;
                 networkId = mcallback.onClick(wifiConnectDialogBinding.etPassword.getText().toString());
             }
@@ -84,17 +86,17 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        Log.d("hzj","onclick");
-        switch (v.getId()){
+        Log.d("hzj", "onclick");
+        switch (v.getId()) {
             case R.id.enter:
                 if (wifiConnectDialogBinding.etPassword.getText().toString().isEmpty() ||
-                        wifiConnectDialogBinding.etPassword.getText().toString().length()< 8){
+                        wifiConnectDialogBinding.etPassword.getText().toString().length() < 8) {
                     wifiConnectDialogBinding.errMsg.setVisibility(View.VISIBLE);
                     break;
                 }
 
                 //dismiss();
-                connectingDialog = ConectingDialog(mContext,mContext.getString(R.string.connecting_ssid,wifi_name));
+                connectingDialog = ConectingDialog(mContext, mContext.getString(R.string.connecting_ssid, wifi_name));
                 connectingDialog.show();
                 threads.execute(new Runnable() {
                     @Override
@@ -102,7 +104,7 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
                         disEnableNetwork();
                     }
                 });
-                handler.sendEmptyMessageDelayed(2,1500);
+                handler.sendEmptyMessageDelayed(2, 1500);
                 break;
             case R.id.cancel:
                 dismiss();
@@ -183,31 +185,32 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
 
 
     boolean disEnable = false;
-    private void disEnableNetwork(){
-        disEnable =true;
+
+    private void disEnableNetwork() {
+        disEnable = true;
         List<WifiConfiguration> configurationList = wifiManager.getConfiguredNetworks();
-        for (WifiConfiguration config:configurationList){
+        for (WifiConfiguration config : configurationList) {
             wifiManager.disableNetwork(config.networkId);
         }
 
     }
 
-    private void EnableNetwork(){
+    private void EnableNetwork() {
         if (!disEnable)
             return;
 
         List<WifiConfiguration> configurationList = wifiManager.getConfiguredNetworks();
-        for (WifiConfiguration config:configurationList){
-            wifiManager.enableNetwork(config.networkId,true);
+        for (WifiConfiguration config : configurationList) {
+            wifiManager.enableNetwork(config.networkId, true);
         }
     }
 
 
-    private void initReceiver(){
+    private void initReceiver() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
         intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-        mContext.registerReceiver(receiver,intentFilter);
+        mContext.registerReceiver(receiver, intentFilter);
     }
 
 
@@ -215,30 +218,31 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION.equals(action)){
+            if (WifiManager.SUPPLICANT_STATE_CHANGED_ACTION.equals(action)) {
                 //请求连接的状态发生改变，（已经加入到一个接入点）
-                int supl_error=intent.getIntExtra(WifiManager.EXTRA_SUPPLICANT_ERROR, -1);
-                if (supl_error == WifiManager.ERROR_AUTHENTICATING ) {
-                    if (passwordErrorDialog==null) {
+                int supl_error = intent.getIntExtra(WifiManager.EXTRA_SUPPLICANT_ERROR, -1);
+                if (supl_error == WifiManager.ERROR_AUTHENTICATING) {
+                    if (passwordErrorDialog == null) {
                         passwordErrorDialog = new PasswordErrorDialog(mContext, R.style.DialogTheme);
                     }
                     if (!passwordErrorDialog.isShowing())
-                        passwordErrorDialog.show();
+                        showErrorDialog();
+//                        passwordErrorDialog.show();
                 }
 
-            }else if(WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(action)){
-              NetworkInfo networkInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+            } else if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(action)) {
+                NetworkInfo networkInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
 
-              if (networkInfo!=null){
-                    switch (networkInfo.getState()){
+                if (networkInfo != null) {
+                    switch (networkInfo.getState()) {
                         case CONNECTING:
                             hasRemove = true;
                             break;
                         case CONNECTED:
-                            if (hasRemove  && connectFlag){
+                            if (hasRemove && connectFlag) {
                                 //不需要清除保存信息，重置false
                                 hasRemove = false;
-                                connectFlag =false;
+                                connectFlag = false;
                                 hideConnectingDialog();
                                 dismiss();
                             }
@@ -249,33 +253,33 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
                                 wifiManager.removeNetwork(networkId);
                                 networkId = -1;
                                 hasRemove = false;
-                                connectFlag =false;
+                                connectFlag = false;
                             }
 
                             break;
                     }
 
-                    Log.d("WIFI","state "+ networkInfo.getState());
-              }
+                    Log.d("WIFI", "state " + networkInfo.getState());
+                }
 
             }
         }
     };
 
-    private void destroyReceiver(){
+    private void destroyReceiver() {
         mContext.unregisterReceiver(receiver);
     }
 
 
-    public void  setConnectName(String name){
+    public void setConnectName(String name) {
         this.wifi_name = name;
     }
 
-    private void initView(){
+    private void initView() {
         wifiConnectDialogBinding.enter.setOnClickListener(this);
         wifiConnectDialogBinding.cancel.setOnClickListener(this);
         wifiConnectDialogBinding.enter.setEnabled(false);
-        wifiConnectDialogBinding.connectWifiName.setText(mContext.getString(R.string.network_connect_tips,wifi_name));
+        wifiConnectDialogBinding.connectWifiName.setText(mContext.getString(R.string.network_connect_tips, wifi_name));
         wifiConnectDialogBinding.checkboxShow
                 .setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
 
@@ -317,7 +321,7 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
     }
 
 
-    public  Dialog ConectingDialog(Context context, String msg) {
+    public Dialog ConectingDialog(Context context, String msg) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.loading_dialog, null);// 得到加载view
         RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.loadding_layout);// 加载布局
@@ -345,14 +349,14 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
 
     }
 
-    public void hideConnectingDialog(){
-        if (connectingDialog!=null && connectingDialog.isShowing()){
+    public void hideConnectingDialog() {
+        if (connectingDialog != null && connectingDialog.isShowing()) {
             connectingDialog.dismiss();
         }
     }
 
-    public void hidePasswordErrorDialog(){
-        if (passwordErrorDialog!=null && passwordErrorDialog.isShowing()){
+    public void hidePasswordErrorDialog() {
+        if (passwordErrorDialog != null && passwordErrorDialog.isShowing()) {
             passwordErrorDialog.dismiss();
         }
     }
@@ -367,5 +371,33 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
         EnableNetwork();
         handler.removeCallbacksAndMessages(null);
         super.dismiss();
+    }
+
+    private void showErrorDialog() {
+        AlertDialog dialog = new AlertDialog.Builder(mContext)
+                .setTitle(mContext.getString(R.string.hint)) // 对话框标题
+                .setMessage(mContext.getString(R.string.Authentication_error)) // 对话框内容
+                .setPositiveButton(mContext.getString(R.string.enter), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss(); // 点击“确定”按钮时，关闭对话框
+                    }
+                })
+                .setCancelable(false) // 使对话框不能通过点击外部区域关闭
+                .create();
+
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    dialog.dismiss(); // 按下返回键时关闭对话框
+                    return true; // 表示已经处理了返回键事件
+                }
+                return false; // 没有处理返回键事件，继续传递事件
+            }
+        });
+
+        dialog.show();
+
     }
 }
