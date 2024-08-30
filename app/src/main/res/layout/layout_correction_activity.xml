@@ -5,7 +5,7 @@
     android:id="@+id/rl_main"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:background="@drawable/background_custom" >
+    android:background="@drawable/background_main" >
 
     <TextView
         android:layout_width="wrap_content"
