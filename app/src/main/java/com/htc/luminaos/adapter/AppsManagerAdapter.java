@@ -60,35 +60,6 @@ public class AppsManagerAdapter extends RecyclerView.Adapter<AppsManagerAdapter.
             @Override
             public void onClick(View v) {
 
-                boolean[] result = AppUtils.checkIfSystemAppAndCanUninstall(mContext, info.getApplicationInfo().packageName);
-                if (result[0] && !result[1]) {
-                    AlertDialog dialog =new AlertDialog.Builder(mContext)
-                            .setTitle(mContext.getString(R.string.hint)) // 对话框标题
-                            .setMessage(mContext.getString(R.string.system_app_cannot_uninstalled)) // 对话框内容
-                            .setPositiveButton(mContext.getString(R.string.enter), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss(); // 点击“确定”按钮时，关闭对话框
-                                }
-                            })
-                            .setCancelable(false) // 使对话框不能通过点击外部区域关闭
-                            .create();
-
-                    dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-                        @Override
-                        public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                                dialog.dismiss(); // 按下返回键时关闭对话框
-                                return true; // 表示已经处理了返回键事件
-                            }
-                            return false; // 没有处理返回键事件，继续传递事件
-                        }
-                    });
-
-                    dialog.show();
-                    return;
-                }
-
                 AppDetailDialog detailDialog = new AppDetailDialog(mContext,R.style.DialogTheme);
                 detailDialog.setData(info.getApplicationInfo());
                 detailDialog.setOnClickCallBack(new AppDetailDialog.OnAppDetailCallBack() {
@@ -100,6 +71,36 @@ public class AppsManagerAdapter extends RecyclerView.Adapter<AppsManagerAdapter.
 
                     @Override
                     public void onUninstall(String packageName) {
+
+                        boolean[] result = AppUtils.checkIfSystemAppAndCanUninstall(mContext, info.getApplicationInfo().packageName);
+                        if (result[0] && !result[1]) {
+                            AlertDialog dialog =new AlertDialog.Builder(mContext)
+                                    .setTitle(mContext.getString(R.string.hint)) // 对话框标题
+                                    .setMessage(mContext.getString(R.string.system_app_cannot_uninstalled)) // 对话框内容
+                                    .setPositiveButton(mContext.getString(R.string.enter), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss(); // 点击“确定”按钮时，关闭对话框
+                                        }
+                                    })
+                                    .setCancelable(false) // 使对话框不能通过点击外部区域关闭
+                                    .create();
+
+                            dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                                @Override
+                                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                                        dialog.dismiss(); // 按下返回键时关闭对话框
+                                        return true; // 表示已经处理了返回键事件
+                                    }
+                                    return false; // 没有处理返回键事件，继续传递事件
+                                }
+                            });
+
+                            dialog.show();
+                            return;
+                        }
+
                         try {
                             Intent intent=new Intent();
                             Uri uri = Uri.parse("package:"+packageName);

@@ -436,6 +436,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     private void updateProjectMode() {
         tvDisplayManager.factorySetPanelValue(AwTvDisplayTypes.EnumPanelConfigType.E_AW_PANEL_CONFIG_MIRROR, cur_project_mode);
         projectBinding.projectModeTv.setText(project_name.get(cur_project_mode));
+        SystemProperties.set("persist.sys.panelvalue", String.valueOf(cur_project_mode));
         if (getAuto())
             sendProjectBroadCast();
     }

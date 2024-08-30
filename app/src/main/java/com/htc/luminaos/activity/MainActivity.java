@@ -844,7 +844,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         SharedPreferences.Editor editor = sharedPreferences.edit();
         int code = sharedPreferences.getInt("code", 0);
 
-//        if (code == 0) {  //保证配置文件只在最初读一次
+        if (code == 0) {  //保证配置文件只在最初读一次
 
             //1、优先连接服务器读取配置
 
@@ -895,7 +895,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 JSONArray jsonarrray = obj.getJSONArray("apps");
 
                 //xuhao
-                //用户每次更新配置，必须把原来数据库中保存的上一次失效的数据清楚掉
+                //用户每次更新配置，必须把原来数据库中保存的上一次失效的数据清除掉
                 ArrayList<AppSimpleBean> mylist = DBUtils.getInstance(this).getFavorites();
                 for (int i = 0; i < jsonarrray.length(); i++) {
                     JSONObject jsonobject = jsonarrray.getJSONObject(i);
@@ -958,7 +958,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 e.printStackTrace();
                 isLoad = false;
             }
-//        }
+        }
 
         return isLoad;
     }
