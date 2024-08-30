@@ -32,7 +32,7 @@ public class DBUtils extends SQLiteOpenHelper {
     private static String TAG = "DBUtils";
     private static DBUtils mInstance = null;
     private final static String DATABASE_NAME = "htc_launcher.db";
-    private final static int VERSION = 2;
+    private final static int VERSION = 3;
     private final String TABLENAME_FAVORITES = "table_favorites";// 我的收藏
 
     private final String TABLENAME_MAINAPP = "mainApp";
@@ -69,27 +69,27 @@ public class DBUtils extends SQLiteOpenHelper {
             Log.d(TAG, " 创建mainApp数据表 ");
             String mainApp_sql = "CREATE TABLE " + TABLENAME_MAINAPP + " (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "tag TEXT NOT NULL, " +
-                    "appName TEXT NOT NULL, " +
-                    "iconData BLOB NOT NULL, " +
-                    "action TEXT NOT NULL);";
+                    "tag TEXT , " +
+                    "appName TEXT , " +
+                    "iconData BLOB , " +
+                    "action TEXT );";
             db.execSQL(mainApp_sql);
 
 			// 创建listModules表
             Log.d(TAG, " 创建 listModules 表 ");
             String listModules_sql = "CREATE TABLE " + TABLENAME_LISTMODULES + " (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "tag TEXT NOT NULL, " +
-                    "iconData BLOB NOT NULL, " +
-                    "hashtable_data TEXT NOT NULL, " + // 用于存储序列化的 Hashtable
-                    "action TEXT NOT NULL);";
+                    "tag TEXT , " +
+                    "iconData BLOB , " +
+                    "hashtable_data TEXT , " + // 用于存储序列化的 Hashtable
+                    "action TEXT );";
             db.execSQL(listModules_sql);
 
             // 创建brand品牌表
             Log.d(TAG," 创建brand品牌表");
             String brandLogo_sql = "CREATE TABLE " + TABLENAME_BRANDLOGO + " (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "iconData BLOB NOT NULL);";
+                    "iconData BLOB );";
             db.execSQL(brandLogo_sql);
 
 
@@ -488,6 +488,11 @@ public class DBUtils extends SQLiteOpenHelper {
      * @return
      */
     public byte[] drawableToByteArray(Drawable drawable) {
+
+        if(drawable ==null){
+            return null;
+        }
+
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);

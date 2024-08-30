@@ -191,6 +191,9 @@ public class FileUtils {
 		try {
 			// 读取图像文件
 			File file = new File(filePath);
+			if(!file.exists()){
+				return null;
+			}
 			fileInputStream = new FileInputStream(file);
 			Bitmap bitmap = BitmapFactory.decodeStream(fileInputStream);
 

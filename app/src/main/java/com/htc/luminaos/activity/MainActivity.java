@@ -190,7 +190,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             initViewCustom();
             initDataCustom();
             initReceiver();
-            wifiManager=(WifiManager) getSystemService(Service.WIFI_SERVICE);
+            wifiManager = (WifiManager) getSystemService(Service.WIFI_SERVICE);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -335,13 +335,13 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     }
 
     public void initBattery() {
-        Log.d(TAG,"电池状态 初始化");
+        Log.d(TAG, "电池状态 初始化");
 
-        if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryEnable).equals("1")){//是否有电池
-            Log.d(TAG,"电池状态 初始化 有电池");
+        if (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryEnable).equals("1")) {//是否有电池
+            Log.d(TAG, "电池状态 初始化 有电池");
             customBinding.rlBattery.setVisibility(View.VISIBLE);
             if (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")) {
-                Log.d(TAG,"电池状态 初始化 正在充电");
+                Log.d(TAG, "电池状态 初始化 正在充电");
                 switch (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryLevel)) {
                     case "0":
                         customBinding.battery.setImageResource(R.drawable.battery_charging_1);
@@ -359,8 +359,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                         customBinding.battery.setImageResource(R.drawable.battery_charging_5);
                         break;
                 }
-            } else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
-                Log.d(TAG,"电池状态 初始化 没充电");
+            } else if (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
+                Log.d(TAG, "电池状态 初始化 没充电");
                 switch (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryLevel)) {
                     case "0":
                         customBinding.battery.setImageResource(R.drawable.battery_1);
@@ -380,47 +380,47 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 }
             }
         } else {
-            Log.d(TAG,"电池状态 初始化 没有电池");
+            Log.d(TAG, "电池状态 初始化 没有电池");
         }
 
     }
 
     @Override
     public void setBatteryLevel(String level) {
-        Log.d(TAG,"电池状态 setBatteryLevel");
+        Log.d(TAG, "电池状态 setBatteryLevel");
         switch (level) {
             case "0":
-                if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
+                if (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")) {
                     customBinding.battery.setImageResource(R.drawable.battery_charging_1);
-                }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
+                } else if (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
                     customBinding.battery.setImageResource(R.drawable.battery_1);
                 }
                 break;
             case "1":
-                if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
+                if (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")) {
                     customBinding.battery.setImageResource(R.drawable.battery_charging_2);
-                }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
+                } else if (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
                     customBinding.battery.setImageResource(R.drawable.battery_2);
                 }
                 break;
             case "2":
-                if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
+                if (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")) {
                     customBinding.battery.setImageResource(R.drawable.battery_charging_3);
-                }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
+                } else if (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
                     customBinding.battery.setImageResource(R.drawable.battery_3);
                 }
                 break;
             case "3":
-                if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
+                if (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")) {
                     customBinding.battery.setImageResource(R.drawable.battery_charging_4);
-                }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
+                } else if (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
                     customBinding.battery.setImageResource(R.drawable.battery_4);
                 }
                 break;
             case "4":
-                if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")){
+                if (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("1")) {
                     customBinding.battery.setImageResource(R.drawable.battery_charging_5);
-                }else if(SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
+                } else if (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryDc).equals("0")) {
                     customBinding.battery.setImageResource(R.drawable.battery_5);
                 }
                 break;
@@ -430,7 +430,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     @Override
     public void Plug_in_charger() {
-        Log.d(TAG,"电池状态 Plug_in_charger");
+        Log.d(TAG, "电池状态 Plug_in_charger");
         switch (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryLevel)) {
             case "0":
                 customBinding.battery.setImageResource(R.drawable.battery_charging_1);
@@ -452,7 +452,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     @Override
     public void Unplug_the_charger() {
-        Log.d(TAG,"电池状态 Unplug_the_charger");
+        Log.d(TAG, "电池状态 Unplug_the_charger");
         switch (SystemPropertiesUtil.getSystemProperty(SystemPropertiesUtil.batteryLevel)) {
             case "0":
                 customBinding.battery.setImageResource(R.drawable.battery_1);
@@ -539,11 +539,11 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         registerReceiver(appReceiver, appFilter);
 
         //电量变化
-        batteryReceiver = new BatteryReceiver(this,this);
+        batteryReceiver = new BatteryReceiver(this, this);
         IntentFilter batteryFilter = new IntentFilter();
         batteryFilter.addAction("action.projector.dcin");
         batteryFilter.addAction("action.projector.batterylevel");
-        registerReceiver(batteryReceiver,batteryFilter);
+        registerReceiver(batteryReceiver, batteryFilter);
 
 
     }
@@ -670,9 +670,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
                 appname = DBUtils.getInstance(this).getAppNameByTag("icon4");
                 action = DBUtils.getInstance(this).getActionByTag("icon4");
-                Log.d(TAG," appnameaction"+appname+" "+action);
+                Log.d(TAG, " appnameaction" + appname + " " + action);
 
-                if (appname != null && action != null) {
+                if (appname != null && action != null && !appname.equals("") && !action.equals("")) {
                     if (!AppUtils.startNewApp(MainActivity.this, action)) {
                         appName = appname;
                         requestChannelData();
@@ -701,12 +701,12 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 //                startSource("HDMI1");
                 try {
                     String listaction = DBUtils.getInstance(this).getActionFromListModules("list3");
-                    if (listaction != null) { //读取配置
+                    if (listaction != null && !listaction.equals("")) { //读取配置
                         goAction(listaction);
                     } else {// 默认跳转
                         startSource("HDMI1");
                     }
-                }catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -729,12 +729,12 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             case R.id.home_eshare:
                 try {
                     String listaction = DBUtils.getInstance(this).getActionFromListModules("list1");
-                    if (listaction != null) { //读取配置
+                    if (listaction != null && !listaction.equals("")) { //读取配置
                         goAction(listaction);
                     } else {// 默认跳转
                         AppUtils.startNewApp(MainActivity.this, "com.ecloud.eshare.server");
                     }
-                }catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -744,7 +744,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 appname = DBUtils.getInstance(this).getAppNameByTag("icon3");
                 action = DBUtils.getInstance(this).getActionByTag("icon3");
 
-                if (appname != null && action != null) {
+                if (appname != null && action != null && !appname.equals("") && !action.equals("")) {
                     if (!AppUtils.startNewApp(MainActivity.this, action)) {
                         appName = appname;
                         requestChannelData();
@@ -762,14 +762,16 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 appname = DBUtils.getInstance(this).getAppNameByTag("icon1");
                 action = DBUtils.getInstance(this).getActionByTag("icon1");
 
-                if (appname != null && action != null) {
+                if (appname != null && action != null && !appname.equals("") && !action.equals("")) {
                     if (!AppUtils.startNewApp(MainActivity.this, action)) {
+                        Log.d("xuhao", "打开奈飞 第一个坑位不为空 " + appname + "2" + action + "3");
                         appName = appname;
                         requestChannelData();
                     }
 
                 } else if (!AppUtils.startNewApp(MainActivity.this, "com.netflix.mediaclient")) {
-                    if(!AppUtils.startNewApp(MainActivity.this, "com.netflix.ninja")) {
+                    if (!AppUtils.startNewApp(MainActivity.this, "com.netflix.ninja")) {
+                        Log.d("xuhao", "打开奈飞 第一个坑位为空");
                         appName = "Netflix";
                         requestChannelData();
                     }
@@ -789,7 +791,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 appname = DBUtils.getInstance(this).getAppNameByTag("icon2");
                 action = DBUtils.getInstance(this).getActionByTag("icon2");
 
-                if (appname != null && action != null) {
+                if (appname != null && action != null && !appname.equals("") && !action.equals("")) {
                     if (!AppUtils.startNewApp(MainActivity.this, action)) {
                         appName = appname;
                         requestChannelData();
@@ -812,16 +814,16 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     }
 
     private void goAction(String listaction) {
-        Log.d(TAG," goAction list配置跳转 "+listaction);
-        if(listaction.contains("/")){
+        Log.d(TAG, " goAction list配置跳转 " + listaction);
+        if (listaction.contains("/")) {
             String[] parts = listaction.split("/", 2);
             String packageName = parts[0];
             String activityName = parts[1];
-            Log.d(TAG," goAction 包名活动名 "+packageName+" "+activityName);
-            startNewActivity(packageName,activityName);
-        }else if(listaction.equals("HDMI1")||listaction.equals("HDMI2")||listaction.equals("VGA")||listaction.equals("CVBS1")){
+            Log.d(TAG, " goAction 包名活动名 " + packageName + " " + activityName);
+            startNewActivity(packageName, activityName);
+        } else if (listaction.equals("HDMI1") || listaction.equals("HDMI2") || listaction.equals("VGA") || listaction.equals("CVBS1")) {
             startSource(listaction);
-        }else {
+        } else {
             AppUtils.startNewApp(MainActivity.this, listaction);
         }
     }
@@ -1211,26 +1213,26 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     public void getWifiNumber(int count) {
 
         List<ScanResult> wifiList = wifiManager.getScanResults();
-        Log.d(TAG,"getWifiNumber "+count);
+        Log.d(TAG, "getWifiNumber " + count);
 
-        if(count == 1) {
+        if (count == 1) {
             customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_4);
             return;
-        } else if(count == 3) {
+        } else if (count == 3) {
             customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
             return;
         }
 
-        Log.d(TAG," level数据"+count);
-        if (count < -85){
+        Log.d(TAG, " level数据" + count);
+        if (count < -85) {
             customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_1);
-        }else if (count < -70){
+        } else if (count < -70) {
             customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_2);
-        }else if (count < -60){
+        } else if (count < -60) {
             customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_3);
-        }else if (count < -50){
+        } else if (count < -50) {
             customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
-        }else {
+        } else {
             customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
         }
     }
@@ -1363,41 +1365,67 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         Hashtable<String, String> mHashtable2 = DBUtils.getInstance(this).getHashtableFromListModules("list3");
 
         Log.d(TAG, "xu当前语言" + LanguageUtil.getCurrentLanguage());
-        switch (LanguageUtil.getCurrentLanguage()) {
-            case "zh-CN":
-                Log.d(TAG, "中文设置eshareText和hdmiText");
-                customBinding.eshareText.setText(mHashtable1.get("zh-CN"));
-                customBinding.hdmiText.setText(mHashtable2.get("zh-CN"));
-                break;
-            case "zh-TW":
-                customBinding.eshareText.setText(mHashtable1.get("zh-TW"));
-                customBinding.hdmiText.setText(mHashtable2.get("zh-TW"));
-                break;
-            case "zh-HK":
-                customBinding.eshareText.setText(mHashtable1.get("zh-HK"));
-                customBinding.hdmiText.setText(mHashtable2.get("zh-HK"));
-                break;
-            case "ko-KR":
-                customBinding.eshareText.setText(mHashtable1.get("ko-KR"));
-                customBinding.hdmiText.setText(mHashtable2.get("ko-KR"));
-                break;
-            case "ja-JP":
-                customBinding.eshareText.setText(mHashtable1.get("ja-JP"));
-                customBinding.hdmiText.setText(mHashtable2.get("ja-JP"));
-                break;
-            case "en-US":
-                customBinding.eshareText.setText(mHashtable1.get("en-US"));
-                customBinding.hdmiText.setText(mHashtable2.get("en-US"));
-                break;
-            case "ru-RU":
-                customBinding.eshareText.setText(mHashtable1.get("ru-RU"));
-                customBinding.hdmiText.setText(mHashtable2.get("ru-RU"));
-                break;
-            case "ar-EG":
-                customBinding.eshareText.setText(mHashtable1.get("ar-EG"));
-                customBinding.hdmiText.setText(mHashtable2.get("ar-EG"));
-                break;
+
+        if(mHashtable1 !=null){
+            switch (LanguageUtil.getCurrentLanguage()) {
+                case "zh-CN":
+                    Log.d(TAG, "中文设置eshareText和hdmiText");
+                    customBinding.eshareText.setText(mHashtable1.get("zh-CN"));
+                    break;
+                case "zh-TW":
+                    customBinding.eshareText.setText(mHashtable1.get("zh-TW"));
+                    break;
+                case "zh-HK":
+                    customBinding.eshareText.setText(mHashtable1.get("zh-HK"));
+                    break;
+                case "ko-KR":
+                    customBinding.eshareText.setText(mHashtable1.get("ko-KR"));
+                    break;
+                case "ja-JP":
+                    customBinding.eshareText.setText(mHashtable1.get("ja-JP"));
+                    break;
+                case "en-US":
+                    customBinding.eshareText.setText(mHashtable1.get("en-US"));
+                    break;
+                case "ru-RU":
+                    customBinding.eshareText.setText(mHashtable1.get("ru-RU"));
+                    break;
+                case "ar-EG":
+                    customBinding.eshareText.setText(mHashtable1.get("ar-EG"));
+                    break;
+            }
         }
+
+        if(mHashtable2!=null) {
+            switch (LanguageUtil.getCurrentLanguage()) {
+                case "zh-CN":
+                    Log.d(TAG, "中文设置eshareText和hdmiText");
+                    customBinding.hdmiText.setText(mHashtable2.get("zh-CN"));
+                    break;
+                case "zh-TW":
+                    customBinding.hdmiText.setText(mHashtable2.get("zh-TW"));
+                    break;
+                case "zh-HK":
+                    customBinding.hdmiText.setText(mHashtable2.get("zh-HK"));
+                    break;
+                case "ko-KR":
+                    customBinding.hdmiText.setText(mHashtable2.get("ko-KR"));
+                    break;
+                case "ja-JP":
+                    customBinding.hdmiText.setText(mHashtable2.get("ja-JP"));
+                    break;
+                case "en-US":
+                    customBinding.hdmiText.setText(mHashtable2.get("en-US"));
+                    break;
+                case "ru-RU":
+                    customBinding.hdmiText.setText(mHashtable2.get("ru-RU"));
+                    break;
+                case "ar-EG":
+                    customBinding.hdmiText.setText(mHashtable2.get("ar-EG"));
+                    break;
+            }
+        }
+
     }
 
     private void setbrandLogo() {
