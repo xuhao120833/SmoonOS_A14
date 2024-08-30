@@ -881,7 +881,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 readMain(obj);
 
                 //读取APP快捷图标
-                //readShortcuts(obj);
+                readShortcuts(obj, residentList, sharedPreferences);
 
                 //读取右边list第一个、第三个的配置
                 readListModules(obj);
@@ -893,7 +893,68 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 //是否显示时间
                 //readTime();
 
+                editor.putString("resident", residentList.toString());
 
+                //设置首页的配置图标
+                // 在主线程中更新 UI
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 设置首页的配置图标
+                        try {
+                            setIconOrText();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                editor.putInt("code", 1);
+                editor.apply();
+                is.close();
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                isLoad = false;
+            }
+        }
+
+        return isLoad;
+    }
+
+    private void readMain(JSONObject obj) {
+        try {
+            if (obj.has("mainApp")) {
+                JSONArray jsonarrray = obj.getJSONArray("mainApp");
+
+                for (int i = 0; i < jsonarrray.length(); i++) {
+                    JSONObject jsonobject = jsonarrray.getJSONObject(i);
+                    String tag = jsonobject.getString("tag");
+                    String appName = jsonobject.getString("appName");
+                    String iconPath = jsonobject.getString("iconPath");
+                    String action = jsonobject.getString("action");
+
+                    Log.d(TAG, " 读取到的mainApp " + tag + appName + iconPath + action);
+
+                    //从iconPath中把png读出来赋值给drawable
+                    Drawable drawable = FileUtils.loadImageAsDrawable(this, iconPath);
+
+                    //把读到的数据放入db数据库
+                    DBUtils.getInstance(this).insertMainAppData(tag, appName, drawable, action);
+
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void readShortcuts(JSONObject obj, List<String> residentList, SharedPreferences sharedPreferences) {
+        try {
+            if (obj.has("apps")) {
                 JSONArray jsonarrray = obj.getJSONArray("apps");
 
                 //xuhao
@@ -936,56 +997,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                                 .addFavorites(packageName);
                     }
                 }
-                editor.putString("resident", residentList.toString());
-
-                //设置首页的配置图标
-                // 在主线程中更新 UI
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // 设置首页的配置图标
-                        try {
-                            setIconOrText();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
-                editor.putInt("code", 1);
-                editor.apply();
-                is.close();
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                isLoad = false;
             }
-        }
-
-        return isLoad;
-    }
-
-    private void readMain(JSONObject obj) {
-        try {
-            JSONArray jsonarrray = obj.getJSONArray("mainApp");
-
-            for (int i = 0; i < jsonarrray.length(); i++) {
-                JSONObject jsonobject = jsonarrray.getJSONObject(i);
-                String tag = jsonobject.getString("tag");
-                String appName = jsonobject.getString("appName");
-                String iconPath = jsonobject.getString("iconPath");
-                String action = jsonobject.getString("action");
-
-                Log.d(TAG, " 读取到的mainApp " + tag + appName + iconPath + action);
-
-                //从iconPath中把png读出来赋值给drawable
-                Drawable drawable = FileUtils.loadImageAsDrawable(this, iconPath);
-
-                //把读到的数据放入db数据库
-                DBUtils.getInstance(this).insertMainAppData(tag, appName, drawable, action);
-
-            }
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -996,36 +1008,38 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     private void readListModules(JSONObject obj) {
         try {
-            JSONArray jsonarrray = obj.getJSONArray("listModules");
-            for (int i = 0; i < jsonarrray.length(); i++) {
-                JSONObject jsonobject = jsonarrray.getJSONObject(i);
-                String tag = jsonobject.getString("tag");
-                String iconPath = jsonobject.getString("iconPath");
-                JSONObject textObject = jsonobject.getJSONObject("text");
-                String zhCN = textObject.getString("zh-CN");
-                String zhTW = textObject.getString("zh-TW");
-                String zhHK = textObject.getString("zh-HK");
-                String ko = textObject.getString("ko-KR");
-                String ja = textObject.getString("ja-JP");
-                String en = textObject.getString("en-US");
-                String ru = textObject.getString("ru-RU");
-                String ar = textObject.getString("ar-EG");
-                String action = jsonobject.getString("action");
-                hashtable.put("zh-CN", zhCN);
-                hashtable.put("zh-TW", zhTW);
-                hashtable.put("zh-HK", zhHK);
-                hashtable.put("ko-KR", ko);
-                hashtable.put("ja-JP", ja);
-                hashtable.put("en-US", en);
-                hashtable.put("ru-RU", ru);
-                hashtable.put("ar-EG", ar);
-                Log.d(TAG, " 读取到的listModules " + tag + iconPath + action + zhCN + ko + ar + ja);
-                //从iconPath中把png读出来赋值给drawable
-                Drawable drawable = FileUtils.loadImageAsDrawable(this, iconPath);
-                //将读取到的数据写入数据库
-                DBUtils.getInstance(this).insertListModulesData(tag, drawable, hashtable, action);
-                hashtable.clear();
+            if (obj.has("listModules")) {
+                JSONArray jsonarrray = obj.getJSONArray("listModules");
+                for (int i = 0; i < jsonarrray.length(); i++) {
+                    JSONObject jsonobject = jsonarrray.getJSONObject(i);
+                    String tag = jsonobject.getString("tag");
+                    String iconPath = jsonobject.getString("iconPath");
+                    JSONObject textObject = jsonobject.getJSONObject("text");
+                    String zhCN = textObject.getString("zh-CN");
+                    String zhTW = textObject.getString("zh-TW");
+                    String zhHK = textObject.getString("zh-HK");
+                    String ko = textObject.getString("ko-KR");
+                    String ja = textObject.getString("ja-JP");
+                    String en = textObject.getString("en-US");
+                    String ru = textObject.getString("ru-RU");
+                    String ar = textObject.getString("ar-EG");
+                    String action = jsonobject.getString("action");
+                    hashtable.put("zh-CN", zhCN);
+                    hashtable.put("zh-TW", zhTW);
+                    hashtable.put("zh-HK", zhHK);
+                    hashtable.put("ko-KR", ko);
+                    hashtable.put("ja-JP", ja);
+                    hashtable.put("en-US", en);
+                    hashtable.put("ru-RU", ru);
+                    hashtable.put("ar-EG", ar);
+                    Log.d(TAG, " 读取到的listModules " + tag + iconPath + action + zhCN + ko + ar + ja);
+                    //从iconPath中把png读出来赋值给drawable
+                    Drawable drawable = FileUtils.loadImageAsDrawable(this, iconPath);
+                    //将读取到的数据写入数据库
+                    DBUtils.getInstance(this).insertListModulesData(tag, drawable, hashtable, action);
+                    hashtable.clear();
 //                DBUtils.getInstance(this).getHashtableFromDatabase("list1");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1034,10 +1048,12 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     private void readBrand(JSONObject obj) {
         try {
-            JSONObject jsonobject = obj.getJSONObject("brandLogo");
-            String iconPath = jsonobject.getString("iconPath");
-            Drawable drawable = FileUtils.loadImageAsDrawable(this, iconPath);
-            DBUtils.getInstance(this).insertBrandLogoData(drawable);
+            if (obj.has("brandLogo")) {
+                JSONObject jsonobject = obj.getJSONObject("brandLogo");
+                String iconPath = jsonobject.getString("iconPath");
+                Drawable drawable = FileUtils.loadImageAsDrawable(this, iconPath);
+                DBUtils.getInstance(this).insertBrandLogoData(drawable);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1366,7 +1382,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
         Log.d(TAG, "xu当前语言" + LanguageUtil.getCurrentLanguage());
 
-        if(mHashtable1 !=null){
+        if (mHashtable1 != null) {
             switch (LanguageUtil.getCurrentLanguage()) {
                 case "zh-CN":
                     Log.d(TAG, "中文设置eshareText和hdmiText");
@@ -1396,7 +1412,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             }
         }
 
-        if(mHashtable2!=null) {
+        if (mHashtable2 != null) {
             switch (LanguageUtil.getCurrentLanguage()) {
                 case "zh-CN":
                     Log.d(TAG, "中文设置eshareText和hdmiText");
