@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 
 /**
@@ -32,8 +33,10 @@ public class DBUtils extends SQLiteOpenHelper {
     private static String TAG = "DBUtils";
     private static DBUtils mInstance = null;
     private final static String DATABASE_NAME = "htc_launcher.db";
-    private final static int VERSION = 3;
-    private final String TABLENAME_FAVORITES = "table_favorites";// 我的收藏
+    private final static int VERSION = 4;
+    private final String TABLENAME_FAVORITES = "table_favorites";
+
+    private final String TABLENAME_FILTERAPPS = "filterApps";
 
     private final String TABLENAME_MAINAPP = "mainApp";
 
@@ -60,10 +63,17 @@ public class DBUtils extends SQLiteOpenHelper {
         try {
             // TODO Auto-generated method stub
             // 创建我的收藏表
-            Log.d(TAG, " 创建我的收藏数据表 ");
+            Log.d(TAG, " 创建apps数据表 ");
             String favorites_sql = "CREATE TABLE " + TABLENAME_FAVORITES
                     + " ( id integer primary key,  packagename text );";
             db.execSQL(favorites_sql);
+
+            Log.d(TAG, " 创建filterApps数据表 ");
+            String filterApps_sql = "CREATE TABLE " + TABLENAME_FILTERAPPS + " (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "packageName TEXT);";
+            db.execSQL(filterApps_sql);
+
 
             // 创建mainApp表
             Log.d(TAG, " 创建mainApp数据表 ");
@@ -106,6 +116,9 @@ public class DBUtils extends SQLiteOpenHelper {
 
         // TODO Auto-generated method stub
         String favorites_sql = "DROP TABLE IF EXISTS " + TABLENAME_FAVORITES;
+        db.execSQL(favorites_sql);
+
+        favorites_sql = "DROP TABLE IF EXISTS " + TABLENAME_FILTERAPPS;
         db.execSQL(favorites_sql);
 
         favorites_sql = "DROP TABLE IF EXISTS " + TABLENAME_MAINAPP;
@@ -222,25 +235,6 @@ public class DBUtils extends SQLiteOpenHelper {
      * @param drawable
      * @param action
      */
-//    public void insertMainAppData(String tag, String appName, Drawable drawable, String action) {
-//
-//        long code = -1;
-//        SQLiteDatabase db = getWritableDatabase();
-//        ContentValues values = new ContentValues();
-//        values.put("tag", tag);
-//        values.put("appName", appName);
-//        values.put("iconData", drawableToByteArray(drawable));  // 插入 BLOB 数据
-//        values.put("action", action);
-//
-//        code = db.insert(TABLENAME_MAINAPP, null, values);
-//        if (code == -1) {
-//            Log.d(TAG, "MainApp插入数据失败");
-////			System.out.println("插入数据失败");
-//        } else {
-//            Log.d(TAG, "MainApp插入数据成功，行ID：" + code);
-////			System.out.println("插入数据成功，行ID：" + code);
-//        }
-//    }
     public void insertMainAppData(String tag, String appName, Drawable drawable, String action) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -267,27 +261,59 @@ public class DBUtils extends SQLiteOpenHelper {
         }
     }
 
+    public void insertFilterApps(String []packageNames) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
 
-//    public void insertListModulesData(String tag, Drawable drawable, Hashtable hashtable, String action) {
-//        long code = -1;
-//        SQLiteDatabase db = getWritableDatabase();
-//        ContentValues values = new ContentValues();
-//        values.put("tag", tag);
-//        values.put("iconData", drawableToByteArray(drawable));  // 插入 BLOB 数据
-//        //hashtable序列化存入数据库
-//        saveHashtableToDatabase(hashtable,values);
-//        values.put("action", action);
-//
-//        code = db.insert(TABLENAME_LISTMODULES, null, values);
-////        db.update()
-//        if (code == -1) {
-//            Log.d(TAG, "ListModules插入数据失败");
-////			System.out.println("插入数据失败");
-//        } else {
-//            Log.d(TAG, "ListModules插入数据成功，行ID：" + code);
-////			System.out.println("插入数据成功，行ID：" + code);
-//        }
-//    }
+        // 遍历数组并插入到数据库中
+        for (String packageName : packageNames) {
+            values.clear(); // 清空之前的值
+            values.put("packageName", packageName);
+            long code = db.insert(TABLENAME_FILTERAPPS, null, values);
+            if (code == -1) {
+                Log.d(TAG, "FilterApps插入数据失败");
+            } else {
+                Log.d(TAG, "FilterApps插入数据成功，行ID：" + code);
+            }
+        }
+    }
+
+    public String[] getFilterApps() {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = null;
+        String[] packageNames = null;
+
+        try {
+            // 查询所有数据
+            cursor = db.query(TABLENAME_FILTERAPPS, new String[] {"packageName"}, null, null, null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                // 获取数据行数
+                int count = cursor.getCount();
+                // 初始化数组
+                packageNames = new String[count];
+
+                // 遍历Cursor，填充数组
+                int index = 0;
+                do {
+                    packageNames[index++] = cursor.getString(cursor.getColumnIndex("packageName"));
+                    Log.d(TAG," getFilterApps "+cursor.getString(cursor.getColumnIndex("packageName")));
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            // 捕获异常并记录日志
+            Log.e(TAG, "读取数据失败", e);
+        } finally {
+            // 确保Cursor和数据库连接在完成后关闭
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return packageNames;
+    }
+
 
     public void insertListModulesData(String tag, Drawable drawable, Hashtable hashtable, String action) {
         SQLiteDatabase db = getWritableDatabase();
@@ -315,22 +341,6 @@ public class DBUtils extends SQLiteOpenHelper {
             Log.d(TAG, "ListModules数据更新成功，更新行数：" + rowsAffected);
         }
     }
-
-
-//    public void insertBrandLogoData(Drawable drawable) {
-//        long code = -1;
-//        SQLiteDatabase db = getWritableDatabase();
-//        ContentValues values = new ContentValues();
-//        values.put("iconData", drawableToByteArray(drawable));
-//        code = db.insert(TABLENAME_BRANDLOGO, null, values);
-//        if (code == -1) {
-//            Log.d(TAG, "ListModules插入数据失败");
-////			System.out.println("插入数据失败");
-//        } else {
-//            Log.d(TAG, "BrandLogo插入数据成功，行ID：" + code);
-////			System.out.println("插入数据成功，行ID：" + code);
-//        }
-//    }
 
     public void insertBrandLogoData(Drawable drawable) {
         SQLiteDatabase db = getWritableDatabase();

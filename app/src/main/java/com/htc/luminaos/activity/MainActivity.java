@@ -883,6 +883,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 //读取APP快捷图标
                 readShortcuts(obj, residentList, sharedPreferences);
 
+                //读取filterApps屏蔽显示的APP
+                readFilterApps(obj);
+
                 //读取右边list第一个、第三个的配置
                 readListModules(obj);
                 Log.d(TAG, " 当前的语言环境是： " + LanguageUtil.getCurrentLanguage());
@@ -1003,6 +1006,21 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             e.printStackTrace();
         }
 
+
+    }
+
+    private void readFilterApps(JSONObject obj){
+        try {
+            if (obj.has("filterApps")) {
+                String filterApps = obj.getString("filterApps");
+                Log.d(TAG, " readFilterApps "+filterApps);
+                // 将字符串按分号拆分成数组
+                String[] packageNames = filterApps.split(";");
+                DBUtils.getInstance(this).insertFilterApps(packageNames);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
