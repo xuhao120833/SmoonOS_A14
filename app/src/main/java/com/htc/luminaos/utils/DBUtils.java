@@ -296,8 +296,10 @@ public class DBUtils extends SQLiteOpenHelper {
                 // 遍历Cursor，填充数组
                 int index = 0;
                 do {
-                    packageNames[index++] = cursor.getString(cursor.getColumnIndex("packageName"));
-                    Log.d(TAG," getFilterApps "+cursor.getString(cursor.getColumnIndex("packageName")));
+                    String packageName = cursor.getString(cursor.getColumnIndex("packageName"));
+                    packageName = packageName.trim();
+                    packageNames[index++] = packageName;
+                    Log.d(TAG," getFilterApps "+packageName);
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
