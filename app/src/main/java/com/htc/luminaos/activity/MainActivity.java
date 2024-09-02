@@ -477,9 +477,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             @Override
             public void run() {
 
-                //读取首页的配置文件，优先读取网络服务器配置，其次读本地配置
+                //读取首页的配置文件，优先读取网络服务器配置，其次读本地配置。只读取一次，清除应用缓存可触发再次读取。
                 initDataApp();
-
                 short_list = loadHomeAppData();
                 handler.sendEmptyMessage(204);
             }
@@ -898,20 +897,6 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
                 editor.putString("resident", residentList.toString());
 
-                //设置首页的配置图标
-                // 在主线程中更新 UI
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // 设置首页的配置图标
-                        try {
-                            setIconOrText();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
                 editor.putInt("code", 1);
                 editor.apply();
                 is.close();
@@ -921,6 +906,20 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 isLoad = false;
             }
         }
+
+        //设置首页的配置图标
+        // 在主线程中更新 UI
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // 设置首页的配置图标
+                try {
+                    setIconOrText();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         return isLoad;
     }
