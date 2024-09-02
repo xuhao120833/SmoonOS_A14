@@ -33,7 +33,7 @@ public class DBUtils extends SQLiteOpenHelper {
     private static String TAG = "DBUtils";
     private static DBUtils mInstance = null;
     private final static String DATABASE_NAME = "htc_launcher.db";
-    private final static int VERSION = 4;
+    private final static int VERSION = 1;
     private final String TABLENAME_FAVORITES = "table_favorites";
 
     private final String TABLENAME_FILTERAPPS = "filterApps";
