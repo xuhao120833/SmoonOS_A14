@@ -1008,11 +1008,11 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     }
 
-    private void readFilterApps(JSONObject obj){
+    private void readFilterApps(JSONObject obj) {
         try {
             if (obj.has("filterApps")) {
                 String filterApps = obj.getString("filterApps");
-                Log.d(TAG, " readFilterApps "+filterApps);
+                Log.d(TAG, " readFilterApps " + filterApps);
                 // 将字符串按分号拆分成数组
                 String[] packageNames = filterApps.split(";");
                 DBUtils.getInstance(this).insertFilterApps(packageNames);
@@ -1400,64 +1400,145 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         Log.d(TAG, "xu当前语言" + LanguageUtil.getCurrentLanguage());
 
         if (mHashtable1 != null) {
+            String text = null;
             switch (LanguageUtil.getCurrentLanguage()) {
                 case "zh-CN":
                     Log.d(TAG, "中文设置eshareText和hdmiText");
-                    customBinding.eshareText.setText(mHashtable1.get("zh-CN"));
+                    text = mHashtable1.get("zh-CN");
+                    if (text != null && !text.equals("")) {
+                        customBinding.eshareText.setText(mHashtable1.get("zh-CN"));
+                    }
                     break;
                 case "zh-TW":
-                    customBinding.eshareText.setText(mHashtable1.get("zh-TW"));
+                    text = mHashtable1.get("zh-TW");
+                    if (text != null && !text.equals("")) {
+                        customBinding.eshareText.setText(mHashtable1.get("zh-TW"));
+                    }
                     break;
                 case "zh-HK":
-                    customBinding.eshareText.setText(mHashtable1.get("zh-HK"));
+                    text = mHashtable1.get("zh-HK");
+                    if (text != null && !text.equals("")) {
+                        customBinding.eshareText.setText(mHashtable1.get("zh-HK"));
+                    }
                     break;
                 case "ko-KR":
-                    customBinding.eshareText.setText(mHashtable1.get("ko-KR"));
+                    text = mHashtable1.get("ko-KR");
+                    if (text != null && !text.equals("")) {
+                        customBinding.eshareText.setText(mHashtable1.get("ko-KR"));
+                    }
                     break;
                 case "ja-JP":
-                    customBinding.eshareText.setText(mHashtable1.get("ja-JP"));
+                    text = mHashtable1.get("ja-JP");
+                    if (text != null && !text.equals("")) {
+                        customBinding.eshareText.setText(mHashtable1.get("ja-JP"));
+                    }
                     break;
                 case "en-US":
-                    customBinding.eshareText.setText(mHashtable1.get("en-US"));
+                    text = mHashtable1.get("en-US");
+                    if (text != null && !text.equals("")) {
+                        customBinding.eshareText.setText(mHashtable1.get("en-US"));
+                    }
                     break;
                 case "ru-RU":
-                    customBinding.eshareText.setText(mHashtable1.get("ru-RU"));
+                    text = mHashtable1.get("ru-RU");
+                    if (text != null && !text.equals("")) {
+                        customBinding.eshareText.setText(mHashtable1.get("ru-RU"));
+                    }
                     break;
                 case "ar-EG":
-                    customBinding.eshareText.setText(mHashtable1.get("ar-EG"));
+                    text = mHashtable1.get("ar-EG");
+                    if (text != null && !text.equals("")) {
+                        customBinding.eshareText.setText(mHashtable1.get("ar-EG"));
+                    }
                     break;
             }
         }
 
         if (mHashtable2 != null) {
+            String text = null;
             switch (LanguageUtil.getCurrentLanguage()) {
                 case "zh-CN":
                     Log.d(TAG, "中文设置eshareText和hdmiText");
-                    customBinding.hdmiText.setText(mHashtable2.get("zh-CN"));
+                    text = mHashtable2.get("zh-CN");
+                    if (text != null && !text.equals("")) {
+                        customBinding.hdmiText.setText(mHashtable2.get("zh-CN"));
+                    }
                     break;
                 case "zh-TW":
-                    customBinding.hdmiText.setText(mHashtable2.get("zh-TW"));
+                    text = mHashtable2.get("zh-TW");
+                    if (text != null && !text.equals("")) {
+                        customBinding.hdmiText.setText(mHashtable2.get("zh-TW"));
+                    }
                     break;
                 case "zh-HK":
-                    customBinding.hdmiText.setText(mHashtable2.get("zh-HK"));
+                    text = mHashtable2.get("zh-HK");
+                    if (text != null && !text.equals("")) {
+                        customBinding.hdmiText.setText(mHashtable2.get("zh-HK"));
+                    }
                     break;
                 case "ko-KR":
-                    customBinding.hdmiText.setText(mHashtable2.get("ko-KR"));
+                    text = mHashtable2.get("ko-KR");
+                    if (text != null && !text.equals("")) {
+                        customBinding.hdmiText.setText(mHashtable2.get("ko-KR"));
+                    }
                     break;
                 case "ja-JP":
-                    customBinding.hdmiText.setText(mHashtable2.get("ja-JP"));
+                    text = mHashtable2.get("ja-JP");
+                    if (text != null && !text.equals("")) {
+                        customBinding.hdmiText.setText(mHashtable2.get("ja-JP"));
+                    }
                     break;
                 case "en-US":
-                    customBinding.hdmiText.setText(mHashtable2.get("en-US"));
+                    text = mHashtable2.get("en-US");
+                    if (text != null && !text.equals("")) {
+                        customBinding.hdmiText.setText(mHashtable2.get("en-US"));
+                    }
                     break;
                 case "ru-RU":
-                    customBinding.hdmiText.setText(mHashtable2.get("ru-RU"));
+                    text = mHashtable2.get("ru-RU");
+                    if (text != null && !text.equals("")) {
+                        customBinding.hdmiText.setText(mHashtable2.get("ru-RU"));
+                    }
                     break;
                 case "ar-EG":
-                    customBinding.hdmiText.setText(mHashtable2.get("ar-EG"));
+                    text = mHashtable2.get("ar-EG");
+                    if (text != null && !text.equals("")) {
+                        customBinding.hdmiText.setText(mHashtable2.get("ar-EG"));
+                    }
                     break;
             }
         }
+
+//        if (mHashtable2 != null) {
+//            String text = null;
+//            switch (LanguageUtil.getCurrentLanguage()) {
+//                case "zh-CN":
+//                    Log.d(TAG, "中文设置eshareText和hdmiText");
+//                    customBinding.hdmiText.setText(mHashtable2.get("zh-CN"));
+//                    break;
+//                case "zh-TW":
+//                    customBinding.hdmiText.setText(mHashtable2.get("zh-TW"));
+//                    break;
+//                case "zh-HK":
+//                    customBinding.hdmiText.setText(mHashtable2.get("zh-HK"));
+//                    break;
+//                case "ko-KR":
+//                    customBinding.hdmiText.setText(mHashtable2.get("ko-KR"));
+//                    break;
+//                case "ja-JP":
+//                    customBinding.hdmiText.setText(mHashtable2.get("ja-JP"));
+//                    break;
+//                case "en-US":
+//                    customBinding.hdmiText.setText(mHashtable2.get("en-US"));
+//                    break;
+//                case "ru-RU":
+//                    customBinding.hdmiText.setText(mHashtable2.get("ru-RU"));
+//                    break;
+//                case "ar-EG":
+//                    customBinding.hdmiText.setText(mHashtable2.get("ar-EG"));
+//                    break;
+//            }
+//        }
 
     }
 
