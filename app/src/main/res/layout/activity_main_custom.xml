@@ -233,9 +233,10 @@
 
         <ImageView
             android:id="@+id/eshare_icon"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/x_60"
             android:layout_height="match_parent"
-            android:src="@drawable/home_icon_eshare" />
+            android:src="@drawable/home_icon_eshare"
+            />
 
         <TextView
             android:id="@+id/eshare_text"
@@ -266,7 +267,7 @@
 
         <ImageView
             android:id="@+id/file_icon"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/x_60"
             android:layout_height="match_parent"
             android:src="@drawable/home_icon_file" />
 
@@ -297,7 +298,7 @@
 
         <ImageView
             android:id="@+id/hdmi_icon"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/x_60"
             android:layout_height="match_parent"
             android:src="@drawable/home_icon_hdmi" />
 
@@ -330,7 +331,7 @@
 
         <ImageView
             android:id="@+id/settings_icon"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/x_60"
             android:layout_height="match_parent"
             android:src="@drawable/home_icon_set" />
 
