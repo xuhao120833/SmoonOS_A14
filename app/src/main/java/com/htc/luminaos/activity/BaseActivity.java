@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
+import android.widget.RelativeLayout;
 
 import com.htc.luminaos.MyApplication;
 import com.htc.luminaos.R;
+import com.htc.luminaos.utils.Utils;
 
 import androidx.annotation.Nullable;
 
@@ -30,7 +32,11 @@ public class BaseActivity extends Activity implements View.OnClickListener, View
 
     @Override
     protected void onResume() {
-        setWallPaper();
+        try {
+            setWallPaper();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
         super.onResume();
     }
@@ -43,6 +49,10 @@ public class BaseActivity extends Activity implements View.OnClickListener, View
             if (relativeLayout != null)
 //                relativeLayout.setBackground(MyApplication.otherDrawable);
                 relativeLayout.setBackground(MyApplication.otherDrawable);
+        } else {
+            ViewGroup relativeLayout = findViewById(R.id.rl_main);
+            if (relativeLayout != null&& Utils.mainBgResId!= -1)
+                relativeLayout.setBackgroundResource(Utils.mainBgResId);
         }
     }
 

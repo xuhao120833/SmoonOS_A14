@@ -34,6 +34,8 @@ public interface Contants {
 
     String SelectWallpaper = "selectwallpaper";
 
+    String DefaultBg = "defaultbg";
+
     int PICTURE_NULL = 101;
     int PICTURE_RESULT = 102;
     int PICTURE_FIND = 103;

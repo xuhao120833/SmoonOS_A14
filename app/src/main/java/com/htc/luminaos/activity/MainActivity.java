@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.usb.UsbManager;
 import android.net.ConnectivityManager;
@@ -15,11 +18,13 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
+import com.htc.luminaos.MyApplication;
 import com.htc.luminaos.receiver.AppCallBack;
 import com.htc.luminaos.receiver.AppReceiver;
 import com.htc.luminaos.receiver.BatteryReceiver;
 import com.htc.luminaos.receiver.UsbDeviceCallBack;
 import com.htc.luminaos.utils.BatteryCallBack;
+import com.htc.luminaos.utils.BlurImageView;
 import com.htc.luminaos.utils.FileUtils;
 
 import android.os.Handler;
@@ -77,15 +82,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
@@ -147,6 +157,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     private AppReceiver appReceiver = null;
     private WifiManager wifiManager = null;
 
+    ExecutorService threadExecutor = Executors.newFixedThreadPool(5);
+
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -207,14 +219,20 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     @Override
     protected void onResume() {
         super.onResume();
-        updateTime();
-        updateBle();
-        if ((boolean) ShareUtil.get(this, Contants.MODIFY, false)) {
-            short_list = loadHomeAppData();
+        try {
+            updateTime();
+            updateBle();
+            if ((boolean) ShareUtil.get(this, Contants.MODIFY, false)) {
+                short_list = loadHomeAppData();
 //            handler.sendEmptyMessage(202);
-            handler.sendEmptyMessage(204);
-            ShareUtil.put(this, Contants.MODIFY, false);
+                handler.sendEmptyMessage(204);
+                ShareUtil.put(this, Contants.MODIFY, false);
+            }
+            setWallPaper(Utils.mainBgResId);
+        }catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     private void initView() {
@@ -876,6 +894,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 List<String> residentList = new ArrayList<>();
                 JSONObject obj = new JSONObject(result);
 
+                //读取默认背景配置
+//                readDefaultBackground(obj);
+
                 //读取首页四大APP图标
                 readMain(obj);
 
@@ -922,6 +943,22 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         });
 
         return isLoad;
+    }
+
+    private void readDefaultBackground(JSONObject obj) {
+        try {
+            if (obj.has("defaultbackground")) {
+                String DefaultBackground = obj.getString("defaultbackground").trim();
+                Log.d(TAG, " readDefaultBackground " + DefaultBackground);
+                // 将字符串存入数据库；
+                SharedPreferences sharedPreferences = ShareUtil.getInstans(this);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(Contants.DefaultBg, DefaultBackground);
+                editor.apply();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void readMain(JSONObject obj) {
@@ -1357,6 +1394,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         //3、brandLogo
         setbrandLogo();
 
+        //4、DefaultBackground
+        setDefaultBackground();
+
     }
 
     private void setMainApp() {
@@ -1549,6 +1589,88 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
     }
 
+    private void setDefaultBackground() {
+        SharedPreferences sharedPreferences = ShareUtil.getInstans(this);
+        String defaultbg = sharedPreferences.getString(Contants.DefaultBg,"-1");
+        Log.d(TAG," setDefaultBackground defaultbg "+defaultbg);
+        if(!defaultbg.equals("-1")) {
+            switch (defaultbg){
+                case "1":
+                    Utils.mainBgResId = R.drawable.background_main;
+                    setWallPaper(R.drawable.background_main);
+                    setDefaultBg(R.drawable.background_main);
+                    break;
+                case "2":
+                    Utils.mainBgResId = R.drawable.background_custom;
+                    setWallPaper(R.drawable.background_custom);
+                    setDefaultBg(R.drawable.background_custom);
+                    break;
+                case "3":
+                    Utils.mainBgResId = R.drawable.background1;
+                    setWallPaper(R.drawable.background1);
+                    setDefaultBg(R.drawable.background1);
+                    break;
+                case "4":
+                    Utils.mainBgResId = R.drawable.background3;
+                    setWallPaper(R.drawable.background3);
+                    setDefaultBg(R.drawable.background3);
+                    break;
+                case "5":
+                    Utils.mainBgResId = R.drawable.background5;
+                    setWallPaper(R.drawable.background5);
+                    setDefaultBg(R.drawable.background5);
+                    break;
+                case "6":
+                    Utils.mainBgResId = R.drawable.background6;
+                    setWallPaper(R.drawable.background6);
+                    setDefaultBg(R.drawable.background6);
+                    break;
+                case "7":
+                    Utils.mainBgResId = R.drawable.background7;
+                    setWallPaper(R.drawable.background7);
+                    setDefaultBg(R.drawable.background7);
+                    break;
+                case "8":
+                    Utils.mainBgResId = R.drawable.background8;
+                    setWallPaper(R.drawable.background8);
+                    setDefaultBg(R.drawable.background8);
+                    break;
+                case "9":
+                    Utils.mainBgResId = R.drawable.background9;
+                    setWallPaper(R.drawable.background9);
+                    setDefaultBg(R.drawable.background9);
+                    break;
+            }
+        }
+
+    }
+
+    private void setDefaultBg(int resId) {
+        threadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                CopyResIdToSd(resId);
+                CopyResIdToSd(BlurImageView.BoxBlurFilter(MainActivity.this,resId));
+                if (new File(Contants.WALLPAPER_MAIN).exists())
+                    MyApplication.mainDrawable =new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
+                if (new File(Contants.WALLPAPER_OTHER).exists())
+                    MyApplication.otherDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_OTHER));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 设置首页的配置图标
+                        try {
+                            setWallPaper();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+
 
     @Override
     public void appChange(String packageName) {
@@ -1574,4 +1696,48 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     public void appInstall(String packageName) {
         Log.d(TAG, "MainActivity 收到安装广播");
     }
+
+    private void CopyResIdToSd(int resId){
+        File file =new File(Contants.WALLPAPER_DIR);
+        if (!file.exists())
+            file.mkdir();
+
+        InputStream inputStream = getResources().openRawResource(resId);
+        try {
+            File file1 = new File(Contants.WALLPAPER_MAIN);
+            if (file1.exists())
+                file1.delete();
+
+            FileOutputStream fileOutputStream = new FileOutputStream(file1);
+
+            byte[] buf = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buf)) != -1) {
+                fileOutputStream.write(buf, 0, bytesRead);
+            }
+            fileOutputStream.flush();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    private void CopyResIdToSd(Bitmap bitmap){
+        File file1 =new File(Contants.WALLPAPER_DIR);
+        if (!file1.exists())
+            file1.mkdir();
+
+        File file=new File(Contants.WALLPAPER_OTHER);//将要保存图片的路径
+        if (file.exists())
+            file.delete();
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

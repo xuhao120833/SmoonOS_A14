@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.htc.luminaos.MyApplication;
 import com.htc.luminaos.R;
+import com.htc.luminaos.utils.Utils;
 
 import androidx.annotation.Nullable;
 
@@ -40,12 +41,24 @@ public class BaseMainActivity extends Activity implements View.OnClickListener, 
         super.onResume();
     }
 
-    public void setWallPaper(){
-        if (MyApplication.mainDrawable!=null){
+    public void setWallPaper() {
+        if (MyApplication.mainDrawable != null) {
 
-            RelativeLayout relativeLayout =findViewById(R.id.rl_main);
-            if (relativeLayout!=null)
+            RelativeLayout relativeLayout = findViewById(R.id.rl_main);
+            if (relativeLayout != null)
                 relativeLayout.setBackground(MyApplication.mainDrawable);
+        }
+    }
+
+    public void setWallPaper(int resId) {
+        if (MyApplication.mainDrawable != null) {
+            RelativeLayout relativeLayout = findViewById(R.id.rl_main);
+            if (relativeLayout != null)
+                relativeLayout.setBackground(MyApplication.mainDrawable);
+        } else if(resId != -1) {
+            RelativeLayout relativeLayout = findViewById(R.id.rl_main);
+            if (relativeLayout != null)
+                relativeLayout.setBackgroundResource(resId);
         }
     }
 
@@ -54,13 +67,13 @@ public class BaseMainActivity extends Activity implements View.OnClickListener, 
 
     }
 
-    public void startNewActivity(Class<?> cls){
-        Intent intent = new Intent(this,cls);
+    public void startNewActivity(Class<?> cls) {
+        Intent intent = new Intent(this, cls);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
-    public void startNewActivity(String packageName ,String activity){
+    public void startNewActivity(String packageName, String activity) {
         Intent intent = new Intent();
         intent.setComponent(new ComponentName(packageName, activity));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

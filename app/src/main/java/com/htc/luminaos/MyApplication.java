@@ -15,8 +15,14 @@ import com.htc.luminaos.utils.Contants;
 import com.htc.luminaos.utils.FileUtils;
 import com.htc.luminaos.utils.KeystoneUtils;
 import com.htc.luminaos.utils.ShareUtil;
+import com.htc.luminaos.utils.Utils;
+
+import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author:
@@ -40,7 +46,6 @@ public class MyApplication extends Application {
         editor.putBoolean(Contants.TimeOffStatus, false);
         editor.putInt(Contants.TimeOffIndex, 0);
         editor.apply();
-
 
         if (new File(Contants.WALLPAPER_MAIN).exists())
             mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
@@ -100,7 +105,15 @@ public class MyApplication extends Application {
             e.printStackTrace();
         }
 
-
+        //读取背景的默认图片
+        SharedPreferences sharedPreferences = ShareUtil.getInstans(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        int defaultBg = sharedPreferences.getInt("defaultBg", 0);
+        if(defaultBg == 0) {
+            readBackground();
+            editor.putInt("defaultBg", 1);
+            editor.apply();
+        }
     }
 
     private void initDisplaySize() {
@@ -112,6 +125,74 @@ public class MyApplication extends Application {
         KeystoneUtils.lcd_w = screenWidth;
         KeystoneUtils.minH_size = config.manualKeystoneWidth;
         KeystoneUtils.minV_size = config.manualKeystoneHeight;
+    }
+
+    private void readBackground() {
+        File file = new File("/oem/shortcuts.config");
+        if (!file.exists()) {
+            file = new File("/system/shortcuts.config");
+        }
+        try {
+            FileInputStream is = new FileInputStream(file);
+            byte[] b = new byte[is.available()];
+            is.read(b);
+            String result = new String(b);
+            List<String> residentList = new ArrayList<>();
+            JSONObject obj = new JSONObject(result);
+            readDefaultBackground(obj);
+            is.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void readDefaultBackground(JSONObject obj) {
+        try {
+            if (obj.has("defaultbackground")) {
+                String DefaultBackground = obj.getString("defaultbackground").trim();
+                Log.d(TAG, " readDefaultBackground " + DefaultBackground);
+                // 将字符串存入数据库；
+                SharedPreferences sharedPreferences = ShareUtil.getInstans(this);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(Contants.DefaultBg, DefaultBackground);
+                editor.apply();
+
+                if(!DefaultBackground.equals("") && DefaultBackground != null) {
+                    switch (DefaultBackground) {
+                        case "1":
+                            Utils.mainBgResId = R.drawable.background_main;
+                            break;
+                        case "2":
+                            Utils.mainBgResId = R.drawable.background_custom;
+                            break;
+                        case "3":
+                            Utils.mainBgResId = R.drawable.background1;
+                            break;
+                        case "4":
+                            Utils.mainBgResId = R.drawable.background3;
+                            break;
+                        case "5":
+                            Utils.mainBgResId = R.drawable.background5;
+                            break;
+                        case "6":
+                            Utils.mainBgResId = R.drawable.background6;
+                            break;
+                        case "7":
+                            Utils.mainBgResId = R.drawable.background7;
+                            break;
+                        case "8":
+                            Utils.mainBgResId = R.drawable.background8;
+                            break;
+                        case "9":
+                            Utils.mainBgResId = R.drawable.background9;
+                            break;
+                    }
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
