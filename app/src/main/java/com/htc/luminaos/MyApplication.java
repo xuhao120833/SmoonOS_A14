@@ -106,7 +106,7 @@ public class MyApplication extends Application {
         }
 
         //读取背景的默认图片
-        SharedPreferences sharedPreferences = ShareUtil.getInstans(this);
+        SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         int defaultBg = sharedPreferences.getInt("defaultBg", 0);
         if(defaultBg == 0) {
@@ -132,6 +132,10 @@ public class MyApplication extends Application {
         if (!file.exists()) {
             file = new File("/system/shortcuts.config");
         }
+        if (!file.exists()) {
+            Log.d(TAG," readBackground shortcuts.config文件不存在 ");
+            return;
+        }
         try {
             FileInputStream is = new FileInputStream(file);
             byte[] b = new byte[is.available()];
@@ -152,7 +156,7 @@ public class MyApplication extends Application {
                 String DefaultBackground = obj.getString("defaultbackground").trim();
                 Log.d(TAG, " readDefaultBackground " + DefaultBackground);
                 // 将字符串存入数据库；
-                SharedPreferences sharedPreferences = ShareUtil.getInstans(this);
+                SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(Contants.DefaultBg, DefaultBackground);
                 editor.apply();

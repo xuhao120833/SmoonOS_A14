@@ -2,6 +2,7 @@ package com.htc.luminaos.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * Author:
@@ -10,6 +11,8 @@ import android.content.SharedPreferences;
  */
 public class ShareUtil {
     private static SharedPreferences preferences;
+
+    private static String TAG = "ShareUtil";
     public static SharedPreferences getInstans(Context context){
         if (preferences==null){
             synchronized (ShareUtil.class){
@@ -79,6 +82,7 @@ public class ShareUtil {
 
 
     public static void clear(Context context) {
+        Log.d(TAG," clear清空SharedPreferences");
         SharedPreferences sp = getInstans(context);
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();

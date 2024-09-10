@@ -203,6 +203,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             initDataCustom();
             initReceiver();
             wifiManager = (WifiManager) getSystemService(Service.WIFI_SERVICE);
+            Log.d(TAG," onCreate快捷图标 short_list "+short_list.size());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -228,6 +229,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 handler.sendEmptyMessage(204);
                 ShareUtil.put(this, Contants.MODIFY, false);
             }
+            Log.d(TAG," onResume快捷图标 short_list "+short_list.size());
             setWallPaper(Utils.mainBgResId);
         }catch (Exception e) {
             e.printStackTrace();
@@ -498,6 +500,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 //读取首页的配置文件，优先读取网络服务器配置，其次读本地配置。只读取一次，清除应用缓存可触发再次读取。
                 initDataApp();
                 short_list = loadHomeAppData();
+                Log.d(TAG," initDataCustom快捷图标 short_list "+short_list.size());
                 handler.sendEmptyMessage(204);
             }
         }).start();
@@ -859,10 +862,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
      */
     private boolean initDataApp() {
         boolean isLoad = true;
-        SharedPreferences sharedPreferences = ShareUtil.getInstans(this);
+        SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         int code = sharedPreferences.getInt("code", 0);
-
+        Log.d(TAG, " initDataApp读code值 "+code);
         if (code == 0) {  //保证配置文件只在最初读一次
 
             //1、优先连接服务器读取配置
@@ -880,6 +883,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             if (!file.exists()) {
                 Log.d(TAG, " 配置文件不存在 ");
                 DBUtils.getInstance(this).deleteTable();
+
+                editor.putInt("code", 1);
+                editor.apply();
+
                 return false;
             }
 
@@ -951,7 +958,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 String DefaultBackground = obj.getString("defaultbackground").trim();
                 Log.d(TAG, " readDefaultBackground " + DefaultBackground);
                 // 将字符串存入数据库；
-                SharedPreferences sharedPreferences = ShareUtil.getInstans(this);
+                SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(Contants.DefaultBg, DefaultBackground);
                 editor.apply();
@@ -1128,6 +1135,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         shortInfoBeans.add(mshortInfoBean);
         //xuhao
 
+        Log.d(TAG," loadHomeAppData快捷图标 appList "+appList.size());
+        Log.d(TAG," loadHomeAppData快捷图标 appSimpleBeans "+appSimpleBeans.size());
         for (int i = 0; i < appSimpleBeans.size(); i++) {
             ShortInfoBean shortInfoBean = new ShortInfoBean();
             shortInfoBean.setPackageName(appSimpleBeans.get(i).getPackagename());
@@ -1590,7 +1599,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     }
 
     private void setDefaultBackground() {
-        SharedPreferences sharedPreferences = ShareUtil.getInstans(this);
+        SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
         String defaultbg = sharedPreferences.getString(Contants.DefaultBg,"-1");
         Log.d(TAG," setDefaultBackground defaultbg "+defaultbg);
         if(!defaultbg.equals("-1")) {
