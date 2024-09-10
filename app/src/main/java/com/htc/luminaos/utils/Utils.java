@@ -7,4 +7,7 @@ public class Utils {
 
     //首页默认背景resId,无配置默认-1
     public static int mainBgResId = -1;
+
+    public static int usbDevicesNumber = 0;
+
 }
