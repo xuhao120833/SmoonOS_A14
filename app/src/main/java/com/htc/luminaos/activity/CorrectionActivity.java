@@ -198,12 +198,14 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent keyEvent) {
-        Log.d(TAG, " 手动矫正 onKeyDown " + keyCode);
+        Log.d(TAG, " 手动矫正onKeyDown " + keyCode);
         boolean ret;
         int repeatCount = keyEvent.getRepeatCount();
         if (repeatCount == 0) {
             key_move_step = 1;
         }
+
+        Log.d(TAG, " 手动矫正onKeyDown keyCode " + keyCode+" keyEvent "+keyEvent+" repeatCount "+repeatCount+" key_move_step "+key_move_step);
         ret = calculationValue(keyCode, keyEvent, key_move_step);
         if (key_move_step < 8) {
             key_move_step++;
@@ -381,6 +383,7 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
     private boolean calculationValue(int keyCode, KeyEvent keyEvent, int step) {
         int[] xy = new int[]{0, 0};
         int type = 1;
+        Log.d(TAG, " 手动矫正calculationValue g_cur_left " + g_cur_left+" g_cur_right "+g_cur_right+" g_cur_top "+g_cur_top+" g_cur_bottom "+g_cur_bottom);
         if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
             if (!g_cur_left) return true;
         } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
@@ -546,16 +549,23 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
                 if (x <= KeystoneUtils.minX) {
                     left = false;
                 }
-                if ((x + xy_OppositeTo[0]) >= KeystoneUtils.minH_size) {
+                int temp =x + xy_OppositeTo[0];
+                Log.d(TAG," 手动矫正refreshStateValueUI check_lt right = false "+" x "+x+" y "+y+" xy_OppositeTo[0] "+xy_OppositeTo[0]+" xy_OppositeTo[1] "+xy_OppositeTo[1]
+                        +" x + xy_OppositeTo[0] "+x + xy_OppositeTo[0]+" KeystoneUtils.minH_size "+KeystoneUtils.minH_size + " temp "+temp);
+                if (x + xy_OppositeTo[0] >= 500) {
+                    Log.d(TAG," 手动矫正refreshStateValueUI check_lt right = false");
                     right = false;
                 }
                 if (y <= KeystoneUtils.minY) {
                     top = false;
                 }
-                if ((y + xy_OppositeTo[1]) >= KeystoneUtils.minV_size) {
+                if ((y + xy_OppositeTo[1]) >= 500) {
                     bottom = false;
                 }
                 textv_lt.setText(String.valueOf(xy[0]) + "," + String.valueOf(xy[1]));
+                Log.d(TAG, " 手动矫正refreshStateValueUI check_lt left " + left+" right "+right+" top "+top+" bottom "+bottom
+                        +" x "+x+" y "+y+" xy_OppositeTo[0] "+xy_OppositeTo[0]+" xy_OppositeTo[1] "+xy_OppositeTo[1]);
+
             } else if (check_lb.isChecked()) {
                 type = 2;
                 // 判断数值
@@ -566,16 +576,18 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
                 if (x <= KeystoneUtils.minX) {
                     left = false;
                 }
-                if ((x + xy_OppositeTo[0]) >= KeystoneUtils.minH_size) {
+                if ((x + xy_OppositeTo[0]) >= 500) {//KeystoneUtils.minH_size
                     right = false;
                 }
                 if (y <= KeystoneUtils.minY) {
                     bottom = false;
                 }
-                if ((y + xy_OppositeTo[1]) >= KeystoneUtils.minV_size) {
+                if ((y + xy_OppositeTo[1]) >= 500) {
                     top = false;
                 }
                 textv_lb.setText(String.valueOf(xy[0]) + "," + String.valueOf(xy[1]));
+                Log.d(TAG, " 手动矫正refreshStateValueUI check_lb left " + left+" right "+right+" top "+top+" bottom "+bottom
+                        +" x "+x+" y "+y+" xy_OppositeTo[0] "+xy_OppositeTo[0]+" xy_OppositeTo[1] "+xy_OppositeTo[1]);
             } else if (check_rt.isChecked()) {
                 type = 3;
                 // 判断数值
@@ -586,16 +598,19 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
                 if (x <= KeystoneUtils.minX) {
                     right = false;
                 }
-                if ((x + xy_OppositeTo[0]) >= KeystoneUtils.minH_size) {
+                if ((x + xy_OppositeTo[0]) >= 500) {
                     left = false;
                 }
                 if (y <= KeystoneUtils.minY) {
                     top = false;
                 }
-                if ((y + xy_OppositeTo[1]) >= KeystoneUtils.minV_size) {
+                if ((y + xy_OppositeTo[1]) >= 500) {
                     bottom = false;
                 }
                 textv_rt.setText(String.valueOf(xy[0]) + "," + String.valueOf(xy[1]));
+
+                Log.d(TAG, " 手动矫正refreshStateValueUI check_rt left " + left+" right "+right+" top "+top+" bottom "+bottom
+                        +" x "+x+" y "+y+" xy_OppositeTo[0] "+xy_OppositeTo[0]+" xy_OppositeTo[1] "+xy_OppositeTo[1]);
             } else if (check_rb.isChecked()) {
                 type = 4;
                 int[] xy = KeystoneUtils.getKeystoneRightAndBottomXY();
@@ -605,16 +620,19 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
                 if (x <= KeystoneUtils.minX) {
                     right = false;
                 }
-                if ((x + xy_OppositeTo[0]) >= KeystoneUtils.minH_size) {
+                if ((x + xy_OppositeTo[0]) >= 500) {
                     left = false;
                 }
                 if (y <= KeystoneUtils.minY) {
                     bottom = false;
                 }
-                if ((y + xy_OppositeTo[1]) >= KeystoneUtils.minV_size) {
+                if ((y + xy_OppositeTo[1]) >= 500) {
                     top = false;
                 }
                 textv_rb.setText(String.valueOf(xy[0]) + "," + String.valueOf(xy[1]));
+
+                Log.d(TAG, " 手动矫正refreshStateValueUI check_rb left " + left+" right "+right+" top "+top+" bottom "+bottom
+                        +" x "+x+" y "+y+" xy_OppositeTo[0] "+xy_OppositeTo[0]+" xy_OppositeTo[1] "+xy_OppositeTo[1]);
             }
             // 更新
             setLRTB(type, left, right, top, bottom);
