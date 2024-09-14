@@ -1,5 +1,7 @@
 package com.htc.luminaos.activity;
 
+import static com.htc.luminaos.utils.BlurImageView.MAX_BITMAP_SIZE;
+
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
@@ -203,7 +205,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             initDataCustom();
             initReceiver();
             wifiManager = (WifiManager) getSystemService(Service.WIFI_SERVICE);
-            Log.d(TAG," onCreate快捷图标 short_list "+short_list.size());
+            Log.d(TAG, " onCreate快捷图标 short_list " + short_list.size());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -229,9 +231,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 handler.sendEmptyMessage(204);
                 ShareUtil.put(this, Contants.MODIFY, false);
             }
-            Log.d(TAG," onResume快捷图标 short_list "+short_list.size());
+            Log.d(TAG, " onResume快捷图标 short_list " + short_list.size());
             setWallPaper(Utils.mainBgResId);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -500,7 +502,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 //读取首页的配置文件，优先读取网络服务器配置，其次读本地配置。只读取一次，清除应用缓存可触发再次读取。
                 initDataApp();
                 short_list = loadHomeAppData();
-                Log.d(TAG," initDataCustom快捷图标 short_list "+short_list.size());
+                Log.d(TAG, " initDataCustom快捷图标 short_list " + short_list.size());
                 handler.sendEmptyMessage(204);
             }
         }).start();
@@ -865,7 +867,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         int code = sharedPreferences.getInt("code", 0);
-        Log.d(TAG, " initDataApp读code值 "+code);
+        Log.d(TAG, " initDataApp读code值 " + code);
         if (code == 0) {  //保证配置文件只在最初读一次
 
             //1、优先连接服务器读取配置
@@ -1135,8 +1137,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         shortInfoBeans.add(mshortInfoBean);
         //xuhao
 
-        Log.d(TAG," loadHomeAppData快捷图标 appList "+appList.size());
-        Log.d(TAG," loadHomeAppData快捷图标 appSimpleBeans "+appSimpleBeans.size());
+        Log.d(TAG, " loadHomeAppData快捷图标 appList " + appList.size());
+        Log.d(TAG, " loadHomeAppData快捷图标 appSimpleBeans " + appSimpleBeans.size());
         for (int i = 0; i < appSimpleBeans.size(); i++) {
             ShortInfoBean shortInfoBean = new ShortInfoBean();
             shortInfoBean.setPackageName(appSimpleBeans.get(i).getPackagename());
@@ -1600,10 +1602,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     private void setDefaultBackground() {
         SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
-        String defaultbg = sharedPreferences.getString(Contants.DefaultBg,"-1");
-        Log.d(TAG," setDefaultBackground defaultbg "+defaultbg);
-        if(!defaultbg.equals("-1")) {
-            switch (defaultbg){
+        String defaultbg = sharedPreferences.getString(Contants.DefaultBg, "-1");
+        Log.d(TAG, " setDefaultBackground defaultbg " + defaultbg);
+        if (!defaultbg.equals("-1")) {
+            switch (defaultbg) {
                 case "1":
                     Utils.mainBgResId = R.drawable.background_main;
                     setWallPaper(R.drawable.background_main);
@@ -1659,9 +1661,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             @Override
             public void run() {
                 CopyResIdToSd(resId);
-                CopyResIdToSd(BlurImageView.BoxBlurFilter(MainActivity.this,resId));
-                if (new File(Contants.WALLPAPER_MAIN).exists())
-                    MyApplication.mainDrawable =new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
+                CopyResIdToSd(BlurImageView.BoxBlurFilter(MainActivity.this, resId));
+                if (new File(Contants.WALLPAPER_MAIN).exists()) {
+                    MyApplication.mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
+                }
                 if (new File(Contants.WALLPAPER_OTHER).exists())
                     MyApplication.otherDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_OTHER));
                 runOnUiThread(new Runnable() {
@@ -1706,8 +1709,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         Log.d(TAG, "MainActivity 收到安装广播");
     }
 
-    private void CopyResIdToSd(int resId){
-        File file =new File(Contants.WALLPAPER_DIR);
+    private void CopyResIdToSd(int resId) {
+        File file = new File(Contants.WALLPAPER_DIR);
         if (!file.exists())
             file.mkdir();
 
@@ -1725,18 +1728,18 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 fileOutputStream.write(buf, 0, bytesRead);
             }
             fileOutputStream.flush();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    private void CopyResIdToSd(Bitmap bitmap){
-        File file1 =new File(Contants.WALLPAPER_DIR);
+    private void CopyResIdToSd(Bitmap bitmap) {
+        File file1 = new File(Contants.WALLPAPER_DIR);
         if (!file1.exists())
             file1.mkdir();
 
-        File file=new File(Contants.WALLPAPER_OTHER);//将要保存图片的路径
+        File file = new File(Contants.WALLPAPER_OTHER);//将要保存图片的路径
         if (file.exists())
             file.delete();
         try {

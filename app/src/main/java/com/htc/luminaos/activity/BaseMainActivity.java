@@ -1,8 +1,13 @@
 package com.htc.luminaos.activity;
 
+import static com.htc.luminaos.utils.BlurImageView.MAX_BITMAP_SIZE;
+
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +18,8 @@ import android.widget.RelativeLayout;
 
 import com.htc.luminaos.MyApplication;
 import com.htc.luminaos.R;
+import com.htc.luminaos.utils.BlurImageView;
+import com.htc.luminaos.utils.Contants;
 import com.htc.luminaos.utils.Utils;
 
 import androidx.annotation.Nullable;
@@ -43,7 +50,6 @@ public class BaseMainActivity extends Activity implements View.OnClickListener, 
 
     public void setWallPaper() {
         if (MyApplication.mainDrawable != null) {
-
             RelativeLayout relativeLayout = findViewById(R.id.rl_main);
             if (relativeLayout != null)
                 relativeLayout.setBackground(MyApplication.mainDrawable);

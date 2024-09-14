@@ -3,8 +3,10 @@ package com.htc.luminaos.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.ImageView;
 
 /**
@@ -20,17 +22,37 @@ public class BlurImageView {
     /** 模糊迭代度 */
     public static int ITERATIONS = 10;
 
+    public static final int MAX_BITMAP_SIZE = 100 * 1024 * 1024;
+
+    private static String TAG = "BlurImageView";
+
     /**
      * 根据bitmap设置高斯模糊
      * @param bmp:bitmap参数
      * @return
      */
     public static Bitmap BoxBlurFilter(Bitmap bmp) {
+        Log.d(TAG,"执行BoxBlurFilter前");
         int width = bmp.getWidth();
         int height = bmp.getHeight();
+
+        //判断图片大小，如果超过限制就做缩小处理
+        if(width*height*4>=MAX_BITMAP_SIZE) {
+            bmp=narrowBitmap(bmp);
+            width = bmp.getWidth();
+            height = bmp.getHeight();
+        }
+        //缩小完毕
+
+        Log.d(TAG,"执行BoxBlurFilter inPixels前");
         int[] inPixels = new int[width * height];
+        Log.d(TAG,"执行BoxBlurFilter inPixels后");
+        Log.d(TAG,"执行BoxBlurFilter outPixels前");
         int[] outPixels = new int[width * height];
+        Log.d(TAG,"执行BoxBlurFilter outPixels后");
+        Log.d(TAG,"执行BoxBlurFilter Bitmap.createBitmap前");
         Bitmap bitmap = Bitmap.createBitmap(width, height,Bitmap.Config.ARGB_8888);
+        Log.d(TAG,"执行BoxBlurFilter Bitmap.createBitmap后");
         bmp.getPixels(inPixels, 0, width, 0, 0, width, height);
         for (int i = 0; i < ITERATIONS; i++) {
             blur(inPixels, outPixels, width, height, HRADIUS);
@@ -39,6 +61,23 @@ public class BlurImageView {
         blurFractional(inPixels, outPixels, width, height, HRADIUS);
         blurFractional(outPixels, inPixels, height, width, VRADIUS);
         bitmap.setPixels(inPixels, 0, width, 0, 0, width, height);
+        return bitmap;
+    }
+
+    public static Bitmap narrowBitmap(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int inSampleSize = 1;
+        int max = 100 * 1024 * 1024;
+        while (width * height * 4 / inSampleSize > max){
+            inSampleSize *= 2;
+        }
+        if (inSampleSize > 1){
+            Matrix m2 = new Matrix();
+            m2.setScale(1 / (float)inSampleSize , 1 / (float)inSampleSize);
+            bitmap = Bitmap.createBitmap(bitmap,0,0,width,height,m2,false);
+        }
+
         return bitmap;
     }
 

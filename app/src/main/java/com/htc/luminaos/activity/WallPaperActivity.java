@@ -1,5 +1,8 @@
 package com.htc.luminaos.activity;
 
+import static com.htc.luminaos.utils.BlurImageView.MAX_BITMAP_SIZE;
+import static com.htc.luminaos.utils.BlurImageView.narrowBitmap;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -15,6 +18,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.storage.StorageVolume;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -52,21 +56,22 @@ public class WallPaperActivity extends BaseActivity {
     ExecutorService singer = Executors.newSingleThreadExecutor();
     ExecutorService threadExecutor = Executors.newFixedThreadPool(5);
 
-    private Dialog switchDialog =null;
+    private Dialog switchDialog = null;
 
     long curTime = 0;
+    private static String TAG = "WallPaperActivity";
 
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case Contants.PICTURE_NULL:
                     wallPaperBinding.folderResult.setBackgroundResource(R.drawable.folder_x);
                     break;
                 case Contants.PICTURE_RESULT:
-                    if (msg.obj!= null){
-                        File[] files =(File[]) msg.obj;
-                        WallPaperAdapter wallPaperAdapter = new WallPaperAdapter(WallPaperActivity.this,files,threadExecutor,handler);
+                    if (msg.obj != null) {
+                        File[] files = (File[]) msg.obj;
+                        WallPaperAdapter wallPaperAdapter = new WallPaperAdapter(WallPaperActivity.this, files, threadExecutor, handler);
                         wallPaperAdapter.setWallPaperOnCallBack(onCallBack);
                         wallPaperBinding.wallpaperRv.setAdapter(wallPaperAdapter);
                     }
@@ -79,7 +84,7 @@ public class WallPaperActivity extends BaseActivity {
                     wallPaperBinding.wallpaperRv.setVisibility(View.GONE);
                     break;
                 case Contants.DISSMISS_DIALOG:
-                    if (switchDialog!=null && switchDialog.isShowing())
+                    if (switchDialog != null && switchDialog.isShowing())
                         switchDialog.dismiss();
 
                     setWallPaper();
@@ -104,19 +109,19 @@ public class WallPaperActivity extends BaseActivity {
     BroadcastReceiver mediaReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            LogUtils.d("hzj","aciton "+intent.getAction());
+            LogUtils.d("hzj", "aciton " + intent.getAction());
             if (Intent.ACTION_MEDIA_MOUNTED.equals(intent.getAction())
                     || Intent.ACTION_MEDIA_UNMOUNTED.equals(intent.getAction())
                     || Intent.ACTION_MEDIA_BAD_REMOVAL.equals(intent.getAction())
-                    || Intent.ACTION_MEDIA_REMOVED.equals(intent.getAction())){
-                if (System.currentTimeMillis() -curTime<300)
+                    || Intent.ACTION_MEDIA_REMOVED.equals(intent.getAction())) {
+                if (System.currentTimeMillis() - curTime < 300)
                     return;
 
                 curTime = System.currentTimeMillis();
-                StorageVolume storage = (StorageVolume)intent.getParcelableExtra(
+                StorageVolume storage = (StorageVolume) intent.getParcelableExtra(
                         StorageVolume.EXTRA_STORAGE_VOLUME);
-                String path =storage.getPath();
-                if (isExternalStoragePath(path)){
+                String path = storage.getPath();
+                if (isExternalStoragePath(path)) {
                     if (wallPaperBinding.usbItem.isSelected())
                         loadUSB();
                 }
@@ -133,13 +138,13 @@ public class WallPaperActivity extends BaseActivity {
         initData();
     }
 
-    private void initView(){
+    private void initView() {
         wallPaperBinding.localItem.setOnClickListener(this);
         wallPaperBinding.usbItem.setOnClickListener(this);
 //        GridLayoutManager layoutManager = new GridLayoutManager(this,6);//原生是6列
-        GridLayoutManager layoutManager = new GridLayoutManager(this,3);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         wallPaperBinding.wallpaperRv.setLayoutManager(layoutManager);
-        wallPaperBinding.wallpaperRv.addItemDecoration(new SpacesItemDecoration(SpacesItemDecoration.pxAdapter(22.5F),SpacesItemDecoration.pxAdapter(22.5F),SpacesItemDecoration.pxAdapter(10),SpacesItemDecoration.pxAdapter(10)));
+        wallPaperBinding.wallpaperRv.addItemDecoration(new SpacesItemDecoration(SpacesItemDecoration.pxAdapter(22.5F), SpacesItemDecoration.pxAdapter(22.5F), SpacesItemDecoration.pxAdapter(10), SpacesItemDecoration.pxAdapter(10)));
 
 
         IntentFilter intentFilter = new IntentFilter();
@@ -148,17 +153,17 @@ public class WallPaperActivity extends BaseActivity {
         intentFilter.addAction(Intent.ACTION_MEDIA_BAD_REMOVAL);
         intentFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
         intentFilter.addDataScheme("file");
-        registerReceiver(mediaReceiver,intentFilter);
+        registerReceiver(mediaReceiver, intentFilter);
     }
 
-    private void initData(){
+    private void initData() {
         wallPaperBinding.localItem.setSelected(true);
         wallPaperBinding.usbItem.setSelected(false);
         loadLocal();
     }
 
-    private void loadLocal(){
-        WallPaperAdapter wallPaperAdapter = new WallPaperAdapter(getApplicationContext(), Contants.drawables,threadExecutor,handler);
+    private void loadLocal() {
+        WallPaperAdapter wallPaperAdapter = new WallPaperAdapter(getApplicationContext(), Contants.drawables, threadExecutor, handler);
         wallPaperAdapter.setHasStableIds(true);
         wallPaperAdapter.setWallPaperOnCallBack(onCallBack);
         wallPaperBinding.wallpaperRv.setAdapter(wallPaperAdapter);
@@ -176,15 +181,15 @@ public class WallPaperActivity extends BaseActivity {
     WallPaperAdapter.WallPaperOnCallBack onCallBack = new WallPaperAdapter.WallPaperOnCallBack() {
         @Override
         public void WallPaperLocalChange(int resId) {
-            switchDialog = DialogUtils.createLoadingDialog(WallPaperActivity.this,getString(R.string.switch_wallpaper_tips));
+            switchDialog = DialogUtils.createLoadingDialog(WallPaperActivity.this, getString(R.string.switch_wallpaper_tips));
             switchDialog.show();
             threadExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
                     CopyResIdToSd(resId);
-                    CopyResIdToSd(BlurImageView.BoxBlurFilter(WallPaperActivity.this,resId));
+                    CopyResIdToSd(BlurImageView.BoxBlurFilter(WallPaperActivity.this, resId));
                     if (new File(Contants.WALLPAPER_MAIN).exists())
-                        MyApplication.mainDrawable =new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
+                        MyApplication.mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
                     if (new File(Contants.WALLPAPER_OTHER).exists())
                         MyApplication.otherDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_OTHER));
                     handler.sendEmptyMessage(Contants.DISSMISS_DIALOG);
@@ -194,15 +199,18 @@ public class WallPaperActivity extends BaseActivity {
 
         @Override
         public void WallPaperUsbChange(File file) {
-            switchDialog = DialogUtils.createLoadingDialog(WallPaperActivity.this,getString(R.string.switch_wallpaper_tips));
+            switchDialog = DialogUtils.createLoadingDialog(WallPaperActivity.this, getString(R.string.switch_wallpaper_tips));
             switchDialog.show();
             threadExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
                     CopyFileToSd(file);
+                    Log.d(TAG, "执行CopyFileToSd前");
                     CopyFileToSd(BlurImageView.BoxBlurFilter(BitmapFactory.decodeFile(file.getAbsolutePath())));
-                    if (new File(Contants.WALLPAPER_MAIN).exists())
-                        MyApplication.mainDrawable =new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
+                    Log.d(TAG, "执行CopyFileToSd后");
+                    if (new File(Contants.WALLPAPER_MAIN).exists()) {
+                        MyApplication.mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
+                    }
                     if (new File(Contants.WALLPAPER_OTHER).exists())
                         MyApplication.otherDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_OTHER));
                     handler.sendEmptyMessage(Contants.DISSMISS_DIALOG);
@@ -211,8 +219,8 @@ public class WallPaperActivity extends BaseActivity {
         }
     };
 
-    private void CopyResIdToSd(int resId){
-        File file =new File(Contants.WALLPAPER_DIR);
+    private void CopyResIdToSd(int resId) {
+        File file = new File(Contants.WALLPAPER_DIR);
         if (!file.exists())
             file.mkdir();
 
@@ -231,18 +239,18 @@ public class WallPaperActivity extends BaseActivity {
                 fileOutputStream.write(buf, 0, bytesRead);
             }
             fileOutputStream.flush();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    private void CopyResIdToSd(Bitmap bitmap){
-        File file1 =new File(Contants.WALLPAPER_DIR);
+    private void CopyResIdToSd(Bitmap bitmap) {
+        File file1 = new File(Contants.WALLPAPER_DIR);
         if (!file1.exists())
             file1.mkdir();
 
-        File file=new File(Contants.WALLPAPER_OTHER);//将要保存图片的路径
+        File file = new File(Contants.WALLPAPER_OTHER);//将要保存图片的路径
         if (file.exists())
             file.delete();
         try {
@@ -255,37 +263,53 @@ public class WallPaperActivity extends BaseActivity {
         }
     }
 
-    private void CopyFileToSd(File file){
-        File file1 =new File(Contants.WALLPAPER_DIR);
+    private void CopyFileToSd(File file) {
+        File file1 = new File(Contants.WALLPAPER_DIR);
         if (!file1.exists())
             file1.mkdir();
 
+        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        //判断图片大小，如果超过限制就做缩小处理
+        if(width*height*4>=MAX_BITMAP_SIZE) {
+            bitmap=narrowBitmap(bitmap);
+        }
+        //缩小完毕
 
         try {
             File file2 = new File(Contants.WALLPAPER_MAIN);
             if (file2.exists())
                 file2.delete();
 
-            FileInputStream fileInputStream = new FileInputStream(file);
-            FileOutputStream fileOutputStream = new FileOutputStream(file2);
+            //现在的逻辑bitmap输出到文件
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file2));
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            bos.flush();
+            bos.close();
 
-            byte[] buf = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = fileInputStream.read(buf)) != -1) {
-                fileOutputStream.write(buf, 0, bytesRead);
-            }
-            fileOutputStream.flush();
-        } catch (IOException e){
+            //原来的逻辑文件输出到文件
+//            FileInputStream fileInputStream = new FileInputStream(file);
+//            FileOutputStream fileOutputStream = new FileOutputStream(file2);
+//
+//            byte[] buf = new byte[1024];
+//            int bytesRead;
+//            while ((bytesRead = fileInputStream.read(buf)) != -1) {
+//                fileOutputStream.write(buf, 0, bytesRead);
+//            }
+//            fileOutputStream.flush();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void CopyFileToSd(Bitmap bitmap){
-        File file1 =new File(Contants.WALLPAPER_DIR);
+    private void CopyFileToSd(Bitmap bitmap) {
+        File file1 = new File(Contants.WALLPAPER_DIR);
         if (!file1.exists())
             file1.mkdir();
 
-        File file=new File(Contants.WALLPAPER_OTHER);//将要保存图片的路径
+        File file = new File(Contants.WALLPAPER_OTHER);//将要保存图片的路径
         if (file.exists())
             file.delete();
         try {
@@ -298,28 +322,28 @@ public class WallPaperActivity extends BaseActivity {
         }
     }
 
-    private void loadUSB(){
+    private void loadUSB() {
         handler.sendEmptyMessage(Contants.PICTURE_FIND);
         List<String> listPaths = StorageUtils.getUSBPaths(this);
         file_toArray.clear();
         File[] fileList = null;
-        if (listPaths.size()>0){
-            for (int i=0;i<listPaths.size();i++){
+        if (listPaths.size() > 0) {
+            for (int i = 0; i < listPaths.size(); i++) {
                 File file = new File(listPaths.get(i));
-                if (file.canRead()){
+                if (file.canRead()) {
                     file_toArray.addAll(Arrays.asList(file.listFiles(pictureFilter)));
                 }
             }
-            fileList =  file_toArray.toArray(new File[0]);
-            if (fileList.length==0) {
+            fileList = file_toArray.toArray(new File[0]);
+            if (fileList.length == 0) {
                 handler.sendEmptyMessage(Contants.PICTURE_NULL);
-            } else{
+            } else {
                 Message message = handler.obtainMessage();
-                message.what= Contants.PICTURE_RESULT;
+                message.what = Contants.PICTURE_RESULT;
                 message.obj = fileList;
                 handler.sendMessage(message);
             }
-        }else {
+        } else {
             handler.sendEmptyMessage(Contants.PICTURE_NULL);
         }
     }
@@ -335,7 +359,7 @@ public class WallPaperActivity extends BaseActivity {
                     /*filesNum++;
                     return true;*/
                     File[] files = pathname.listFiles(pictureFilter);
-                    if (files!=null && files.length>0)
+                    if (files != null && files.length > 0)
                         file_toArray.addAll(Arrays.asList(files));
                 }
             } catch (SecurityException e) {
@@ -359,7 +383,7 @@ public class WallPaperActivity extends BaseActivity {
             if (ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpeg")
                     || ext.equalsIgnoreCase("jpg")
                     || ext.equalsIgnoreCase("bmp") || ext.equalsIgnoreCase("jfif")
-                    || ext.equalsIgnoreCase("tiff")|| ext.equalsIgnoreCase("webp")) {
+                    || ext.equalsIgnoreCase("tiff") || ext.equalsIgnoreCase("webp")) {
                 return true;
             }
         } catch (IndexOutOfBoundsException e) {
@@ -371,7 +395,7 @@ public class WallPaperActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.usb_item:
                 if (wallPaperBinding.usbItem.isSelected())
                     break;

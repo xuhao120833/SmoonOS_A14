@@ -38,7 +38,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * Date:
  * Description:
  */
-public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyViewHolder> implements View.OnFocusChangeListener  {
+public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyViewHolder> implements View.OnFocusChangeListener {
 
     Context mContext;
     private int[] drawables;
@@ -84,7 +84,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
-        if(i == selectpostion){
+        if (i == selectpostion) {
             myViewHolder.check.setVisibility(View.VISIBLE);
             myViewHolder.check.setImageResource(R.drawable.check_correct);
         }
@@ -95,7 +95,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
             threadExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
-                   Drawable d = null;
+                    Drawable d = null;
                     if (drawables[i] != 0) {
                         d = mContext.getDrawable(drawables[i]);
                     }
@@ -110,7 +110,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
                 }
             });
-        }else {
+        } else {
             threadExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -129,29 +129,30 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
         myViewHolder.rl_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    //xuhao add
+                    int position = myViewHolder.getAdapterPosition();
+                    myViewHolder.check.setImageResource(R.drawable.check_correct);
+                    myViewHolder.check.setVisibility(View.VISIBLE);
+                    if (selectpostion != -1) {
+                        Message message = handler.obtainMessage(Contants.RESET_CHECK);
+                        message.arg1 = selectpostion;  // 将 selectpostion 作为消息的 arg1 传递
+                        handler.sendMessage(message);
+                    }
+                    //写入数据库
+                    writeShared(position);
+                    selectpostion = readShared();
+                    Log.d(TAG, " 当前点击的位置是 " + position);
+                    //xuhao
 
-                //xuhao add
-                int position = myViewHolder.getAdapterPosition();
-                myViewHolder.check.setImageResource(R.drawable.check_correct);
-                myViewHolder.check.setVisibility(View.VISIBLE);
-                if (selectpostion != -1) {
-                    Message message = handler.obtainMessage(Contants.RESET_CHECK);
-                    message.arg1 = selectpostion;  // 将 selectpostion 作为消息的 arg1 传递
-                    handler.sendMessage(message);
+                    if (wallPaperOnCallBack != null) {
+                        if (isLocal)
+                            wallPaperOnCallBack.WallPaperLocalChange(drawables[i]);
+                        else wallPaperOnCallBack.WallPaperUsbChange(files[i]);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                //写入数据库
-                writeShared(position);
-                selectpostion =readShared();
-                Log.d(TAG," 当前点击的位置是 "+position);
-                //xuhao
-
-                if (wallPaperOnCallBack != null){
-                    if (isLocal)
-                        wallPaperOnCallBack.WallPaperLocalChange(drawables[i]);
-                    else wallPaperOnCallBack.WallPaperUsbChange(files[i]);
-                }
-
-
             }
         });
     }
@@ -242,6 +243,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
     public interface WallPaperOnCallBack {
         void WallPaperLocalChange(int resId);
+
         void WallPaperUsbChange(File file);
     }
 
@@ -280,7 +282,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
     }
 
 
-    private void writeShared (int postion) {
+    private void writeShared(int postion) {
 
         SharedPreferences sharedPreferences = ShareUtil.getInstans(mContext);
         SharedPreferences.Editor editor = sharedPreferences.edit();
