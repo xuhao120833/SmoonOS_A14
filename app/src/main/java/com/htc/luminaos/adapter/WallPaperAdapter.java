@@ -10,6 +10,7 @@ import android.media.Image;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,12 +54,15 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
     private int selectpostion = -1;
     private static String TAG = "WallPaperAdapter";
 
+    private LruCache<String, Bitmap> imageCache;
+
     public WallPaperAdapter(Context mContext, int[] drawables, ExecutorService threadExecutor, Handler handler) {
         this.mContext = mContext;
         this.drawables = drawables;
         this.threadExecutor = threadExecutor;
         this.handler = handler;
         selectpostion = readShared();
+        initCache();
     }
 
     public WallPaperAdapter(Context mContext, File[] files, ExecutorService threadExecutor, Handler handler) {
@@ -114,14 +118,32 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
             threadExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    Bitmap bitmap = compressImageFromFile(files[i].getAbsolutePath());
-                    BitmapDrawable drawable = new BitmapDrawable(bitmap);
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            myViewHolder.icon.setBackground(drawable);
+                    try {
+                        final String imagePath = files[i].getAbsolutePath();
+
+                        if (imageCache == null) {
+                            initCache();
                         }
-                    });
+                        // 尝试从缓存中获取图片
+                        Bitmap bitmap = imageCache.get(imagePath);
+
+                        if (bitmap == null) {
+                            // 如果缓存中没有图片，则加载图片
+                            bitmap = compressImageFromFile(imagePath);
+
+                            // 将加载的图片添加到缓存中
+                            imageCache.put(imagePath, bitmap);
+                        }
+                        BitmapDrawable drawable = new BitmapDrawable(bitmap);
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                myViewHolder.icon.setBackground(drawable);
+                            }
+                        });
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 
@@ -294,6 +316,21 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
     private int readShared() {
         SharedPreferences sharedPreferences = ShareUtil.getInstans(mContext);
         return sharedPreferences.getInt(Contants.SelectWallpaper, -1); // -1 是默认值，当没有找到该键时返回
+    }
+
+    // 初始化缓存
+    private void initCache() {
+        // 设置缓存的最大大小为最大可用内存的1/8
+        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+        final int cacheSize = maxMemory / 8;
+
+        imageCache = new LruCache<String, Bitmap>(cacheSize) {
+            @Override
+            protected int sizeOf(String key, Bitmap bitmap) {
+                // Cache size will be measured in kilobytes rather than number of items
+                return bitmap.getByteCount() / 1024;
+            }
+        };
     }
 
 
