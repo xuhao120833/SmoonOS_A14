@@ -280,12 +280,12 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
         RecyclerView parent = (RecyclerView) v.getParent();
 
         if (parent != null) {
-            int position = parent.getChildAdapterPosition(v);
-            Log.d(TAG, " 放大图片 " + position);
+//            int position = parent.getChildAdapterPosition(v);
+//            Log.d(TAG, " 放大图片 " + position);
 
-            ImageView check = (ImageView) v.findViewById(R.id.check);
+//            ImageView check = (ImageView) v.findViewById(R.id.check);
             AnimationSet animationSet = new AnimationSet(true);
-            v.bringToFront();
+//            v.bringToFront();
 
             if (hasFocus) {
                 ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.10f,
