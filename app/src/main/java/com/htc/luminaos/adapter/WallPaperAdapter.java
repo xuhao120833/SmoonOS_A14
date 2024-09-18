@@ -51,7 +51,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
     FocusKeepRecyclerView focusKeepRecyclerView;
 
-    private int selectpostion = -1;
+    private static int selectpostion = -1;
     private static String TAG = "WallPaperAdapter";
 
     private LruCache<String, Bitmap> imageCache;
@@ -74,7 +74,6 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
         selectpostion = readShared();
     }
 
-
     public void setWallPaperOnCallBack(WallPaperOnCallBack wallPaperOnCallBack) {
         this.wallPaperOnCallBack = wallPaperOnCallBack;
     }
@@ -88,7 +87,9 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
-        if (i == selectpostion) {
+
+        selectpostion = readShared();
+        if (i == selectpostion && isLocal) {
             myViewHolder.check.setVisibility(View.VISIBLE);
             myViewHolder.check.setImageResource(R.drawable.check_correct);
         }
@@ -141,7 +142,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
                                 myViewHolder.icon.setBackground(drawable);
                             }
                         });
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -152,20 +153,25 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
             @Override
             public void onClick(View v) {
                 try {
-                    //xuhao add
-                    int position = myViewHolder.getAdapterPosition();
-                    myViewHolder.check.setImageResource(R.drawable.check_correct);
-                    myViewHolder.check.setVisibility(View.VISIBLE);
-                    if (selectpostion != -1) {
-                        Message message = handler.obtainMessage(Contants.RESET_CHECK);
-                        message.arg1 = selectpostion;  // 将 selectpostion 作为消息的 arg1 传递
-                        handler.sendMessage(message);
+                    if(isLocal) {
+                        //xuhao add
+                        int position = myViewHolder.getAdapterPosition();
+                        myViewHolder.check.setImageResource(R.drawable.check_correct);
+                        myViewHolder.check.setVisibility(View.VISIBLE);
+                        if (selectpostion != -1) {
+                            Message message = handler.obtainMessage(Contants.RESET_CHECK);
+                            message.arg1 = selectpostion;  // 将 selectpostion 作为消息的 arg1 传递
+                            handler.sendMessage(message);
+                        }
+                        //写入数据库
+                        writeShared(position);
+                        selectpostion = readShared();
+                        Log.d(TAG, " 当前点击的位置是 " + position);
+                        //xuhao
+                    } else {
+                        writeShared(-1);
+                        selectpostion = -1;
                     }
-                    //写入数据库
-                    writeShared(position);
-                    selectpostion = readShared();
-                    Log.d(TAG, " 当前点击的位置是 " + position);
-                    //xuhao
 
                     if (wallPaperOnCallBack != null) {
                         if (isLocal)
@@ -308,14 +314,23 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
         SharedPreferences sharedPreferences = ShareUtil.getInstans(mContext);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(Contants.SelectWallpaper, postion);
+//        if(isLocal) {
+        editor.putInt(Contants.SelectWallpaperLocal, postion);
         editor.apply();
+//        }else {
+//            editor.putInt(Contants.SelectWallpaperUsb, postion);
+//            editor.apply();
+//        }
 
     }
 
     private int readShared() {
         SharedPreferences sharedPreferences = ShareUtil.getInstans(mContext);
-        return sharedPreferences.getInt(Contants.SelectWallpaper, -1); // -1 是默认值，当没有找到该键时返回
+//        if (isLocal) {
+        return sharedPreferences.getInt(Contants.SelectWallpaperLocal, -1); // -1 是默认值，当没有找到该键时返回
+//        }else {
+//            return sharedPreferences.getInt(Contants.SelectWallpaperUsb, -1);
+//        }
     }
 
     // 初始化缓存

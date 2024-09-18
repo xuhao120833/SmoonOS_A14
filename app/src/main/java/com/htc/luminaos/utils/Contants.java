@@ -32,7 +32,9 @@ public interface Contants {
     String TimeOffStatus = "timeOffStatus";
     String TimeOffIndex = "timeOffIndex";
 
-    String SelectWallpaper = "selectwallpaper";
+    String SelectWallpaperLocal = "selectwallpaperlocal";
+
+    String SelectWallpaperUsb = "selectwallpaperusb";
 
     String DefaultBg = "defaultbg";
 
