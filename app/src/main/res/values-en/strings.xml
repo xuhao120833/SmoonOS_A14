@@ -183,8 +183,8 @@
 	<string name="Filemanager">Filemanager</string>
 
 	<string name="network_setting">Network settings</string>
-	<string name="hotspot_settings">hotspot settings</string>
-	<string name="hotspot_switch">hotspot switch</string>
+	<string name="hotspot_settings">Hotspot settings</string>
+	<string name="hotspot_switch">Hotspot switch</string>
 	<string name="choose_ap">Select AP band</string>
 	<string name="one_band">2.4 GHz band</string>
 	<string name="two_band">5 GHz band</string>

@@ -62,7 +62,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
         this.threadExecutor = threadExecutor;
         this.handler = handler;
         selectpostion = readShared();
-        initCache();
+//        initCache();
     }
 
     public WallPaperAdapter(Context mContext, File[] files, ExecutorService threadExecutor, Handler handler) {
@@ -105,6 +105,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
                         d = mContext.getDrawable(drawables[i]);
                     }
 
+//                    Drawable finalD = d;
                     Drawable finalD = d;
                     handler.post(new Runnable() {
                         @Override
@@ -277,9 +278,9 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        RecyclerView parent = (RecyclerView) v.getParent();
+//        RecyclerView parent = (RecyclerView) v.getParent();
 
-        if (parent != null) {
+//        if (parent != null) {
 //            int position = parent.getChildAdapterPosition(v);
 //            Log.d(TAG, " 放大图片 " + position);
 
@@ -304,9 +305,9 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
                 scaleAnimation.setFillAfter(true);
                 v.startAnimation(animationSet);
             }
-        } else {
-            Log.d(TAG, "Parent is null or not a RecyclerView");
-        }
+//        } else {
+//            Log.d(TAG, "Parent is null or not a RecyclerView");
+//        }
     }
 
 

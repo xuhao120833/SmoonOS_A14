@@ -164,7 +164,7 @@ public class WallPaperActivity extends BaseActivity {
 
     private void loadLocal() {
         WallPaperAdapter wallPaperAdapter = new WallPaperAdapter(getApplicationContext(), Contants.drawables, threadExecutor, handler);
-        wallPaperAdapter.setHasStableIds(true);
+//        wallPaperAdapter.setHasStableIds(true);
         wallPaperAdapter.setWallPaperOnCallBack(onCallBack);
         wallPaperBinding.wallpaperRv.setAdapter(wallPaperAdapter);
         wallPaperBinding.wallpaperRv.setVisibility(View.VISIBLE);
