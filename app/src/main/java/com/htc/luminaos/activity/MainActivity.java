@@ -1603,9 +1603,12 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     private void setDefaultBackground() {
 
         //如果用户自主修改了背景，那么重启之后不再设置默认背景start
-        MyApplication.mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
-        MyApplication.otherDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_OTHER));
-        if (MyApplication.mainDrawable != null && MyApplication.otherDrawable != null) {
+//        MyApplication.mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
+//        MyApplication.otherDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_OTHER));
+        File mainBg = new File(Contants.WALLPAPER_MAIN);
+        File otherBg = new File(Contants.WALLPAPER_OTHER);
+        if (mainBg.exists() && otherBg.exists()) {
+            Log.d(TAG, " setDefaultBackground 用户已经自主修改了背景 ");
             return;
         }
         //背景控制end
