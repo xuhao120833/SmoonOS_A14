@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:id="@+id/rl_ip_setting"
                 android:layout_marginStart="@dimen/x_100"
@@ -73,7 +73,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:id="@+id/rl_wired"
                 android:layout_marginStart="@dimen/x_100"
@@ -108,7 +108,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:id="@+id/rl_ip_address"
                 android:layout_marginStart="@dimen/x_100"
@@ -142,7 +142,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:id="@+id/rl_subnet_mask"
                 android:layout_marginStart="@dimen/x_100"
@@ -176,7 +176,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:id="@+id/rl_gateway"
                 android:layout_marginStart="@dimen/x_100"
@@ -210,7 +210,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:id="@+id/rl_dns"
                 android:layout_marginStart="@dimen/x_100"
@@ -244,7 +244,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:id="@+id/rl_dns2"
                 android:layout_marginStart="@dimen/x_100"
@@ -278,7 +278,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:id="@+id/rl_mac"
                 android:layout_marginStart="@dimen/x_100"

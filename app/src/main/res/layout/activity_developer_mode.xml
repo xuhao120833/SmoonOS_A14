@@ -20,7 +20,7 @@
         />
 
     <RelativeLayout
-        android:layout_width="@dimen/x_1032"
+        android:layout_width="@dimen/x_1080"
         android:layout_height="@dimen/y_80"
         android:layout_below="@id/title"
         android:id="@+id/rl_usb_debug"
@@ -67,7 +67,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="@dimen/x_1032"
+        android:layout_width="@dimen/x_1080"
         android:layout_height="@dimen/y_80"
         android:layout_below="@id/rl_usb_debug"
         android:id="@+id/rl_adb_debug"

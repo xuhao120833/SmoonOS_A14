@@ -21,7 +21,7 @@
     <RelativeLayout
         android:id="@+id/rl_wireless_network"
         style="@style/focusStyle"
-        android:layout_width="@dimen/x_1032"
+        android:layout_width="@dimen/x_1080"
         android:layout_height="@dimen/y_80"
         android:layout_below="@id/title"
         android:layout_marginStart="@dimen/x_100"
@@ -52,7 +52,7 @@
     <RelativeLayout
         android:id="@+id/rl_hotspot"
         style="@style/focusStyle"
-        android:layout_width="@dimen/x_1032"
+        android:layout_width="@dimen/x_1080"
         android:layout_height="@dimen/y_80"
         android:layout_below="@id/rl_wireless_network"
         android:layout_marginStart="@dimen/x_100"
@@ -85,7 +85,7 @@
     <RelativeLayout
         android:id="@+id/rl_wired_network"
         style="@style/focusStyle"
-        android:layout_width="@dimen/x_1032"
+        android:layout_width="@dimen/x_1080"
         android:layout_height="@dimen/y_80"
         android:layout_below="@id/rl_hotspot"
         android:layout_marginStart="@dimen/x_100"

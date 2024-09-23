@@ -34,7 +34,7 @@
             
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:id="@+id/rl_picture_mode"
                 android:layout_marginBottom="@dimen/y_19"
@@ -90,7 +90,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_picture_mode"
                 android:id="@+id/rl_audio_mode"
@@ -149,7 +149,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_audio_mode"
                 android:id="@+id/rl_brightness"
@@ -203,7 +203,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_brightness"
                 android:id="@+id/rl_brightness_system"
@@ -257,7 +257,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_brightness_system"
                 android:id="@+id/rl_contrast"
@@ -311,7 +311,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_contrast"
                 android:id="@+id/rl_hue"
@@ -365,7 +365,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_hue"
                 android:id="@+id/rl_saturation"
@@ -419,7 +419,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_saturation"
                 android:id="@+id/rl_sharpness"
@@ -473,7 +473,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_sharpness"
                 android:id="@+id/rl_red"
@@ -527,7 +527,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_red"
                 android:id="@+id/rl_green"
@@ -581,7 +581,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_green"
                 android:id="@+id/rl_blue"

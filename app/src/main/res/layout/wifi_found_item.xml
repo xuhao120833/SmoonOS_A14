@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/x_1032"
+    android:layout_width="@dimen/x_1080"
     android:layout_height="@dimen/y_60"
     xmlns:skin="http://schemas.android.com/android/skin"
     android:minHeight="@dimen/y_60"
-    android:minWidth="@dimen/x_1032"
+    android:minWidth="@dimen/x_1080"
     style="@style/focusStyle"
     android:id="@+id/rl_item"
     android:paddingStart="@dimen/x_50"

@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:id="@+id/rl_boot_input"
                 android:layout_marginStart="@dimen/x_100"
@@ -84,7 +84,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_boot_input"
                 android:id="@+id/rl_boot_start"
@@ -142,7 +142,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_boot_start"
                 android:id="@+id/rl_power_mode"
@@ -201,7 +201,7 @@
 
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_power_mode"
                 android:id="@+id/rl_button_sound"
@@ -236,7 +236,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_button_sound"
                 android:id="@+id/rl_screen_saver"
@@ -293,7 +293,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_screen_saver"
                 android:id="@+id/rl_timer_off"
@@ -350,7 +350,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_timer_off"
                 android:id="@+id/rl_reset_factory"
@@ -384,7 +384,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/x_1032"
+                android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:layout_below="@id/rl_reset_factory"
                 android:id="@+id/rl_developer"

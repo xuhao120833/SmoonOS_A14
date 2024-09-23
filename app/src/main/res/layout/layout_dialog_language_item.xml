@@ -9,7 +9,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/language_listview"
-        android:layout_width="@dimen/x_1032"
+        android:layout_width="@dimen/x_1080"
         android:layout_height="@dimen/y_600"
         android:layout_centerInParent="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
