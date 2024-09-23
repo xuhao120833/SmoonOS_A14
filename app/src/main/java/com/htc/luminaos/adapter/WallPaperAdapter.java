@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
@@ -100,13 +102,13 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
             threadExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    Drawable d = null;
+                    BitmapDrawable d = null;
                     if (drawables[i] != 0) {
-                        d = mContext.getDrawable(drawables[i]);
+                        d = (BitmapDrawable)mContext.getDrawable(drawables[i]);
                     }
-
-//                    Drawable finalD = d;
-                    Drawable finalD = d;
+                    Bitmap bitmap = drawableToBitamp(d);
+                    Bitmap bp = compressBitmap(bitmap);
+                    BitmapDrawable finalD = new BitmapDrawable(bp);
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -154,7 +156,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
             @Override
             public void onClick(View v) {
                 try {
-                    if(isLocal) {
+                    if (isLocal) {
                         //xuhao add
                         int position = myViewHolder.getAdapterPosition();
                         myViewHolder.check.setImageResource(R.drawable.check_correct);
@@ -241,6 +243,36 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
     }
 
+    private Bitmap compressBitmap(Bitmap srcBitmap) {
+        if (srcBitmap == null) {
+            return null; // 检查传入的 Bitmap 是否为 null
+        }
+
+        // 创建一个空 Bitmap，设置为目标大小
+        int targetWidth = 300; // 目标宽度
+        int targetHeight = 400; // 目标高度
+
+        // 计算压缩比例
+        float widthRatio = (float) srcBitmap.getWidth() / targetWidth;
+        float heightRatio = (float) srcBitmap.getHeight() / targetHeight;
+        float finalRatio = Math.max(widthRatio, heightRatio);
+
+        // 确保 finalRatio 至少为 1
+        if (finalRatio <= 1) {
+            return srcBitmap; // 如果原始图片小于目标大小，则返回原始图片
+        }
+
+        // 计算压缩后的大小
+        int newWidth = Math.round(srcBitmap.getWidth() / finalRatio);
+        int newHeight = Math.round(srcBitmap.getHeight() / finalRatio);
+
+        // 创建目标 Bitmap
+        Bitmap compressedBitmap = Bitmap.createScaledBitmap(srcBitmap, newWidth, newHeight, true);
+
+        return compressedBitmap;
+    }
+
+
 
     @Override
     public int getItemCount() {
@@ -279,32 +311,32 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
 //        RecyclerView parent = (RecyclerView) v.getParent();
-
 //        if (parent != null) {
 //            int position = parent.getChildAdapterPosition(v);
 //            Log.d(TAG, " 放大图片 " + position);
-
 //            ImageView check = (ImageView) v.findViewById(R.id.check);
-            AnimationSet animationSet = new AnimationSet(true);
-//            v.bringToFront();
 
-            if (hasFocus) {
-                ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.10f,
-                        1.0f, 1.10f, Animation.RELATIVE_TO_SELF, 0.5f,
-                        Animation.RELATIVE_TO_SELF, 0.5f);
-                scaleAnimation.setDuration(150);
-                animationSet.addAnimation(scaleAnimation);
-                animationSet.setFillAfter(true);
-                v.startAnimation(animationSet);
-            } else {
-                ScaleAnimation scaleAnimation = new ScaleAnimation(1.10f, 1.0f,
-                        1.10f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
-                        Animation.RELATIVE_TO_SELF, 0.5f);
-                scaleAnimation.setDuration(150);
-                animationSet.addAnimation(scaleAnimation);
-                scaleAnimation.setFillAfter(true);
-                v.startAnimation(animationSet);
-            }
+        AnimationSet animationSet = new AnimationSet(true);
+        v.bringToFront();
+
+        if (hasFocus) {
+            ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.10f,
+                    1.0f, 1.10f, Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f);
+            scaleAnimation.setDuration(150);
+            animationSet.addAnimation(scaleAnimation);
+            animationSet.setFillAfter(true);
+            v.startAnimation(animationSet);
+        } else {
+            ScaleAnimation scaleAnimation = new ScaleAnimation(1.10f, 1.0f,
+                    1.10f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f);
+            scaleAnimation.setDuration(150);
+            animationSet.addAnimation(scaleAnimation);
+            scaleAnimation.setFillAfter(true);
+            v.startAnimation(animationSet);
+        }
+
 //        } else {
 //            Log.d(TAG, "Parent is null or not a RecyclerView");
 //        }
@@ -349,5 +381,13 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
         };
     }
 
+    public Bitmap drawableToBitamp(Drawable drawable) {
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
+                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
 
 }

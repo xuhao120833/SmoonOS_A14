@@ -34,6 +34,7 @@ public class BaseMainActivity extends Activity implements View.OnClickListener, 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(R.style.TransparentTheme);
         super.onCreate(savedInstanceState);
     }
 

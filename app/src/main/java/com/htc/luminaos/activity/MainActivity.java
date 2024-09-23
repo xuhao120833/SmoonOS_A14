@@ -194,9 +194,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 //        setContentView(R.layout.activity_main_custom);
-
         //定制逻辑 xuhao add 20240717
         try {
             customBinding = ActivityMainCustomBinding.inflate(LayoutInflater.from(this));
@@ -1231,30 +1229,30 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
     }
 
-    View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            AnimationSet animationSet = new AnimationSet(true);
-            v.bringToFront();
-            if (hasFocus) {
-                ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.50f,
-                        1.0f, 1.50f, Animation.RELATIVE_TO_SELF, 0.5f,
-                        Animation.RELATIVE_TO_SELF, 0.5f);
-                scaleAnimation.setDuration(150);
-                animationSet.addAnimation(scaleAnimation);
-                animationSet.setFillAfter(true);
-                v.startAnimation(animationSet);
-            } else {
-                ScaleAnimation scaleAnimation = new ScaleAnimation(1.50f, 1.0f,
-                        1.50f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
-                        Animation.RELATIVE_TO_SELF, 0.5f);
-                animationSet.addAnimation(scaleAnimation);
-                scaleAnimation.setDuration(150);
-                animationSet.setFillAfter(true);
-                v.startAnimation(animationSet);
-            }
-        }
-    };
+//    View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
+//        @Override
+//        public void onFocusChange(View v, boolean hasFocus) {
+//            AnimationSet animationSet = new AnimationSet(true);
+//            v.bringToFront();
+//            if (hasFocus) {
+//                ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.50f,
+//                        1.0f, 1.50f, Animation.RELATIVE_TO_SELF, 0.5f,
+//                        Animation.RELATIVE_TO_SELF, 0.5f);
+//                scaleAnimation.setDuration(150);
+//                animationSet.addAnimation(scaleAnimation);
+//                animationSet.setFillAfter(true);
+//                v.startAnimation(animationSet);
+//            } else {
+//                ScaleAnimation scaleAnimation = new ScaleAnimation(1.50f, 1.0f,
+//                        1.50f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
+//                        Animation.RELATIVE_TO_SELF, 0.5f);
+//                animationSet.addAnimation(scaleAnimation);
+//                scaleAnimation.setDuration(150);
+//                animationSet.setFillAfter(true);
+//                v.startAnimation(animationSet);
+//            }
+//        }
+//    };
 
 //    @Override
 //    public void getWifiNumber(int count) {
