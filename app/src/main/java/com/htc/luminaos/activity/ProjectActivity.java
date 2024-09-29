@@ -89,6 +89,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
 
         projectBinding.rlProjectMode.setOnKeyListener(this);
         projectBinding.rlDeviceMode2.setOnKeyListener(this);
+        updateText(ReflectUtil.invokeGet_brightness_level()); //初始化设备模式的Text显示
         projectBinding.rlDigitalZoom.setOnKeyListener(this);
         projectBinding.rlHorizontalCorrect.setOnKeyListener(this);
         projectBinding.rlVerticalCorrect.setOnKeyListener(this);
@@ -654,5 +655,4 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         });
         dialoge.show();
     }
-
 }

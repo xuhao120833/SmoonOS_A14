@@ -1,6 +1,7 @@
 package com.htc.luminaos.utils;
 
 import android.os.PrjScreen;
+import android.util.Log;
 
 import java.lang.reflect.Method;
 
@@ -10,6 +11,8 @@ import java.lang.reflect.Method;
  * Description:
  */
 public class ReflectUtil {
+
+    private static String TAG = "ReflectUtil";
 
     public static int invoke_get_bright(){
         try {
@@ -34,9 +37,13 @@ public class ReflectUtil {
 
     public static int invokeGet_angle_offset(){
         try {
+            Log.d(TAG," 执行invokeGet_angle_offset ");
             Method method = PrjScreen.class.getMethod("get_angle_offset");
+            Log.d(TAG," 执行invokeGet_angle_offset 返回值"+(int) method.invoke(PrjScreen.class));
             return (int) method.invoke(PrjScreen.class);
+
         } catch (Exception e) {
+            Log.d(TAG," 执行invokeGet_angle_offset 报错了");
             e.printStackTrace();
         }
         return 0;
