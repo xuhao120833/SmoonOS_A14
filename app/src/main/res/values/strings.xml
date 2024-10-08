@@ -263,4 +263,7 @@
     
     <string name="system_app_cannot_uninstalled">系统APP不可卸载！</string>
 
+    <string name="wallpaper_text">背景切换</string>
+
+
 </resources>

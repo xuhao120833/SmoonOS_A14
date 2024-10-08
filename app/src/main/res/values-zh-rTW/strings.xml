@@ -202,4 +202,5 @@
 	<string name="system_app_cannot_uninstalled">系統APP不可卸載！</string>
 
 	<string name="Menu_reset">重置</string>
+	<string name="wallpaper_text">背景切換</string>
 </resources>

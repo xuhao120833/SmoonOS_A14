@@ -102,7 +102,7 @@
 	<string name="settings">Settings</string>
 	<string name="project_setting">Projection settings</string>
 	<string name="wireless_network">Wireless network</string>
-	<string name="apps_manager">App Management</string>
+	<string name="apps_manager">App management</string>
 	<string name="date_time">Date and time</string>
 	<string name="other_settings">Other settings</string>
 	<string name="system_info">System information</string>
@@ -221,4 +221,6 @@
 	<string name="system_app_cannot_uninstalled">System APP cannot be uninstalled!</string>
 
 	<string name="Menu_reset">Reset</string>
+
+	<string name="wallpaper_text">Background Switch</string>
 </resources>

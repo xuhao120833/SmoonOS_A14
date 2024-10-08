@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_main"
+    android:orientation="vertical"
+    tools:context=".activity.WallPaperActivity">
+
+    <TextView
+        android:id="@+id/walltext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x_42"
+        android:layout_marginTop="@dimen/y_20"
+        android:text="@string/wallpaper_text"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x_40">
+
+    </TextView>
+
+    <com.htc.luminaos.widget.FocusKeepRecyclerView
+        android:id="@+id/wallpaper_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/x_30"
+        android:layout_marginTop="@dimen/y_30"
+        android:layout_marginEnd="@dimen/x_30"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+
+    <View
+        android:id="@+id/folder_result"
+        android:layout_width="@dimen/x_300"
+        android:layout_height="@dimen/y_300"
+        android:layout_centerInParent="true"
+        android:background="@drawable/folder"
+        android:visibility="gone" />
+
+</LinearLayout>

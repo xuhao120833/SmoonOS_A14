@@ -220,4 +220,5 @@
     <string name="system_app_cannot_uninstalled">S시스템 앱을 제거할 수 없습니다!</string>
 
     <string name="Menu_reset">다시 놓기</string>
+    <string name="wallpaper_text">배경 전환</string>
 </resources>

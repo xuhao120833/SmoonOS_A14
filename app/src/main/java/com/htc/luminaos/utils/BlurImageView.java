@@ -22,7 +22,7 @@ public class BlurImageView {
     /** 模糊迭代度 */
     public static int ITERATIONS = 10;
 
-    public static final int MAX_BITMAP_SIZE = 100 * 1024 * 1024;
+    public static final int MAX_BITMAP_SIZE = 50 * 1024 * 1024; //原生系统的限制为100 * 1024 * 1024，这里改得更小一点
 
     private static String TAG = "BlurImageView";
 
@@ -68,7 +68,7 @@ public class BlurImageView {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         int inSampleSize = 1;
-        int max = 100 * 1024 * 1024;
+        int max = 50 * 1024 * 1024;
         while (width * height * 4 / inSampleSize > max){
             inSampleSize *= 2;
         }

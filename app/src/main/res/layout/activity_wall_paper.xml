@@ -10,48 +10,63 @@
     android:id="@+id/rl_main"
     tools:context=".activity.WallPaperActivity">
 
-    <com.htc.luminaos.widget.WallButton
+<!--    <com.htc.luminaos.widget.WallButton-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/local_item"-->
+<!--        android:layout_marginStart="@dimen/x_500"-->
+<!--        android:layout_marginTop="@dimen/y_30"-->
+<!--        android:background="#20000000"-->
+<!--        android:text="@string/local"-->
+<!--        android:textSize="@dimen/x_28"-->
+<!--        android:textColor="@color/wallpaper_button_color"-->
+<!--        android:paddingStart="@dimen/x_20"-->
+<!--        android:paddingEnd="@dimen/x_20"-->
+<!--        android:paddingTop="@dimen/y_10"-->
+<!--        android:paddingBottom="@dimen/y_10"-->
+
+<!--        />-->
+
+<!--    <com.htc.luminaos.widget.WallButton-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/usb_item"-->
+<!--        android:layout_marginTop="@dimen/y_30"-->
+<!--        android:layout_marginStart="@dimen/x_750"-->
+<!--        android:background="#20000000"-->
+<!--        android:text="@string/usb_dir"-->
+<!--        android:textSize="@dimen/x_28"-->
+<!--        android:textColor="@color/wallpaper_button_color"-->
+<!--        android:paddingStart="@dimen/x_20"-->
+<!--        android:paddingEnd="@dimen/x_20"-->
+<!--        android:paddingTop="@dimen/y_10"-->
+<!--        android:paddingBottom="@dimen/y_10"-->
+<!--        />-->
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/local_item"
-        android:layout_marginStart="@dimen/x_500"
-        android:layout_marginTop="@dimen/y_30"
-        android:background="#20000000"
-        android:text="@string/local"
-        android:textSize="@dimen/x_28"
-        android:textColor="@color/wallpaper_button_color"
-        android:paddingStart="@dimen/x_20"
-        android:paddingEnd="@dimen/x_20"
-        android:paddingTop="@dimen/y_10"
-        android:paddingBottom="@dimen/y_10"
+        android:text="@string/wallpaper_text"
+        android:textSize="@dimen/x_40"
+        android:layout_marginStart="@dimen/x_42"
+        android:layout_marginTop="@dimen/y_20"
+        android:textColor="@color/white"
+        android:id="@+id/walltext">
 
-        />
-
-    <com.htc.luminaos.widget.WallButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/usb_item"
-        android:layout_marginTop="@dimen/y_30"
-        android:layout_marginStart="@dimen/x_750"
-        android:background="#20000000"
-        android:text="@string/usb_dir"
-        android:textSize="@dimen/x_28"
-        android:textColor="@color/wallpaper_button_color"
-        android:paddingStart="@dimen/x_20"
-        android:paddingEnd="@dimen/x_20"
-        android:paddingTop="@dimen/y_10"
-        android:paddingBottom="@dimen/y_10"
-        />
+    </TextView>
 
     <com.htc.luminaos.widget.FocusKeepRecyclerView
         android:id="@+id/wallpaper_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/walltext"
         android:layout_marginStart="@dimen/x_30"
-        android:layout_marginTop="@dimen/y_25"
-        android:layout_below="@+id/usb_item"
         android:layout_marginEnd="@dimen/x_30"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
+        android:layout_marginTop="@dimen/y_30"
+        android:layout_alignParentBottom="true"
+        android:clipChildren="true"
+        android:clipToPadding="true"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
 
     <View
         android:layout_width="@dimen/x_300"

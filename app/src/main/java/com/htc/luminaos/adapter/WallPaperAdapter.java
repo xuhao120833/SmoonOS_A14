@@ -1,14 +1,22 @@
 package com.htc.luminaos.adapter;
 
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+
+import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -23,13 +31,17 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.htc.luminaos.R;
+import com.htc.luminaos.utils.AppUtils;
 import com.htc.luminaos.utils.Contants;
 import com.htc.luminaos.utils.ShareUtil;
+import com.htc.luminaos.utils.Utils;
 import com.htc.luminaos.widget.FocusKeepRecyclerView;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 
 import androidx.annotation.NonNull;
@@ -44,7 +56,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyViewHolder> implements View.OnFocusChangeListener {
 
     Context mContext;
-    private int[] drawables;
+    ArrayList<Drawable> drawables;
     WallPaperOnCallBack wallPaperOnCallBack;
     File[] files;
     boolean isLocal = true;
@@ -58,7 +70,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
     private LruCache<String, Bitmap> imageCache;
 
-    public WallPaperAdapter(Context mContext, int[] drawables, ExecutorService threadExecutor, Handler handler) {
+    public WallPaperAdapter(Context mContext, ArrayList<Drawable> drawables, ExecutorService threadExecutor, Handler handler) {
         this.mContext = mContext;
         this.drawables = drawables;
         this.threadExecutor = threadExecutor;
@@ -88,7 +100,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, @SuppressLint("RecyclerView") final int i) {
 
         selectpostion = readShared();
         if (i == selectpostion && isLocal) {
@@ -98,13 +110,13 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
         myViewHolder.rl_item.setOnFocusChangeListener(this);
 
-        if (isLocal) {
+        if (isLocal && i < drawables.size()) {
             threadExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
                     BitmapDrawable d = null;
-                    if (drawables[i] != 0) {
-                        d = (BitmapDrawable)mContext.getDrawable(drawables[i]);
+                    if (drawables.get(i) != null) {
+                        d = (BitmapDrawable) drawables.get(i);
                     }
                     Bitmap bitmap = drawableToBitamp(d);
                     Bitmap bp = compressBitmap(bitmap);
@@ -119,39 +131,9 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
                 }
             });
         } else {
-            threadExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        final String imagePath = files[i].getAbsolutePath();
-
-                        if (imageCache == null) {
-                            initCache();
-                        }
-                        // 尝试从缓存中获取图片
-                        Bitmap bitmap = imageCache.get(imagePath);
-
-                        if (bitmap == null) {
-                            // 如果缓存中没有图片，则加载图片
-                            bitmap = compressImageFromFile(imagePath);
-
-                            // 将加载的图片添加到缓存中
-                            imageCache.put(imagePath, bitmap);
-                        }
-                        BitmapDrawable drawable = new BitmapDrawable(bitmap);
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                myViewHolder.icon.setBackground(drawable);
-                            }
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
+            myViewHolder.icon.setBackgroundResource(R.drawable.wallpaper_add);
         }
+
         myViewHolder.rl_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,26 +141,33 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
                     if (isLocal) {
                         //xuhao add
                         int position = myViewHolder.getAdapterPosition();
-                        myViewHolder.check.setImageResource(R.drawable.check_correct);
-                        myViewHolder.check.setVisibility(View.VISIBLE);
-                        if (selectpostion != -1) {
-                            Message message = handler.obtainMessage(Contants.RESET_CHECK);
-                            message.arg1 = selectpostion;  // 将 selectpostion 作为消息的 arg1 传递
-                            handler.sendMessage(message);
+
+                        if (position < drawables.size()) {
+                            myViewHolder.check.setImageResource(R.drawable.check_correct);
+                            myViewHolder.check.setVisibility(View.VISIBLE);
+                            if (selectpostion != -1) {
+                                Message message = handler.obtainMessage(Contants.RESET_CHECK);
+                                message.arg1 = selectpostion;  // 将 selectpostion 作为消息的 arg1 传递
+                                handler.sendMessage(message);
+                            }
+                            //写入数据库
+                            writeShared(position);
+                            selectpostion = readShared();
+                            Log.d(TAG, " 当前点击的位置是 " + position);
+                            //xuhao
+                        } else {
+                            // 打开文件管理器选择图片
+                            startExplorer();
                         }
-                        //写入数据库
-                        writeShared(position);
-                        selectpostion = readShared();
-                        Log.d(TAG, " 当前点击的位置是 " + position);
-                        //xuhao
+
                     } else {
                         writeShared(-1);
                         selectpostion = -1;
                     }
 
                     if (wallPaperOnCallBack != null) {
-                        if (isLocal)
-                            wallPaperOnCallBack.WallPaperLocalChange(drawables[i]);
+                        if (isLocal && i < drawables.size())
+                            wallPaperOnCallBack.WallPaperLocalChange(drawables.get(i));
                         else wallPaperOnCallBack.WallPaperUsbChange(files[i]);
                     }
                 } catch (Exception e) {
@@ -273,10 +262,9 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
     }
 
 
-
     @Override
     public int getItemCount() {
-        if (isLocal) return drawables.length;
+        if (isLocal) return drawables.size() + 1;
         else return files.length;
     }
 
@@ -303,42 +291,33 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
 
     public interface WallPaperOnCallBack {
-        void WallPaperLocalChange(int resId);
+        void WallPaperLocalChange(Drawable drawable);
 
         void WallPaperUsbChange(File file);
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-//        RecyclerView parent = (RecyclerView) v.getParent();
-//        if (parent != null) {
-//            int position = parent.getChildAdapterPosition(v);
-//            Log.d(TAG, " 放大图片 " + position);
-//            ImageView check = (ImageView) v.findViewById(R.id.check);
 
-        AnimationSet animationSet = new AnimationSet(true);
-        v.bringToFront();
-
-        if (hasFocus) {
-            ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.10f,
-                    1.0f, 1.10f, Animation.RELATIVE_TO_SELF, 0.5f,
-                    Animation.RELATIVE_TO_SELF, 0.5f);
-            scaleAnimation.setDuration(150);
-            animationSet.addAnimation(scaleAnimation);
-            animationSet.setFillAfter(true);
-            v.startAnimation(animationSet);
-        } else {
-            ScaleAnimation scaleAnimation = new ScaleAnimation(1.10f, 1.0f,
-                    1.10f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
-                    Animation.RELATIVE_TO_SELF, 0.5f);
-            scaleAnimation.setDuration(150);
-            animationSet.addAnimation(scaleAnimation);
-            scaleAnimation.setFillAfter(true);
-            v.startAnimation(animationSet);
-        }
-
+//        AnimationSet animationSet = new AnimationSet(true);
+//        v.bringToFront();
+//
+//        if (hasFocus) {
+//            ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.10f,
+//                    1.0f, 1.10f, Animation.RELATIVE_TO_SELF, 0.5f,
+//                    Animation.RELATIVE_TO_SELF, 0.5f);
+//            scaleAnimation.setDuration(150);
+//            animationSet.addAnimation(scaleAnimation);
+//            animationSet.setFillAfter(true);
+//            v.startAnimation(animationSet);
 //        } else {
-//            Log.d(TAG, "Parent is null or not a RecyclerView");
+//            ScaleAnimation scaleAnimation = new ScaleAnimation(1.10f, 1.0f,
+//                    1.10f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
+//                    Animation.RELATIVE_TO_SELF, 0.5f);
+//            scaleAnimation.setDuration(150);
+//            animationSet.addAnimation(scaleAnimation);
+//            scaleAnimation.setFillAfter(true);
+//            v.startAnimation(animationSet);
 //        }
     }
 
@@ -388,6 +367,38 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         drawable.draw(canvas);
         return bitmap;
+    }
+
+    private void startExplorer() {
+        // 定义目标应用的包名
+        String packageName = "com.hisilicon.explorer";
+        // 检查系统中是否安装了这个应用
+        PackageManager packageManager = mContext.getPackageManager();
+        try {
+            // 尝试获取该包名的信息，如果找不到则会抛出异常
+            packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
+
+            // 如果应用已安装，创建 Intent
+            Intent intent = new Intent();
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setComponent(new ComponentName(packageName, "com.hisilicon.explorer.activity.MainExplorerActivity"));
+            intent.setAction(Intent.ACTION_MAIN);
+
+            // 创建一个 Bundle 并添加数据
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("wallpaper", true);  // 传递布尔值
+            // 将 Bundle 添加到 Intent 中
+            intent.putExtras(bundle);
+
+            // 启动应用
+            mContext.startActivity(intent);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            // 如果没有安装这个应用，处理异常
+            Log.d(TAG, "应用未安装");
+            Toast.makeText(mContext, "未找到com.hisilicon.explorer应用", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 }

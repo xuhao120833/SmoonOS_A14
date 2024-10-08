@@ -1,10 +1,13 @@
 package com.htc.luminaos;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -61,6 +64,7 @@ public class MyApplication extends Application {
 
         initDisplaySize();
 
+        initWallpaperData();
 
         StatService.init(this, "5dd227fad8", "Baidu Market");
         //启动百度自动埋点服务 https://mtj.baidu.com/static/userguide/book/android/adconfig/circle/circle.html
@@ -199,5 +203,43 @@ public class MyApplication extends Application {
         }
     }
 
+    private void initWallpaperData() {
+
+        Utils.drawables.add(getResources().getDrawable(R.drawable.background_main));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.background_custom));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.background1));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.background5));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.background10));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.background11));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.background12));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.background13));
+
+        new Thread(() -> copyMyWallpaper()).start();
+
+    }
+
+    private void copyMyWallpaper() {
+        String[] imageExtensions = {".jpg", ".jpeg", ".png", ".bmp", ".webp"};
+
+        File directory = new File("/sdcard/mywallpaper");
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        for (String extension : imageExtensions) {
+                            if (file.getName().toLowerCase().endsWith(extension)) {
+                                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                                Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+                                Utils.drawables.add(drawable);
+                                break; // 找到一个匹配后就跳出循环
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
 
 }

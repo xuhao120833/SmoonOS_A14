@@ -218,4 +218,6 @@
 	<string name="system_app_cannot_uninstalled">لا يمكن إلغاء تثبيت تطبيق النظام</string>
 
 	<string name="Menu_reset">إعادة ضبط</string>
+
+	<string name="wallpaper_text">تبديل الخلفية</string>
 </resources>

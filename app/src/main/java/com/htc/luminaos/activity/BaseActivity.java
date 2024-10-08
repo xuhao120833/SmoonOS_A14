@@ -42,13 +42,13 @@ public class BaseActivity extends Activity implements View.OnClickListener, View
     }
 
     public void setWallPaper() {
-        if (MyApplication.otherDrawable != null) {
+        if (MyApplication.mainDrawable != null) {
 //            RelativeLayout relativeLayout = findViewById(R.id.rl_main);
 
             ViewGroup relativeLayout = findViewById(R.id.rl_main);
             if (relativeLayout != null)
 //                relativeLayout.setBackground(MyApplication.otherDrawable);
-                relativeLayout.setBackground(MyApplication.otherDrawable);
+                relativeLayout.setBackground(MyApplication.mainDrawable);
         } else {
             ViewGroup relativeLayout = findViewById(R.id.rl_main);
             if (relativeLayout != null&& Utils.mainBgResId!= -1)
