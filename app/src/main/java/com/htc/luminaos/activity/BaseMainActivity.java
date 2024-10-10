@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
@@ -44,15 +46,24 @@ public class BaseMainActivity extends Activity implements View.OnClickListener, 
 
     @Override
     protected void onResume() {
-        setWallPaper();
+        try {
+            setWallPaper();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         super.onResume();
     }
 
     public void setWallPaper() {
         if (MyApplication.mainDrawable != null) {
-            RelativeLayout relativeLayout = findViewById(R.id.rl_main);
+            ViewGroup relativeLayout = findViewById(R.id.rl_main);
             if (relativeLayout != null)
                 relativeLayout.setBackground(MyApplication.mainDrawable);
+        } else {
+            ViewGroup relativeLayout = findViewById(R.id.rl_main);
+            if (relativeLayout != null) {
+                relativeLayout.setBackground(Utils.drawables.get(0));
+            }
         }
     }
 
@@ -61,12 +72,19 @@ public class BaseMainActivity extends Activity implements View.OnClickListener, 
             RelativeLayout relativeLayout = findViewById(R.id.rl_main);
             if (relativeLayout != null)
                 relativeLayout.setBackground(MyApplication.mainDrawable);
-        } else if(resId != -1) {
+        } else if (resId != -1) {
             RelativeLayout relativeLayout = findViewById(R.id.rl_main);
             if (relativeLayout != null)
                 relativeLayout.setBackgroundResource(resId);
         }
     }
+
+    public void setWallPaper(Drawable drawable) {
+        RelativeLayout relativeLayout = findViewById(R.id.rl_main);
+        if (relativeLayout != null)
+            relativeLayout.setBackground(drawable);
+    }
+
 
     @Override
     public void onClick(View v) {

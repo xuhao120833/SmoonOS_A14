@@ -1,16 +1,19 @@
 package com.htc.luminaos.activity;
 
 import static com.htc.luminaos.utils.BlurImageView.MAX_BITMAP_SIZE;
+import static com.htc.luminaos.utils.BlurImageView.narrowBitmap;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.usb.UsbManager;
@@ -32,6 +35,8 @@ import com.htc.luminaos.utils.FileUtils;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemProperties;
+import android.os.storage.StorageManager;
+import android.os.storage.StorageVolume;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -40,6 +45,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
+import android.widget.Toast;
 
 import com.htc.luminaos.R;
 import com.google.gson.Gson;
@@ -204,6 +210,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             initReceiver();
             wifiManager = (WifiManager) getSystemService(Service.WIFI_SERVICE);
             Log.d(TAG, " onCreate快捷图标 short_list " + short_list.size());
+//            isUsbPlugged();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -230,7 +237,6 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 ShareUtil.put(this, Contants.MODIFY, false);
             }
             Log.d(TAG, " onResume快捷图标 short_list " + short_list.size());
-            setWallPaper(Utils.mainBgResId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -886,6 +892,18 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
                 editor.putInt("code", 1);
                 editor.apply();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 设置首页的配置图标
+                        try {
+                            setDefaultBackground();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
 
                 return false;
             }
@@ -1599,71 +1617,25 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     }
 
     private void setDefaultBackground() {
-
         //如果用户自主修改了背景，那么重启之后不再设置默认背景start
-//        MyApplication.mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
-//        MyApplication.otherDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_OTHER));
-        File mainBg = new File(Contants.WALLPAPER_MAIN);
-        File otherBg = new File(Contants.WALLPAPER_OTHER);
-        if (mainBg.exists() && otherBg.exists()) {
-            Log.d(TAG, " setDefaultBackground 用户已经自主修改了背景 ");
+        SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
+        int selectBg = sharedPreferences.getInt(Contants.SelectWallpaperLocal, -1);
+        if (selectBg != -1) {
+            Log.d(TAG, " setDefaultBackground 用户已经自主修改了背景");
             return;
         }
         //背景控制end
-
-        SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
-        String defaultbg = sharedPreferences.getString(Contants.DefaultBg, "-1");
+        String defaultbg = sharedPreferences.getString(Contants.DefaultBg, "1");
         Log.d(TAG, " setDefaultBackground defaultbg " + defaultbg);
-        if (!defaultbg.equals("-1")) {
-            switch (defaultbg) {
-                case "1":
-                    Utils.mainBgResId = R.drawable.background_main;
-                    setWallPaper(R.drawable.background_main);
-                    setDefaultBg(R.drawable.background_main);
-                    break;
-                case "2":
-                    Utils.mainBgResId = R.drawable.background_custom;
-                    setWallPaper(R.drawable.background_custom);
-                    setDefaultBg(R.drawable.background_custom);
-                    break;
-                case "3":
-                    Utils.mainBgResId = R.drawable.background1;
-                    setWallPaper(R.drawable.background1);
-                    setDefaultBg(R.drawable.background1);
-                    break;
-                case "4":
-                    Utils.mainBgResId = R.drawable.background3;
-                    setWallPaper(R.drawable.background3);
-                    setDefaultBg(R.drawable.background3);
-                    break;
-                case "5":
-                    Utils.mainBgResId = R.drawable.background5;
-                    setWallPaper(R.drawable.background5);
-                    setDefaultBg(R.drawable.background5);
-                    break;
-                case "6":
-                    Utils.mainBgResId = R.drawable.background6;
-                    setWallPaper(R.drawable.background6);
-                    setDefaultBg(R.drawable.background6);
-                    break;
-                case "7":
-                    Utils.mainBgResId = R.drawable.background7;
-                    setWallPaper(R.drawable.background7);
-                    setDefaultBg(R.drawable.background7);
-                    break;
-                case "8":
-                    Utils.mainBgResId = R.drawable.background8;
-                    setWallPaper(R.drawable.background8);
-                    setDefaultBg(R.drawable.background8);
-                    break;
-                case "9":
-                    Utils.mainBgResId = R.drawable.background9;
-                    setWallPaper(R.drawable.background9);
-                    setDefaultBg(R.drawable.background9);
-                    break;
-            }
+        int number = Integer.parseInt(defaultbg);
+        Log.d(TAG, " setDefaultBackground number " + number);
+        if (number > Utils.drawables.size()) {
+            Log.d(TAG, " setDefaultBackground 用户设置的默认背景，超出了范围");
+            return;
         }
-
+        MyApplication.mainDrawable = (BitmapDrawable) Utils.drawables.get(number - 1);
+        setWallPaper(Utils.drawables.get(number - 1));
+        setDefaultBg(Utils.drawables.get(number - 1));
     }
 
     private void setDefaultBg(int resId) {
@@ -1688,6 +1660,19 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                         }
                     }
                 });
+
+            }
+        });
+    }
+
+    private void setDefaultBg(Drawable drawable) {
+        threadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                CopyDrawableToSd(drawable);
+                if (new File(Contants.WALLPAPER_MAIN).exists()) {
+                    MyApplication.mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
+                }
 
             }
         });
@@ -1757,6 +1742,61 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
             bos.flush();
             bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 开机检测是否有USB插入
+     */
+    private boolean isUsbPlugged() {
+        Intent usbStateIntent = registerReceiver(null, new IntentFilter(UsbManager.ACTION_USB_STATE));
+        if (usbStateIntent == null) {
+            return false;
+        }
+        final String usbAction = usbStateIntent.getAction();
+        if (UsbManager.ACTION_USB_STATE.equals(usbAction)) {
+            Bundle extras = usbStateIntent.getExtras();
+            boolean connected = extras.getBoolean(UsbManager.USB_CONNECTED);
+            if (connected) {
+                Log.d(TAG, " 开机检测到U盘插入 ");
+                customBinding.rlUsbConnect.setVisibility(View.VISIBLE);
+            } else {
+                Log.d(TAG, " 开机没有检测到U盘插入 ");
+            }
+        }
+        return true;
+    }
+
+    private void CopyDrawableToSd(Drawable drawable) {
+        Bitmap bitmap = null;
+        if (drawable instanceof BitmapDrawable) {
+            bitmap = ((BitmapDrawable) drawable).getBitmap();
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+        }
+
+        //判断图片大小，如果超过限制就做缩小处理
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        if (width * height * 4 >= MAX_BITMAP_SIZE) {
+            bitmap = narrowBitmap(bitmap);
+        }
+        //缩小完毕
+
+        File dir = new File(Contants.WALLPAPER_DIR);
+        if (!dir.exists()) dir.mkdirs();
+
+        File file1 = new File(Contants.WALLPAPER_MAIN);
+//        if (file1.exists()) file1.delete();
+
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file1)) {
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream); // 可根据需要更改格式
+            fileOutputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }

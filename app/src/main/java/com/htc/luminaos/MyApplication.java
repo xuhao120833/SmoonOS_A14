@@ -52,8 +52,6 @@ public class MyApplication extends Application {
 
         if (new File(Contants.WALLPAPER_MAIN).exists())
             mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
-        if (new File(Contants.WALLPAPER_OTHER).exists())
-            otherDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_OTHER));
 
         try {
             //json解析1
@@ -91,7 +89,7 @@ public class MyApplication extends Application {
         //优先读取oem分区，其次读取system分区
         if (new File("/oem/config.ini").exists()) {
             configContent = FileUtils.readFileContent("/oem/config.ini"); //这里的作用就是从shortcuts.config中一行一行的读取字符，然后将它们合并成一行字符串
-        } else if(new File("/product/etc/config.ini").exists()){
+        } else if (new File("/product/etc/config.ini").exists()) {
             configContent = FileUtils.readFileContent("/product/etc/config.ini");
         } else {
             configContent = FileUtils.readFileContent("/system/config.ini");
@@ -113,7 +111,7 @@ public class MyApplication extends Application {
         SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         int defaultBg = sharedPreferences.getInt("defaultBg", 0);
-        if(defaultBg == 0) {
+        if (defaultBg == 0) {
             readBackground();
             editor.putInt("defaultBg", 1);
             editor.apply();
@@ -137,7 +135,7 @@ public class MyApplication extends Application {
             file = new File("/system/shortcuts.config");
         }
         if (!file.exists()) {
-            Log.d(TAG," readBackground shortcuts.config文件不存在 ");
+            Log.d(TAG, " readBackground shortcuts.config文件不存在 ");
             return;
         }
         try {
@@ -156,47 +154,14 @@ public class MyApplication extends Application {
 
     private void readDefaultBackground(JSONObject obj) {
         try {
-            if (obj.has("defaultbackground")) {
+            SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            if (obj.has("defaultbackground")) { //如果配置字段为空或者没有配置默认背景，则默认使用第一张图片作为背景。
                 String DefaultBackground = obj.getString("defaultbackground").trim();
                 Log.d(TAG, " readDefaultBackground " + DefaultBackground);
                 // 将字符串存入数据库；
-                SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
-                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(Contants.DefaultBg, DefaultBackground);
                 editor.apply();
-
-                if(!DefaultBackground.equals("") && DefaultBackground != null) {
-                    switch (DefaultBackground) {
-                        case "1":
-                            Utils.mainBgResId = R.drawable.background_main;
-                            break;
-                        case "2":
-                            Utils.mainBgResId = R.drawable.background_custom;
-                            break;
-                        case "3":
-                            Utils.mainBgResId = R.drawable.background1;
-                            break;
-                        case "4":
-                            Utils.mainBgResId = R.drawable.background3;
-                            break;
-                        case "5":
-                            Utils.mainBgResId = R.drawable.background5;
-                            break;
-                        case "6":
-                            Utils.mainBgResId = R.drawable.background6;
-                            break;
-                        case "7":
-                            Utils.mainBgResId = R.drawable.background7;
-                            break;
-                        case "8":
-                            Utils.mainBgResId = R.drawable.background8;
-                            break;
-                        case "9":
-                            Utils.mainBgResId = R.drawable.background9;
-                            break;
-                    }
-
-                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -221,7 +186,7 @@ public class MyApplication extends Application {
     private void copyMyWallpaper() {
         String[] imageExtensions = {".jpg", ".jpeg", ".png", ".bmp", ".webp"};
 
-        File directory = new File("/sdcard/mywallpaper");
+        File directory = new File("/sdcard/.mywallpaper");
         if (directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles();
             if (files != null) {

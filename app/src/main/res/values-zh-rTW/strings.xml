@@ -77,7 +77,7 @@
 	<string name="app_manager_settings">應用程序設定</string>
 	<string name="bluetooth">藍牙</string>
 	<string name="bluetooth_switch">藍牙開關</string>
-	<string name="search_bluetooth">蒐索藍牙設備</string>
+	<string name="search_bluetooth">搜索藍牙設備</string>
 	<string name="paired_devices">配對設備</string>
 	<string name="available_devices">可用設備</string>
 	<string name="date_time_settings">時間和日期設定</string>

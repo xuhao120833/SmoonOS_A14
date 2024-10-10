@@ -101,6 +101,7 @@ public class WallPaperActivity extends BaseActivity {
                     int receivedPosition = msg.arg1;
                     FocusKeepRecyclerView.ViewHolder viewHolder = wallPaperBinding.wallpaperRv.findViewHolderForAdapterPosition(receivedPosition);
                     if (viewHolder != null) {
+                        Log.d(TAG, " 图片背景选择 receivedPosition" + receivedPosition);
                         View itemView = viewHolder.itemView;
                         ImageView check = itemView.findViewById(R.id.check);
                         check.setImageResource(R.drawable.check_no);
@@ -181,18 +182,43 @@ public class WallPaperActivity extends BaseActivity {
             if (!path.isEmpty()) {
                 FocusKeepRecyclerView wallpaperRv = wallPaperBinding.wallpaperRv;
                 RecyclerView.Adapter adapter = wallpaperRv.getAdapter();
-
                 if (adapter != null) {
                     int position = adapter.getItemCount() - 2; // 倒数第二个项的位置
 
+//                    // 滚动到倒数第二个项的位置
+//                    wallpaperRv.smoothScrollToPosition(position);
+//                    // 给 RecyclerView 的 Item 设置焦点
+//                    wallpaperRv.post(() -> {
+//                        // 确保 RecyclerView 已经滚动到目标位置，并且 ViewHolder 不为 null
+//                        RecyclerView.ViewHolder viewHolder = wallpaperRv.findViewHolderForAdapterPosition(position);
+//                        if (viewHolder != null) {
+//                            viewHolder.itemView.requestFocus();
+//                        } else {
+//                            Log.e(TAG, "无法找到指定位置的 ViewHolder");
+//                        }
+//                    });
+
+                    // 添加滚动监听器
+                    wallpaperRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                        @Override
+                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                            super.onScrollStateChanged(recyclerView, newState);
+                            // 检查滚动是否结束
+                            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                                // 获取 ViewHolder
+                                RecyclerView.ViewHolder viewHolder = wallpaperRv.findViewHolderForAdapterPosition(position);
+                                if (viewHolder != null) {
+                                    viewHolder.itemView.requestFocus();
+                                } else {
+                                    Log.e(TAG, "无法找到指定位置的 ViewHolder");
+                                }
+                                // 滚动完成后移除监听器，避免重复调用
+                                wallpaperRv.removeOnScrollListener(this);
+                            }
+                        }
+                    });
                     // 滚动到倒数第二个项的位置
                     wallpaperRv.smoothScrollToPosition(position);
-
-                    // 给 RecyclerView 的 Item 设置焦点
-                    wallpaperRv.post(() -> {
-                        // 确保 RecyclerView 已经滚动到目标位置
-                        wallpaperRv.findViewHolderForAdapterPosition(position).itemView.requestFocus();
-                    });
                 }
             }
         }
@@ -526,7 +552,7 @@ public class WallPaperActivity extends BaseActivity {
 
     public String copyFileToWallpaperFolder(String sourcePath) {
         // 目标文件夹路径
-        String targetDirPath = Environment.getExternalStorageDirectory() + "/mywallpaper/";
+        String targetDirPath = Environment.getExternalStorageDirectory() + "/.mywallpaper/";
         File targetDir = new File(targetDirPath);
 
         // 检查并创建目标文件夹

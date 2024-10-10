@@ -2,7 +2,9 @@ package com.htc.luminaos.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,8 @@ import android.widget.RelativeLayout;
 
 import com.htc.luminaos.MyApplication;
 import com.htc.luminaos.R;
+import com.htc.luminaos.utils.Contants;
+import com.htc.luminaos.utils.ShareUtil;
 import com.htc.luminaos.utils.Utils;
 
 import androidx.annotation.Nullable;
@@ -34,25 +38,22 @@ public class BaseActivity extends Activity implements View.OnClickListener, View
     protected void onResume() {
         try {
             setWallPaper();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
         super.onResume();
     }
 
     public void setWallPaper() {
         if (MyApplication.mainDrawable != null) {
-//            RelativeLayout relativeLayout = findViewById(R.id.rl_main);
-
             ViewGroup relativeLayout = findViewById(R.id.rl_main);
             if (relativeLayout != null)
-//                relativeLayout.setBackground(MyApplication.otherDrawable);
                 relativeLayout.setBackground(MyApplication.mainDrawable);
         } else {
             ViewGroup relativeLayout = findViewById(R.id.rl_main);
-            if (relativeLayout != null&& Utils.mainBgResId!= -1)
-                relativeLayout.setBackgroundResource(Utils.mainBgResId);
+            if (relativeLayout != null) {
+                relativeLayout.setBackground(Utils.drawables.get(0));
+            }
         }
     }
 

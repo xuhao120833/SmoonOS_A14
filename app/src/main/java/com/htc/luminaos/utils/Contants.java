@@ -45,7 +45,7 @@ public interface Contants {
 
     int RESET_CHECK = 120;
 
-    String WALLPAPER_DIR = "/storage/emulated/0/wallpaper";
-    String WALLPAPER_MAIN = "/storage/emulated/0/wallpaper/background_main.png";
-    String WALLPAPER_OTHER = "/storage/emulated/0/wallpaper/background_other.png";
+    String WALLPAPER_DIR = "/storage/emulated/0/.wallpaper";
+    String WALLPAPER_MAIN = "/storage/emulated/0/.wallpaper/background_main.png";
+    String WALLPAPER_OTHER = "/storage/emulated/0/.wallpaper/background_other.png";
 }

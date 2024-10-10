@@ -65,7 +65,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
     FocusKeepRecyclerView focusKeepRecyclerView;
 
-    private static int selectpostion = -1;
+    public static int selectpostion = -1;
     private static String TAG = "WallPaperAdapter";
 
     private LruCache<String, Bitmap> imageCache;
@@ -101,16 +101,25 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, @SuppressLint("RecyclerView") final int i) {
-
+        Log.d(TAG, " 执行onBindViewHolder ");
         selectpostion = readShared();
-        if (i == selectpostion && isLocal) {
+        if (i == selectpostion) {
             myViewHolder.check.setVisibility(View.VISIBLE);
             myViewHolder.check.setImageResource(R.drawable.check_correct);
+        } else if (selectpostion == -1) {//配置了默认背景，首次进入背景切换页
+            SharedPreferences sharedPreferences = ShareUtil.getInstans(mContext);
+            String defaultbg = sharedPreferences.getString(Contants.DefaultBg, "1");
+            int number = Integer.parseInt(defaultbg);
+            if (number - 1 == i) {
+                myViewHolder.check.setVisibility(View.VISIBLE);
+                myViewHolder.check.setImageResource(R.drawable.check_correct);
+            }
+            writeShared(number - 1);
+        } else {
+            myViewHolder.check.setVisibility(View.GONE);
         }
-
-        myViewHolder.rl_item.setOnFocusChangeListener(this);
-
-        if (isLocal && i < drawables.size()) {
+//        myViewHolder.rl_item.setOnFocusChangeListener(this);
+        if (i < drawables.size()) {
             threadExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -133,42 +142,32 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
         } else {
             myViewHolder.icon.setBackgroundResource(R.drawable.wallpaper_add);
         }
-
         myViewHolder.rl_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    if (isLocal) {
-                        //xuhao add
-                        int position = myViewHolder.getAdapterPosition();
-
-                        if (position < drawables.size()) {
-                            myViewHolder.check.setImageResource(R.drawable.check_correct);
-                            myViewHolder.check.setVisibility(View.VISIBLE);
-                            if (selectpostion != -1) {
-                                Message message = handler.obtainMessage(Contants.RESET_CHECK);
-                                message.arg1 = selectpostion;  // 将 selectpostion 作为消息的 arg1 传递
-                                handler.sendMessage(message);
-                            }
+                    //xuhao add
+                    int position = myViewHolder.getAdapterPosition();
+                    if (position < drawables.size()) {
+                        if (selectpostion == position) {
+                            myViewHolder.check.setVisibility(View.GONE);
+                        } else {
                             //写入数据库
                             writeShared(position);
+                            notifyItemChanged(selectpostion);
                             selectpostion = readShared();
-                            Log.d(TAG, " 当前点击的位置是 " + position);
+                            Log.d(TAG, " 图片背景选择 position" + selectpostion);
                             //xuhao
-                        } else {
-                            // 打开文件管理器选择图片
-                            startExplorer();
+                            myViewHolder.check.setImageResource(R.drawable.check_correct);
+                            myViewHolder.check.setVisibility(View.VISIBLE);
+                            if (wallPaperOnCallBack != null) {
+                                if (position < drawables.size())
+                                    wallPaperOnCallBack.WallPaperLocalChange(drawables.get(position));
+                            }
                         }
-
                     } else {
-                        writeShared(-1);
-                        selectpostion = -1;
-                    }
-
-                    if (wallPaperOnCallBack != null) {
-                        if (isLocal && i < drawables.size())
-                            wallPaperOnCallBack.WallPaperLocalChange(drawables.get(i));
-                        else wallPaperOnCallBack.WallPaperUsbChange(files[i]);
+                        // 打开文件管理器选择图片
+                        startExplorer();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -298,7 +297,6 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-
 //        AnimationSet animationSet = new AnimationSet(true);
 //        v.bringToFront();
 //
@@ -322,27 +320,16 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
     }
 
 
-    private void writeShared(int postion) {
-
+    public void writeShared(int postion) {
         SharedPreferences sharedPreferences = ShareUtil.getInstans(mContext);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-//        if(isLocal) {
         editor.putInt(Contants.SelectWallpaperLocal, postion);
         editor.apply();
-//        }else {
-//            editor.putInt(Contants.SelectWallpaperUsb, postion);
-//            editor.apply();
-//        }
-
     }
 
     private int readShared() {
         SharedPreferences sharedPreferences = ShareUtil.getInstans(mContext);
-//        if (isLocal) {
         return sharedPreferences.getInt(Contants.SelectWallpaperLocal, -1); // -1 是默认值，当没有找到该键时返回
-//        }else {
-//            return sharedPreferences.getInt(Contants.SelectWallpaperUsb, -1);
-//        }
     }
 
     // 初始化缓存
@@ -350,7 +337,6 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
         // 设置缓存的最大大小为最大可用内存的1/8
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         final int cacheSize = maxMemory / 8;
-
         imageCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
             protected int sizeOf(String key, Bitmap bitmap) {
@@ -400,5 +386,4 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
         }
 
     }
-
 }
