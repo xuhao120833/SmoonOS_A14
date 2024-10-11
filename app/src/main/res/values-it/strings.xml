@@ -142,6 +142,7 @@
 	<string name="network_connect_tips">Inserisci la password per "%1$s"</string>
 	<string name="connect">Collegare</string>
 	<string name="upgrade_check_fail_tips">Nessun file di aggiornamento trovato, controlla la connessione USB o aggiorna il file e riprova.</string>
+	<string name="upgrade_check_success_tips">È stato rilevato un file di aggiornamento. Vuoi aggiornare immediatamente?</string>
 	<string name="retry">Riprova</string>
 	<string name="checking">Ricerca file in corso…</string>
 	<string name="switch_wallpaper_tips">Cambio dello sfondo in corso, attendere…</string>

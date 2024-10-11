@@ -142,6 +142,7 @@
 	<string name="network_connect_tips">الرجاء إدخال كلمة السر /"%1$s/"</string>
 	<string name="connect">ربط</string>
 	<string name="upgrade_check_fail_tips">لم يتم العثور على ملف الترقية ، يرجى التحقق من اتصال الناقل التسلسلي العام أو تحديث الملف وحاول مرة أخرى .</string>
+	<string name="upgrade_check_success_tips">تم الكشف عن ملف ترقية. هل ترغب في الترقية على الفور؟</string>
 	<string name="retry">إعادة المحاولة</string>
 	<string name="checking">البحث عن الملفات .</string>
 	<string name="switch_wallpaper_tips">تبديل ورق الحائط ، يرجى الانتظار . . .</string>

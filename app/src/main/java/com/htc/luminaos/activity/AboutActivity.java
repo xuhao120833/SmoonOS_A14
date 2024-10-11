@@ -32,6 +32,7 @@ import com.htc.luminaos.utils.LogUtils;
 import com.htc.luminaos.utils.ShareUtil;
 import com.htc.luminaos.utils.ToastUtil;
 import com.htc.luminaos.widget.UpgradeCheckFailDialog;
+import com.htc.luminaos.widget.UpgradeCheckSuccessDialog;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -54,6 +55,8 @@ public class AboutActivity extends BaseActivity {
     boolean isDebug = false;
     int mPosition = 5;
     private UpgradeCheckFailDialog upgradeCheckFailDialog;
+
+    private UpgradeCheckSuccessDialog upgradeCheckSuccessDialog;
     private SharedPreferences sp;
     private static String OTA_PACKAGE_FILE = "update.zip";
     private static String USB_ROOT = "/mnt/media_rw";
@@ -67,7 +70,9 @@ public class AboutActivity extends BaseActivity {
                     progressDialog.dismiss();
                 if (msg.obj != null) {
                     String path = (String) msg.obj;
-                    startSystemUpdate(path);
+//                    startSystemUpdate(path);
+                    showUpgradeCheckSuccessDialog(path);
+
                 } else {
                     showUpgradeCheckFailDialog();
                 }
@@ -437,6 +442,21 @@ public class AboutActivity extends BaseActivity {
 
         if (!upgradeCheckFailDialog.isShowing())
             upgradeCheckFailDialog.show();
+    }
+
+    private void showUpgradeCheckSuccessDialog(String path) {
+        if (upgradeCheckSuccessDialog == null) {
+            upgradeCheckSuccessDialog = new UpgradeCheckSuccessDialog(AboutActivity.this);
+            upgradeCheckSuccessDialog.setOnClickCallBack(new UpgradeCheckSuccessDialog.OnClickCallBack() {
+                @Override
+                public void upgrade() {
+                    startSystemUpdate(path);
+                }
+            });
+        }
+
+        if (!upgradeCheckSuccessDialog.isShowing())
+            upgradeCheckSuccessDialog.show();
     }
 
     public static String getProperty(String key, String defaultValue) {

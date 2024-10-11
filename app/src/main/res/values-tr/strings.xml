@@ -142,6 +142,7 @@
     <string name="network_connect_tips">Lütfen "%1$s" şifresini girin</string>
     <string name="connect">Bağlan</string>
     <string name="upgrade_check_fail_tips">Güncelleme dosyası bulunamadı, lütfen USB bağlantısını kontrol edin veya güncelleme dosyasını kontrol edip tekrar deneyin.</string>
+    <string name="upgrade_check_success_tips">Bir güncelleme dosyası tespit edildi. Hemen güncellemek ister misiniz?</string>
     <string name="retry">Yeniden Deneyin</string>
     <string name="checking">Dosyalar aranıyor…</string>
     <string name="switch_wallpaper_tips">Duvar kağıdı değiştiriliyor, lütfen bekleyin…</string>

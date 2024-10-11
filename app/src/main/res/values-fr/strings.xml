@@ -142,6 +142,7 @@
 	<string name="network_connect_tips">Veuillez entrer le mot de passe de "%1$s"</string>
 	<string name="connect">Connecter</string>
 	<string name="upgrade_check_fail_tips">Fichier de mise à jour introuvable, veuillez vérifier la connexion USB ou le fichier de mise à jour et réessayer.</string>
+	<string name="upgrade_check_success_tips">Un fichier de mise à niveau a été détecté. Voulez-vous mettre à niveau immédiatement ?</string>
 	<string name="retry">Réessayer</string>
 	<string name="checking">Recherche de fichiers en cours…</string>
 	<string name="switch_wallpaper_tips">Changement de fond d\'écran en cours, veuillez patienter…</string>

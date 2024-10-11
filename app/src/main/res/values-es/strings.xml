@@ -142,6 +142,7 @@
 	<string name="network_connect_tips">Por favor, ingrese la contraseña de "%1$s"</string>
 	<string name="connect">Conectar</string>
 	<string name="upgrade_check_fail_tips">No se encontró el archivo de actualización, por favor verifique la conexión USB o actualice el archivo y vuelva a intentarlo.</string>
+	<string name="upgrade_check_success_tips">Se ha detectado un archivo de actualización, ¿desea actualizarlo ahora?</string>
 	<string name="retry">Reintentar</string>
 	<string name="checking">Buscando archivo…</string>
 	<string name="switch_wallpaper_tips">Cambiando el fondo de pantalla, por favor espere…</string>

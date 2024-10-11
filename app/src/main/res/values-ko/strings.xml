@@ -139,6 +139,7 @@
     <string name="network_connect_tips">/%1$s/ 비밀번호를 입력하세요</string>
     <string name="connect">연결</string>
     <string name="upgrade_check_fail_tips">업데이트 파일이 발견되지 않았습니다. USB 연결 혹은 업데이트 파일을 확인한 후 재시도해주세요</string>
+    <string name="upgrade_check_success_tips">업그레이드 파일이 감지되었습니다. 즉시 업그레이드하시겠습니까?</string>
     <string name="retry">재시도</string>
     <string name="checking">파일을 찾는 중…</string>
     <string name="switch_wallpaper_tips">배경화면을 전환하는 중입니다. 잠시만 기다려 주세요.…</string>

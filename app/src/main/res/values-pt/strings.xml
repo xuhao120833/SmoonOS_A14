@@ -142,6 +142,7 @@
     <string name="network_connect_tips">Digite a senha de \"/%1$s/\"</string>
     <string name="connect">Conectar</string>
     <string name="upgrade_check_fail_tips">Arquivo de atualização não encontrado, verifique a conexão USB ou atualize o arquivo e tente novamente.</string>
+    <string name="upgrade_check_success_tips">Um arquivo de atualização foi detectado, deseja atualizar agora?</string>
     <string name="retry">Tentar novamente</string>
     <string name="checking">Buscando arquivos…</string>
     <string name="switch_wallpaper_tips">Mudando papel de parede, por favor aguarde…</string>

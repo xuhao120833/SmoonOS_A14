@@ -142,6 +142,7 @@
 	<string name="network_connect_tips">%1$s/"パスワードを入力してください</string>
 	<string name="connect">せつぞく</string>
 	<string name="upgrade_check_fail_tips">アップグレードファイルが見つかりませんでした。USB接続を確認するか、ファイルを更新してから再試行してください。</string>
+	<string name="upgrade_check_success_tips">アップグレードファイルが検出されました。すぐにアップグレードしますか？</string>
 	<string name="retry">再試行</string>
 	<string name="checking">ファイルを検索中...</string>
 	<string name="switch_wallpaper_tips">壁紙を切り替えていますので、少々お待ちください…</string>

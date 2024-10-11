@@ -142,7 +142,8 @@
     <string name="network_connect_tips">Bitte geben Sie das Passwort für \"%1$s\" ein</string>
     <string name="connect">Verbinden</string>
     <string name="upgrade_check_fail_tips">Keine Upgrade-Datei gefunden, bitte überprüfen Sie die USB-Verbindung oder das Update-Dokument und versuchen Sie es erneut.</string>
-    <string name="retry">Erneut versuchen</string>
+	<string name="upgrade_check_success_tips">Eine Upgrade-Datei wurde erkannt. Möchten Sie jetzt upgraden?</string>
+	<string name="retry">Erneut versuchen</string>
     <string name="checking">Suche nach Dateien…</string>
     <string name="switch_wallpaper_tips">Hintergrund wird gewechselt, bitte warten…</string>
     <string name="exit_speaker_mode">Verlasse den Bluetooth-Lautsprechermodus</string>

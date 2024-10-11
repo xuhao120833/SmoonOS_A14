@@ -142,6 +142,7 @@
     <string name="network_connect_tips">请输入/"%1$s/"密码</string>
     <string name="connect">连接</string>
     <string name="upgrade_check_fail_tips">未找到升级文件,请检查USB连接或更新文件后重试。</string>
+    <string name="upgrade_check_success_tips">已检测到升级文件,是否立刻升级？</string>
     <string name="retry">重试</string>
     <string name="checking">正在查找文件…</string>
     <string name="switch_wallpaper_tips">正在切换壁纸,请稍等…</string>

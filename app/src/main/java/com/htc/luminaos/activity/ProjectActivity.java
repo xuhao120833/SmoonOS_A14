@@ -189,8 +189,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         tvDisplayManager = AwTvDisplayManager.getInstance();
         project_name.add(getString(R.string.project_mode_1));
         project_name.add(getString(R.string.project_mode_2));
-        project_name.add(getString(R.string.project_mode_3));
         project_name.add(getString(R.string.project_mode_4));
+        project_name.add(getString(R.string.project_mode_3));
         cur_project_mode = tvDisplayManager.factoryGetPanelValue(AwTvDisplayTypes.EnumPanelConfigType.E_AW_PANEL_CONFIG_MIRROR);
         projectBinding.projectModeTv.setText(project_name.get(cur_project_mode));
         singer = Executors.newSingleThreadExecutor();

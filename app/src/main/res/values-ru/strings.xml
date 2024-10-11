@@ -142,6 +142,7 @@
 	<string name="network_connect_tips">Введите пароль / "%1$s/"</string>
 	<string name="connect">Подключение</string>
 	<string name="upgrade_check_fail_tips">Файл обновления не найден, проверьте USB - соединение или обновите файл после повторной попытки.</string>
+	<string name="upgrade_check_success_tips">Обнаружен файл обновления. Вы хотите обновить его сразу?</string>
 	<string name="retry">Повторить попытку</string>
 	<string name="checking">Поиск документов...</string>
 	<string name="switch_wallpaper_tips">Переключает обои, пожалуйста, подождите...</string>

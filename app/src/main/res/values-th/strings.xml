@@ -142,6 +142,7 @@
     <string name="network_connect_tips">กรุณาใส่รหัสผ่านของ "%1$s"</string>
     <string name="connect">เชื่อมต่อ</string>
     <string name="upgrade_check_fail_tips">ไม่พบไฟล์อัปเกรด กรุณาตรวจสอบการเชื่อมต่อ USB หรืออัปเดตไฟล์แล้วลองอีกครั้ง</string>
+    <string name="upgrade_check_success_tips"> ตรวจพบไฟล์อัปเกรดแล้ว คุณต้องการอัปเกรดทันทีหรือไม่?</string>
     <string name="retry">ลองอีกครั้ง</string>
     <string name="checking">กำลังค้นหาไฟล์…</string>
     <string name="switch_wallpaper_tips">กำลังเปลี่ยนภาพพื้นหลัง กรุณารอสักครู่…</string>
