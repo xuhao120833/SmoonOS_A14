@@ -205,4 +205,11 @@
 
 	<string name="Menu_reset">перезагрузить</string>
 	<string name="wallpaper_text">Смена фона</string>
+
+	<string name="auto_four_corner_hint">Действительно после включения автофокуса</string>
+	<string name="no_caalibrated">Не откалибровано</string>
+	<string name="calibrated">Откалибровано</string>
+	<string name="calibrated_data_fail">Откалибровано, данные ненормальные</string>
+	<string name="calibrated_data_normal">Откалибровано, данные нормальные</string>
+
 </resources>

@@ -220,4 +220,11 @@
 	<string name="Menu_reset">إعادة ضبط</string>
 
 	<string name="wallpaper_text">تبديل الخلفية</string>
+
+	<string name="auto_four_corner_hint">يصبح فعالًا بعد تمكين التركيز التلقائي</string>
+	<string name="no_caalibrated">غير معاير</string>
+	<string name="calibrated">تمت المعايرة</string>
+	<string name="calibrated_data_fail">تمت المعايرة، البيانات غير طبيعية</string>
+	<string name="calibrated_data_normal">تمت المعايرة، البيانات طبيعية</string>
+
 </resources>

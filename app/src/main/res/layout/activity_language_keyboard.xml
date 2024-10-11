@@ -41,6 +41,23 @@
             android:duplicateParentState="true"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/language_tv"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x_103"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_23"
+            android:gravity="center"
+            android:text="0"
+            android:duplicateParentState="true"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            />
+
+
         <View
             android:layout_width="@dimen/x_53"
             android:layout_height="@dimen/y_53"

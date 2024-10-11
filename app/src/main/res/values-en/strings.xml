@@ -223,4 +223,11 @@
 	<string name="Menu_reset">Reset</string>
 
 	<string name="wallpaper_text">Background Switch</string>
+
+	<string name="auto_four_corner_hint">Effective after autofocus is enabled</string>
+	<string name="no_caalibrated">Not calibrated</string>
+	<string name="calibrated">Calibrated</string>
+	<string name="calibrated_data_fail">Calibrated, data abnormal</string>
+	<string name="calibrated_data_normal">Calibrated, data normal</string>
+
 </resources>

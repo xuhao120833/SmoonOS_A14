@@ -221,4 +221,11 @@
 
 	<string name="Menu_reset">リセット</string>
 	<string name="wallpaper_text">背景を切り替える</string>
+
+	<string name="auto_four_corner_hint">オートフォーカスを有効にすると効果があります</string>
+	<string name="no_caalibrated">未校正</string>
+	<string name="calibrated">校正済み</string>
+	<string name="calibrated_data_fail">校正済み、データ異常</string>
+	<string name="calibrated_data_normal">校正済み、データ正常</string>
+
 </resources>

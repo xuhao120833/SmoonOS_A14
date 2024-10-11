@@ -1,5 +1,6 @@
 package com.htc.luminaos.activity;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -60,8 +61,14 @@ public class LanguageAndKeyboardActivity extends BaseActivity {
         languageKeyboardBinding.rlKeyboardSetting.setOnClickListener(this);
     }
     
+    @SuppressLint("SetTextI18n")
     private void initData(){
         languageKeyboardBinding.keyboardTv.setText(getKeyBoardDefault());
+        Locale currentLocale = Locale.getDefault();
+        // 获取当前语言的显示名称（本地化）
+        String displayLanguage = currentLocale.getDisplayLanguage(currentLocale);
+        String displayCountry = currentLocale.getDisplayCountry(currentLocale);
+        languageKeyboardBinding.languageTv.setText(displayCountry+" "+displayLanguage);
     }
 
     private void loadDefault() {

@@ -19,11 +19,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.htc.luminaos.MyApplication;
 import com.htc.luminaos.R;
 import com.htc.luminaos.databinding.ActivityProjectBinding;
 import com.htc.luminaos.databinding.ResetKeystoreLayoutBinding;
+import com.htc.luminaos.settings.utils.Constants;
 import com.htc.luminaos.utils.AppUtils;
 import com.htc.luminaos.utils.Contants;
 import com.htc.luminaos.utils.KeystoneUtils;
@@ -31,7 +33,9 @@ import com.htc.luminaos.utils.LogUtils;
 import com.htc.luminaos.utils.ReflectUtil;
 import com.htc.luminaos.utils.ShareUtil;
 import com.htc.luminaos.utils.ToastUtil;
+import com.htc.luminaos.utils.scUtils;
 import com.softwinner.tv.AwTvDisplayManager;
+import com.softwinner.tv.AwTvSystemManager;
 import com.softwinner.tv.common.AwTvDisplayTypes;
 
 import java.text.DecimalFormat;
@@ -100,6 +104,31 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         projectBinding.rlAutoFocus.setOnClickListener(this);
         projectBinding.autoFocusSwitch.setOnClickListener(this);
         projectBinding.rlAutoFourCorner.setOnClickListener(this);
+        projectBinding.rlAutoFourCorner.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // 当获取焦点时，延迟2秒弹出Toast
+                    int calibratedTips = R.string.no_caalibrated;
+                    int i = 0;
+                    i = Constants.CheckCalibrated(AwTvSystemManager.getInstance(getApplicationContext()).getSecureStorageKey("vafocusCam").trim());
+                    if (i!=1 && i!=3){
+                        i=checkNewBDDATA();
+                    }
+                    calibratedTips = getStringId(i);
+                    int finalCalibratedTips = calibratedTips;
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(v.getContext(), getString(R.string.auto_four_corner_hint)+";"+getString(finalCalibratedTips), Toast.LENGTH_LONG).show();
+                        }
+                    }, 2000); // 2000毫秒 = 2秒
+                } else {
+                    // 失去焦点时，取消延迟任务
+                    handler.removeCallbacksAndMessages(null);
+                }
+            }
+        });
         projectBinding.autoFourCornerSwitch.setOnClickListener(this);
         projectBinding.rlScreenRecognition.setOnClickListener(this);
         projectBinding.screenRecognitionSwitch.setOnClickListener(this);
@@ -654,5 +683,35 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
             }
         });
         dialoge.show();
+    }
+
+    //新的标定数据校验
+    private int checkNewBDDATA(){
+        int ret1,ret2,ret3,ret4;
+        ret1 = scUtils.checkbddata(AwTvSystemManager.getInstance(getApplicationContext()).getSecureStorageKey("PoCamX"));
+        ret2 = scUtils.checkbddata(AwTvSystemManager.getInstance(getApplicationContext()).getSecureStorageKey("PoCamY"));
+        ret3 = scUtils.checkbddata(AwTvSystemManager.getInstance(getApplicationContext()).getSecureStorageKey("JbCamX"));
+        ret4 = scUtils.checkbddata(AwTvSystemManager.getInstance(getApplicationContext()).getSecureStorageKey("JbCamY"));
+        if (ret1==1 && ret2==1 && ret3==1 && ret4==1)
+            return 1;
+        else if (ret1==0 && ret2==0 && ret3==0 && ret4==0)
+            return 0;
+
+        return -1;
+    }
+
+    private  int getStringId(int i){
+        switch (i){
+            case 1:
+                return R.string.calibrated;
+            case 2:
+            case -1:
+                return R.string.calibrated_data_fail;
+            case 3:
+                return R.string.calibrated_data_normal;
+            case 0:
+            default:
+                return R.string.no_caalibrated;
+        }
     }
 }

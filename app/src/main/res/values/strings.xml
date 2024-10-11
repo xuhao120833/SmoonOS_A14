@@ -265,5 +265,10 @@
 
     <string name="wallpaper_text">背景切换</string>
 
+    <string name="auto_four_corner_hint">自动对焦开启后生效</string>
+    <string name="no_caalibrated">未标定</string>
+    <string name="calibrated">已标定</string>
+    <string name="calibrated_data_fail">已标定, 数据异常</string>
+    <string name="calibrated_data_normal">已标定, 数据正常</string>
 
 </resources>

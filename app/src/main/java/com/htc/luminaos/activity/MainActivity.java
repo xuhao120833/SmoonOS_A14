@@ -332,6 +332,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 //        customBinding.usbConnect
         //18 电池状态
         initBattery();
+        //19 U盘插入
+        customBinding.rlUsbConnect.setOnClickListener(this);
+        customBinding.rlUsbConnect.setOnHoverListener(this);
+        customBinding.rlUsbConnect.setOnFocusChangeListener(this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this) {
             @Override
@@ -720,6 +724,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 //                AppUtils.startNewApp(MainActivity.this, "com.softwinner.TvdFileManager");
                 AppUtils.startNewApp(MainActivity.this, "com.hisilicon.explorer");
                 break;
+            case R.id.rl_usb_connect:
+                AppUtils.startNewApp(MainActivity.this, "com.hisilicon.explorer");
+                break;
             case R.id.rl_av:
                 startSource("CVBS1");
                 break;
@@ -919,7 +926,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 List<String> residentList = new ArrayList<>();
                 JSONObject obj = new JSONObject(result);
 
-                //读取默认背景配置
+                //读取默认背景配置 这块提前放到MyApplication中
 //                readDefaultBackground(obj);
 
                 //读取首页四大APP图标

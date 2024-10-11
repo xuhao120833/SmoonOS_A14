@@ -221,4 +221,11 @@
 
     <string name="Menu_reset">다시 놓기</string>
     <string name="wallpaper_text">배경 전환</string>
+
+    <string name="auto_four_corner_hint">자동 초점이 활성화된 후에 적용됩니다</string>
+    <string name="no_caalibrated">미교정</string>
+    <string name="calibrated">교정됨</string>
+    <string name="calibrated_data_fail">교정됨, 데이터 이상</string>
+    <string name="calibrated_data_normal">교정됨, 데이터 정상</string>
+
 </resources>
