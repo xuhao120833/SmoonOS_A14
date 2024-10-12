@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -65,8 +67,9 @@ public class DBUtils extends SQLiteOpenHelper {
             // 创建我的收藏表
             Log.d(TAG, " 创建apps数据表 ");
             String favorites_sql = "CREATE TABLE " + TABLENAME_FAVORITES
-                    + " ( id integer primary key,  packagename text );";
+                    + " ( id integer primary key, appName TEXT, packagename text, iconData BLOB );";
             db.execSQL(favorites_sql);
+
 
             Log.d(TAG, " 创建filterApps数据表 ");
             String filterApps_sql = "CREATE TABLE " + TABLENAME_FILTERAPPS + " (" +
@@ -133,22 +136,26 @@ public class DBUtils extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+
     /**
      * 添加收藏
      *
      * @param packagename
      * @return
      */
-    public long addFavorites(String packagename) {
+    public long addFavorites(String appName,String packagename,Drawable drawable) {
         long code = -1;
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
+        cv.put("appName", appName);
         cv.put("packagename", packagename);
+        cv.put("iconData", drawableToByteArray(drawable));
         code = db.insert(TABLENAME_FAVORITES, null, cv);
         sharedPreferences.edit().putBoolean(Contants.MODIFY, true).apply();
         db.close();
         return code;
     }
+
 
     /**
      * 获取收藏
@@ -170,6 +177,7 @@ public class DBUtils extends SQLiteOpenHelper {
         return list;
     }
 
+
     /**
      * 删除收藏
      *
@@ -186,6 +194,7 @@ public class DBUtils extends SQLiteOpenHelper {
         return code;
     }
 
+
     /**
      * 清空收藏
      */
@@ -196,6 +205,59 @@ public class DBUtils extends SQLiteOpenHelper {
         db.close();
         sharedPreferences.edit().putBoolean(Contants.MODIFY, true).apply();
     }
+
+
+    public Drawable getFavoritesIcon(String packageName) {
+        SQLiteDatabase db = getReadableDatabase();
+        Drawable iconDrawable = null;
+        // 查询语句
+        String query = "SELECT iconData FROM " + TABLENAME_FAVORITES + " WHERE packagename = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{packageName});
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                byte[] iconBlob = cursor.getBlob(cursor.getColumnIndex("iconData"));
+                iconDrawable = byteArrayToDrawable(iconBlob);  // 将字节数组转换为 Drawable
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // 关闭 Cursor 和数据库连接
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+        Log.d(TAG, "Shortcuts 读取iconDrawable "+iconDrawable);
+        return iconDrawable;
+    }
+
+
+    public String getFavoritesAppName(String packageName) {
+        SQLiteDatabase db = getReadableDatabase();
+        String appName = null;
+        Cursor cursor = null;
+        try {
+            // SQL 查询语句，通过 packagename 查找 appName
+            String query = "SELECT appName FROM " + TABLENAME_FAVORITES + " WHERE packagename = ?";
+            // 执行查询
+            cursor = db.rawQuery(query, new String[]{packageName});
+            // 检查结果是否存在
+            if (cursor != null && cursor.moveToFirst()) {
+                // 获取 appName 列的数据
+                appName = cursor.getString(cursor.getColumnIndex("appName"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close(); // 关闭 cursor 以释放资源
+            }
+            db.close();
+        }
+        Log.d(TAG, "Shortcuts 读取appName "+appName);
+        return appName;
+    }
+
 
     /**
      * 查询数据库中条数
@@ -500,12 +562,10 @@ public class DBUtils extends SQLiteOpenHelper {
      * @return
      */
     public byte[] drawableToByteArray(Drawable drawable) {
-
         if(drawable ==null){
             return null;
         }
-
-        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        Bitmap bitmap = getBitmapFromDrawable(drawable);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         return stream.toByteArray();
@@ -651,6 +711,11 @@ public class DBUtils extends SQLiteOpenHelper {
         }catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Bitmap getBitmapFromDrawable(Drawable drawable) {
+
+        return ((BitmapDrawable) drawable).getBitmap();
     }
 
 }

@@ -26,6 +26,7 @@ import com.htc.luminaos.R;
 import com.htc.luminaos.activity.AppFavoritesActivity;
 import com.htc.luminaos.entry.ShortInfoBean;
 import com.htc.luminaos.utils.AppUtils;
+import com.htc.luminaos.utils.DBUtils;
 import com.htc.luminaos.utils.Utils;
 import com.htc.luminaos.view.MyCircleImageView;
 
@@ -41,6 +42,7 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
     Context mContext;
     private ArrayList<ShortInfoBean> short_list;
     ItemCallBack itemCallBack;
+    private static String TAG = "ShortcutsAdapterCustom";
 
     int number = -1;
 
@@ -68,16 +70,27 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
+        Log.d(TAG, "Shortcuts short_list.size() "+short_list.size());
         if (i < short_list.size() && short_list.get(i).getAppname() != null && i > 0) {
+            Log.d(TAG, "Shortcuts appName存在 ");
             myViewHolder.icon.setImageDrawable(short_list.get(i).getAppicon());
             myViewHolder.name.setText(short_list.get(i).getAppname());
         } else if (i < short_list.size() && i > 0) {
-            myViewHolder.icon.setImageResource(getAppIcon(short_list.get(i).getPackageName()));
-            myViewHolder.name.setText(getAppName(short_list.get(i).getPackageName()));
+            Log.d(TAG, "Shortcuts appName为NULL ");
+            String appName = DBUtils.getInstance(mContext).getFavoritesAppName(short_list.get(i).getPackageName());
+            Drawable drawable = DBUtils.getInstance(mContext).getFavoritesIcon(short_list.get(i).getPackageName());
+            if(appName!=null) {
+                myViewHolder.name.setText(appName);
+            }else {
+                myViewHolder.name.setText(getAppName(short_list.get(i).getPackageName()));
+            }
+            if(drawable!=null) {
+                myViewHolder.icon.setImageDrawable(drawable);
+            }else {
+                myViewHolder.icon.setImageResource(getAppIcon(short_list.get(i).getPackageName()));
+            }
         } else if (i == 0) {
-
             myViewHolder.icon.setImageDrawable(short_list.get(i).getAppicon());
-
         }
 
         myViewHolder.rl_item.setOnClickListener(new View.OnClickListener() {

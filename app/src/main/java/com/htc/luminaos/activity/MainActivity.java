@@ -1027,7 +1027,6 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         try {
             if (obj.has("apps")) {
                 JSONArray jsonarrray = obj.getJSONArray("apps");
-
                 //xuhao
                 //用户每次更新配置，必须把原来数据库中保存的上一次失效的数据清除掉
                 ArrayList<AppSimpleBean> mylist = DBUtils.getInstance(this).getFavorites();
@@ -1052,29 +1051,27 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     }
                 }
                 //xuhao
-
-
                 for (int i = 0; i < jsonarrray.length(); i++) {
                     JSONObject jsonobject = jsonarrray.getJSONObject(i);
+                    String appName = jsonobject.getString("appName");
                     String packageName = jsonobject.getString("packageName");
+                    String iconPath = jsonobject.getString("iconPath");
                     boolean resident = jsonobject.getBoolean("resident"); //用于标志移除上一轮配置文件和这一轮配置文件不需要的App
                     if (resident) {
                         residentList.add(packageName);
                     }
-
+                    Drawable drawable = FileUtils.loadImageAsDrawable(this, iconPath);
                     if (!DBUtils.getInstance(this).isExistData(
                             packageName)) {
                         long addCode = DBUtils.getInstance(this)
-                                .addFavorites(packageName);
+                                .addFavorites(appName,packageName,drawable);
+                        Log.d(TAG, " Shortcuts 添加快捷数据库成功 "+appName+" "+packageName);
                     }
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     private void readFilterApps(JSONObject obj) {

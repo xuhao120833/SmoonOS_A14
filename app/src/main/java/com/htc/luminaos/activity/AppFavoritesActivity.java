@@ -1,10 +1,14 @@
 package com.htc.luminaos.activity;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -174,13 +178,16 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 				} else {
 					boolean isCheck = list.get(position).isCheck();
 					if (isCheck) {
-						if (!DBUtils.getInstance(AppFavoritesActivity.this)
-								.isExistData(
-										list.get(position).getApppackagename())) {
+						if (!DBUtils.getInstance(
+								AppFavoritesActivity.this)
+								.isExistData(list.get(position).getApppackagename())
+						) {
 							DBUtils.getInstance(AppFavoritesActivity.this)
 									.addFavorites(
-											list.get(position)
-													.getApppackagename());
+											"",
+											list.get(position).getApppackagename(),
+											null
+									);
 							adapter.notifyDataSetChanged();
 						}
 					} else {
@@ -357,17 +364,14 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 
 	@Override
 	public void appChange(String packageName) {
-		
-
 		if (!DBUtils.getInstance(AppFavoritesActivity.this).isExistData(
 				packageName)
 				&& currentPackageName != null
 				&& currentPackageName.equals(packageName)) {
-			DBUtils.getInstance(AppFavoritesActivity.this).addFavorites(
-					packageName);
+			DBUtils.getInstance(AppFavoritesActivity.this).addFavorites(getAppNameByPackageName(getApplicationContext(),packageName),
+					packageName,getAppIconByPackageName(getApplicationContext(),packageName));
 			currentPackageName = null;
 		}
-
 		loadDataApp();
 	}
 
@@ -406,6 +410,40 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 		} else {
 			return super.onKeyDown(keyCode, event);
 		}
+	}
+
+	// 传入应用的 packageName，返回对应的应用图标 Drawable
+	public Drawable getAppIconByPackageName(Context context, String packageName) {
+		try {
+			// 获取 PackageManager 实例
+			PackageManager packageManager = context.getPackageManager();
+
+			// 通过 packageName 获取应用信息 (ApplicationInfo)
+			ApplicationInfo appInfo = packageManager.getApplicationInfo(packageName, 0);
+
+			// 从 ApplicationInfo 中获取图标
+			return appInfo.loadIcon(packageManager);
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+			// 如果未找到对应的应用，返回 null
+			return null;
+		}
+	}
+
+	public String getAppNameByPackageName(Context context, String packageName) {
+		PackageManager packageManager = context.getPackageManager();
+		String appName = null;
+
+		try {
+			// 获取应用程序的信息（ApplicationInfo）
+			ApplicationInfo appInfo = packageManager.getApplicationInfo(packageName, 0);
+			// 获取应用名称
+			appName = packageManager.getApplicationLabel(appInfo).toString();
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return appName; // 如果未找到应用，则返回 null
 	}
 
 

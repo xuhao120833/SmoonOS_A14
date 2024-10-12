@@ -1,6 +1,8 @@
 package com.htc.luminaos.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import com.htc.luminaos.R;
 import com.htc.luminaos.activity.AppFavoritesActivity;
 import com.htc.luminaos.entry.ShortInfoBean;
 import com.htc.luminaos.utils.AppUtils;
+import com.htc.luminaos.utils.DBUtils;
 
 import java.util.ArrayList;
 
@@ -27,6 +30,7 @@ public class ShortcutsAdapter extends RecyclerView.Adapter<ShortcutsAdapter.MyVi
     Context mContext;
     private ArrayList<ShortInfoBean> short_list;
     ItemCallBack itemCallBack;
+    private static String TAG = "ShortcutsAdapter";
 
     public ShortcutsAdapter(Context mContext,ArrayList<ShortInfoBean> short_list) {
         this.mContext = mContext;
@@ -49,12 +53,25 @@ public class ShortcutsAdapter extends RecyclerView.Adapter<ShortcutsAdapter.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
+        Log.d(TAG, "Shortcuts short_list.size() "+short_list.size());
         if (i<short_list.size() && short_list.get(i).getAppname()!=null){
+            Log.d(TAG, "Shortcuts appName存在 ");
             myViewHolder.icon.setBackground(short_list.get(i).getAppicon());
             myViewHolder.name.setText(short_list.get(i).getAppname());
         } else if (i<short_list.size()) {
-            myViewHolder.icon.setBackgroundResource(getAppIcon(short_list.get(i).getPackageName()));
-            myViewHolder.name.setText(getAppName(short_list.get(i).getPackageName()));
+            Log.d(TAG, "Shortcuts appName为NULL ");
+            String appName = DBUtils.getInstance(mContext).getFavoritesAppName(short_list.get(i).getPackageName());
+            Drawable drawable = DBUtils.getInstance(mContext).getFavoritesIcon(short_list.get(i).getPackageName());
+            if(appName!=null) {
+                myViewHolder.name.setText(appName);
+            }else {
+                myViewHolder.name.setText(getAppName(short_list.get(i).getPackageName()));
+            }
+            if(drawable!=null) {
+                myViewHolder.icon.setBackground(drawable);
+            }else {
+                myViewHolder.icon.setBackgroundResource(getAppIcon(short_list.get(i).getPackageName()));
+            }
         }
 
         myViewHolder.rl_item.setOnClickListener(new View.OnClickListener() {
