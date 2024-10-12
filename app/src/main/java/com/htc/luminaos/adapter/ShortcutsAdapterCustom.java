@@ -157,9 +157,11 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(v.getContext(), mContext.getString(R.string.shortcuts_tips), Toast.LENGTH_LONG).show();
+                            if(short_list.size() == 8) {
+                                Toast.makeText(v.getContext(), mContext.getString(R.string.shortcuts_tips), Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }, 3000); // 3000毫秒 = 3秒
+                    }, 3500); // 3000毫秒 = 3秒
                 } else {
                     // 失去焦点时，取消延迟任务
                     handler.removeCallbacksAndMessages(null);

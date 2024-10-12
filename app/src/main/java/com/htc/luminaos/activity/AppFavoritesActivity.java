@@ -170,7 +170,7 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 						count += 1;
 					}
 				}
-				if (count > 7) {//原来是6改成7
+				if (count+DBUtils.getInstance(getApplicationContext()).getFavoritesCount() > 8) {//原来是6改成8
 					list.get(position)
 							.setCheck(!list.get(position).isCheck());
 					ToastUtil.showShortToast(AppFavoritesActivity.this,

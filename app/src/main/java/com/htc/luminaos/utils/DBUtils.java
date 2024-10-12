@@ -264,7 +264,7 @@ public class DBUtils extends SQLiteOpenHelper {
      *
      * @return
      */
-    public long getCount() {
+    public long getFavoritesCount() {
         long count = 0;
         SQLiteDatabase db = getWritableDatabase();
         String sql = "select count(*) from " + TABLENAME_FAVORITES;
