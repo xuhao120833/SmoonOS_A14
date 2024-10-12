@@ -139,7 +139,6 @@ public class AboutActivity extends BaseActivity {
         aboutBinding.wirelessMacTv.setText(getWlanMacAddress());
         aboutBinding.wiredMacTv.setText(DeviceUtils.getEthMac());
         initQuickKey();
-
     }
 
     @Override
