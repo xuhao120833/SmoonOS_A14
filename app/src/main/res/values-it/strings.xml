@@ -271,5 +271,5 @@
 	<string name="calibrated">Calibrato</string>
 	<string name="calibrated_data_fail">Calibrato, dati anormali</string>
 	<string name="calibrated_data_normal">Calibrato, dati normali</string>
-
+	<string name="shortcuts_tips">Se la barra dei collegamenti è piena, puoi tenere premuto il tasto OK per modificare.</string>
 </resources>

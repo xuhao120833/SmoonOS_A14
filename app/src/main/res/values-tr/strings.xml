@@ -271,6 +271,6 @@
     <string name="calibrated">Kalibre edildi</string>
     <string name="calibrated_data_fail">Kalibre edildi, veri hatalı</string>
     <string name="calibrated_data_normal">Kalibre edildi, veri normal</string>
-
+    <string name="shortcuts_tips">Kısayol çubuğu doluysa, düzenlemek için OK düğmesine uzun basabilirsiniz.</string>
 </resources>
 

@@ -228,5 +228,5 @@
 	<string name="calibrated">校正済み</string>
 	<string name="calibrated_data_fail">校正済み、データ異常</string>
 	<string name="calibrated_data_normal">校正済み、データ正常</string>
-
+	<string name="shortcuts_tips">ショートカットバーがいっぱいの場合、OKボタンを長押しして編集できます。</string>
 </resources>

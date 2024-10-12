@@ -210,5 +210,5 @@
 	<string name="calibrated">已標定</string>
 	<string name="calibrated_data_fail">已標定, 數據異常</string>
 	<string name="calibrated_data_normal">已標定, 數據正常</string>
-
+	<string name="shortcuts_tips">如果快捷欄滿了，可以長按OK鍵進行編輯。</string>
 </resources>

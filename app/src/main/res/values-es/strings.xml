@@ -255,5 +255,5 @@
 	<string name="calibrated">Calibrado</string>
 	<string name="calibrated_data_fail">Calibrado, datos anormales</string>
 	<string name="calibrated_data_normal">Calibrado, datos normales</string>
-
+	<string name="shortcuts_tips">Si la barra de accesos directos está llena, puedes mantener presionado el botón OK para editar.</string>
 </resources>

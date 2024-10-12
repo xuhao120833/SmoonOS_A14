@@ -227,5 +227,5 @@
 	<string name="calibrated">تمت المعايرة</string>
 	<string name="calibrated_data_fail">تمت المعايرة، البيانات غير طبيعية</string>
 	<string name="calibrated_data_normal">تمت المعايرة، البيانات طبيعية</string>
-
+	<string name="shortcuts_tips">إذا كانت شريط الاختصارات ممتلئًا، يمكنك الضغط لفترة طويلة على زر OK للتعديل.</string>
 </resources>

@@ -270,5 +270,6 @@
     <string name="calibrated">Калібрується</string>
     <string name="calibrated_data_fail">Калібровано, дані ненормальні</string>
     <string name="calibrated_data_normal">Калібровано, дані нормальні</string>
+    <string name="shortcuts_tips">Якщо панель ярликів заповнена, ви можете довго натискати кнопку OK, щоб редагувати.</string>
 </resources>
 

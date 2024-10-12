@@ -271,5 +271,6 @@
     <string name="calibrated">Kalibreret</string>
     <string name="calibrated_data_fail">Kalibreret, data unormale</string>
     <string name="calibrated_data_normal">Kalibreret, data normale</string>
+    <string name="shortcuts_tips">Hvis genvejslinjen er fuld, kan du holde OK-knappen nede for at redigere.</string>
 </resources>
 

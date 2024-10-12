@@ -270,6 +270,6 @@
     <string name="calibrated">ปรับเทียบแล้ว</string>
     <string name="calibrated_data_fail">ปรับเทียบแล้ว, ข้อมูลผิดปกติ</string>
     <string name="calibrated_data_normal">ปรับเทียบแล้ว, ข้อมูลปกติ</string>
-
+    <string name="shortcuts_tips">หากแถบทางลัดเต็ม คุณสามารถกดปุ่ม OK ค้างไว้เพื่อแก้ไขได้</string>
 </resources>
 

@@ -255,6 +255,6 @@
 	<string name="calibrated">Kalibriert</string>
 	<string name="calibrated_data_fail">Kalibriert, Daten abnormal</string>
 	<string name="calibrated_data_normal">Kalibriert, Daten normal</string>
-
+	<string name="shortcuts_tips">Wenn die Schnellstartleiste voll ist, können Sie die OK-Taste lange drücken, um zu bearbeiten.</string>
 </resources>
 

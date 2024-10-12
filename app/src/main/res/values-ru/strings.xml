@@ -212,5 +212,5 @@
 	<string name="calibrated">Откалибровано</string>
 	<string name="calibrated_data_fail">Откалибровано, данные ненормальные</string>
 	<string name="calibrated_data_normal">Откалибровано, данные нормальные</string>
-
+	<string name="shortcuts_tips">Если панель быстрого доступа заполнена, вы можете нажать и удерживать кнопку OK для редактирования.</string>
 </resources>
