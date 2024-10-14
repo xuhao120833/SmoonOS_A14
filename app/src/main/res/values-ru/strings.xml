@@ -64,6 +64,7 @@
 	<string name="off">Закрыть</string>
 	<string name="reset_factory_msg">Инициализация пользовательских операций, настроек приложений и системных настроек.</string>
 	<string name="short_max_tips">Быстрое применение заполнено.</string>
+	<string name="resident_app">Закреплённые быстрые приложения невозможно удалить.</string>
 	<string name="about_device">Об оборудовании</string>
 	<string name="device_model">Тип оборудования</string>
 	<string name="ui_version">Версия UI</string>

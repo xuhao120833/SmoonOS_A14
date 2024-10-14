@@ -64,6 +64,7 @@
 	<string name="off">غلق</string>
 	<string name="reset_factory_msg">تهيئة المستخدم العملية ، إعدادات التطبيق ، إعدادات النظام ، الخ .</string>
 	<string name="short_max_tips">تطبيق سريع كامل</string>
+	<string name="resident_app">التطبيقات المثبتة السريعة، غير قابلة للحذف.</string>
 	<string name="about_device">حول المعدات</string>
 	<string name="device_model">نوع الجهاز</string>
 	<string name="ui_version">نسخة واجهة المستخدم</string>

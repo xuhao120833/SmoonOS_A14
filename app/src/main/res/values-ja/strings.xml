@@ -64,6 +64,7 @@
 	<string name="off">閉じる</string>
 	<string name="reset_factory_msg">ユーザー操作、アプリケーション設定、システム設定などを初期化します。</string>
 	<string name="short_max_tips">ショートカット適用がいっぱいです</string>
+	<string name="resident_app">固定ショートカットアプリは削除できません。</string>
 	<string name="about_device">デバイスについて</string>
 	<string name="device_model">設備型番</string>
 	<string name="ui_version">UIバージョン</string>

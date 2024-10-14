@@ -264,16 +264,30 @@ public class DBUtils extends SQLiteOpenHelper {
      *
      * @return
      */
-    public long getFavoritesCount() {
-        long count = 0;
+//    public long getFavoritesCount() {
+//        long count = 0;
+//        SQLiteDatabase db = getWritableDatabase();
+//        String sql = "select count(*) from " + TABLENAME_FAVORITES;
+//        Cursor cursor = db.rawQuery(sql, null);
+//        cursor.moveToFirst();
+//        count = cursor.getLong(0);
+//        cursor.close();
+//        return count;
+//    }
+
+    public int getFavoritesCount() {
         SQLiteDatabase db = getWritableDatabase();
-        String sql = "select count(*) from " + TABLENAME_FAVORITES;
-        Cursor cursor = db.rawQuery(sql, null);
-        cursor.moveToFirst();
-        count = cursor.getLong(0);
+        String countQuery = "SELECT COUNT(*) FROM " + TABLENAME_FAVORITES;
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = 0;
+
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
         cursor.close();
         return count;
     }
+
 
     public boolean isExistData(String packagename) {
         boolean isExist = false;

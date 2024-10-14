@@ -83,7 +83,7 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
             Log.d(TAG, "Shortcuts appName为NULL ");
             String appName = DBUtils.getInstance(mContext).getFavoritesAppName(short_list.get(i).getPackageName());
             Drawable drawable = DBUtils.getInstance(mContext).getFavoritesIcon(short_list.get(i).getPackageName());
-            if(appName!=null) {
+            if(appName!=null&&!appName.isEmpty()) {
                 myViewHolder.name.setText(appName);
             }else {
                 myViewHolder.name.setText(getAppName(short_list.get(i).getPackageName()));

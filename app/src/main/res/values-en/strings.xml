@@ -64,6 +64,7 @@
 	<string name="off">Off</string>
 	<string name="reset_factory_msg">Initialize user operations, application settings, and system settings, etc.</string>
 	<string name="short_max_tips">Quick app is full</string>
+	<string name="resident_app">Pinned quick apps, cannot be deleted.</string>
 	<string name="about_device">About devices</string>
 	<string name="device_model">Model</string>
 	<string name="ui_version">UI version</string>

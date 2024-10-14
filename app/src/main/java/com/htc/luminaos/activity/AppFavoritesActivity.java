@@ -40,6 +40,7 @@ import com.htc.luminaos.utils.ShareUtil;
 import com.htc.luminaos.utils.ToastUtil;
 import com.htc.luminaos.widget.GridViewItemOrderUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import androidx.annotation.Nullable;
 
@@ -167,36 +168,84 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 				int count = 0;
 				for (int i = 0; i < list.size(); i++) {
 					if (list.get(i).isCheck()) {
+						Log.d(tag," 快捷栏数量 list i "+i);
 						count += 1;
 					}
 				}
-				if (count+DBUtils.getInstance(getApplicationContext()).getFavoritesCount() > 8) {//原来是6改成8
-					list.get(position)
-							.setCheck(!list.get(position).isCheck());
-					ToastUtil.showShortToast(AppFavoritesActivity.this,
-							getString(R.string.short_max_tips));
-				} else {
-					boolean isCheck = list.get(position).isCheck();
-					if (isCheck) {
-						if (!DBUtils.getInstance(
-								AppFavoritesActivity.this)
-								.isExistData(list.get(position).getApppackagename())
-						) {
+				Log.d(tag," 快捷栏数量 count "+count);
+				Log.d(tag," 快捷栏数量 getFavoritesCount() "+DBUtils.getInstance(getApplicationContext()).getFavoritesCount());
+
+				//这里得分两种情况，有配置文件和没有配置文件
+				int favorites =0;
+				int max =0;
+				File file = new File("/oem/shortcuts.config");
+				if (!file.exists()) {
+					file = new File("/system/shortcuts.config");
+				}
+				if (!file.exists()) {
+					favorites = count;
+					max = 7;
+					Log.d(tag," 快捷栏数量 !file.exists() ");
+					if (favorites > max) {// count>favorites是新增
+						list.get(position)
+								.setCheck(!list.get(position).isCheck());
+						ToastUtil.showShortToast(AppFavoritesActivity.this,
+								getString(R.string.short_max_tips));
+					} else {
+						boolean isCheck = list.get(position).isCheck();
+						if (isCheck) {
+							if (!DBUtils.getInstance(
+											AppFavoritesActivity.this)
+									.isExistData(list.get(position).getApppackagename())
+							) {
+								DBUtils.getInstance(AppFavoritesActivity.this)
+										.addFavorites(
+												"",
+												list.get(position).getApppackagename(),
+												null
+										);
+								adapter.notifyDataSetChanged();
+							}
+						} else {
 							DBUtils.getInstance(AppFavoritesActivity.this)
-									.addFavorites(
-											"",
-											list.get(position).getApppackagename(),
-											null
-									);
+									.deleteFavorites(
+											list.get(position).getApppackagename());
 							adapter.notifyDataSetChanged();
 						}
-					} else {
-						DBUtils.getInstance(AppFavoritesActivity.this)
-								.deleteFavorites(
-										list.get(position).getApppackagename());
-						adapter.notifyDataSetChanged();
-					}
 
+					}
+				}else {
+					favorites = DBUtils.getInstance(getApplicationContext()).getFavoritesCount();
+					max = 6;
+					Log.d(tag," 快捷栏数量 file.exists() ");
+					if (favorites > max && list.get(position).isCheck()) {
+						list.get(position)
+								.setCheck(!list.get(position).isCheck());
+						ToastUtil.showShortToast(AppFavoritesActivity.this,
+								getString(R.string.short_max_tips));
+					} else {
+						boolean isCheck = list.get(position).isCheck();
+						if (isCheck) {
+							if (!DBUtils.getInstance(
+											AppFavoritesActivity.this)
+									.isExistData(list.get(position).getApppackagename())
+							) {
+								DBUtils.getInstance(AppFavoritesActivity.this)
+										.addFavorites(
+												"",
+												list.get(position).getApppackagename(),
+												null
+										);
+								adapter.notifyDataSetChanged();
+							}
+						} else {
+							DBUtils.getInstance(AppFavoritesActivity.this)
+									.deleteFavorites(
+											list.get(position).getApppackagename());
+							adapter.notifyDataSetChanged();
+						}
+
+					}
 				}
 			}
 		});

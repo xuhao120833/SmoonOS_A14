@@ -64,6 +64,7 @@
 	<string name="off">關閉</string>
 	<string name="reset_factory_msg">初始化用戶操作、應用程序設定和系統設置等。</string>
 	<string name="short_max_tips">快捷應用已滿</string>
+	<string name="resident_app">固定快捷應用，無法刪除。</string>
 	<string name="about_device">關於設備</string>
 	<string name="device_model">設備型號</string>
 	<string name="ui_version">UI版本</string>
