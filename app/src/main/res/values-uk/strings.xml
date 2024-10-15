@@ -178,21 +178,17 @@
     <string name="intelligent_obstacle">Інтелектуальна перешкода</string>
     <string name="calibration">Інтелектуальна калібрування</string>
     <string name="shutdown_tips"><Data><![CDATA[<font color="#ff0000"><b>%1$d</b></font> секунд до автоматичного вимкнення]]></Data></string>
-
     <string name="connecting_ssid">Підключення до %1$s …</string>
     <string name="data_none">Відповідних даних програми не знайдено, будь ласка, завантажте з магазину програм</string>
     <string name="hotspot_settings">Налаштування точки доступу</string>
     <string name="wired_network">Провідна мережа</string>
     <string name="hotspot_switch">Вимикач точки доступу</string>
-
     <string name="one_band">Діапазон 2.4 ГГц</string>
     <string name="two_band">Діапазон 5 ГГц</string>
     <string name="passwordmsglength">Пароль не може бути менше 8 символів!</string>
     <string name="empty_string">Не може бути порожнім!</string>
     <string name="add_network">Додати мережу</string>
-
     <string name="refresh_network">Оновити мережу</string>
-
     <string name="dhcp">DHCP</string>
     <string name="static_ip">Статичний</string>
     <string name="ip_settings">Налаштування IP</string>
@@ -207,7 +203,6 @@
     <string name="resolution">Роздільна здатність</string>
     <string name="display_settings">Налаштування відображення</string>
     <string name="brightness">Яскравість</string>
-
     <string name="picture_mode_standard_name">Стандартний</string>
     <string name="picture_mode_cinema_name">Кіно</string>
     <string name="picture_mode_vivid_name">Яскравий</string>
@@ -226,32 +221,24 @@
     <string name="picture_mode_sony_name">Sony</string>
     <string name="picture_mode_samsung_name">Samsung</string>
     <string name="picture_mode_custom_name">Користувацький</string>
-
     <string name="Eshare">Кастинг</string>
     <string name="Filemanager">Менеджер файлів</string>
     <string name="network_setting">Налаштування мережі</string>
-
     <string name="choose_ap">Виберіть діапазон AP</string>
-
     <string name="network_disconnect_tip">Будь ласка, підключіться до мережі та спробуйте ще раз!</string>
     <string name="data_err">Помилка отримання даних!</string>
-
     <string name="usb_debug">USB налагодження</string>
     <string name="adb_debug">ADB налагодження</string>
-
     <string name="time_format_24">Використовувати 24-годинний формат</string>
     <string name="time_format_12">Використовувати 12-годинний формат</string>
-
     <string name="hint">Підказка</string>
     <string name="defaultcorrection">Початкова корекція кута</string>
     <string name="defaultcorrectionhint">Помістіть пристрій на рівну поверхню, а потім натисніть “ОК” для калібрування. Під час калібрування не переміщайте пристрій!</string>
     <string name="defaultcorrectionin">Калібрування триває, будь ласка, почекайте…</string>
-
     <string name="device_mode">Режим пристрою</string>
     <string name="device_mode0">Стандартний режим</string>
     <string name="device_mode1">Економний режим</string>
     <string name="device_mode2">Яскравий режим</string>
-
     <string name="new_version">Нова версія</string>
     <string name="update_content">Вміст оновлення</string>
     <string name="best_version">Остання версія вже встановлена</string>
@@ -260,11 +247,8 @@
     <string name="download_update">Завантажити оновлення</string>
     <string name="donwloading">Завантаження</string>
     <string name="cureent_version">Поточна версія</string>
-
     <string name="system_app_cannot_uninstalled">Системні додатки не можна видалити!</string>
-
     <string name="wallpaper_text">Зміна фону</string>
-
     <string name="auto_four_corner_hint">Включення автоматичного фокусування</string>
     <string name="no_caalibrated">Не калібрується</string>
     <string name="calibrated">Калібрується</string>

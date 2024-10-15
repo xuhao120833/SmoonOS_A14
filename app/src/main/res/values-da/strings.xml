@@ -178,22 +178,17 @@
     <string name="intelligent_obstacle">Intelligent forhindring</string>
     <string name="calibration">Intelligent kalibrering</string>
     <string name="shutdown_tips"><Data><![CDATA[<font color="#ff0000"><b>%1$d</b></font> sekunder til automatisk slukning ]]></Data></string>
-
     <string name="connecting_ssid">Forbinder til %1$s …</string>
-
     <string name="data_none">Ingen relevante applikationsdata fundet, besøg venligst app-butikken for at downloade</string>
     <string name="hotspot_settings">Hotspot-indstillinger</string>
     <string name="wired_network">Kablet netværk</string>
     <string name="hotspot_switch">Hotspot-kontakt</string>
-
     <string name="one_band">2,4 GHz-bånd</string>
     <string name="two_band">5 GHz-bånd</string>
     <string name="passwordmsglength">Adgangskoden må ikke være mindre end 8 tegn!</string>
     <string name="empty_string">Må ikke være tomt!</string>
     <string name="add_network">Tilføj netværk</string>
-
     <string name="refresh_network">Opdater netværk</string>
-
     <string name="dhcp">DHCP</string>
     <string name="static_ip">Statisk</string>
     <string name="ip_settings">IP-indstillinger</string>
@@ -208,7 +203,6 @@
     <string name="resolution">Opløsning</string>
     <string name="display_settings">Skærmindstillinger</string>
     <string name="brightness">Lysstyrke</string>
-
     <string name="picture_mode_standard_name">Standard</string>
     <string name="picture_mode_cinema_name">Biograf</string><!--影片-->
     <string name="picture_mode_vivid_name">Livlig</string>
@@ -227,32 +221,24 @@
     <string name="picture_mode_sony_name">Sony</string>
     <string name="picture_mode_samsung_name">Samsung</string>
     <string name="picture_mode_custom_name">Brugerdefineret</string>
-
     <string name="Eshare">Spejl</string>
     <string name="Filemanager">Filhåndtering</string>
     <string name="network_setting">Netværksindstillinger</string>
-
     <string name="choose_ap">Vælg AP-bånd</string>
-
     <string name="network_disconnect_tip">Forbind venligst til netværket og prøv igen!</string>
     <string name="data_err">Datafejl!</string>
-
     <string name="usb_debug">USB-fejlretning</string>
     <string name="adb_debug">ADB-fejlretning</string>
-
     <string name="time_format_24">Brug 24-timers format</string>
     <string name="time_format_12">Brug 12-timers format</string>
-
     <string name="hint">Tip</string>
     <string name="defaultcorrection">Initial vinkelkorrektion</string>
     <string name="defaultcorrectionhint">Placer enheden på en vandret overflade og tryk på "OK" for at kalibrere. Flyt ikke enheden under kalibreringen!</string>
     <string name="defaultcorrectionin">Kalibrering, vent venligst…</string>
-
     <string name="device_mode">Enhedsmodus</string>
     <string name="device_mode0">Standardmode</string>
     <string name="device_mode1">Energibesparende mode</string>
     <string name="device_mode2">Høj lysstyrke mode</string>
-
     <string name="new_version">Ny version</string>
     <string name="update_content">Opdateringsindhold</string>
     <string name="best_version">Nyeste version allerede</string>
@@ -261,11 +247,8 @@
     <string name="download_update">Download opdatering</string>
     <string name="donwloading">Downloader</string>
     <string name="cureent_version">Nuværende version</string>
-
     <string name="system_app_cannot_uninstalled">System-APP kan ikke afinstalleres!</string>
-
     <string name="wallpaper_text">Baggrundsskift</string>
-
     <string name="auto_four_corner_hint">Automatisk fokus aktiveres</string>
     <string name="no_caalibrated">Ikke kalibreret</string>
     <string name="calibrated">Kalibreret</string>

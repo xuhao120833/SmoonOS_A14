@@ -249,7 +249,6 @@
     <string name="cureent_version">Versão atual</string>
     <string name="system_app_cannot_uninstalled">Aplicativos do sistema não podem ser desinstalados!</string>
     <string name="wallpaper_text">Mudança de fundo</string>
-
     <string name="auto_four_corner_hint">Eficaz após ativar o foco automático</string>
     <string name="no_caalibrated">Não calibrado</string>
     <string name="calibrated">Calibrado</string>

@@ -552,6 +552,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     public void set_auto_focus(boolean b) {
         if (b) {
             SystemProperties.set("persist.sys.vafocus", "1");
+            SystemProperties.set("hotack.sensor.anti_shake", "1");
         } else {
             SystemProperties.set("persist.sys.vafocus", "0");
         }
@@ -578,6 +579,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     public void set_AutoFourCorner(boolean b) {
         if (b) {
             SystemProperties.set("persist.sys.tpryxcrt", "1");
+            SystemProperties.set("hotack.sensor.anti_shake", "1");
         } else {
             SystemProperties.set("persist.sys.tpryxcrt", "0");
         }

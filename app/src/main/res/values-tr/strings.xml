@@ -178,22 +178,17 @@
     <string name="intelligent_obstacle">Akıllı Engel Tanıma</string>
     <string name="calibration">Akıllı Kalibrasyon</string>
     <string name="shutdown_tips"><Data><![CDATA[<font color="#ff0000"><b>%1$d</b></font> saniye sonra otomatik kapanacak]]></Data></string>
-
     <string name="connecting_ssid">Bağlanılıyor %1$s …</string>
-
     <string name="data_none">İlgili uygulama verileri bulunamadı, lütfen uygulama mağazasından indirin</string>
     <string name="hotspot_settings">Hotspot Ayarları</string>
     <string name="wired_network">Kablolu Ağ</string>
     <string name="hotspot_switch">Hotspot Anahtarı</string>
-
     <string name="one_band">2.4 GHz Bant</string>
     <string name="two_band">5 GHz Bant</string>
     <string name="passwordmsglength">Şifre 8 karakterden az olamaz!</string>
     <string name="empty_string">Boş olamaz!</string>
     <string name="add_network">Ağ Ekle</string>
-
     <string name="refresh_network">Ağı Yenile</string>
-
     <string name="dhcp">DHCP</string>
     <string name="static_ip">Statik</string>
     <string name="ip_settings">IP Ayarları</string>
@@ -208,7 +203,6 @@
     <string name="resolution">Çözünürlük</string>
     <string name="display_settings">Görüntü Ayarları</string>
     <string name="brightness">Parlaklık</string>
-
     <string name="picture_mode_standard_name">Standart</string>
     <string name="picture_mode_cinema_name">Sinemaya</string><!--影片-->
     <string name="picture_mode_vivid_name">Canlı</string>
@@ -227,32 +221,24 @@
     <string name="picture_mode_sony_name">Sony</string>
     <string name="picture_mode_samsung_name">Samsung</string>
     <string name="picture_mode_custom_name">Özel</string>
-
     <string name="Eshare">Ekran Yansıtma</string>
     <string name="Filemanager">Dosya Yöneticisi</string>
     <string name="network_setting">Ağ Ayarları</string>
-
     <string name="choose_ap">AP Bantını Seç</string>
-
     <string name="network_disconnect_tip">Lütfen ağı bağlayın ve tekrar deneyin!</string>
     <string name="data_err">Veri alma hatası!</string>
-
     <string name="usb_debug">USB Hatası Ayıklama</string>
     <string name="adb_debug">ADB Hatası Ayıklama</string>
-
     <string name="time_format_24">24 saat formatını kullan</string>
     <string name="time_format_12">12 saat formatını kullan</string>
-
     <string name="hint">İpucu</string>
     <string name="defaultcorrection">Başlangıç Açısı Düzeltmesi</string>
     <string name="defaultcorrectionhint">Cihazı düz bir yüzeye koyun ve kalibrasyon için "Tamam" tuşuna basın. Kalibrasyon sırasında cihazı hareket ettirmeyin!</string>
     <string name="defaultcorrectionin">Kalibre ediliyor, lütfen bekleyin…</string>
-
     <string name="device_mode">Cihaz Modu</string>
     <string name="device_mode0">Standart Mod</string>
     <string name="device_mode1">Enerji Tasarrufu Modu</string>
     <string name="device_mode2">Aşırı Aydınlatma Modu</string>
-
     <string name="new_version">Yeni Sürüm</string>
     <string name="update_content">Güncelleme İçeriği</string>
     <string name="best_version">Zaten en son sürüm</string>
@@ -261,11 +247,8 @@
     <string name="download_update">Güncellemeyi İndir</string>
     <string name="donwloading">İndiriliyor</string>
     <string name="cureent_version">Mevcut Sürüm</string>
-
     <string name="system_app_cannot_uninstalled">Sistem Uygulamaları kaldırılabilir değil!</string>
-
     <string name="wallpaper_text">Arka Plan Değiştirme</string>
-
     <string name="auto_four_corner_hint">Otomatik odaklama açıkken etkili olacaktır</string>
     <string name="no_caalibrated">Kalibre edilmedi</string>
     <string name="calibrated">Kalibre edildi</string>

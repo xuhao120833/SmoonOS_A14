@@ -178,21 +178,17 @@
     <string name="intelligent_obstacle">การหลีกเลี่ยงอุปสรรคอัจฉริยะ</string>
     <string name="calibration">การปรับเทียบอัจฉริยะ</string>
     <string name="shutdown_tips"><Data><![CDATA[<font color="#ff0000"><b>%1$d</b></font> วินาทีหลังจากนั้นจะปิดเครื่องอัตโนมัติ ]]></Data></string>
-
     <string name="connecting_ssid">กำลังเชื่อมต่อ %1$s …</string>
     <string name="data_none">ไม่พบข้อมูลแอปที่เกี่ยวข้อง กรุณาไปที่ร้านแอปเพื่อดาวน์โหลด</string>
     <string name="hotspot_settings">การตั้งค่าโฮสต์</string>
     <string name="wired_network">เครือข่ายมีสาย</string>
     <string name="hotspot_switch">สวิตช์โฮสต์</string>
-
     <string name="one_band">ย่าน 2.4 GHz</string>
     <string name="two_band">ย่าน 5 GHz</string>
     <string name="passwordmsglength">รหัสผ่านต้องไม่น้อยกว่า 8 หลัก!</string>
     <string name="empty_string">ไม่สามารถเว้นว่างได้!</string>
     <string name="add_network">เพิ่มเครือข่าย</string>
-
     <string name="refresh_network">รีเฟรชเครือข่าย</string>
-
     <string name="dhcp">DHCP</string>
     <string name="static_ip">IP สถิต</string>
     <string name="ip_settings">การตั้งค่า IP</string>
@@ -207,7 +203,6 @@
     <string name="resolution">ความละเอียด</string>
     <string name="display_settings">การตั้งค่าการแสดงผล</string>
     <string name="brightness">ความสว่าง</string>
-
     <string name="picture_mode_standard_name">มาตรฐาน</string>
     <string name="picture_mode_cinema_name">โรงภาพยนตร์</string><!--影片-->
     <string name="picture_mode_vivid_name">สดใส</string>
@@ -226,32 +221,24 @@
     <string name="picture_mode_sony_name">โซนี่</string>
     <string name="picture_mode_samsung_name">ซัมซุง</string>
     <string name="picture_mode_custom_name">กำหนดเอง</string>
-
     <string name="Eshare">แชร์หน้าจอ</string>
     <string name="Filemanager">จัดการไฟล์</string>
     <string name="network_setting">การตั้งค่าเครือข่าย</string>
-
     <string name="choose_ap">เลือกย่าน AP</string>
-
     <string name="network_disconnect_tip">กรุณาเชื่อมต่อเครือข่ายแล้วลองใหม่!</string>
     <string name="data_err">เกิดข้อผิดพลาดในการรับข้อมูล!</string>
-
     <string name="usb_debug">การดีบัก USB</string>
     <string name="adb_debug">การดีบัก ADB</string>
-
     <string name="time_format_24">ใช้รูปแบบ 24 ชั่วโมง</string>
     <string name="time_format_12">ใช้รูปแบบ 12 ชั่วโมง</string>
-
     <string name="hint">คำแนะนำ</string>
     <string name="defaultcorrection">การปรับมุมเริ่มต้น</string>
     <string name="defaultcorrectionhint">วางอุปกรณ์ไว้บนพื้นราบแล้วกด "ตกลง" เพื่อปรับเทียบ อย่าขยับอุปกรณ์ในระหว่างการปรับเทียบ!</string>
     <string name="defaultcorrectionin">กำลังปรับเทียบ โปรดรอสักครู่…</string>
-
     <string name="device_mode">โหมดอุปกรณ์</string>
     <string name="device_mode0">โหมดมาตรฐาน</string>
     <string name="device_mode1">โหมดประหยัดพลังงาน</string>
     <string name="device_mode2">โหมดความสว่างสูง</string>
-
     <string name="new_version">เวอร์ชันใหม่</string>
     <string name="update_content">เนื้อหาอัปเดต</string>
     <string name="best_version">เวอร์ชันล่าสุดแล้ว</string>
@@ -260,11 +247,8 @@
     <string name="download_update">ดาวน์โหลดการอัปเดต</string>
     <string name="donwloading">กำลังดาวน์โหลด</string>
     <string name="cureent_version">เวอร์ชันปัจจุบัน</string>
-
     <string name="system_app_cannot_uninstalled">แอประบบไม่สามารถถอนการติดตั้งได้!</string>
-
     <string name="wallpaper_text">เปลี่ยนภาพพื้นหลัง</string>
-
     <string name="auto_four_corner_hint">มีผลหลังจากเปิดการโฟกัสอัตโนมัติ</string>
     <string name="no_caalibrated">ยังไม่ได้ปรับเทียบ</string>
     <string name="calibrated">ปรับเทียบแล้ว</string>

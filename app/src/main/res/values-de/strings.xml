@@ -249,7 +249,6 @@
     <string name="cureent_version">Aktuelle Version</string>
     <string name="system_app_cannot_uninstalled">System-Apps können nicht deinstalliert werden!</string>
     <string name="wallpaper_text">Hintergrundwechsel</string>
-
 	<string name="auto_four_corner_hint">Wird nach Aktivierung des Autofokus wirksam</string>
 	<string name="no_caalibrated">Nicht kalibriert</string>
 	<string name="calibrated">Kalibriert</string>

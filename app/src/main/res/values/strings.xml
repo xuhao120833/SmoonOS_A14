@@ -178,22 +178,17 @@
     <string name="intelligent_obstacle">智能避障</string>
     <string name="calibration">智能标定</string>
     <string name="shutdown_tips"><Data><![CDATA[<font color="#ff0000"><b>%1$d</b></font> 秒后自动关机 ]]></Data></string>
-
     <string name="connecting_ssid">正在连接 %1$s …</string>
-
     <string name="data_none">未找到相应的应用数据，请前往应用商店下载</string>
     <string name="hotspot_settings">热点设置</string>
     <string name="wired_network">有线网络</string>
     <string name="hotspot_switch">热点开关</string>
-
     <string name="one_band">2.4 GHz 频段</string>
     <string name="two_band">5 GHz 频段</string>
     <string name="passwordmsglength">输入密码不能小于8位数!</string>
     <string name="empty_string">不能设为空！</string>
     <string name="add_network">添加网络</string>
-
     <string name="refresh_network">刷新网络</string>
-
     <string name="dhcp">DHCP</string>
     <string name="static_ip">静态</string>
     <string name="ip_settings">IP设置</string>
@@ -208,7 +203,6 @@
     <string name="resolution">分辨率</string>
     <string name="display_settings">显示设置</string>
     <string name="brightness">亮度</string>
-
     <string name="picture_mode_standard_name">标准</string>
     <string name="picture_mode_cinema_name">影院</string><!--影片-->
     <string name="picture_mode_vivid_name">艳丽</string>
@@ -227,32 +221,24 @@
     <string name="picture_mode_sony_name">索尼</string>
     <string name="picture_mode_samsung_name">三星</string>
     <string name="picture_mode_custom_name">自定义</string>
-
     <string name="Eshare">投屏</string>
     <string name="Filemanager">文件管理</string>
     <string name="network_setting">网络设置</string>
-
     <string name="choose_ap">选择AP频段</string>
-
     <string name="network_disconnect_tip">请链接网络后重试！</string>
     <string name="data_err">获取数据异常！</string>
-
     <string name="usb_debug">USB 调试</string>
     <string name="adb_debug">ADB 调试</string>
-
     <string name="time_format_24">使用24小时格式</string>
     <string name="time_format_12">使用12小时格式</string>
-
     <string name="hint">提示</string>
     <string name="defaultcorrection">初始角度矫正</string>
     <string name="defaultcorrectionhint">将设备放置在水平面上，然后按\“确定\”进行校正。 校正过程中请勿移动设备！</string>
     <string name="defaultcorrectionin">正在校正中，请稍候…</string>
-
     <string name="device_mode">设备模式</string>
     <string name="device_mode0">标准模式</string>
     <string name="device_mode1">节能模式</string>
     <string name="device_mode2">高亮模式</string>
-
     <string name="new_version">New Version</string>
     <string name="update_content">Update Content</string>
     <string name="best_version">Latest version already</string>
@@ -261,17 +247,12 @@
     <string name="download_update">Download Update</string>
     <string name="donwloading">Downloading</string>
     <string name="cureent_version">Current Version</string>
-    
     <string name="system_app_cannot_uninstalled">系统APP不可卸载！</string>
-
     <string name="wallpaper_text">背景切换</string>
-
     <string name="auto_four_corner_hint">自动对焦开启后生效</string>
     <string name="no_caalibrated">未标定</string>
     <string name="calibrated">已标定</string>
     <string name="calibrated_data_fail">已标定, 数据异常</string>
     <string name="calibrated_data_normal">已标定, 数据正常</string>
-
     <string name="shortcuts_tips">如果快捷栏满了，可以长按OK键进行编辑。</string>
-
 </resources>

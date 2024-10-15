@@ -178,22 +178,17 @@
 	<string name="intelligent_obstacle">Évitement intelligent des obstacles</string>
 	<string name="calibration">Calibration intelligente</string>
 	<string name="shutdown_tips"><Data><![CDATA[<font color="#ff0000"><b>%1$d</b></font> secondes avant l&apos;arrêt automatique]]></Data></string>
-
 	<string name="connecting_ssid">Connexion à %1$s en cours…</string>
-
 	<string name="data_none">Aucune donnée d\'application correspondante trouvée, veuillez télécharger depuis la boutique d\'applications</string>
 	<string name="hotspot_settings">Paramètres de point d\'accès</string>
 	<string name="wired_network">Réseau filaire</string>
 	<string name="hotspot_switch">Interrupteur de point d\'accès</string>
-
 	<string name="one_band">Bande 2,4 GHz</string>
 	<string name="two_band">Bande 5 GHz</string>
 	<string name="passwordmsglength">Le mot de passe doit contenir au moins 8 caractères !</string>
 	<string name="empty_string">Ne peut pas être vide !</string>
 	<string name="add_network">Ajouter un réseau</string>
-
 	<string name="refresh_network">Actualiser le réseau</string>
-
 	<string name="dhcp">DHCP</string>
 	<string name="static_ip">Statique</string>
 	<string name="ip_settings">Paramètres IP</string>
@@ -208,7 +203,6 @@
 	<string name="resolution">Résolution</string>
 	<string name="display_settings">Paramètres d\'affichage</string>
 	<string name="brightness">Luminosité</string>
-
 	<string name="picture_mode_standard_name">Standard</string>
 	<string name="picture_mode_cinema_name">Cinéma</string><!--影片-->
 	<string name="picture_mode_vivid_name">Vivid</string>
@@ -227,32 +221,24 @@
 	<string name="picture_mode_sony_name">Sony</string>
 	<string name="picture_mode_samsung_name">Samsung</string>
 	<string name="picture_mode_custom_name">Personnalisé</string>
-
 	<string name="Eshare">Partage d\'écran</string>
 	<string name="Filemanager">Gestionnaire de fichiers</string>
 	<string name="network_setting">Paramètres réseau</string>
-
 	<string name="choose_ap">Choisir la bande AP</string>
-
 	<string name="network_disconnect_tip">Veuillez vous connecter au réseau avant de réessayer !</string>
 	<string name="data_err">Erreur lors de l\'obtention des données !</string>
-
 	<string name="usb_debug">Débogage USB</string>
 	<string name="adb_debug">Débogage ADB</string>
-
 	<string name="time_format_24">Utiliser le format 24 heures</string>
 	<string name="time_format_12">Utiliser le format 12 heures</string>
-
 	<string name="hint">Indice</string>
 	<string name="defaultcorrection">Correction d\'angle initiale</string>
 	<string name="defaultcorrectionhint">Placez l\'appareil sur une surface plane, puis appuyez sur "OK" pour corriger. Ne déplacez pas l\'appareil pendant la correction !</string>
 	<string name="defaultcorrectionin">Correction en cours, veuillez patienter…</string>
-
 	<string name="device_mode">Mode de l\'appareil</string>
 	<string name="device_mode0">Mode standard</string>
 	<string name="device_mode1">Mode éco</string>
 	<string name="device_mode2">Mode haute luminosité</string>
-
 	<string name="new_version">Nouvelle version</string>
 	<string name="update_content">Contenu de la mise à jour</string>
 	<string name="best_version">La dernière version est déjà installée</string>
@@ -261,11 +247,8 @@
 	<string name="download_update">Télécharger la mise à jour</string>
 	<string name="donwloading">Téléchargement en cours</string>
 	<string name="cureent_version">Version actuelle</string>
-
 	<string name="system_app_cannot_uninstalled">Les applications système ne peuvent pas être désinstallées !</string>
-
 	<string name="wallpaper_text">Changement de fond d\'écran</string>
-
 	<string name="auto_four_corner_hint">Effectif après l\'activation de l\'autofocus</string>
 	<string name="no_caalibrated">Non calibré</string>
 	<string name="calibrated">Calibré</string>
