@@ -349,7 +349,8 @@
         >
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/select_point_txt"
+            android:layout_width="@dimen/x_120"
             android:layout_height="match_parent"
             android:textColor="@color/white"
             android:textSize="@dimen/x_21"
@@ -357,10 +358,13 @@
             android:maxWidth="@dimen/x_230"
             android:layout_marginStart="@dimen/x_70"
             android:text="@string/select_point"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/correct_txt"
+            android:layout_width="@dimen/x_120"
             android:layout_height="match_parent"
             android:textColor="@color/white"
             android:maxWidth="@dimen/x_150"
@@ -368,10 +372,13 @@
             android:gravity="center_vertical"
             android:layout_marginStart="@dimen/x_240"
             android:text="@string/correct"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/Menu_reset_txt"
+            android:layout_width="@dimen/x_120"
             android:layout_height="match_parent"
             android:textColor="@color/white"
             android:maxWidth="@dimen/x_150"
@@ -379,10 +386,13 @@
             android:gravity="center_vertical"
             android:layout_marginStart="@dimen/x_450"
             android:text="@string/Menu_reset"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/exit_txt"
+            android:layout_width="@dimen/x_120"
             android:layout_height="match_parent"
             android:maxWidth="@dimen/x_130"
             android:textColor="@color/white"
@@ -390,6 +400,8 @@
             android:gravity="center_vertical"
             android:layout_marginStart="@dimen/x_660"
             android:text="@string/exit"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             />
     </RelativeLayout>
 </RelativeLayout>

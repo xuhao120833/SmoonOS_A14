@@ -116,7 +116,7 @@
 	<string name="digital_zoom">Zoom digital</string>
 	<string name="vertical_correct">Corrección vertical</string>
 	<string name="horizontal_correct">Corrección horizontal</string>
-	<string name="manual_keystone">Keystone manual</string>
+	<string name="manual_keystone">Trapezoide manual</string>
 	<string name="reset_keystone">Restablecer corrección de keystone</string>
 	<string name="wifi">WI-FI</string>
 	<string name="wifi_switch">Interruptor de WI-FI</string>

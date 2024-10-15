@@ -62,6 +62,11 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
     private View rb_bottom;
     private View rb_right;
 
+    private TextView select_txt;
+    private TextView correct_txt;
+    private TextView Menu_reset_txt;
+    private TextView exit_txt;
+
     private RelativeLayout rl_main;
 
     private KeyEvent mkeyEvent;
@@ -87,6 +92,18 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
         setContentView(R.layout.layout_correction_activity);
         initFindViewById();
         initData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (select_txt != null) { //字体过长则滚动显示
+            select_txt.setSelected(true);
+            correct_txt.setSelected(true);
+            Menu_reset_txt.setSelected(true);
+            exit_txt.setSelected(true);
+        }
     }
 
     public void initFindViewById() {
@@ -126,6 +143,16 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
         rb_left = findViewById(R.id.rb_left);
         rb_right = findViewById(R.id.rb_right);
         rb_bottom = findViewById(R.id.rb_bottom);
+
+        select_txt = findViewById(R.id.select_point_txt);
+        correct_txt = findViewById(R.id.correct_txt);
+        Menu_reset_txt = findViewById(R.id.Menu_reset_txt);
+        exit_txt = findViewById(R.id.exit_txt);
+
+        select_txt.setSelected(true);
+        correct_txt.setSelected(true);
+        Menu_reset_txt.setSelected(true);
+        exit_txt.setSelected(true);
 
         check_lt.setChecked(true);
         check_lb.setChecked(false);
@@ -205,7 +232,7 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
             key_move_step = 1;
         }
 
-        Log.d(TAG, " 手动矫正onKeyDown keyCode " + keyCode+" keyEvent "+keyEvent+" repeatCount "+repeatCount+" key_move_step "+key_move_step);
+        Log.d(TAG, " 手动矫正onKeyDown keyCode " + keyCode + " keyEvent " + keyEvent + " repeatCount " + repeatCount + " key_move_step " + key_move_step);
         ret = calculationValue(keyCode, keyEvent, key_move_step);
         if (key_move_step < 8) {
             key_move_step++;
@@ -383,7 +410,7 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
     private boolean calculationValue(int keyCode, KeyEvent keyEvent, int step) {
         int[] xy = new int[]{0, 0};
         int type = 1;
-        Log.d(TAG, " 手动矫正calculationValue g_cur_left " + g_cur_left+" g_cur_right "+g_cur_right+" g_cur_top "+g_cur_top+" g_cur_bottom "+g_cur_bottom);
+        Log.d(TAG, " 手动矫正calculationValue g_cur_left " + g_cur_left + " g_cur_right " + g_cur_right + " g_cur_top " + g_cur_top + " g_cur_bottom " + g_cur_bottom);
         if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
             if (!g_cur_left) return true;
         } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
@@ -549,11 +576,11 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
                 if (x <= KeystoneUtils.minX) {
                     left = false;
                 }
-                int temp =x + xy_OppositeTo[0];
-                Log.d(TAG," 手动矫正refreshStateValueUI check_lt right = false "+" x "+x+" y "+y+" xy_OppositeTo[0] "+xy_OppositeTo[0]+" xy_OppositeTo[1] "+xy_OppositeTo[1]
-                        +" x + xy_OppositeTo[0] "+x + xy_OppositeTo[0]+" KeystoneUtils.minH_size "+KeystoneUtils.minH_size + " temp "+temp);
+                int temp = x + xy_OppositeTo[0];
+                Log.d(TAG, " 手动矫正refreshStateValueUI check_lt right = false " + " x " + x + " y " + y + " xy_OppositeTo[0] " + xy_OppositeTo[0] + " xy_OppositeTo[1] " + xy_OppositeTo[1]
+                        + " x + xy_OppositeTo[0] " + x + xy_OppositeTo[0] + " KeystoneUtils.minH_size " + KeystoneUtils.minH_size + " temp " + temp);
                 if (x + xy_OppositeTo[0] >= 500) {
-                    Log.d(TAG," 手动矫正refreshStateValueUI check_lt right = false");
+                    Log.d(TAG, " 手动矫正refreshStateValueUI check_lt right = false");
                     right = false;
                 }
                 if (y <= KeystoneUtils.minY) {
@@ -563,8 +590,8 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
                     bottom = false;
                 }
                 textv_lt.setText(String.valueOf(xy[0]) + "," + String.valueOf(xy[1]));
-                Log.d(TAG, " 手动矫正refreshStateValueUI check_lt left " + left+" right "+right+" top "+top+" bottom "+bottom
-                        +" x "+x+" y "+y+" xy_OppositeTo[0] "+xy_OppositeTo[0]+" xy_OppositeTo[1] "+xy_OppositeTo[1]);
+                Log.d(TAG, " 手动矫正refreshStateValueUI check_lt left " + left + " right " + right + " top " + top + " bottom " + bottom
+                        + " x " + x + " y " + y + " xy_OppositeTo[0] " + xy_OppositeTo[0] + " xy_OppositeTo[1] " + xy_OppositeTo[1]);
 
             } else if (check_lb.isChecked()) {
                 type = 2;
@@ -586,8 +613,8 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
                     top = false;
                 }
                 textv_lb.setText(String.valueOf(xy[0]) + "," + String.valueOf(xy[1]));
-                Log.d(TAG, " 手动矫正refreshStateValueUI check_lb left " + left+" right "+right+" top "+top+" bottom "+bottom
-                        +" x "+x+" y "+y+" xy_OppositeTo[0] "+xy_OppositeTo[0]+" xy_OppositeTo[1] "+xy_OppositeTo[1]);
+                Log.d(TAG, " 手动矫正refreshStateValueUI check_lb left " + left + " right " + right + " top " + top + " bottom " + bottom
+                        + " x " + x + " y " + y + " xy_OppositeTo[0] " + xy_OppositeTo[0] + " xy_OppositeTo[1] " + xy_OppositeTo[1]);
             } else if (check_rt.isChecked()) {
                 type = 3;
                 // 判断数值
@@ -609,8 +636,8 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
                 }
                 textv_rt.setText(String.valueOf(xy[0]) + "," + String.valueOf(xy[1]));
 
-                Log.d(TAG, " 手动矫正refreshStateValueUI check_rt left " + left+" right "+right+" top "+top+" bottom "+bottom
-                        +" x "+x+" y "+y+" xy_OppositeTo[0] "+xy_OppositeTo[0]+" xy_OppositeTo[1] "+xy_OppositeTo[1]);
+                Log.d(TAG, " 手动矫正refreshStateValueUI check_rt left " + left + " right " + right + " top " + top + " bottom " + bottom
+                        + " x " + x + " y " + y + " xy_OppositeTo[0] " + xy_OppositeTo[0] + " xy_OppositeTo[1] " + xy_OppositeTo[1]);
             } else if (check_rb.isChecked()) {
                 type = 4;
                 int[] xy = KeystoneUtils.getKeystoneRightAndBottomXY();
@@ -631,8 +658,8 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
                 }
                 textv_rb.setText(String.valueOf(xy[0]) + "," + String.valueOf(xy[1]));
 
-                Log.d(TAG, " 手动矫正refreshStateValueUI check_rb left " + left+" right "+right+" top "+top+" bottom "+bottom
-                        +" x "+x+" y "+y+" xy_OppositeTo[0] "+xy_OppositeTo[0]+" xy_OppositeTo[1] "+xy_OppositeTo[1]);
+                Log.d(TAG, " 手动矫正refreshStateValueUI check_rb left " + left + " right " + right + " top " + top + " bottom " + bottom
+                        + " x " + x + " y " + y + " xy_OppositeTo[0] " + xy_OppositeTo[0] + " xy_OppositeTo[1] " + xy_OppositeTo[1]);
             }
             // 更新
             setLRTB(type, left, right, top, bottom);

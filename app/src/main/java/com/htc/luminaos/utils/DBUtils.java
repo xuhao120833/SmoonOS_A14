@@ -27,8 +27,8 @@ import java.util.List;
 
 
 /**
- * @author 作�?�：hxd
- * @version 创建时间 2020/9/8 下午3:50:51 类说�?
+ * @author 徐豪
+ * @version 创建时间 2020/9/8 下午3:50:51
  */
 public class DBUtils extends SQLiteOpenHelper {
 

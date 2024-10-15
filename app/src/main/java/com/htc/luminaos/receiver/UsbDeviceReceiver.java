@@ -32,7 +32,7 @@ public class UsbDeviceReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
-            Log.d(TAG, "UsbDevice收到广播");
+            Log.d(TAG, "UsbDevice收到广播 intent.getAction() "+intent.getAction());
 
             if (UsbManager.ACTION_USB_DEVICE_ATTACHED.equals(intent.getAction())) { // U盘插入且挂载完毕
                 Utils.hasUsbDevice = true;

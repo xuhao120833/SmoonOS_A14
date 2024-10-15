@@ -43,6 +43,22 @@ public class MainSettingActivity extends BaseActivity {
 //        initData();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(settingsCustomBinding != null) {
+            mainSettingsCustomBinding.wifiTxt.setSelected(true);
+            mainSettingsCustomBinding.btTxt.setSelected(true);
+            mainSettingsCustomBinding.projectTxt.setSelected(true);
+            mainSettingsCustomBinding.languageTxt.setSelected(true);
+            mainSettingsCustomBinding.appsTxt.setSelected(true);
+            mainSettingsCustomBinding.timeTxt.setSelected(true);
+            mainSettingsCustomBinding.otherTxt.setSelected(true);
+            mainSettingsCustomBinding.aboutTxt.setSelected(true);
+        }
+    }
+
     private void initViewCustom() {
         settingsCustomBinding.settingsWifi.setOnClickListener(this);
         settingsCustomBinding.settingsBt.setOnClickListener(this);
@@ -110,6 +126,14 @@ public class MainSettingActivity extends BaseActivity {
         mainSettingsCustomBinding.rlWifi.requestFocus();
         mainSettingsCustomBinding.rlWifi.requestFocusFromTouch();
 
+        mainSettingsCustomBinding.wifiTxt.setSelected(true);
+        mainSettingsCustomBinding.btTxt.setSelected(true);
+        mainSettingsCustomBinding.projectTxt.setSelected(true);
+        mainSettingsCustomBinding.languageTxt.setSelected(true);
+        mainSettingsCustomBinding.appsTxt.setSelected(true);
+        mainSettingsCustomBinding.timeTxt.setSelected(true);
+        mainSettingsCustomBinding.otherTxt.setSelected(true);
+        mainSettingsCustomBinding.aboutTxt.setSelected(true);
 
         //原生逻辑
 //        mainSettingBinding.rlAbout.setOnClickListener(this);
