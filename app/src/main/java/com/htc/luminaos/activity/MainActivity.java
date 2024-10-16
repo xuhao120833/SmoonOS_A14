@@ -33,6 +33,7 @@ import com.htc.luminaos.utils.BatteryCallBack;
 import com.htc.luminaos.utils.BlurImageView;
 import com.htc.luminaos.utils.FileUtils;
 
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemProperties;
@@ -211,7 +212,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             initReceiver();
             wifiManager = (WifiManager) getSystemService(Service.WIFI_SERVICE);
             Log.d(TAG, " onCreate快捷图标 short_list " + short_list.size());
-//            isUsbPlugged();
+//            checkUsb();//开机检查是否有U盘插入
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -556,8 +557,13 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
         //Usb设备插入、拔出
         usbDeviceReceiver = new UsbDeviceReceiver(this);
-        usbDeviceFilter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
-        usbDeviceFilter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
+//        usbDeviceFilter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
+//        usbDeviceFilter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
+        usbDeviceFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
+        usbDeviceFilter.addAction(Intent.ACTION_MEDIA_REMOVED);
+        usbDeviceFilter.addAction(Intent.ACTION_MEDIA_BAD_REMOVAL);
+        usbDeviceFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
+        usbDeviceFilter.addDataScheme("file");
         registerReceiver(usbDeviceReceiver, usbDeviceFilter);
 
         //APP安装、改变、卸载
@@ -1234,8 +1240,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             Log.d("UsbDeviceChange ", "usbConnect设为VISIBLE");
             customBinding.rlUsbConnect.setVisibility(View.VISIBLE);
         } else {
-            Log.d("UsbDeviceChange ", "usbConnect设为GONE");
+            customBinding.rlUsbConnect.clearFocus();
+            customBinding.rlUsbConnect.clearAnimation();
             customBinding.rlUsbConnect.setVisibility(View.GONE);
+            Log.d("UsbDeviceChange ", "usbConnect设为GONE");
         }
     }
 
@@ -1755,24 +1763,55 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     /**
      * 开机检测是否有USB插入
      */
-    private boolean isUsbPlugged() {
-        Intent usbStateIntent = registerReceiver(null, new IntentFilter(UsbManager.ACTION_USB_STATE));
-        if (usbStateIntent == null) {
-            return false;
+    private void checkUsb() {
+//        Intent usbStateIntent = registerReceiver(null, new IntentFilter(Intent.ACTION_MEDIA_MOUNTED));
+//        if (usbStateIntent == null) {
+//            return false;
+//        }
+//        final String usbAction = usbStateIntent.getAction();
+//        if (Intent.ACTION_MEDIA_MOUNTED.equals(usbAction)) {
+//            Bundle extras = usbStateIntent.getExtras();
+//            boolean connected = extras.getBoolean(UsbManager.USB_CONNECTED);
+//            if (connected) {
+//                Log.d(TAG, " 开机检测到U盘插入 ");
+//                customBinding.rlUsbConnect.setVisibility(View.VISIBLE);
+//            } else {
+//                Log.d(TAG, " 开机没有检测到U盘插入 ");
+//            }
+//        }
+//        return true;
+
+        int usbCount = countUsbDevices(getApplicationContext());
+        if(usbCount!=0) {
+            Log.d(TAG, "checkUsb  开机检测到U盘 "+Utils.usbDevicesNumber);
+            customBinding.rlUsbConnect.setVisibility(View.VISIBLE);
+            Utils.usbDevicesNumber = usbCount*2;
+            Log.d(TAG, "checkUsb  开机检测到U盘 usbCount*2 "+Utils.usbDevicesNumber);
+        } else {
+            Log.d(TAG, "checkUsb  开机没有检测到U盘");
         }
-        final String usbAction = usbStateIntent.getAction();
-        if (UsbManager.ACTION_USB_STATE.equals(usbAction)) {
-            Bundle extras = usbStateIntent.getExtras();
-            boolean connected = extras.getBoolean(UsbManager.USB_CONNECTED);
-            if (connected) {
-                Log.d(TAG, " 开机检测到U盘插入 ");
-                customBinding.rlUsbConnect.setVisibility(View.VISIBLE);
-            } else {
-                Log.d(TAG, " 开机没有检测到U盘插入 ");
+    }
+
+
+    public boolean isUsbMounted() {
+        String state = Environment.getExternalStorageState();
+        return Environment.MEDIA_MOUNTED.equals(state);
+    }
+
+    public int countUsbDevices(Context context) {
+        StorageManager storageManager = (StorageManager) context.getSystemService(Context.STORAGE_SERVICE);
+        List<StorageVolume> volumes = storageManager.getStorageVolumes();
+        int usbCount = 0;
+
+        for (StorageVolume volume : volumes) {
+            if (volume.isRemovable()) {
+                usbCount++;
             }
         }
-        return true;
+        Log.d(TAG, "checkUsb  开机检测到 "+usbCount+" 个U盘");
+        return usbCount;
     }
+
 
     private void CopyDrawableToSd(Drawable drawable) {
         Bitmap bitmap = null;

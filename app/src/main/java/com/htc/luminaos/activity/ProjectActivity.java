@@ -189,8 +189,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         tvDisplayManager = AwTvDisplayManager.getInstance();
         project_name.add(getString(R.string.project_mode_1));
         project_name.add(getString(R.string.project_mode_2));
-        project_name.add(getString(R.string.project_mode_4));
         project_name.add(getString(R.string.project_mode_3));
+        project_name.add(getString(R.string.project_mode_4));
         cur_project_mode = tvDisplayManager.factoryGetPanelValue(AwTvDisplayTypes.EnumPanelConfigType.E_AW_PANEL_CONFIG_MIRROR);
         projectBinding.projectModeTv.setText(project_name.get(cur_project_mode));
         singer = Executors.newSingleThreadExecutor();
@@ -552,7 +552,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     public void set_auto_focus(boolean b) {
         if (b) {
             SystemProperties.set("persist.sys.vafocus", "1");
-            SystemProperties.set("hotack.sensor.anti_shake", "1");
+//            SystemProperties.set("hotack.sensor.anti_shake", "1");
         } else {
             SystemProperties.set("persist.sys.vafocus", "0");
         }
@@ -579,7 +579,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     public void set_AutoFourCorner(boolean b) {
         if (b) {
             SystemProperties.set("persist.sys.tpryxcrt", "1");
-            SystemProperties.set("hotack.sensor.anti_shake", "1");
+//            SystemProperties.set("hotack.sensor.anti_shake", "1");
         } else {
             SystemProperties.set("persist.sys.tpryxcrt", "0");
         }
