@@ -86,11 +86,14 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     }
 
     private void initView() {
+        projectBinding.rlDisplaySettings.setOnClickListener(this);
+        projectBinding.rlColorMode.setOnClickListener(this);
         projectBinding.rlProjectMode.setOnClickListener(this);
         projectBinding.rlAutoKeystone.setOnClickListener(this);
         projectBinding.rlInitAngle.setOnClickListener(this);
         projectBinding.autoKeystoneSwitch.setOnClickListener(this);
 
+        projectBinding.rlColorMode.setOnHoverListener(this);
         projectBinding.rlProjectMode.setOnKeyListener(this);
         projectBinding.rlDeviceMode2.setOnKeyListener(this);
         updateText(ReflectUtil.invokeGet_brightness_level()); //初始化设备模式的Text显示
@@ -137,6 +140,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         projectBinding.rlCalibration.setOnClickListener(this);
 
         projectBinding.rlDisplaySettings.setVisibility(MyApplication.config.displaySetting ? View.VISIBLE : View.GONE);
+        projectBinding.rlColorMode.setVisibility(MyApplication.config.brightAndColor? View.VISIBLE : View.GONE);
         projectBinding.rlProjectMode.setVisibility(MyApplication.config.projectMode ? View.VISIBLE : View.GONE);
         projectBinding.rlDeviceMode2.setVisibility(MyApplication.config.deviceMode ? View.VISIBLE : View.GONE);
         projectBinding.rlDigitalZoom.setVisibility(MyApplication.config.wholeZoom ? View.VISIBLE : View.GONE);
@@ -181,8 +185,10 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
             projectBinding.rlCalibration.setVisibility(View.VISIBLE);
         }
 
-        projectBinding.rlProjectMode.requestFocus();
-        projectBinding.rlProjectMode.requestFocusFromTouch();
+        projectBinding.rlColorMode.requestFocus();
+        projectBinding.rlColorMode.requestFocusFromTouch();
+//        projectBinding.rlProjectMode.requestFocus();
+//        projectBinding.rlProjectMode.requestFocusFromTouch();
     }
 
     private void initData() {
@@ -269,6 +275,9 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.rl_color_mode:
+                startNewActivity(PictureModeActivity.class);
+                break;
             case R.id.rl_power_mode:
                 if (cur_project_mode == project_name.size() - 1)
                     cur_project_mode = 0;

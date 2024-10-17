@@ -94,6 +94,7 @@
         <activity android:name=".activity.AppsManagerActivity" />
         <activity android:name=".activity.AppFavoritesActivity" />
         <activity android:name=".activity.CorrectionActivity" />
+        <activity android:name=".activity.PictureModeActivity" />
         <activity
             android:name=".activity.BluetoothActivity"
             android:exported="true"

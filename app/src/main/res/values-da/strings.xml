@@ -255,5 +255,14 @@
     <string name="calibrated_data_fail">Kalibreret, data unormale</string>
     <string name="calibrated_data_normal">Kalibreret, data normale</string>
     <string name="shortcuts_tips">Hvis genvejslinjen er fuld, kan du holde OK-knappen nede for at redigere.</string>
+    <string name="brightness_and_color_mode">Lysstyrke og farvemodus</string>
+    <string name="picture_mode">Billedtilstand</string>
+    <string name="color_temp">Farvetemperatur</string>
+    <string name="picture_1">Varm farvetilstand</string>
+    <string name="picture_2">Kold farvetilstand</string>
+    <string name="contrast">Kontrast</string>
+    <string name="hue">Nuance</string>
+    <string name="saturation">Mætning</string>
+    <string name="sharpness">Skarphed</string>
 </resources>
 

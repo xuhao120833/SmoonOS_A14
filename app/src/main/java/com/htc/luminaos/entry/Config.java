@@ -15,17 +15,29 @@ public class Config {
     //IP设置
     public boolean ipSetting = true;
 
-
+    //亮度和色彩模式
+    public  boolean brightAndColor=true;
+    //图像模式
     public  boolean displayPictureMode=true;
+    //色温
+    public  boolean displayColorTemp=false;
     public  boolean displayPictureModeShowCustom=true;
+
+    public  boolean displayPictureModeWeiMiTitle=false;
 
     public  boolean brightness=true;
     public  int brightnessLevel=1;
-    public  boolean brightnessPQ=false;
-    public  boolean contrast=false;
-    public  boolean hue=false;
-    public  boolean saturation=false;
-    public  boolean sharpness=false;
+    public  boolean brightnessPQ=true;
+    public  boolean contrast=true;
+    public  boolean hue=true;
+    public  boolean saturation=true;
+    public  boolean sharpness=true;
+
+    public  int brightnessDefault=50;
+    public  int contrastDefault=50;
+    public  int hueDefault=50;
+    public  int saturationDefault=50;
+    public  int sharpnessDefault=50;
 
     public  boolean red=false;
     public  boolean green=false;
@@ -70,4 +82,6 @@ public class Config {
     public boolean updateFirmware = true;
     public boolean onlineUpdate = true;
     public boolean serialNumber = true;
+
+
 }

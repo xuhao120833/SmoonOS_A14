@@ -255,5 +255,14 @@
     <string name="calibrated_data_fail">ปรับเทียบแล้ว, ข้อมูลผิดปกติ</string>
     <string name="calibrated_data_normal">ปรับเทียบแล้ว, ข้อมูลปกติ</string>
     <string name="shortcuts_tips">หากแถบทางลัดเต็ม คุณสามารถกดปุ่ม OK ค้างไว้เพื่อแก้ไขได้</string>
+    <string name="brightness_and_color_mode">โหมดความสว่างและสี</string>
+    <string name="picture_mode">โหมดภาพ</string>
+    <string name="color_temp">อุณหภูมิสี</string>
+    <string name="picture_1">โหมดสีอุ่น</string>
+    <string name="picture_2">โหมดสีเย็น</string>
+    <string name="contrast">ความคมชัด</string>
+    <string name="hue">เฉดสี</string>
+    <string name="saturation">ความอิ่มตัว</string>
+    <string name="sharpness">ความคมชัด</string>
 </resources>
 

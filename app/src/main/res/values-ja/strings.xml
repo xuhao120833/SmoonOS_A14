@@ -255,4 +255,13 @@
     <string name="calibrated_data_fail">キャリブレーション済み、データ異常</string>
     <string name="calibrated_data_normal">キャリブレーション済み、データ正常</string>
     <string name="shortcuts_tips">ショートカットバーがいっぱいの場合は、OKボタンを長押しして編集できます。</string>
+    <string name="brightness_and_color_mode">輝度とカラーモード</string>
+    <string name="picture_mode">画像モード</string>
+    <string name="color_temp">色温</string>
+    <string name="picture_1">暖色モード</string>
+    <string name="picture_2">冷色モード</string>
+    <string name="contrast">コントラスト</string>
+    <string name="hue">色相</string>
+    <string name="saturation">彩度</string>
+    <string name="sharpness">シャープネス</string>
 </resources>

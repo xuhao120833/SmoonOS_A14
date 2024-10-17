@@ -255,5 +255,14 @@
 	<string name="calibrated_data_fail">Kalibriert, Daten abnormal</string>
 	<string name="calibrated_data_normal">Kalibriert, Daten normal</string>
 	<string name="shortcuts_tips">Wenn die Schnellstartleiste voll ist, können Sie die OK-Taste lange drücken, um zu bearbeiten.</string>
+	<string name="brightness_and_color_mode">Helligkeit;Farbe</string>
+	<string name="picture_mode">Bildmodus</string>
+	<string name="color_temp">Farbtemperatur</string>
+	<string name="picture_1">Warmtonmodus</string>
+	<string name="picture_2">Kalttonmodus</string>
+	<string name="contrast">Kontrast</string>
+	<string name="hue">Farbton</string>
+	<string name="saturation">Sättigung</string>
+	<string name="sharpness">Scharfzeichnung</string>
 </resources>
 

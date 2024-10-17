@@ -118,4 +118,17 @@
         <item>custom</item>-->
     </string-array>
 
+    <string-array name="picture_mode_weimi_choices">
+        <item>@string/device_mode0</item>
+        <item>@string/picture_1</item>
+        <item>@string/picture_2</item>
+        <item>@string/picture_mode_custom_name</item>
+    </string-array>
+
+    <string-array name="picture_mode_weimi_choices_no_custom">
+        <item>@string/device_mode0</item>
+        <item>@string/picture_1</item>
+        <item>@string/picture_2</item>
+    </string-array>
+
 </resources>

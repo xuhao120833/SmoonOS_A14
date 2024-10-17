@@ -255,4 +255,13 @@
 	<string name="calibrated_data_fail">Calibré, données anormales</string>
 	<string name="calibrated_data_normal">Calibré, données normales</string>
 	<string name="shortcuts_tips">Si la barre de raccourcis est pleine, vous pouvez appuyer longuement sur le bouton OK pour modifier.</string>
+	<string name="brightness_and_color_mode">Luminosité et couleur</string>
+	<string name="picture_mode">Mode d\'image</string>
+	<string name="color_temp">Température de couleur</string>
+	<string name="picture_1">Mode chaud</string>
+	<string name="picture_2">Mode froid</string>
+	<string name="contrast">Contraste</string>
+	<string name="hue">Teinte</string>
+	<string name="saturation">Saturation</string>
+	<string name="sharpness">Netteté</string>
 </resources>

@@ -40,6 +40,41 @@
                 android:layout_marginBottom="@dimen/y_19"
                 android:background="@drawable/main_settings_bg"
                 style="@style/focusStyle"
+                android:visibility="gone"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x_50"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_27"
+                    android:text="@string/display_settings"
+                    android:duplicateParentState="true"
+                    />
+
+                <View
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/x_50"
+                    android:background="@drawable/arrow_right_bg"
+                    android:duplicateParentState="true"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="@dimen/x_1080"
+                android:layout_height="@dimen/y_80"
+                android:id="@+id/rl_color_mode"
+                android:layout_below="@id/rl_display_settings"
+                android:layout_marginStart="@dimen/x_100"
+                android:layout_marginBottom="@dimen/y_19"
+                android:background="@drawable/main_settings_bg"
+                style="@style/focusStyle"
                 >
 
                 <TextView
@@ -69,7 +104,7 @@
                 android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
                 android:id="@+id/rl_project_mode"
-                android:layout_below="@id/rl_display_settings"
+                android:layout_below="@id/rl_color_mode"
                 android:layout_marginBottom="@dimen/y_19"
                 android:layout_marginStart="@dimen/x_100"
                 android:background="@drawable/main_settings_bg"

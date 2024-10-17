@@ -255,5 +255,14 @@
     <string name="calibrated_data_fail">Kalibre edildi, veri hatalı</string>
     <string name="calibrated_data_normal">Kalibre edildi, veri normal</string>
     <string name="shortcuts_tips">Kısayol çubuğu doluysa, düzenlemek için OK düğmesine uzun basabilirsiniz.</string>
+    <string name="brightness_and_color_mode">Parlaklık ve Renk Modu</string>
+    <string name="picture_mode">Görüntü Modu</string>
+    <string name="color_temp">Renk Sıcaklığı</string>
+    <string name="picture_1">Sıcak Renk Modu</string>
+    <string name="picture_2">Soğuk Renk Modu</string>
+    <string name="contrast">Kontrast</string>
+    <string name="hue">Ton</string>
+    <string name="saturation">Doygunluk</string>
+    <string name="sharpness">Keskinlik</string>
 </resources>
 

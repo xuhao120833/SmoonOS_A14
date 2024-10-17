@@ -255,6 +255,15 @@
     <string name="calibrated_data_fail">Calibrado, dados anormais</string>
     <string name="calibrated_data_normal">Calibrado, dados normais</string>
     <string name="shortcuts_tips">Se a barra de atalhos estiver cheia, você pode pressionar e segurar o botão OK para editar.</string>
+    <string name="brightness_and_color_mode">Brilho &amp; Cor</string>
+    <string name="picture_mode">Modo de imagem</string>
+    <string name="color_temp">Temperatura de cor</string>
+    <string name="picture_1">Modo quente</string>
+    <string name="picture_2">Modo frio</string>
+    <string name="contrast">Contraste</string>
+    <string name="hue">Matiz</string>
+    <string name="saturation">Saturação</string>
+    <string name="sharpness">Nitidez</string>
 </resources>
 
 

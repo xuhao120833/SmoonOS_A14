@@ -255,5 +255,14 @@
     <string name="calibrated_data_fail">Откалиброван, ошибка данных</string>
     <string name="calibrated_data_normal">Откалиброван, данные нормальные</string>
     <string name="shortcuts_tips">Если панель быстрого доступа заполнена, можно удерживать кнопку "OK" для редактирования.</string>
+    <string name="brightness_and_color_mode">Яркость и цвет</string>
+    <string name="picture_mode">Режим изображения</string>
+    <string name="color_temp">Цветовая температура</string>
+    <string name="picture_1">Теплый режим</string>
+    <string name="picture_2">Холодный режим</string>
+    <string name="contrast">Контрастность</string>
+    <string name="hue">Оттенок</string>
+    <string name="saturation">Насыщенность</string>
+    <string name="sharpness">Резкость</string>
 </resources>
 

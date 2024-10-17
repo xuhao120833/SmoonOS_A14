@@ -255,6 +255,15 @@
     <string name="calibrated_data_fail">معاير، البيانات غير صحيحة</string>
     <string name="calibrated_data_normal">معاير، البيانات صحيحة</string>
     <string name="shortcuts_tips">إذا كانت شريط الاختصارات ممتلئة، يمكنك الضغط مطولاً على زر "OK" للتعديل.</string>
+    <string name="brightness_and_color_mode">السطوع واللون</string>
+    <string name="picture_mode">وضع الصورة</string>
+    <string name="color_temp">درجة حرارة اللون</string>
+    <string name="picture_1">وضع اللون الدافئ</string>
+    <string name="picture_2">وضع اللون البارد</string>
+    <string name="contrast">التباين</string>
+    <string name="hue">التدرج اللوني</string>
+    <string name="saturation">السطوع</string>
+    <string name="sharpness">الحدة</string>
 </resources>
 
 

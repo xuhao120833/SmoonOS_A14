@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -45,6 +46,7 @@ public class LanguageAndKeyboardActivity extends BaseActivity {
     private String mLastInputMethodId;
     private List<InputMethodInfo> mInputMethodList;
     private ArrayList<InputMethodBean> mArrayList = new ArrayList<>();
+    private static String TAG = "LanguageAndKeyboardActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,8 +185,14 @@ public class LanguageAndKeyboardActivity extends BaseActivity {
             if (mLocales2[i].getLabel().contains("[XA]")){
                 mLocales2[i].setLabel("English (XA)");
             }
+
+            Log.d(TAG," 语言列表 getLabel "+mLocales2[i].getLabel());
         }
         Arrays.sort(mLocales2);
+
+        for(int b =0;b<mLocales2.length;b++) {
+            Log.d(TAG, " 语言列表 排序后 getLabel " + mLocales2[b].getLabel());
+        }
 
         // Arrays.sort(preprocess);
         mLocales = new ArrayList<>(Arrays.asList(mLocales2));

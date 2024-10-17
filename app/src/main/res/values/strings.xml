@@ -255,4 +255,13 @@
     <string name="calibrated_data_fail">已标定, 数据异常</string>
     <string name="calibrated_data_normal">已标定, 数据正常</string>
     <string name="shortcuts_tips">如果快捷栏满了，可以长按OK键进行编辑。</string>
+    <string name="brightness_and_color_mode">亮度与色彩模式</string>
+    <string name="picture_mode">图像模式</string>
+    <string name="color_temp">色温</string>
+    <string name="picture_1">暖色模式</string>
+    <string name="picture_2">冷色模式</string>
+    <string name="contrast">对比度</string>
+    <string name="hue">色调</string>
+    <string name="saturation">饱和度</string>
+    <string name="sharpness">锐度</string>
 </resources>

@@ -56,6 +56,9 @@ public class AppsManagerAdapter extends RecyclerView.Adapter<AppsManagerAdapter.
         final AppInfoBean info = infoBeans.get(i);
         myViewHolder.icon.setImageDrawable(info.getAppicon());
         myViewHolder.name.setText(info.getAppname());
+        if(i==0) {
+            myViewHolder.rl_item.requestFocus();
+        }
         myViewHolder.rl_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -20,6 +20,7 @@ public class Language implements Comparable<Language> {
 
     public int compareTo(Language lang) {
         return sCollator.compare(this.label, lang.label);
+//        return this.label.compareToIgnoreCase(lang.label);
     }
 
     public int getIconRes() {
