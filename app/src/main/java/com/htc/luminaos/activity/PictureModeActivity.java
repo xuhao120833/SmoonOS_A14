@@ -354,6 +354,8 @@ public class PictureModeActivity extends BaseActivity implements View.OnKeyListe
     private void updateDisplayStatus() {
 
         if (curPosition == picture_mode_choices.length - 1) {
+            activityPictureModeBinding.scrollImage.setFocusable(true);
+
             activityPictureModeBinding.rlBrightness.setEnabled(true);
             activityPictureModeBinding.rlContrast.setEnabled(true);
             activityPictureModeBinding.rlHue.setEnabled(true);
@@ -371,6 +373,8 @@ public class PictureModeActivity extends BaseActivity implements View.OnKeyListe
             activityPictureModeBinding.rlHue.setEnabled(false);
             activityPictureModeBinding.rlSaturation.setEnabled(false);
             activityPictureModeBinding.rlSharpness.setEnabled(false);
+
+            activityPictureModeBinding.scrollImage.setFocusable(false);
 
             activityPictureModeBinding.rlBrightness.setAlpha(0.7f);
             activityPictureModeBinding.rlContrast.setAlpha(0.7f);

@@ -75,7 +75,6 @@
 
     <RelativeLayout
         android:id="@+id/rl_color_temp"
-        style="@style/focusStyle"
         android:layout_width="@dimen/x_1080"
         android:layout_height="@dimen/y_80"
         android:layout_below="@id/rl_picture_mode"
@@ -134,10 +133,12 @@
         android:layout_marginStart="@dimen/x_100"
         android:layout_marginTop="@dimen/y_15"
         android:layout_marginBottom="@dimen/y_19"
+        style="@style/unfocusStyle"
         android:background="@drawable/corner_line" />
 
 
     <com.htc.luminaos.view.CustomScrollView
+        android:id="@+id/scroll_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/line"
