@@ -83,6 +83,22 @@ public class PictureModeActivity extends BaseActivity implements View.OnKeyListe
     private void initView() {
         activityPictureModeBinding.rlPictureMode.setOnClickListener(this);
         activityPictureModeBinding.rlColorTemp.setOnClickListener(this);
+        activityPictureModeBinding.rlBrightness.setOnClickListener(this);
+        activityPictureModeBinding.rlContrast.setOnClickListener(this);
+        activityPictureModeBinding.rlHue.setOnClickListener(this);
+        activityPictureModeBinding.rlSaturation.setOnClickListener(this);
+        activityPictureModeBinding.rlSharpness.setOnClickListener(this);
+        activityPictureModeBinding.brightnessLeft.setOnClickListener(this);
+        activityPictureModeBinding.brightnessRight.setOnClickListener(this);
+        activityPictureModeBinding.contrastLeft.setOnClickListener(this);
+        activityPictureModeBinding.contrastRight.setOnClickListener(this);
+        activityPictureModeBinding.hueLeft.setOnClickListener(this);
+        activityPictureModeBinding.hueRight.setOnClickListener(this);
+        activityPictureModeBinding.saturationLeft.setOnClickListener(this);
+        activityPictureModeBinding.saturationRight.setOnClickListener(this);
+        activityPictureModeBinding.sharpnessLeft.setOnClickListener(this);
+        activityPictureModeBinding.sharpnessRight.setOnClickListener(this);
+
 
         activityPictureModeBinding.rlPictureMode.setOnKeyListener(this);
         activityPictureModeBinding.rlColorTemp.setOnKeyListener(this);
@@ -94,6 +110,11 @@ public class PictureModeActivity extends BaseActivity implements View.OnKeyListe
 
         activityPictureModeBinding.rlPictureMode.setOnHoverListener(this);
         activityPictureModeBinding.rlColorTemp.setOnHoverListener(this);
+        activityPictureModeBinding.rlBrightness.setOnHoverListener(this);
+        activityPictureModeBinding.rlContrast.setOnHoverListener(this);
+        activityPictureModeBinding.rlHue.setOnHoverListener(this);
+        activityPictureModeBinding.rlSaturation.setOnHoverListener(this);
+        activityPictureModeBinding.rlSharpness.setOnHoverListener(this);
 
         activityPictureModeBinding.rlPictureMode.setVisibility(MyApplication.config.displayPictureMode ? View.VISIBLE : View.GONE);
         activityPictureModeBinding.rlColorTemp.setVisibility(MyApplication.config.displayColorTemp ? View.VISIBLE : View.GONE);
@@ -106,7 +127,7 @@ public class PictureModeActivity extends BaseActivity implements View.OnKeyListe
 
     private void initData() {
         String pictureName = pqControl.getPictureModeName();
-        Log.d("hzj","pictureName "+pictureName);
+        Log.d("hzj", "pictureName " + pictureName);
         for (int i = 0; i < picture_mode_values.length; i++) {
             if (picture_mode_values[i].equals(pictureName)) {
                 curPosition = i;
@@ -157,6 +178,172 @@ public class PictureModeActivity extends BaseActivity implements View.OnKeyListe
                 pqControl.setPictureMode(picture_mode_values[curPosition]);
                 updatePictureMode();
                 activityPictureModeBinding.pictureModeTv.setText(picture_mode_choices[curPosition]);
+                break;
+
+            case R.id.rl_brightness:
+                if (brightness_system == 100)
+                    break;
+
+                brightness_system += 1;
+                if (brightness_system > 100)
+                    brightness_system = 100;
+
+                updateBrightnessSystem(true);
+                break;
+            case R.id.brightness_left:
+                if (brightness_system == 1)
+                    break;
+
+                brightness_system -= 1;
+                if (brightness_system <= 1) {
+                    brightness_system = 1;
+                }
+                updateBrightnessSystem(true);
+                break;
+            case R.id.brightness_right:
+                if (brightness_system == 100)
+                    break;
+
+                brightness_system += 1;
+                if (brightness_system > 100)
+                    brightness_system = 100;
+
+                updateBrightnessSystem(true);
+                break;
+
+
+            case R.id.rl_contrast:
+                if (mCurContrast == 100)
+                    break;
+
+                mCurContrast += 1;
+                if (mCurContrast > 100)
+                    mCurContrast = 100;
+
+                updateContrast(true);
+                break;
+            case R.id.contrast_left:
+                if (mCurContrast == 1)
+                    break;
+
+                mCurContrast -= 1;
+                if (mCurContrast < 1)
+                    mCurContrast = 1;
+                updateContrast(true);
+                break;
+            case R.id.contrast_right:
+                if (mCurContrast == 100)
+                    break;
+
+                mCurContrast += 1;
+                if (mCurContrast > 100)
+                    mCurContrast = 100;
+
+                updateContrast(true);
+                break;
+
+
+            case R.id.rl_hue:
+                if (mCurHue == 100)
+                    break;
+
+                mCurHue += 1;
+                if (mCurHue > 100)
+                    mCurHue = 100;
+
+                updateHue(true);
+                break;
+            case R.id.hue_left:
+                if (mCurHue == 1)
+                    break;
+
+                mCurHue -= 1;
+                if (mCurHue < 1)
+                    mCurHue = 1;
+
+                updateHue(true);
+                break;
+            case R.id.hue_right:
+                if (mCurHue == 100)
+                    break;
+
+                mCurHue += 1;
+                if (mCurHue > 100)
+                    mCurHue = 100;
+
+                updateHue(true);
+                break;
+
+            case R.id.rl_saturation:
+                if (mCurSaturation == 100)
+                    break;
+
+                mCurSaturation += 1;
+                if (mCurSaturation > 100)
+                    mCurSaturation = 100;
+
+                updateSaturation(true);
+
+                break;
+            case R.id.saturation_left:
+                Log.d(TAG, "饱和度 向左");
+                if (mCurSaturation == 1) {
+                    Log.d(TAG, "饱和度 向左不执行");
+                    break;
+                }
+
+                mCurSaturation -= 1;
+                if (mCurSaturation < 1)
+                    mCurSaturation = 1;
+
+                updateSaturation(true);
+                break;
+            case R.id.saturation_right:
+                if (mCurSaturation == 100)
+                    break;
+
+                mCurSaturation += 1;
+                if (mCurSaturation > 100)
+                    mCurSaturation = 100;
+
+                updateSaturation(true);
+                break;
+
+            case R.id.rl_sharpness:
+                Log.d(TAG, "锐度 向右");
+                if (mSharpness == 100) {
+                    Log.d(TAG, "锐度 向右不执行");
+                    break;
+                }
+
+                mSharpness += 1;
+                if (mSharpness > 100)
+                    mSharpness = 100;
+
+                updateSharpness(true);
+                break;
+            case R.id.sharpness_left:
+                if (mSharpness == 1)
+                    break;
+
+                mSharpness -= 1;
+                if (mSharpness < 1)
+                    mSharpness = 1;
+
+                updateSharpness(true);
+                break;
+            case R.id.sharpness_right:
+                Log.d(TAG, "锐度 向右");
+                if (mSharpness == 100) {
+                    Log.d(TAG, "锐度 向右不执行");
+                    break;
+                }
+
+                mSharpness += 1;
+                if (mSharpness > 100)
+                    mSharpness = 100;
+
+                updateSharpness(true);
                 break;
         }
     }
@@ -295,9 +482,9 @@ public class PictureModeActivity extends BaseActivity implements View.OnKeyListe
                     updateSaturation(true);
                     break;
                 case R.id.rl_sharpness:
-                    Log.d(TAG, "饱和度 向右");
+                    Log.d(TAG, "锐度 向右");
                     if (mSharpness == 100) {
-                        Log.d(TAG, "饱和度 向右不执行");
+                        Log.d(TAG, "锐度 向右不执行");
                         break;
                     }
 
@@ -362,6 +549,17 @@ public class PictureModeActivity extends BaseActivity implements View.OnKeyListe
             activityPictureModeBinding.rlSaturation.setEnabled(true);
             activityPictureModeBinding.rlSharpness.setEnabled(true);
 
+            activityPictureModeBinding.brightnessLeft.setEnabled(true);
+            activityPictureModeBinding.brightnessRight.setEnabled(true);
+            activityPictureModeBinding.contrastLeft.setEnabled(true);
+            activityPictureModeBinding.contrastRight.setEnabled(true);
+            activityPictureModeBinding.hueLeft.setEnabled(true);
+            activityPictureModeBinding.hueRight.setEnabled(true);
+            activityPictureModeBinding.saturationLeft.setEnabled(true);
+            activityPictureModeBinding.saturationRight.setEnabled(true);
+            activityPictureModeBinding.sharpnessLeft.setEnabled(true);
+            activityPictureModeBinding.sharpnessRight.setEnabled(true);
+
             activityPictureModeBinding.rlBrightness.setAlpha(1.0f);
             activityPictureModeBinding.rlContrast.setAlpha(1.0f);
             activityPictureModeBinding.rlHue.setAlpha(1.0f);
@@ -373,8 +571,18 @@ public class PictureModeActivity extends BaseActivity implements View.OnKeyListe
             activityPictureModeBinding.rlHue.setEnabled(false);
             activityPictureModeBinding.rlSaturation.setEnabled(false);
             activityPictureModeBinding.rlSharpness.setEnabled(false);
-
             activityPictureModeBinding.scrollImage.setFocusable(false);
+
+            activityPictureModeBinding.brightnessLeft.setEnabled(false);
+            activityPictureModeBinding.brightnessRight.setEnabled(false);
+            activityPictureModeBinding.contrastLeft.setEnabled(false);
+            activityPictureModeBinding.contrastRight.setEnabled(false);
+            activityPictureModeBinding.hueLeft.setEnabled(false);
+            activityPictureModeBinding.hueRight.setEnabled(false);
+            activityPictureModeBinding.saturationLeft.setEnabled(false);
+            activityPictureModeBinding.saturationRight.setEnabled(false);
+            activityPictureModeBinding.sharpnessLeft.setEnabled(false);
+            activityPictureModeBinding.sharpnessRight.setEnabled(false);
 
             activityPictureModeBinding.rlBrightness.setAlpha(0.7f);
             activityPictureModeBinding.rlContrast.setAlpha(0.7f);

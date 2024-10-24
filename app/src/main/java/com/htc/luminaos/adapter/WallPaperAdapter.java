@@ -22,6 +22,7 @@ import android.os.Message;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -53,7 +54,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * Date:
  * Description:
  */
-public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyViewHolder> implements View.OnFocusChangeListener {
+public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyViewHolder> implements View.OnFocusChangeListener, View.OnHoverListener {
 
     Context mContext;
     ArrayList<Drawable> drawables;
@@ -175,6 +176,8 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
                 }
             }
         });
+
+        myViewHolder.rl_item.setOnHoverListener(this);
     }
 
     private Bitmap compressImageFromFile(String srcPath) {
@@ -389,4 +392,20 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
         }
 
     }
+
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        int what = event.getAction();
+        switch (what) {
+            case MotionEvent.ACTION_HOVER_ENTER: // 鼠标进入view
+                v.requestFocus();
+                break;
+            case MotionEvent.ACTION_HOVER_MOVE: // 鼠标在view上
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT: // 鼠标离开view
+                break;
+        }
+        return false;
+    }
+
 }

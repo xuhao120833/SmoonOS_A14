@@ -100,10 +100,12 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
 
         projectBinding.rlProjectMode.setOnKeyListener(this);
         projectBinding.rlDeviceMode2.setOnKeyListener(this);
+        projectBinding.rlDeviceMode2.setOnClickListener(this);
         projectBinding.rlDeviceMode2.setOnHoverListener(this);
         updateText(ReflectUtil.invokeGet_brightness_level()); //初始化设备模式的Text显示
         projectBinding.rlDigitalZoom.setOnKeyListener(this);
         projectBinding.rlDigitalZoom.setOnHoverListener(this);
+        projectBinding.rlDigitalZoom.setOnClickListener(this);
         projectBinding.rlHorizontalCorrect.setOnKeyListener(this);
         projectBinding.rlHorizontalCorrect.setOnHoverListener(this);
         projectBinding.rlVerticalCorrect.setOnKeyListener(this);
@@ -153,6 +155,9 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         projectBinding.intelligentObstacleSwitch.setOnClickListener(this);
         projectBinding.rlCalibration.setOnClickListener(this);
         projectBinding.rlCalibration.setOnHoverListener(this);
+
+        projectBinding.digitalZoomLeft.setOnClickListener(this);
+        projectBinding.digitalZoomRight.setOnClickListener(this);
 
         projectBinding.rlDisplaySettings.setVisibility(MyApplication.config.displaySetting ? View.VISIBLE : View.GONE);
         projectBinding.rlColorMode.setVisibility(MyApplication.config.brightAndColor? View.VISIBLE : View.GONE);
@@ -357,6 +362,45 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
                 });
                 builder.setNegativeButton(getString(R.string.cancel), null);
                 builder.show();
+                break;
+            case R.id.rl_project_mode:
+                Log.d(TAG, "onClick向右切换安装模式");
+                if (cur_project_mode == project_name.size() - 1)
+                    cur_project_mode = 0;
+                else
+                    cur_project_mode++;
+                updateProjectMode();
+                break;
+            case R.id.rl_device_mode2:
+                Log.d(TAG, "onClick向右切换设备模式");
+                cur_device_Mode++;
+                if (cur_device_Mode > 2) {
+                    cur_device_Mode = 0;
+                }
+                updateText(cur_device_Mode);
+                ReflectUtil.invokeSet_brightness_level(cur_device_Mode);
+                break;
+            case R.id.rl_digital_zoom:
+                if (All >= ZOOM_MAX)
+                    break;
+                All++;
+                set_screen_zoom(All, All, All, All);
+                updateZoomView();
+                break;
+
+            case R.id.digital_zoom_left:
+                if (All <= 0)
+                    break;
+                All--;
+                set_screen_zoom(All, All, All, All);
+                updateZoomView();
+                break;
+            case R.id.digital_zoom_right:
+                if (All >= ZOOM_MAX)
+                    break;
+                All++;
+                set_screen_zoom(All, All, All, All);
+                updateZoomView();
                 break;
         }
     }

@@ -80,6 +80,7 @@
         android:layout_below="@id/rl_picture_mode"
         android:layout_marginStart="@dimen/x_100"
         android:layout_marginTop="@dimen/y_19"
+        style="@style/unfocusStyle"
         android:background="@drawable/main_settings_bg">
 
         <TextView
@@ -169,6 +170,7 @@
                     android:textSize="@dimen/x_27" />
 
                 <View
+                    android:id="@+id/brightness_right"
                     android:layout_width="@dimen/x_53"
                     android:layout_height="@dimen/y_53"
                     android:layout_alignParentEnd="true"
@@ -178,6 +180,7 @@
                     android:duplicateParentState="true" />
 
                 <View
+                    android:id="@+id/brightness_left"
                     android:layout_width="@dimen/x_53"
                     android:layout_height="@dimen/y_53"
                     android:layout_alignParentEnd="true"
@@ -226,6 +229,7 @@
                     android:textSize="@dimen/x_27" />
 
                 <View
+                    android:id="@+id/contrast_right"
                     android:layout_width="@dimen/x_53"
                     android:layout_height="@dimen/y_53"
                     android:layout_alignParentEnd="true"
@@ -235,6 +239,7 @@
                     android:duplicateParentState="true" />
 
                 <View
+                    android:id="@+id/contrast_left"
                     android:layout_width="@dimen/x_53"
                     android:layout_height="@dimen/y_53"
                     android:layout_alignParentEnd="true"
@@ -282,6 +287,7 @@
                     android:textSize="@dimen/x_27" />
 
                 <View
+                    android:id="@+id/hue_right"
                     android:layout_width="@dimen/x_53"
                     android:layout_height="@dimen/y_53"
                     android:layout_alignParentEnd="true"
@@ -291,6 +297,7 @@
                     android:duplicateParentState="true" />
 
                 <View
+                    android:id="@+id/hue_left"
                     android:layout_width="@dimen/x_53"
                     android:layout_height="@dimen/y_53"
                     android:layout_alignParentEnd="true"
@@ -337,6 +344,7 @@
                     android:textSize="@dimen/x_27" />
 
                 <View
+                    android:id="@+id/saturation_right"
                     android:layout_width="@dimen/x_53"
                     android:layout_height="@dimen/y_53"
                     android:layout_alignParentEnd="true"
@@ -346,6 +354,7 @@
                     android:duplicateParentState="true" />
 
                 <View
+                    android:id="@+id/saturation_left"
                     android:layout_width="@dimen/x_53"
                     android:layout_height="@dimen/y_53"
                     android:layout_alignParentEnd="true"
@@ -392,6 +401,7 @@
                     android:textSize="@dimen/x_27" />
 
                 <View
+                    android:id="@+id/sharpness_right"
                     android:layout_width="@dimen/x_53"
                     android:layout_height="@dimen/y_53"
                     android:layout_alignParentEnd="true"
@@ -401,6 +411,7 @@
                     android:duplicateParentState="true" />
 
                 <View
+                    android:id="@+id/sharpness_left"
                     android:layout_width="@dimen/x_53"
                     android:layout_height="@dimen/y_53"
                     android:layout_alignParentEnd="true"

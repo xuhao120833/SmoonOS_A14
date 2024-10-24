@@ -165,10 +165,10 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
         check_rt.setOnKeyListener(this);
         check_rb.setOnKeyListener(this);
 
-        check_lt.setOnClickListener(this);
-        check_lb.setOnClickListener(this);
-        check_rt.setOnClickListener(this);
-        check_rb.setOnClickListener(this);
+        check_lt.setOnClickListener(Listener);
+        check_lb.setOnClickListener(Listener);
+        check_rt.setOnClickListener(Listener);
+        check_rb.setOnClickListener(Listener);
 
         lt_top.setOnClickListener(valueListener);
         lt_left.setOnClickListener(valueListener);
@@ -207,26 +207,51 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
         refreshStateValueUI();
     }
 
+    private OnClickListener Listener = new OnClickListener() {
 
-    public void onclick(View view) {
-        switch (view.getId()) {
-            case R.id.check_lt:
-                switchDirection(1);
-                break;
+        @SuppressWarnings("static-access")
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.check_lt:
+                    switchDirection(1);
+                    break;
 
-            case R.id.check_lb:
-                switchDirection(2);
-                break;
+                case R.id.check_lb:
+                    switchDirection(2);
+                    break;
 
-            case R.id.check_rt:
-                switchDirection(3);
-                break;
+                case R.id.check_rt:
+                    switchDirection(3);
+                    break;
 
-            case R.id.check_rb:
-                switchDirection(4);
-                break;
+                case R.id.check_rb:
+                    switchDirection(4);
+                    break;
+            }
         }
-    }
+    };
+
+
+//    public void onclick(View view) {
+//        switch (view.getId()) {
+//            case R.id.check_lt:
+//                switchDirection(1);
+//                break;
+//
+//            case R.id.check_lb:
+//                switchDirection(2);
+//                break;
+//
+//            case R.id.check_rt:
+//                switchDirection(3);
+//                break;
+//
+//            case R.id.check_rb:
+//                switchDirection(4);
+//                break;
+//        }
+//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent keyEvent) {
@@ -791,6 +816,164 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
         }
 
     }
+
+//    private void setLRTB(int type,boolean left,boolean right,boolean top,boolean bottom){
+//        switch (type) {
+//            case 1:
+//                if(left){
+//                    lt_left.setVisibility(View.VISIBLE);
+//                }else{
+//                    lt_left.setVisibility(View.GONE);
+//                }
+//                if(right){
+//                    lt_right.setVisibility(View.VISIBLE);
+//                }else{
+//                    lt_right.setVisibility(View.GONE);
+//                }
+//                if(top){
+//                    lt_top.setVisibility(View.VISIBLE);
+//                }else{
+//                    lt_top.setVisibility(View.GONE);
+//                }
+//                if(bottom){
+//                    lt_bottom.setVisibility(View.VISIBLE);
+//                }else{
+//                    lt_bottom.setVisibility(View.GONE);
+//                }
+//
+//                lb_top.setVisibility(View.GONE);
+//                lb_left.setVisibility(View.GONE);
+//                lb_right.setVisibility(View.GONE);
+//                lb_bottom.setVisibility(View.GONE);
+//
+//                rt_top.setVisibility(View.GONE);
+//                rt_left.setVisibility(View.GONE);
+//                rt_right.setVisibility(View.GONE);
+//                rt_bottom.setVisibility(View.GONE);
+//
+//                rb_top.setVisibility(View.GONE);
+//                rb_left.setVisibility(View.GONE);
+//                rb_right.setVisibility(View.GONE);
+//                rb_bottom.setVisibility(View.GONE);
+//
+//                break;
+//
+//            case 2:
+//                lt_top.setVisibility(View.GONE);
+//                lt_left.setVisibility(View.GONE);
+//                lt_right.setVisibility(View.GONE);
+//                lt_bottom.setVisibility(View.GONE);
+//
+//                if(left){
+//                    lb_left.setVisibility(View.VISIBLE);
+//                }else{
+//                    lb_left.setVisibility(View.GONE);
+//                }
+//                if(right){
+//                    lb_right.setVisibility(View.VISIBLE);
+//                }else{
+//                    lb_right.setVisibility(View.GONE);
+//                }
+//                if(top){
+//                    lb_top.setVisibility(View.VISIBLE);
+//                }else{
+//                    lb_top.setVisibility(View.GONE);
+//                }
+//                if(bottom){
+//                    lb_bottom.setVisibility(View.VISIBLE);
+//                }else{
+//                    lb_bottom.setVisibility(View.GONE);
+//                }
+//
+//                rt_top.setVisibility(View.GONE);
+//                rt_left.setVisibility(View.GONE);
+//                rt_right.setVisibility(View.GONE);
+//                rt_bottom.setVisibility(View.GONE);
+//
+//                rb_top.setVisibility(View.GONE);
+//                rb_left.setVisibility(View.GONE);
+//                rb_right.setVisibility(View.GONE);
+//                rb_bottom.setVisibility(View.GONE);
+//                break;
+//
+//            case 3:
+//                lt_top.setVisibility(View.GONE);
+//                lt_left.setVisibility(View.GONE);
+//                lt_right.setVisibility(View.GONE);
+//                lt_bottom.setVisibility(View.GONE);
+//
+//                lb_top.setVisibility(View.GONE);
+//                lb_left.setVisibility(View.GONE);
+//                lb_right.setVisibility(View.GONE);
+//                lb_bottom.setVisibility(View.GONE);
+//
+//                if(left){
+//                    rt_left.setVisibility(View.VISIBLE);
+//                }else{
+//                    rt_left.setVisibility(View.GONE);
+//                }
+//                if(right){
+//                    rt_right.setVisibility(View.VISIBLE);
+//                }else{
+//                    rt_right.setVisibility(View.GONE);
+//                }
+//                if(top){
+//                    rt_top.setVisibility(View.VISIBLE);
+//                }else{
+//                    rt_top.setVisibility(View.GONE);
+//                }
+//                if(bottom){
+//                    rt_bottom.setVisibility(View.VISIBLE);
+//                }else{
+//                    rt_bottom.setVisibility(View.GONE);
+//                }
+//
+//                rb_top.setVisibility(View.GONE);
+//                rb_left.setVisibility(View.GONE);
+//                rb_right.setVisibility(View.GONE);
+//                rb_bottom.setVisibility(View.GONE);
+//                break;
+//
+//            case 4:
+//                lt_top.setVisibility(View.GONE);
+//                lt_left.setVisibility(View.GONE);
+//                lt_right.setVisibility(View.GONE);
+//                lt_bottom.setVisibility(View.GONE);
+//
+//                lb_top.setVisibility(View.GONE);
+//                lb_left.setVisibility(View.GONE);
+//                lb_right.setVisibility(View.GONE);
+//                lb_bottom.setVisibility(View.GONE);
+//
+//                rt_top.setVisibility(View.GONE);
+//                rt_left.setVisibility(View.GONE);
+//                rt_right.setVisibility(View.GONE);
+//                rt_bottom.setVisibility(View.GONE);
+//
+//                if(left){
+//                    rb_left.setVisibility(View.VISIBLE);
+//                }else{
+//                    rb_left.setVisibility(View.GONE);
+//                }
+//                if(right){
+//                    rb_right.setVisibility(View.VISIBLE);
+//                }else{
+//                    rb_right.setVisibility(View.GONE);
+//                }
+//                if(top){
+//                    rb_top.setVisibility(View.VISIBLE);
+//                }else{
+//                    rb_top.setVisibility(View.GONE);
+//                }
+//                if(bottom){
+//                    rb_bottom.setVisibility(View.VISIBLE);
+//                }else{
+//                    rb_bottom.setVisibility(View.GONE);
+//                }
+//                break;
+//        }
+//
+//    }
 
     Runnable reset_step_runnable = new Runnable() {
         @Override
