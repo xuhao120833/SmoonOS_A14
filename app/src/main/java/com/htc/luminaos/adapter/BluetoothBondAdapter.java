@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothProfile;
 import android.os.SystemProperties;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,7 +37,7 @@ import static com.htc.luminaos.activity.BluetoothActivity.mBluetoothProfile;
  * Date:
  * Description:
  */
-public class BluetoothBondAdapter extends RecyclerView.Adapter<BluetoothBondAdapter.MyViewHolder>{
+public class BluetoothBondAdapter extends RecyclerView.Adapter<BluetoothBondAdapter.MyViewHolder> implements View.OnHoverListener {
 
     private List<BluetoothDevice> deviceList = new ArrayList<>();
     private Activity mContext;
@@ -209,8 +210,7 @@ public class BluetoothBondAdapter extends RecyclerView.Adapter<BluetoothBondAdap
                 }
             }
         });
-
-
+        myViewHolder.rl_item.setOnHoverListener(this);
     }
 
     /**
@@ -249,5 +249,20 @@ public class BluetoothBondAdapter extends RecyclerView.Adapter<BluetoothBondAdap
             ble_status = itemView.findViewById(R.id.ble_status);
             rl_item = itemView.findViewById(R.id.rl_item);
         }
+    }
+
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        int what = event.getAction();
+        switch (what) {
+            case MotionEvent.ACTION_HOVER_ENTER: // 鼠标进入view
+                v.requestFocus();
+                break;
+            case MotionEvent.ACTION_HOVER_MOVE: // 鼠标在view上
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT: // 鼠标离开view
+                break;
+        }
+        return false;
     }
 }

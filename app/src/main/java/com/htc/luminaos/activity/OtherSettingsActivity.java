@@ -51,21 +51,26 @@ public class OtherSettingsActivity extends BaseActivity implements View.OnKeyLis
     private void initView(){
         otherSettingsBinding.rlButtonSound.setOnClickListener(this);
         otherSettingsBinding.buttonSoundSwitch.setOnClickListener(this);
-
         otherSettingsBinding.rlResetFactory.setOnClickListener(this);
         otherSettingsBinding.rlScreenSaver.setOnClickListener(this);
         otherSettingsBinding.rlTimerOff.setOnClickListener(this);
+        otherSettingsBinding.rlPowerMode.setOnClickListener(this);
+        otherSettingsBinding.rlBootInput.setOnClickListener(this);
+        otherSettingsBinding.rlDeveloper.setOnClickListener(this);
+
+        otherSettingsBinding.rlButtonSound.setOnHoverListener(this);
+        otherSettingsBinding.buttonSoundSwitch.setOnHoverListener(this);
+        otherSettingsBinding.rlResetFactory.setOnHoverListener(this);
+        otherSettingsBinding.rlScreenSaver.setOnHoverListener(this);
+        otherSettingsBinding.rlTimerOff.setOnHoverListener(this);
+        otherSettingsBinding.rlPowerMode.setOnHoverListener(this);
+        otherSettingsBinding.rlBootInput.setOnHoverListener(this);
+        otherSettingsBinding.rlDeveloper.setOnHoverListener(this);
 
         otherSettingsBinding.rlScreenSaver.setOnKeyListener(this);
         otherSettingsBinding.rlTimerOff.setOnKeyListener(this);
-
         otherSettingsBinding.rlBootInput.setOnKeyListener(this);
-        otherSettingsBinding.rlBootInput.setOnClickListener(this);
-
         otherSettingsBinding.rlPowerMode.setOnKeyListener(this);
-        otherSettingsBinding.rlPowerMode.setOnClickListener(this);
-
-        otherSettingsBinding.rlDeveloper.setOnClickListener(this);
         otherSettingsBinding.rlBootInput.requestFocus();
         otherSettingsBinding.rlBootInput.requestFocusFromTouch();
 

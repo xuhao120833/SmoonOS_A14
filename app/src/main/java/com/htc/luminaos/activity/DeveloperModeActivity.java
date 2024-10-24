@@ -25,9 +25,11 @@ public class DeveloperModeActivity extends BaseActivity {
 
     private void initView(){
         developerModeBinding.rlUsbDebug.setOnClickListener(this);
+        developerModeBinding.rlUsbDebug.setOnHoverListener(this);
         developerModeBinding.usbDebugSwitch.setOnClickListener(this);
 
         developerModeBinding.rlAdbDebug.setOnClickListener(this);
+        developerModeBinding.rlAdbDebug.setOnHoverListener(this);
         developerModeBinding.adbDebugSwitch.setOnClickListener(this);
 
         developerModeBinding.adbDebugSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

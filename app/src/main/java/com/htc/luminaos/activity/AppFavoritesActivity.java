@@ -46,8 +46,8 @@ import androidx.annotation.Nullable;
 
 
 /**
- * @author 作�?�：hxd
- * @version 创建时间 2020/9/8 下午3:50:51 类说�?
+ * @author Xuhao
+ * @version 创建时间 2020/9/8 下午3:50:51
  */
 public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 
@@ -273,7 +273,7 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				
+
 				GridViewItemOrderUtil.lastToNextFirst(appfavorites_gridview,
 						list.size(), 6, selected, keyCode, event);
 				return false;
@@ -285,7 +285,7 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 
 					@Override
 					public boolean onGenericMotion(View v, MotionEvent event) {
-						
+
 						Log.i(tag, "onGenericMotion");
 						if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
 							switch (event.getAction()) {
@@ -316,7 +316,7 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				
+
 				if (scrollState == SCROLL_STATE_IDLE) {
 					Log.i(tag, "scrollState=" + scrollState);
 					appfavorites_gridview.setSelection(appfavorites_gridview
@@ -327,7 +327,7 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
-				
+
 
 			}
 		});

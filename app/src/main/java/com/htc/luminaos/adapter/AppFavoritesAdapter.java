@@ -2,6 +2,7 @@ package com.htc.luminaos.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
  * @author 作�?�：hxd
  * @version 创建时间 2020/9/8 下午3:50:51 类说�?
  */
-public class AppFavoritesAdapter extends BaseAdapter implements View.OnFocusChangeListener {
+public class AppFavoritesAdapter extends BaseAdapter {
 
     private Context mContext;
     private ArrayList<AppInfoBean> mList = new ArrayList<AppInfoBean>();
@@ -89,35 +90,7 @@ public class AppFavoritesAdapter extends BaseAdapter implements View.OnFocusChan
             viewholder.appapp_iv.setVisibility(View.GONE);
         }
 
-		viewholder.rlRelativelayout.setOnFocusChangeListener(this);
-
         return convertView;
-    }
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-//        int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
-        AnimationSet animationSet = new AnimationSet(true);
-        v.bringToFront();
-        if (hasFocus) {
-
-            ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.10f,
-                    1.0f, 1.10f, Animation.RELATIVE_TO_SELF, 0.5f,
-                    Animation.RELATIVE_TO_SELF, 0.5f);
-            scaleAnimation.setDuration(150);
-            animationSet.addAnimation(scaleAnimation);
-            animationSet.setFillAfter(true);
-            v.startAnimation(animationSet);
-        } else {
-            ScaleAnimation scaleAnimation = new ScaleAnimation(1.10f, 1.0f,
-                    1.10f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
-                    Animation.RELATIVE_TO_SELF, 0.5f);
-            animationSet.addAnimation(scaleAnimation);
-            scaleAnimation.setDuration(150);
-            animationSet.setFillAfter(true);
-            v.startAnimation(animationSet);
-        }
-
     }
 
     static class ViewHolder {

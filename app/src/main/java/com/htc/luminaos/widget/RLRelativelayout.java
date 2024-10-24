@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.RelativeLayout;
 
 /**
- * Author:
+ * Author: Xuhao
  * Date:
  * Description:用作给布局最后一个子控件TextView 跟随布局焦点选中，从而让文本进行滚动显示
  */

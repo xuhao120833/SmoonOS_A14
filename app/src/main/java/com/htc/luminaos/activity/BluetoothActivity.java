@@ -92,8 +92,10 @@ public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak
 
     private void initView(){
         bluetoothBinding.rlBluetoothSwitch.setOnClickListener(this);
+        bluetoothBinding.rlBluetoothSwitch.setOnHoverListener(this);
         bluetoothBinding.bluetoothSwitch.setOnClickListener(this);
         bluetoothBinding.rlSearchBle.setOnClickListener(this);
+        bluetoothBinding.rlSearchBle.setOnHoverListener(this);
         bluetoothBinding.pairRv.setItemAnimator(null);
         bluetoothBinding.pairRv.addItemDecoration(new SpacesItemDecoration(0,0,SpacesItemDecoration.px2dp(4),0));
         bluetoothBinding.availableRv.setItemAnimator(null);

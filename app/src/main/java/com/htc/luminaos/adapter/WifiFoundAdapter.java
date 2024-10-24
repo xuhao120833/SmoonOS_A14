@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -39,7 +40,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * Date:
  * Description:
  */
-public class WifiFoundAdapter extends RecyclerView.Adapter<WifiFoundAdapter.MyViewHolder> {
+public class WifiFoundAdapter extends RecyclerView.Adapter<WifiFoundAdapter.MyViewHolder> implements View.OnHoverListener {
 
     private List<ScanResult> scanResultList = new ArrayList<>();
     private Context mContext;
@@ -160,6 +161,7 @@ public class WifiFoundAdapter extends RecyclerView.Adapter<WifiFoundAdapter.MyVi
         }else {
             myViewHolder.lock_iv.setVisibility(View.GONE);
         }
+        myViewHolder.rl_item.setOnHoverListener(this);
     }
 
     @Override
@@ -485,6 +487,21 @@ public class WifiFoundAdapter extends RecyclerView.Adapter<WifiFoundAdapter.MyVi
             return strength;
         }
         return 0;
+    }
+
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        int what = event.getAction();
+        switch (what) {
+            case MotionEvent.ACTION_HOVER_ENTER: // 鼠标进入view
+                v.requestFocus();
+                break;
+            case MotionEvent.ACTION_HOVER_MOVE: // 鼠标在view上
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT: // 鼠标离开view
+                break;
+        }
+        return false;
     }
 
 }

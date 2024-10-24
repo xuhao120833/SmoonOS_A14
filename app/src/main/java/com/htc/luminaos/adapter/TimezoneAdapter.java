@@ -3,6 +3,7 @@ package com.htc.luminaos.adapter;
 import android.app.AlarmManager;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * Date:
  * Description:
  */
-public class TimezoneAdapter extends RecyclerView.Adapter<TimezoneAdapter.MyViewHolder>{
+public class TimezoneAdapter extends RecyclerView.Adapter<TimezoneAdapter.MyViewHolder> implements View.OnHoverListener{
 
     private Context mContext;
     private ArrayList<HashMap> list = null;
@@ -86,6 +87,8 @@ public class TimezoneAdapter extends RecyclerView.Adapter<TimezoneAdapter.MyView
             }
         });
 
+        myViewHolder.rl_item.setOnHoverListener(this);
+
     }
 
     @Override
@@ -110,5 +113,20 @@ public class TimezoneAdapter extends RecyclerView.Adapter<TimezoneAdapter.MyView
             status = itemView.findViewById(R.id.status);
             rl_item = itemView.findViewById(R.id.rl_item);
         }
+    }
+
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        int what = event.getAction();
+        switch (what) {
+            case MotionEvent.ACTION_HOVER_ENTER: // 鼠标进入view
+                v.requestFocus();
+                break;
+            case MotionEvent.ACTION_HOVER_MOVE: // 鼠标在view上
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT: // 鼠标离开view
+                break;
+        }
+        return false;
     }
 }

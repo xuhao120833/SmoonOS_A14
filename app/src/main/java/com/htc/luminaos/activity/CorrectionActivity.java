@@ -190,6 +190,11 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
         rb_right.setOnClickListener(valueListener);
         rb_bottom.setOnClickListener(valueListener);
 
+        check_lt.setOnHoverListener(this);
+        check_lb.setOnHoverListener(this);
+        check_rt.setOnHoverListener(this);
+        check_rb.setOnHoverListener(this);
+
         KeystoneUtils.initKeystoneData();
         int[] xy = new int[]{0, 0};
         xy = KeystoneUtils.getKeystoneLeftAndTopXY();

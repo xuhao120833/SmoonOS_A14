@@ -59,8 +59,11 @@ public class LanguageAndKeyboardActivity extends BaseActivity {
     
     private void initView(){
         languageKeyboardBinding.rlLanguage.setOnClickListener(this);
+        languageKeyboardBinding.rlLanguage.setOnHoverListener(this);
         languageKeyboardBinding.rlKeyboard.setOnClickListener(this);
+        languageKeyboardBinding.rlKeyboard.setOnHoverListener(this);
         languageKeyboardBinding.rlKeyboardSetting.setOnClickListener(this);
+        languageKeyboardBinding.rlKeyboardSetting.setOnHoverListener(this);
     }
     
     @SuppressLint("SetTextI18n")

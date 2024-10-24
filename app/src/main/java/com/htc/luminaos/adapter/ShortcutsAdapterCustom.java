@@ -40,7 +40,7 @@ import java.util.logging.LogRecord;
  * Date:
  * Description:
  */
-public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapterCustom.MyViewHolder> implements View.OnFocusChangeListener {
+public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapterCustom.MyViewHolder> implements View.OnFocusChangeListener, View.OnHoverListener {
 
     Context mContext;
     private ArrayList<ShortInfoBean> short_list;
@@ -169,6 +169,8 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
 
             }
         });
+
+        myViewHolder.rl_item.setOnHoverListener(this);
 
     }
 
@@ -350,6 +352,21 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
         Bitmap resizeBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmapWidth,
                 bitmapHeight, matrix, true);
         return new BitmapDrawable(resizeBitmap);
+    }
+
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        int what = event.getAction();
+        switch (what) {
+            case MotionEvent.ACTION_HOVER_ENTER: // 鼠标进入view
+                v.requestFocus();
+                break;
+            case MotionEvent.ACTION_HOVER_MOVE: // 鼠标在view上
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT: // 鼠标离开view
+                break;
+        }
+        return false;
     }
 
 

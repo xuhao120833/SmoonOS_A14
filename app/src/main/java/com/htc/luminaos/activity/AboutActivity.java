@@ -123,6 +123,17 @@ public class AboutActivity extends BaseActivity {
         aboutBinding.rlSerialNumber.setVisibility(MyApplication.config.serialNumber ? View.VISIBLE : View.GONE);
         aboutBinding.rlUpdateFirmware.setVisibility(MyApplication.config.updateFirmware ? View.VISIBLE : View.GONE);
         aboutBinding.rlOnlineUpdate.setVisibility(MyApplication.config.onlineUpdate ? View.VISIBLE : View.GONE);
+
+        aboutBinding.rlDeviceModel.setOnHoverListener(this);
+        aboutBinding.rlUiVersion.setOnHoverListener(this);
+        aboutBinding.rlAndroidVersion.setOnHoverListener(this);
+        aboutBinding.rlResolution.setOnHoverListener(this);
+        aboutBinding.rlMemory.setOnHoverListener(this);
+        aboutBinding.rlStorage.setOnHoverListener(this);
+        aboutBinding.rlWirelessMac.setOnHoverListener(this);
+        aboutBinding.rlSerialNumber.setOnHoverListener(this);
+        aboutBinding.rlUpdateFirmware.setOnHoverListener(this);
+        aboutBinding.rlOnlineUpdate.setOnHoverListener(this);
     }
 
     private void initData() {

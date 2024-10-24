@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * Date:
  * Description:
  */
-public class BluetoothFoundAdapter extends RecyclerView.Adapter<BluetoothFoundAdapter.MyViewHolder>{
+public class BluetoothFoundAdapter extends RecyclerView.Adapter<BluetoothFoundAdapter.MyViewHolder> implements View.OnHoverListener{
 
     private List<BluetoothDevice> deviceList = new ArrayList<>();
     private Context mContext;
@@ -101,6 +102,8 @@ public class BluetoothFoundAdapter extends RecyclerView.Adapter<BluetoothFoundAd
         }else{
             myViewHolder.ble_status.setVisibility(View.GONE);
         }
+
+        myViewHolder.rl_item.setOnHoverListener(this);
     }
 
     @Override
@@ -125,5 +128,20 @@ public class BluetoothFoundAdapter extends RecyclerView.Adapter<BluetoothFoundAd
             ble_status = itemView.findViewById(R.id.ble_status);
             rl_item = itemView.findViewById(R.id.rl_item);
         }
+    }
+
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        int what = event.getAction();
+        switch (what) {
+            case MotionEvent.ACTION_HOVER_ENTER: // 鼠标进入view
+                v.requestFocus();
+                break;
+            case MotionEvent.ACTION_HOVER_MOVE: // 鼠标在view上
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT: // 鼠标离开view
+                break;
+        }
+        return false;
     }
 }

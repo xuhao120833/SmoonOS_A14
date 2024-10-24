@@ -3,6 +3,7 @@ package com.htc.luminaos.adapter;
 import android.content.Context;
 import android.provider.Settings;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * Date:
  * Description:
  */
-public class InputMethodAdapter extends RecyclerView.Adapter<InputMethodAdapter.MyViewHolder>{
+public class InputMethodAdapter extends RecyclerView.Adapter<InputMethodAdapter.MyViewHolder> implements View.OnHoverListener{
 
     private Context mContext;
     private ArrayList<InputMethodBean> marray=null;
@@ -67,7 +68,7 @@ public class InputMethodAdapter extends RecyclerView.Adapter<InputMethodAdapter.
                 notifyDataSetChanged();
             }
         });
-
+        myViewHolder.rl_item.setOnHoverListener(this);
     }
 
     @Override
@@ -90,5 +91,20 @@ public class InputMethodAdapter extends RecyclerView.Adapter<InputMethodAdapter.
             status = itemView.findViewById(R.id.status);
             rl_item = itemView.findViewById(R.id.rl_item);
         }
+    }
+
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        int what = event.getAction();
+        switch (what) {
+            case MotionEvent.ACTION_HOVER_ENTER: // 鼠标进入view
+                v.requestFocus();
+                break;
+            case MotionEvent.ACTION_HOVER_MOVE: // 鼠标在view上
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT: // 鼠标离开view
+                break;
+        }
+        return false;
     }
 }

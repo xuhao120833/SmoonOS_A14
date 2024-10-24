@@ -66,7 +66,6 @@
             android:layout_width="@dimen/x_53"
             android:layout_height="@dimen/y_53"
             android:padding="@dimen/y_3"
-            android:clickable="true"
             android:src="@drawable/battery_4" />
     </RelativeLayout>
 
@@ -87,7 +86,6 @@
             android:layout_width="@dimen/x_53"
             android:layout_height="@dimen/y_53"
             android:padding="@dimen/y_3"
-            android:clickable="true"
             android:src="@drawable/usb_green" />
 
     </RelativeLayout>
@@ -108,7 +106,6 @@
             android:layout_width="@dimen/x_53"
             android:layout_height="@dimen/y_53"
             android:padding="@dimen/y_3"
-            android:clickable="true"
             android:src="@drawable/wapper_custom" />
     </RelativeLayout>
 
@@ -128,7 +125,6 @@
             android:layout_width="@dimen/x_53"
             android:layout_height="@dimen/y_53"
             android:padding="@dimen/y_2"
-            android:clickable="true"
             android:layout_centerInParent="true"
             android:src="@drawable/bt_custom2" />
     </RelativeLayout>
@@ -149,7 +145,6 @@
             android:layout_width="@dimen/x_53"
             android:layout_height="@dimen/y_53"
             android:padding="@dimen/y_3"
-            android:clickable="true"
             android:src="@drawable/wifi_custom_4" />
     </RelativeLayout>
 

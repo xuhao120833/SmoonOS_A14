@@ -87,26 +87,38 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
 
     private void initView() {
         projectBinding.rlDisplaySettings.setOnClickListener(this);
+        projectBinding.rlDisplaySettings.setOnHoverListener(this);
         projectBinding.rlColorMode.setOnClickListener(this);
+        projectBinding.rlColorMode.setOnHoverListener(this);
         projectBinding.rlProjectMode.setOnClickListener(this);
+        projectBinding.rlProjectMode.setOnHoverListener(this);
         projectBinding.rlAutoKeystone.setOnClickListener(this);
+        projectBinding.rlAutoKeystone.setOnHoverListener(this);
         projectBinding.rlInitAngle.setOnClickListener(this);
+        projectBinding.rlInitAngle.setOnHoverListener(this);
         projectBinding.autoKeystoneSwitch.setOnClickListener(this);
 
-        projectBinding.rlColorMode.setOnHoverListener(this);
         projectBinding.rlProjectMode.setOnKeyListener(this);
         projectBinding.rlDeviceMode2.setOnKeyListener(this);
+        projectBinding.rlDeviceMode2.setOnHoverListener(this);
         updateText(ReflectUtil.invokeGet_brightness_level()); //初始化设备模式的Text显示
         projectBinding.rlDigitalZoom.setOnKeyListener(this);
+        projectBinding.rlDigitalZoom.setOnHoverListener(this);
         projectBinding.rlHorizontalCorrect.setOnKeyListener(this);
+        projectBinding.rlHorizontalCorrect.setOnHoverListener(this);
         projectBinding.rlVerticalCorrect.setOnKeyListener(this);
+        projectBinding.rlVerticalCorrect.setOnHoverListener(this);
 
         projectBinding.rlManualKeystone.setOnClickListener(this);
+        projectBinding.rlManualKeystone.setOnHoverListener(this);
         projectBinding.rlResetKeystone.setOnClickListener(this);
+        projectBinding.rlResetKeystone.setOnHoverListener(this);
 
         projectBinding.rlAutoFocus.setOnClickListener(this);
+        projectBinding.rlAutoFocus.setOnHoverListener(this);
         projectBinding.autoFocusSwitch.setOnClickListener(this);
         projectBinding.rlAutoFourCorner.setOnClickListener(this);
+        projectBinding.rlAutoFourCorner.setOnHoverListener(this);
         projectBinding.rlAutoFourCorner.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -134,10 +146,13 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         });
         projectBinding.autoFourCornerSwitch.setOnClickListener(this);
         projectBinding.rlScreenRecognition.setOnClickListener(this);
+        projectBinding.rlScreenRecognition.setOnHoverListener(this);
         projectBinding.screenRecognitionSwitch.setOnClickListener(this);
         projectBinding.rlIntelligentObstacle.setOnClickListener(this);
+        projectBinding.rlIntelligentObstacle.setOnHoverListener(this);
         projectBinding.intelligentObstacleSwitch.setOnClickListener(this);
         projectBinding.rlCalibration.setOnClickListener(this);
+        projectBinding.rlCalibration.setOnHoverListener(this);
 
         projectBinding.rlDisplaySettings.setVisibility(MyApplication.config.displaySetting ? View.VISIBLE : View.GONE);
         projectBinding.rlColorMode.setVisibility(MyApplication.config.brightAndColor? View.VISIBLE : View.GONE);

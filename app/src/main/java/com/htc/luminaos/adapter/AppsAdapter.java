@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -35,7 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * Date:
  * Description:
  */
-public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.MyViewHolder> implements View.OnKeyListener {
+public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.MyViewHolder> implements View.OnKeyListener, View.OnHoverListener {
 
     Context mContext;
     RecyclerView recyclerView;
@@ -104,6 +105,8 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.MyViewHolder> 
         });
 
         myViewHolder.rl_item.setOnKeyListener(this);
+
+        myViewHolder.rl_item.setOnHoverListener(this);
     }
 
     @Override
@@ -197,4 +200,20 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.MyViewHolder> 
             icon = itemView.findViewById(R.id.app_icon);
         }
     }
+
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        int what = event.getAction();
+        switch (what) {
+            case MotionEvent.ACTION_HOVER_ENTER: // 鼠标进入view
+                v.requestFocus();
+                break;
+            case MotionEvent.ACTION_HOVER_MOVE: // 鼠标在view上
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT: // 鼠标离开view
+                break;
+        }
+        return false;
+    }
+
 }

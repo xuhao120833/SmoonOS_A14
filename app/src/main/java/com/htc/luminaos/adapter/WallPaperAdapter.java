@@ -140,6 +140,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
                 }
             });
         } else {
+            myViewHolder.icon_card.setCardBackgroundColor(Color.parseColor("#00000000"));
             myViewHolder.icon.setBackgroundResource(R.drawable.wallpaper_add);
         }
         myViewHolder.rl_item.setOnClickListener(new View.OnClickListener() {
@@ -273,6 +274,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
+        CardView icon_card;
         ImageView icon;
         TextView status;
         FrameLayout rl_item;
@@ -281,6 +283,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            icon_card = itemView.findViewById(R.id.icon_card);
             icon = itemView.findViewById(R.id.icon);
             check = itemView.findViewById(R.id.check);
             status = itemView.findViewById(R.id.status);
