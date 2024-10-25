@@ -10,14 +10,30 @@
     tools:context=".activity.MainActivity">
 
 <!--    第一排-->
+    <FrameLayout
+        android:layout_width="@dimen/x_350"
+        android:layout_height="@dimen/y_133"
+        android:layout_marginStart="@dimen/x_57">
 
-    <ImageView
-        android:id="@+id/brand"
-        android:layout_width="@dimen/x_271"
-        android:layout_height="@dimen/y_36"
-        android:layout_marginStart="@dimen/x_57"
-        android:layout_marginTop="@dimen/y_49"
-        android:src="@drawable/brand" />
+        <ImageView
+            android:id="@+id/brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:layout_gravity="start|center_vertical"
+            android:src="@drawable/brand" />
+
+    </FrameLayout>
+
+<!--    <ImageView-->
+<!--        android:id="@+id/brand"-->
+<!--        android:layout_width="@dimen/x_271"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/x_57"-->
+<!--        android:layout_marginTop="@dimen/y_49"-->
+<!--        android:scaleType="fitStart"-->
+<!--        android:src="@drawable/ceshibrand2" />-->
 
     <FrameLayout
         android:id="@+id/time_frame"
@@ -25,12 +41,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/y_20"
         >
-
         <TextView
             android:id="@+id/time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:text="11:01"
             android:textColor="#ffffff"
             android:textSize="@dimen/y_64"
