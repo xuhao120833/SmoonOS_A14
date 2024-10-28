@@ -471,6 +471,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
                     ReflectUtil.invokeSet_brightness_level(cur_device_Mode);
                     break;
             }
+
         } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
             switch (v.getId()) {
                 case R.id.rl_project_mode:

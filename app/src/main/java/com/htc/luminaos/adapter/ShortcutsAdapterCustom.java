@@ -74,7 +74,7 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
-        Log.d(TAG, "Shortcuts short_list.size() "+short_list.size());
+        Log.d(TAG, "Shortcuts short_list.size() " + short_list.size());
         if (i < short_list.size() && short_list.get(i).getAppname() != null && i > 0) {
             Log.d(TAG, "Shortcuts appName存在 ");
             myViewHolder.icon.setImageDrawable(short_list.get(i).getAppicon());
@@ -83,14 +83,14 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
             Log.d(TAG, "Shortcuts appName为NULL ");
             String appName = DBUtils.getInstance(mContext).getFavoritesAppName(short_list.get(i).getPackageName());
             Drawable drawable = DBUtils.getInstance(mContext).getFavoritesIcon(short_list.get(i).getPackageName());
-            if(appName!=null&&!appName.isEmpty()) {
+            if (appName != null && !appName.isEmpty()) {
                 myViewHolder.name.setText(appName);
-            }else {
+            } else {
                 myViewHolder.name.setText(getAppName(short_list.get(i).getPackageName()));
             }
-            if(drawable!=null) {
+            if (drawable != null) {
                 myViewHolder.icon.setImageDrawable(drawable);
-            }else {
+            } else {
                 myViewHolder.icon.setImageResource(getAppIcon(short_list.get(i).getPackageName()));
             }
         } else if (i == 0) {
@@ -101,7 +101,7 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
             @Override
             public void onClick(View v) {
                 if (itemCallBack != null)
-                    itemCallBack.onItemClick(i,myViewHolder.name.getText().toString());
+                    itemCallBack.onItemClick(i, myViewHolder.name.getText().toString());
             }
         });
         myViewHolder.rl_item.setOnLongClickListener(new View.OnLongClickListener() {
@@ -157,7 +157,8 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if(short_list.size() == 8) {
+                            int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
+                            if (short_list.size() == 8 && position != 0) {
                                 Toast.makeText(v.getContext(), mContext.getString(R.string.shortcuts_tips), Toast.LENGTH_LONG).show();
                             }
                         }
@@ -261,11 +262,11 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
     }
 
     public interface ItemCallBack {
-        void onItemClick(int i ,String name);
+        void onItemClick(int i, String name);
     }
 
 
-    static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnFocusChangeListener , View.OnHoverListener{
+    static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnFocusChangeListener, View.OnHoverListener {
 
         TextView name;
         MyCircleImageView icon;
