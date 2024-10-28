@@ -211,6 +211,12 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             initReceiver();
             wifiManager = (WifiManager) getSystemService(Service.WIFI_SERVICE);
             Log.d(TAG, " onCreate快捷图标 short_list " + short_list.size());
+//            int usbcount = countUsbDevices(getApplicationContext());
+//            if(usbcount>0) {
+//                Utils.usbDevicesNumber=usbcount*2;
+//                Utils.hasUsbDevice = true;
+//                UsbDeviceChange();
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1061,8 +1067,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     if (!DBUtils.getInstance(this).isExistData(
                             packageName)) {
                         long addCode = DBUtils.getInstance(this)
-                                .addFavorites(appName,packageName,drawable);
-                        Log.d(TAG, " Shortcuts 添加快捷数据库成功 "+appName+" "+packageName);
+                                .addFavorites(appName, packageName, drawable);
+                        Log.d(TAG, " Shortcuts 添加快捷数据库成功 " + appName + " " + packageName);
                     }
                 }
             }
@@ -1750,18 +1756,47 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
     }
 
+    //    public int countUsbDevices(Context context) {
+//        StorageManager storageManager = (StorageManager) context.getSystemService(Context.STORAGE_SERVICE);
+//        List<StorageVolume> volumes = storageManager.getStorageVolumes();
+//        int usbCount = 0;
+//
+//        for (StorageVolume volume : volumes) {
+//            if (volume.isRemovable()) {
+//                usbCount++;
+//            }
+//        }
+//        Log.d(TAG, "checkUsb  开机检测到 "+usbCount+" 个U盘");
+//        return usbCount;
+//    }
     public int countUsbDevices(Context context) {
-        StorageManager storageManager = (StorageManager) context.getSystemService(Context.STORAGE_SERVICE);
-        List<StorageVolume> volumes = storageManager.getStorageVolumes();
+        File storageDir = new File("/storage/");
         int usbCount = 0;
 
-        for (StorageVolume volume : volumes) {
-            if (volume.isRemovable()) {
-                usbCount++;
+        if (storageDir.exists() && storageDir.isDirectory()) {
+            File[] directories = storageDir.listFiles();
+
+            for (File dir : directories) {
+                // 检查子目录是否是一个挂载点，并且是否是外部可移动存储
+                if (dir.isDirectory() && dir.canRead() && isUsbDevice(dir)) {
+                    usbCount++;
+                }
             }
         }
-        Log.d(TAG, "checkUsb  开机检测到 "+usbCount+" 个U盘");
+
+        Log.d(TAG, "checkUsb 开机检测到 " + usbCount + " 个U盘");
         return usbCount;
+    }
+
+    // 辅助函数，用于判断给定目录是否为 USB 设备
+    private boolean isUsbDevice(File dir) {
+        try {
+            // 判断是否为可移动存储且不是系统的主存储
+            return Environment.isExternalStorageRemovable(dir);
+        } catch (Exception e) {
+            Log.e(TAG, "Error checking if directory is USB device", e);
+            return false;
+        }
     }
 
 

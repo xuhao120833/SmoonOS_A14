@@ -130,15 +130,17 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ProjectActivity" />
-        <activity android:name=".activity.MainSettingActivity" />
+        <activity android:name=".activity.MainSettingActivity"
+            android:exported="true">
+            
+        </activity>
         <activity android:name=".activity.AppsActivity" />
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
-            android:launchMode="singleTask">
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />

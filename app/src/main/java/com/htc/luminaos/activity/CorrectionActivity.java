@@ -25,7 +25,7 @@ import com.htc.luminaos.utils.KeystoneUtils;
 
 import androidx.annotation.Nullable;
 
-public class CorrectionActivity extends BaseActivity implements View.OnKeyListener {
+public class CorrectionActivity extends BaseActivity {
 
     private CheckBox check_lt;
     private CheckBox check_lb;
@@ -159,12 +159,6 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
         check_rt.setChecked(false);
         check_rb.setChecked(false);
 
-        rl_main.setOnKeyListener(this);
-        check_lt.setOnKeyListener(this);
-        check_lb.setOnKeyListener(this);
-        check_rt.setOnKeyListener(this);
-        check_rb.setOnKeyListener(this);
-
         check_lt.setOnClickListener(Listener);
         check_lb.setOnClickListener(Listener);
         check_rt.setOnClickListener(Listener);
@@ -232,27 +226,6 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
         }
     };
 
-
-//    public void onclick(View view) {
-//        switch (view.getId()) {
-//            case R.id.check_lt:
-//                switchDirection(1);
-//                break;
-//
-//            case R.id.check_lb:
-//                switchDirection(2);
-//                break;
-//
-//            case R.id.check_rt:
-//                switchDirection(3);
-//                break;
-//
-//            case R.id.check_rb:
-//                switchDirection(4);
-//                break;
-//        }
-//    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent keyEvent) {
         Log.d(TAG, " 手动矫正onKeyDown " + keyCode);
@@ -261,19 +234,11 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
         if (repeatCount == 0) {
             key_move_step = 1;
         }
-
         Log.d(TAG, " 手动矫正onKeyDown keyCode " + keyCode + " keyEvent " + keyEvent + " repeatCount " + repeatCount + " key_move_step " + key_move_step);
         ret = calculationValue(keyCode, keyEvent, key_move_step);
         if (key_move_step < 8) {
             key_move_step++;
         }
-
-        //Menu键长按事件处理
-//        if (keyCode == KeyEvent.KEYCODE_MENU) {
-//            Log.d(TAG, " 手动矫正 keyCode == KeyEvent.KEYCODE_MENU");
-//            menu_long_press(keyEvent);
-//        }
-
         return ret;
     }
 
@@ -283,59 +248,9 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
         int action = keyEvent.getAction();
         int keyCode = keyEvent.getKeyCode();
 
-        //xuahao add 长按Menu键 复位手动矫正
-//        switch (keyEvent.getAction()) {
-//
-//            case KeyEvent.ACTION_DOWN:
-//                Log.d(TAG, "手动矫正 KeyEvent.ACTION_DOWN");
-//                // 记录按下时间
-//                if (keyEvent.getRepeatCount() == 0) {
-//
-//                    keyDownTime = System.currentTimeMillis();
-//                    Log.d(TAG, "手动矫正 记录下时间keyDownTime "+keyDownTime+" 毫秒");
-//                }
-//                break;
-//            case KeyEvent.ACTION_UP:
-//                if (keyCode == KeyEvent.KEYCODE_MENU) {
-//                    keyUpTime = System.currentTimeMillis();
-//                    Log.d(TAG, "手动矫正 keyUpTime " + keyUpTime+" 毫秒");
-//                    long pressDuration = keyUpTime - keyDownTime;
-//                    Log.d(TAG, "手动矫正 keyCode == KeyEvent.KEYCODE_MENU " + pressDuration+" 毫秒");
-//                    if (pressDuration > LONG_PRESS_THRESHOLD) {
-//                        Log.d(TAG, "手动矫正 MENU长按");
-//                        menu_long_press(keyEvent);
-//                    }
-//                }
-//                break;
-//
-//            default:
-//                break;
-//        }
-
-//        if (action == KeyEvent.ACTION_DOWN) {
-//            Log.d(TAG, "手动矫正 KeyEvent.ACTION_DOWN");
-//            // 记录按下时间
-//            if (keyEvent.getRepeatCount() == 0) {
-//
-//                keyDownTime = System.currentTimeMillis();
-//                Log.d(TAG, "手动矫正 记录下时间keyDownTime " + keyDownTime + " 毫秒");
-//            }
-//        } else if (action == KeyEvent.ACTION_UP) {
-//            if (keyCode == KeyEvent.KEYCODE_MENU) {
-//                keyUpTime = System.currentTimeMillis();
-//                Log.d(TAG, "手动矫正 keyUpTime " + keyUpTime + " 毫秒");
-//                long pressDuration = keyUpTime - keyDownTime;
-//                Log.d(TAG, "手动矫正 keyCode == KeyEvent.KEYCODE_MENU " + pressDuration + " 毫秒");
-//                if (pressDuration > LONG_PRESS_THRESHOLD) {
-//                    Log.d(TAG, "手动矫正 MENU长按");
-//                    menu_long_press(keyEvent);
-//                }
-//            }
-//        }
-//        //xuhao
-
-        if (keyCode == KeyEvent.KEYCODE_MENU) {
-            menu_long_press(keyEvent);
+        if ((keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_SETTINGS) && action == KeyEvent.ACTION_DOWN) {
+            Log.d(TAG,"dispatchKeyEvent MENU键或者Settings键唤出矫正复位 " +keyCode);
+            menu_press(keyEvent);
             return true;
         }
 
@@ -1028,25 +943,25 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
         }
     };
 
-    @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        Log.d(TAG, " 手动矫正 onKey");
-        if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_MENU) {
-            Log.d(TAG, " 手动矫正 Enter事件");
-            if (event.isLongPress()) {
-                Log.d(TAG, " 手动矫正 Enter键长按事件");
-                try {
-                    ShowResetKeystoreDialog();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return true; // 返回 true 表示事件已处理
-            }
-
-        }
-
-        return false;
-    }
+//    @Override
+//    public boolean onKey(View v, int keyCode, KeyEvent event) {
+//        Log.d(TAG, " 手动矫正 onKey");
+//        if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_MENU) {
+//            Log.d(TAG, " 手动矫正 Enter事件");
+//            if (event.isLongPress()) {
+//                Log.d(TAG, " 手动矫正 Enter键长按事件");
+//                try {
+//                    ShowResetKeystoreDialog();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                return true; // 返回 true 表示事件已处理
+//            }
+//
+//        }
+//
+//        return false;
+//    }
 
     private void ShowResetKeystoreDialog() {
         ResetKeystoreLayoutBinding resetKeystoreLayoutBinding = ResetKeystoreLayoutBinding.inflate(LayoutInflater.from(this));
@@ -1097,7 +1012,7 @@ public class CorrectionActivity extends BaseActivity implements View.OnKeyListen
         dialoge.show();
     }
 
-    private void menu_long_press(KeyEvent keyEvent) {
+    private void menu_press(KeyEvent keyEvent) {
         Log.d(TAG, " 手动矫正 menu_long_press");
         try {
             ShowResetKeystoreDialog();
