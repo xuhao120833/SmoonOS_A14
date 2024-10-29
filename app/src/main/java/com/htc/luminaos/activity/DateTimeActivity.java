@@ -58,17 +58,11 @@ public class DateTimeActivity extends BaseActivity implements View.OnKeyListener
     private void initView(){
         dateTimeBinding.rlAuto.setOnClickListener(this);
         dateTimeBinding.autoSwitch.setOnClickListener(this);
+
         dateTimeBinding.rlDate.setOnClickListener(this);
         dateTimeBinding.rlTime.setOnClickListener(this);
         dateTimeBinding.rlTimezone.setOnClickListener(this);
         dateTimeBinding.rlTimeFormat.setOnClickListener(this);
-
-        dateTimeBinding.rlAuto.setOnHoverListener(this);
-        dateTimeBinding.autoSwitch.setOnHoverListener(this);
-        dateTimeBinding.rlDate.setOnHoverListener(this);
-        dateTimeBinding.rlTime.setOnHoverListener(this);
-        dateTimeBinding.rlTimezone.setOnHoverListener(this);
-        dateTimeBinding.rlTimeFormat.setOnHoverListener(this);
 
         dateTimeBinding.rlTimeFormat.setOnKeyListener(this);
     }

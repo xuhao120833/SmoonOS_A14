@@ -30,13 +30,11 @@ public class NetworkActivity extends BaseActivity {
         networkBinding.rlHotspot.setOnHoverListener(this);
         networkBinding.rlWiredNetwork.setOnHoverListener(this);
 
-
         networkBinding.rlWirelessNetwork.requestFocus();
         networkBinding.rlWirelessNetwork.requestFocusFromTouch();
         if (isNetworkConnect()){
             networkBinding.rlWiredNetwork.setVisibility(View.VISIBLE);
         }else {
-
             networkBinding.rlWiredNetwork.setVisibility(View.GONE);
         }
     }

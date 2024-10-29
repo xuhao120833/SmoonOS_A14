@@ -93,14 +93,14 @@ public class BaseMainActivity extends Activity implements View.OnClickListener, 
 
     public void startNewActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
     public void startNewActivity(String packageName, String activity) {
         Intent intent = new Intent();
         intent.setComponent(new ComponentName(packageName, activity));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 

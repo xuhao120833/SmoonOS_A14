@@ -372,7 +372,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
             // 如果应用已安装，创建 Intent
             Intent intent = new Intent();
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.setComponent(new ComponentName(packageName, "com.hisilicon.explorer.activity.MainExplorerActivity"));
             intent.setAction(Intent.ACTION_MAIN);
 

@@ -21,6 +21,8 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.htc.luminaos.MyApplication;
 import com.htc.luminaos.R;
 import com.htc.luminaos.databinding.ActivityAboutBinding;
@@ -39,8 +41,6 @@ import java.io.FileFilter;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
 
 public class AboutActivity extends BaseActivity {
 
@@ -123,17 +123,6 @@ public class AboutActivity extends BaseActivity {
         aboutBinding.rlSerialNumber.setVisibility(MyApplication.config.serialNumber ? View.VISIBLE : View.GONE);
         aboutBinding.rlUpdateFirmware.setVisibility(MyApplication.config.updateFirmware ? View.VISIBLE : View.GONE);
         aboutBinding.rlOnlineUpdate.setVisibility(MyApplication.config.onlineUpdate ? View.VISIBLE : View.GONE);
-
-        aboutBinding.rlDeviceModel.setOnHoverListener(this);
-        aboutBinding.rlUiVersion.setOnHoverListener(this);
-        aboutBinding.rlAndroidVersion.setOnHoverListener(this);
-        aboutBinding.rlResolution.setOnHoverListener(this);
-        aboutBinding.rlMemory.setOnHoverListener(this);
-        aboutBinding.rlStorage.setOnHoverListener(this);
-        aboutBinding.rlWirelessMac.setOnHoverListener(this);
-        aboutBinding.rlSerialNumber.setOnHoverListener(this);
-        aboutBinding.rlUpdateFirmware.setOnHoverListener(this);
-        aboutBinding.rlOnlineUpdate.setOnHoverListener(this);
     }
 
     private void initData() {

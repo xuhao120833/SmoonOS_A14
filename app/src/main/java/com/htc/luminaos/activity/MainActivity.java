@@ -211,12 +211,6 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             initReceiver();
             wifiManager = (WifiManager) getSystemService(Service.WIFI_SERVICE);
             Log.d(TAG, " onCreate快捷图标 short_list " + short_list.size());
-//            int usbcount = countUsbDevices(getApplicationContext());
-//            if(usbcount>0) {
-//                Utils.usbDevicesNumber=usbcount*2;
-//                Utils.hasUsbDevice = true;
-//                UsbDeviceChange();
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
