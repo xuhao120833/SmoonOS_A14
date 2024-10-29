@@ -93,11 +93,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,7 +126,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     private ActivityMainBinding mainBinding;
 
-    private ActivityMainCustomBinding customBinding;
+    public ActivityMainCustomBinding customBinding;
     private ArrayList<ShortInfoBean> short_list = new ArrayList<>();
 
     boolean get_default_url = false;
@@ -167,7 +169,11 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     private AppReceiver appReceiver = null;
     private WifiManager wifiManager = null;
 
+    private StorageManager storageManager = null;
+
     ExecutorService threadExecutor = Executors.newFixedThreadPool(5);
+
+    private List<StorageVolume> localDevicesList;
 
     Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -210,6 +216,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             initDataCustom();
             initReceiver();
             wifiManager = (WifiManager) getSystemService(Service.WIFI_SERVICE);
+            storageManager = (StorageManager) getSystemService(Context.STORAGE_SERVICE);
+            localDevicesList = new ArrayList<StorageVolume>();
+            devicesPathAdd();
+//            countUsbDevices(getApplicationContext());
             Log.d(TAG, " onCreate快捷图标 short_list " + short_list.size());
         } catch (Exception e) {
             e.printStackTrace();
@@ -1750,48 +1760,71 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
     }
 
-    //    public int countUsbDevices(Context context) {
-//        StorageManager storageManager = (StorageManager) context.getSystemService(Context.STORAGE_SERVICE);
-//        List<StorageVolume> volumes = storageManager.getStorageVolumes();
-//        int usbCount = 0;
-//
-//        for (StorageVolume volume : volumes) {
-//            if (volume.isRemovable()) {
-//                usbCount++;
-//            }
-//        }
-//        Log.d(TAG, "checkUsb  开机检测到 "+usbCount+" 个U盘");
-//        return usbCount;
-//    }
     public int countUsbDevices(Context context) {
         File storageDir = new File("/storage/");
         int usbCount = 0;
 
         if (storageDir.exists() && storageDir.isDirectory()) {
             File[] directories = storageDir.listFiles();
-
-            for (File dir : directories) {
-                // 检查子目录是否是一个挂载点，并且是否是外部可移动存储
-                if (dir.isDirectory() && dir.canRead() && isUsbDevice(dir)) {
-                    usbCount++;
+            Log.d(TAG, "检测到  directories" +directories );
+            if (directories != null) {
+                for (File dir : directories) {
+                    Log.d(TAG, "检测到  directories" );
+                    // 检查子目录是否是一个挂载点，并且是否是外部可移动存储
+                    if (dir.isDirectory() && dir.canRead() && isUsbDevice(dir)) {
+                        usbCount++;
+                    }
                 }
             }
         }
 
-        Log.d(TAG, "checkUsb 开机检测到 " + usbCount + " 个U盘");
+        Log.d(TAG, "检测到 " + usbCount + " 个U盘");
         return usbCount;
     }
 
     // 辅助函数，用于判断给定目录是否为 USB 设备
     private boolean isUsbDevice(File dir) {
         try {
-            // 判断是否为可移动存储且不是系统的主存储
-            return Environment.isExternalStorageRemovable(dir);
+            // 获取目录的挂载信息
+            String mountInfo = getMountInfo(dir);
+            // 检查是否为支持的 USB 设备文件系统格式
+            return mountInfo.contains("vfat") ||
+                    mountInfo.contains("exfat") ||
+                    mountInfo.contains("ntfs") ||
+                    mountInfo.contains("fat32") ||
+                    mountInfo.contains("fuse");
         } catch (Exception e) {
-            Log.e(TAG, "Error checking if directory is USB device", e);
+            Log.e(TAG, "检查目录是否为 USB 设备时出错", e);
             return false;
         }
     }
+
+
+    // 获取目录的挂载信息
+    private String getMountInfo(File dir) {
+        try {
+            // 使用 "mount" 命令获取挂载信息
+            Process process = Runtime.getRuntime().exec("mount");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            StringBuilder output = new StringBuilder();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                if (line.contains(dir.getAbsolutePath())) {
+                    output.append(line);
+                    break;
+                }
+            }
+
+            reader.close();
+            Log.e(TAG, "检测到 output.toString() " + output.toString());
+            return output.toString();
+        } catch (IOException e) {
+            Log.e(TAG, "获取挂载信息时出错", e);
+            return "";
+        }
+    }
+
 
 
     private void CopyDrawableToSd(Drawable drawable) {
@@ -1824,6 +1857,38 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             fileOutputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void devicesPathAdd() {
+        if (storageManager == null) {
+            Log.e(TAG, "devicesPathAdd manager is null return error!");
+            return;
+        }
+        localDevicesList = storageManager.getStorageVolumes();
+        Log.d(TAG," 检测到devicesPathAdd "+localDevicesList.size());
+        StorageVolume storageVolume;
+        for (int i = 0; i < localDevicesList.size(); i++) {
+            storageVolume = localDevicesList.get(i);
+//            Log.d(TAG," 检测到storageVolume.getPath() "+storageVolume.getPath()+" "+Environment.getExternalStorageDirectory().getPath());
+            if (!storageVolume.getPath().equals(Environment.getExternalStorageDirectory().getPath())) {
+                if (storageVolume.getId().startsWith("public:179")) {
+                    /* 获取SD卡设备路径列表 */
+                    Log.d(TAG," 检测到SD卡 "+storageVolume.getPath());
+                } else if (storageVolume.getId().startsWith("public:8")) {
+                    /* 获取USB设备路径列表 */
+                    Utils.hasUsbDevice = true;
+                    Utils.usbDevicesNumber +=2;
+                    if(customBinding.rlUsbConnect.getVisibility() == View.GONE) {
+                        customBinding.rlUsbConnect.setVisibility(View.VISIBLE);
+                    }
+                    Log.d(TAG," 检测到USB设备 " +storageVolume.getPath()+" Utils.hasUsbDevice "+Utils.hasUsbDevice
+                            +" Utils.usbDevicesNumber "+Utils.usbDevicesNumber);
+                } else if (storageVolume.getPath().contains("sata")) {
+                    /* 获取sata设备路径列表 */
+                    Log.d(TAG," 检测到sata设备 "+storageVolume.getPath());
+                }
+            }
         }
     }
 

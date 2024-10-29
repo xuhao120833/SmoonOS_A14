@@ -11,6 +11,7 @@ import android.os.storage.StorageVolume;
 import android.util.Log;
 import android.view.View;
 
+import com.htc.luminaos.activity.MainActivity;
 import com.htc.luminaos.utils.Utils;
 
 import java.io.File;
@@ -24,12 +25,15 @@ public class UsbDeviceReceiver extends BroadcastReceiver {
 
     UsbDeviceCallBack callBack;
 
+    MainActivity activity;
+
     private static String TAG = "UsbDeviceReceiver";
 
     private static String USB_ROOT = "/mnt/media_rw";
 
     public UsbDeviceReceiver(UsbDeviceCallBack callBack) {
         this.callBack = callBack;
+        activity = (MainActivity) callBack;
     }
 
     @Override
@@ -42,8 +46,10 @@ public class UsbDeviceReceiver extends BroadcastReceiver {
                 Log.d(TAG, "UsbDeviceReceiver storageVolume.getPath()" + path);
                 if(isExternalStoragePath(path)) {
                     Utils.hasUsbDevice = true;
-                    callBack.UsbDeviceChange();
                     Utils.usbDevicesNumber++;
+                    if(activity.customBinding.rlUsbConnect.getVisibility() == View.GONE) {
+                        callBack.UsbDeviceChange();
+                    }
                     Log.d(TAG, "UsbDeviceReceiver 有USB设备插入挂载成功 显示U盘图标" + Utils.usbDevicesNumber);
                 }
             } else if (Intent.ACTION_MEDIA_UNMOUNTED.equals(intent.getAction())
