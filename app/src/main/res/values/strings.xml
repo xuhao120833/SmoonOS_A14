@@ -221,7 +221,7 @@
     <string name="picture_mode_sony_name">Sony</string>
     <string name="picture_mode_samsung_name">Samsung</string>
     <string name="picture_mode_custom_name">Custom</string>
-    <string name="Eshare">Eshare</string>
+    <string name="Eshare">Screen Cast</string>
     <string name="Filemanager">FileManager</string>
     <string name="network_setting">Network Settings</string>
     <string name="choose_ap">Select AP Band</string>

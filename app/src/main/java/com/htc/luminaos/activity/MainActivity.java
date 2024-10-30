@@ -1104,25 +1104,35 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     JSONObject jsonobject = jsonarrray.getJSONObject(i);
                     String tag = jsonobject.getString("tag");
                     String iconPath = jsonobject.getString("iconPath");
-                    JSONObject textObject = jsonobject.getJSONObject("text");
-                    String zhCN = textObject.getString("zh-CN");
-                    String zhTW = textObject.getString("zh-TW");
-                    String zhHK = textObject.getString("zh-HK");
-                    String ko = textObject.getString("ko-KR");
-                    String ja = textObject.getString("ja-JP");
-                    String en = textObject.getString("en-US");
-                    String ru = textObject.getString("ru-RU");
-                    String ar = textObject.getString("ar-EG");
+//                    JSONObject textObject = jsonobject.getJSONObject("text");
+//                    String zhCN = textObject.getString("zh-CN");
+//                    String zhTW = textObject.getString("zh-TW");
+//                    String zhHK = textObject.getString("zh-HK");
+//                    String ko = textObject.getString("ko-KR");
+//                    String ja = textObject.getString("ja-JP");
+//                    String en = textObject.getString("en-US");
+//                    String ru = textObject.getString("ru-RU");
+//                    String ar = textObject.getString("ar-EG");
                     String action = jsonobject.getString("action");
-                    hashtable.put("zh-CN", zhCN);
-                    hashtable.put("zh-TW", zhTW);
-                    hashtable.put("zh-HK", zhHK);
-                    hashtable.put("ko-KR", ko);
-                    hashtable.put("ja-JP", ja);
-                    hashtable.put("en-US", en);
-                    hashtable.put("ru-RU", ru);
-                    hashtable.put("ar-EG", ar);
-                    Log.d(TAG, " 读取到的listModules " + tag + iconPath + action + zhCN + ko + ar + ja);
+//                    hashtable.put("zh-CN", zhCN);
+//                    hashtable.put("zh-TW", zhTW);
+//                    hashtable.put("zh-HK", zhHK);
+//                    hashtable.put("ko-KR", ko);
+//                    hashtable.put("ja-JP", ja);
+//                    hashtable.put("en-US", en);
+//                    hashtable.put("ru-RU", ru);
+//                    hashtable.put("ar-EG", ar);
+                    JSONObject textObject = jsonobject.getJSONObject("text");
+                    JSONArray keys = textObject.names();
+                    Log.d(TAG, " 读取到的listModules keys " + keys);
+                    if (keys != null) {
+                        for (int b = 0; b < keys.length(); b++) {
+                            String key = keys.getString(b);
+                            String value = textObject.getString(key);
+                            Log.d(TAG, " 读取到的listModules " + tag + iconPath + key + value);
+                            hashtable.put(key, value);
+                        }
+                    }
                     //从iconPath中把png读出来赋值给drawable
                     Drawable drawable = FileUtils.loadImageAsDrawable(this, iconPath);
                     //将读取到的数据写入数据库
@@ -1480,113 +1490,122 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         Log.d(TAG, "xu当前语言" + LanguageUtil.getCurrentLanguage());
 
         if (mHashtable1 != null) {
-            String text = null;
-            switch (LanguageUtil.getCurrentLanguage()) {
-                case "zh-CN":
-                    Log.d(TAG, "中文设置eshareText和hdmiText");
-                    text = mHashtable1.get("zh-CN");
-                    if (text != null && !text.equals("")) {
-                        customBinding.eshareText.setText(mHashtable1.get("zh-CN"));
-                    }
-                    break;
-                case "zh-TW":
-                    text = mHashtable1.get("zh-TW");
-                    if (text != null && !text.equals("")) {
-                        customBinding.eshareText.setText(mHashtable1.get("zh-TW"));
-                    }
-                    break;
-                case "zh-HK":
-                    text = mHashtable1.get("zh-HK");
-                    if (text != null && !text.equals("")) {
-                        customBinding.eshareText.setText(mHashtable1.get("zh-HK"));
-                    }
-                    break;
-                case "ko-KR":
-                    text = mHashtable1.get("ko-KR");
-                    if (text != null && !text.equals("")) {
-                        customBinding.eshareText.setText(mHashtable1.get("ko-KR"));
-                    }
-                    break;
-                case "ja-JP":
-                    text = mHashtable1.get("ja-JP");
-                    if (text != null && !text.equals("")) {
-                        customBinding.eshareText.setText(mHashtable1.get("ja-JP"));
-                    }
-                    break;
-                case "en-US":
-                    text = mHashtable1.get("en-US");
-                    if (text != null && !text.equals("")) {
-                        customBinding.eshareText.setText(mHashtable1.get("en-US"));
-                    }
-                    break;
-                case "ru-RU":
-                    text = mHashtable1.get("ru-RU");
-                    if (text != null && !text.equals("")) {
-                        customBinding.eshareText.setText(mHashtable1.get("ru-RU"));
-                    }
-                    break;
-                case "ar-EG":
-                    text = mHashtable1.get("ar-EG");
-                    if (text != null && !text.equals("")) {
-                        customBinding.eshareText.setText(mHashtable1.get("ar-EG"));
-                    }
-                    break;
+            String text = mHashtable1.get(LanguageUtil.getCurrentLanguage());
+            Log.d(TAG, "xu当前语言 text eshareText" + text);
+            if (text != null && !text.isEmpty()) {
+                customBinding.eshareText.setText(text);
             }
+
+//            switch (LanguageUtil.getCurrentLanguage()) {
+//                case "zh-CN":
+//                    Log.d(TAG, "中文设置eshareText和hdmiText");
+//                    text = mHashtable1.get("zh-CN");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.eshareText.setText(mHashtable1.get("zh-CN"));
+//                    }
+//                    break;
+//                case "zh-TW":
+//                    text = mHashtable1.get("zh-TW");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.eshareText.setText(mHashtable1.get("zh-TW"));
+//                    }
+//                    break;
+//                case "zh-HK":
+//                    text = mHashtable1.get("zh-HK");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.eshareText.setText(mHashtable1.get("zh-HK"));
+//                    }
+//                    break;
+//                case "ko-KR":
+//                    text = mHashtable1.get("ko-KR");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.eshareText.setText(mHashtable1.get("ko-KR"));
+//                    }
+//                    break;
+//                case "ja-JP":
+//                    text = mHashtable1.get("ja-JP");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.eshareText.setText(mHashtable1.get("ja-JP"));
+//                    }
+//                    break;
+//                case "en-US":
+//                    text = mHashtable1.get("en-US");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.eshareText.setText(mHashtable1.get("en-US"));
+//                    }
+//                    break;
+//                case "ru-RU":
+//                    text = mHashtable1.get("ru-RU");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.eshareText.setText(mHashtable1.get("ru-RU"));
+//                    }
+//                    break;
+//                case "ar-EG":
+//                    text = mHashtable1.get("ar-EG");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.eshareText.setText(mHashtable1.get("ar-EG"));
+//                    }
+//                    break;
+//            }
         }
 
         if (mHashtable2 != null) {
-            String text = null;
-            switch (LanguageUtil.getCurrentLanguage()) {
-                case "zh-CN":
-                    Log.d(TAG, "中文设置eshareText和hdmiText");
-                    text = mHashtable2.get("zh-CN");
-                    if (text != null && !text.equals("")) {
-                        customBinding.hdmiText.setText(mHashtable2.get("zh-CN"));
-                    }
-                    break;
-                case "zh-TW":
-                    text = mHashtable2.get("zh-TW");
-                    if (text != null && !text.equals("")) {
-                        customBinding.hdmiText.setText(mHashtable2.get("zh-TW"));
-                    }
-                    break;
-                case "zh-HK":
-                    text = mHashtable2.get("zh-HK");
-                    if (text != null && !text.equals("")) {
-                        customBinding.hdmiText.setText(mHashtable2.get("zh-HK"));
-                    }
-                    break;
-                case "ko-KR":
-                    text = mHashtable2.get("ko-KR");
-                    if (text != null && !text.equals("")) {
-                        customBinding.hdmiText.setText(mHashtable2.get("ko-KR"));
-                    }
-                    break;
-                case "ja-JP":
-                    text = mHashtable2.get("ja-JP");
-                    if (text != null && !text.equals("")) {
-                        customBinding.hdmiText.setText(mHashtable2.get("ja-JP"));
-                    }
-                    break;
-                case "en-US":
-                    text = mHashtable2.get("en-US");
-                    if (text != null && !text.equals("")) {
-                        customBinding.hdmiText.setText(mHashtable2.get("en-US"));
-                    }
-                    break;
-                case "ru-RU":
-                    text = mHashtable2.get("ru-RU");
-                    if (text != null && !text.equals("")) {
-                        customBinding.hdmiText.setText(mHashtable2.get("ru-RU"));
-                    }
-                    break;
-                case "ar-EG":
-                    text = mHashtable2.get("ar-EG");
-                    if (text != null && !text.equals("")) {
-                        customBinding.hdmiText.setText(mHashtable2.get("ar-EG"));
-                    }
-                    break;
+            String text = mHashtable2.get(LanguageUtil.getCurrentLanguage());
+            Log.d(TAG, "xu当前语言 text hdmiText" + text);
+            if (text != null && !text.isEmpty()) {
+                customBinding.hdmiText.setText(text);
             }
+//            switch (LanguageUtil.getCurrentLanguage()) {
+//                case "zh-CN":
+//                    Log.d(TAG, "中文设置eshareText和hdmiText");
+//                    text = mHashtable2.get("zh-CN");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.hdmiText.setText(mHashtable2.get("zh-CN"));
+//                    }
+//                    break;
+//                case "zh-TW":
+//                    text = mHashtable2.get("zh-TW");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.hdmiText.setText(mHashtable2.get("zh-TW"));
+//                    }
+//                    break;
+//                case "zh-HK":
+//                    text = mHashtable2.get("zh-HK");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.hdmiText.setText(mHashtable2.get("zh-HK"));
+//                    }
+//                    break;
+//                case "ko-KR":
+//                    text = mHashtable2.get("ko-KR");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.hdmiText.setText(mHashtable2.get("ko-KR"));
+//                    }
+//                    break;
+//                case "ja-JP":
+//                    text = mHashtable2.get("ja-JP");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.hdmiText.setText(mHashtable2.get("ja-JP"));
+//                    }
+//                    break;
+//                case "en-US":
+//                    text = mHashtable2.get("en-US");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.hdmiText.setText(mHashtable2.get("en-US"));
+//                    }
+//                    break;
+//                case "ru-RU":
+//                    text = mHashtable2.get("ru-RU");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.hdmiText.setText(mHashtable2.get("ru-RU"));
+//                    }
+//                    break;
+//                case "ar-EG":
+//                    text = mHashtable2.get("ar-EG");
+//                    if (text != null && !text.equals("")) {
+//                        customBinding.hdmiText.setText(mHashtable2.get("ar-EG"));
+//                    }
+//                    break;
+//            }
         }
 
 //        if (mHashtable2 != null) {
@@ -1766,10 +1785,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
         if (storageDir.exists() && storageDir.isDirectory()) {
             File[] directories = storageDir.listFiles();
-            Log.d(TAG, "检测到  directories" +directories );
+            Log.d(TAG, "检测到  directories" + directories);
             if (directories != null) {
                 for (File dir : directories) {
-                    Log.d(TAG, "检测到  directories" );
+                    Log.d(TAG, "检测到  directories");
                     // 检查子目录是否是一个挂载点，并且是否是外部可移动存储
                     if (dir.isDirectory() && dir.canRead() && isUsbDevice(dir)) {
                         usbCount++;
@@ -1826,7 +1845,6 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     }
 
 
-
     private void CopyDrawableToSd(Drawable drawable) {
         Bitmap bitmap = null;
         if (drawable instanceof BitmapDrawable) {
@@ -1866,7 +1884,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             return;
         }
         localDevicesList = storageManager.getStorageVolumes();
-        Log.d(TAG," 检测到devicesPathAdd "+localDevicesList.size());
+        Log.d(TAG, " 检测到devicesPathAdd " + localDevicesList.size());
         StorageVolume storageVolume;
         for (int i = 0; i < localDevicesList.size(); i++) {
             storageVolume = localDevicesList.get(i);
@@ -1874,19 +1892,19 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             if (!storageVolume.getPath().equals(Environment.getExternalStorageDirectory().getPath())) {
                 if (storageVolume.getId().startsWith("public:179")) {
                     /* 获取SD卡设备路径列表 */
-                    Log.d(TAG," 检测到SD卡 "+storageVolume.getPath());
+                    Log.d(TAG, " 检测到SD卡 " + storageVolume.getPath());
                 } else if (storageVolume.getId().startsWith("public:8")) {
                     /* 获取USB设备路径列表 */
                     Utils.hasUsbDevice = true;
-                    Utils.usbDevicesNumber +=2;
-                    if(customBinding.rlUsbConnect.getVisibility() == View.GONE) {
+                    Utils.usbDevicesNumber += 2;
+                    if (customBinding.rlUsbConnect.getVisibility() == View.GONE) {
                         customBinding.rlUsbConnect.setVisibility(View.VISIBLE);
                     }
-                    Log.d(TAG," 检测到USB设备 " +storageVolume.getPath()+" Utils.hasUsbDevice "+Utils.hasUsbDevice
-                            +" Utils.usbDevicesNumber "+Utils.usbDevicesNumber);
+                    Log.d(TAG, " 检测到USB设备 " + storageVolume.getPath() + " Utils.hasUsbDevice " + Utils.hasUsbDevice
+                            + " Utils.usbDevicesNumber " + Utils.usbDevicesNumber);
                 } else if (storageVolume.getPath().contains("sata")) {
                     /* 获取sata设备路径列表 */
-                    Log.d(TAG," 检测到sata设备 "+storageVolume.getPath());
+                    Log.d(TAG, " 检测到sata设备 " + storageVolume.getPath());
                 }
             }
         }
