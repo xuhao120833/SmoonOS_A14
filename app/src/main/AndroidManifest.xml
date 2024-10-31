@@ -97,6 +97,7 @@
             android:launchMode="singleInstance"/>
         <activity android:name=".activity.CorrectionActivity" />
         <activity android:name=".activity.PictureModeActivity" />
+        <activity android:name=".activity.AudioModeActivity" />
         <activity
             android:name=".activity.BluetoothActivity"
             android:exported="true"

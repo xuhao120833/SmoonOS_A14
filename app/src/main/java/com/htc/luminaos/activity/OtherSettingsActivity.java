@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.htc.luminaos.MyApplication;
 import com.htc.luminaos.R;
 import com.htc.luminaos.databinding.ActivityOtherSettingsBinding;
 import com.htc.luminaos.service.TimeOffService;
@@ -51,23 +52,33 @@ public class OtherSettingsActivity extends BaseActivity implements View.OnKeyLis
     private void initView(){
         otherSettingsBinding.rlButtonSound.setOnClickListener(this);
         otherSettingsBinding.buttonSoundSwitch.setOnClickListener(this);
-
+        otherSettingsBinding.rlAudioMode.setOnClickListener(this);
         otherSettingsBinding.rlResetFactory.setOnClickListener(this);
         otherSettingsBinding.rlScreenSaver.setOnClickListener(this);
         otherSettingsBinding.rlTimerOff.setOnClickListener(this);
+        otherSettingsBinding.rlBootInput.setOnClickListener(this);
+        otherSettingsBinding.rlPowerMode.setOnClickListener(this);
+        otherSettingsBinding.rlDeveloper.setOnClickListener(this);
+
+        otherSettingsBinding.rlButtonSound.setOnHoverListener(this);
+        otherSettingsBinding.buttonSoundSwitch.setOnHoverListener(this);
+        otherSettingsBinding.rlAudioMode.setOnHoverListener(this);
+        otherSettingsBinding.rlResetFactory.setOnHoverListener(this);
+        otherSettingsBinding.rlScreenSaver.setOnHoverListener(this);
+        otherSettingsBinding.rlTimerOff.setOnHoverListener(this);
+        otherSettingsBinding.rlBootInput.setOnHoverListener(this);
+        otherSettingsBinding.rlPowerMode.setOnHoverListener(this);
+        otherSettingsBinding.rlDeveloper.setOnHoverListener(this);
 
         otherSettingsBinding.rlScreenSaver.setOnKeyListener(this);
         otherSettingsBinding.rlTimerOff.setOnKeyListener(this);
-
         otherSettingsBinding.rlBootInput.setOnKeyListener(this);
-        otherSettingsBinding.rlBootInput.setOnClickListener(this);
-
         otherSettingsBinding.rlPowerMode.setOnKeyListener(this);
-        otherSettingsBinding.rlPowerMode.setOnClickListener(this);
 
-        otherSettingsBinding.rlDeveloper.setOnClickListener(this);
         otherSettingsBinding.rlBootInput.requestFocus();
         otherSettingsBinding.rlBootInput.requestFocusFromTouch();
+
+        otherSettingsBinding.rlAudioMode.setVisibility(MyApplication.config.AudioMode?View.VISIBLE:View.GONE);
 
         if ((boolean)ShareUtil.get(this,Contants.KEY_DEVELOPER_MODE,false)){
             otherSettingsBinding.rlDeveloper.setVisibility(View.VISIBLE);
@@ -157,6 +168,9 @@ public class OtherSettingsActivity extends BaseActivity implements View.OnKeyLis
             case R.id.button_sound_switch:
                 otherSettingsBinding.buttonSoundSwitch.setChecked(!otherSettingsBinding.buttonSoundSwitch.isChecked());
                 setButtonSound(otherSettingsBinding.buttonSoundSwitch.isChecked());
+                break;
+            case R.id.rl_audio_mode:
+                startNewActivity(AudioModeActivity.class);
                 break;
             case R.id.rl_reset_factory:
                 FactoryResetDialog factoryResetDialog = new FactoryResetDialog(this,R.style.DialogTheme);

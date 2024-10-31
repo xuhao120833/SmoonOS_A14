@@ -264,5 +264,11 @@
     <string name="hue">Nuance</string>
     <string name="saturation">Mætning</string>
     <string name="sharpness">Skarphed</string>
+    <string name="Standard">Standard</string>
+    <string name="Music">Musik</string>
+    <string name="Movie">Film</string>
+    <string name="News">Nyheder</string>
+    <string name="Audio_Mode">Lydtilstand</string>
+    <string name="Audio_Settings">Lydindstillinger</string>
 </resources>
 

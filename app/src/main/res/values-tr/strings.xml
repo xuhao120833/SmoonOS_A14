@@ -264,5 +264,11 @@
     <string name="hue">Ton</string>
     <string name="saturation">Doygunluk</string>
     <string name="sharpness">Keskinlik</string>
+    <string name="Standard">Standart</string>
+    <string name="Music">Müzik</string>
+    <string name="Movie">Film</string>
+    <string name="News">Haberler</string>
+    <string name="Audio_Mode">Ses Modu</string>
+    <string name="Audio_Settings">Ses Ayarları</string>
 </resources>
 

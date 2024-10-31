@@ -131,4 +131,12 @@
         <item>@string/picture_2</item>
     </string-array>
 
+    <string-array name="soundMode_name">
+        <item>@string/Standard</item>
+        <item>@string/Music</item>
+        <item>@string/Movie</item>
+        <item>@string/News</item>
+        <!--<item>User</item>-->
+    </string-array>
+
 </resources>

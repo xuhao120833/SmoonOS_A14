@@ -264,4 +264,10 @@
     <string name="hue">Nada warna</string>
     <string name="saturation">Saturasi</string>
     <string name="sharpness">Ketajaman</string>
+    <string name="Standard">Standar</string>
+    <string name="Music">Musik</string>
+    <string name="Movie">Film</string>
+    <string name="News">Berita</string>
+    <string name="Audio_Mode">Mode Audio</string>
+    <string name="Audio_Settings">Pengaturan Audio</string>
 </resources>

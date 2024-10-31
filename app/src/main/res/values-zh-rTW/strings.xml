@@ -264,4 +264,10 @@
 	<string name="hue">色調</string>
 	<string name="saturation">饱和度</string>
 	<string name="sharpness">銳度</string>
+	<string name="Standard">標準</string>
+	<string name="Music">音樂</string>
+	<string name="Movie">電影</string>
+	<string name="News">新聞</string>
+	<string name="Audio_Mode">音效模式</string>
+	<string name="Audio_Settings">音效設定</string>
 </resources>

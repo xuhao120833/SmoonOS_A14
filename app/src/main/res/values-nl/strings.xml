@@ -264,4 +264,10 @@
     <string name="hue">Tint</string>
     <string name="saturation">Verzadiging</string>
     <string name="sharpness">Scherpte</string>
+    <string name="Standard">Standaard</string>
+    <string name="Music">Muziek</string>
+    <string name="Movie">Film</string>
+    <string name="News">Nieuws</string>
+    <string name="Audio_Mode">Audiomodus</string>
+    <string name="Audio_Settings">Audio-instellingen</string>
 </resources>

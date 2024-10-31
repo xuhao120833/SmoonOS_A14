@@ -264,5 +264,11 @@
 	<string name="hue">Farbton</string>
 	<string name="saturation">Sättigung</string>
 	<string name="sharpness">Scharfzeichnung</string>
+	<string name="Standard">Standard</string>
+	<string name="Music">Musik</string>
+	<string name="Movie">Film</string>
+	<string name="News">Nachrichten</string>
+	<string name="Audio_Mode">Audio-Modus</string>
+	<string name="Audio_Settings">Audio-Einstellungen</string>
 </resources>
 

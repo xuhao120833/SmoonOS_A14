@@ -264,5 +264,11 @@
     <string name="hue">Відтінок</string>
     <string name="saturation">Насиченість</string>
     <string name="sharpness">Різкість</string>
+    <string name="Standard">Стандарт</string>
+    <string name="Music">Музика</string>
+    <string name="Movie">Фільм</string>
+    <string name="News">Новини</string>
+    <string name="Audio_Mode">Аудіо режим</string>
+    <string name="Audio_Settings">Налаштування аудіо</string>
 </resources>
 

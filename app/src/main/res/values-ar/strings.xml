@@ -264,6 +264,12 @@
     <string name="hue">التدرج اللوني</string>
     <string name="saturation">السطوع</string>
     <string name="sharpness">الحدة</string>
+    <string name="Standard">معيار</string>
+    <string name="Music">موسيقى</string>
+    <string name="Movie">فيلم</string>
+    <string name="News">أخبار</string>
+    <string name="Audio_Mode">وضع الصوت</string>
+    <string name="Audio_Settings">إعدادات الصوت</string>
 </resources>
 
 

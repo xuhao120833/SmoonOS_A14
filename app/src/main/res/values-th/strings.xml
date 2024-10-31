@@ -264,5 +264,11 @@
     <string name="hue">เฉดสี</string>
     <string name="saturation">ความอิ่มตัว</string>
     <string name="sharpness">ความคมชัด</string>
+    <string name="Standard">มาตรฐาน</string>
+    <string name="Music">เพลง</string>
+    <string name="Movie">ภาพยนตร์</string>
+    <string name="News">ข่าว</string>
+    <string name="Audio_Mode">โหมดเสียง</string>
+    <string name="Audio_Settings">การตั้งค่าเสียง</string>
 </resources>
 

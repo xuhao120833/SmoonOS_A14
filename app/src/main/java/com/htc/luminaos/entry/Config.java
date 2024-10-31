@@ -83,5 +83,13 @@ public class Config {
     public boolean onlineUpdate = true;
     public boolean serialNumber = true;
 
+    public  boolean AudioMode=false; //声音模式
+    public  boolean Menu120HZ=true;
+    public  boolean Menu200HZ=true;
+    public  boolean Menu500HZ=true;
+    public  boolean Menu1D2KHZ=true;
+    public  boolean Menu3KHZ=true;
+    public  boolean Menu7D5KHZ=true;
+    public  boolean Menu12KHZ=true;
 
 }

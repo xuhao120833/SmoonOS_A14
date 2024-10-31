@@ -264,4 +264,10 @@
 	<string name="hue">Matiz</string>
 	<string name="saturation">Saturación</string>
 	<string name="sharpness">Nitidez</string>
+	<string name="Standard">Estándar</string>
+	<string name="Music">Música</string>
+	<string name="Movie">Película</string>
+	<string name="News">Noticias</string>
+	<string name="Audio_Mode">Modo de audio</string>
+	<string name="Audio_Settings">Configuración de audio</string>
 </resources>

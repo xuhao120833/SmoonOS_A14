@@ -264,4 +264,10 @@
     <string name="hue">色相</string>
     <string name="saturation">彩度</string>
     <string name="sharpness">シャープネス</string>
+    <string name="Standard">スタンダード</string>
+    <string name="Music">音楽</string>
+    <string name="Movie">映画</string>
+    <string name="News">ニュース</string>
+    <string name="Audio_Mode">オーディオモード</string>
+    <string name="Audio_Settings">オーディオ設定</string>
 </resources>

@@ -264,4 +264,10 @@
     <string name="hue">색조</string>
     <string name="saturation">채도</string>
     <string name="sharpness">선명도</string>
+    <string name="Standard">표준</string>
+    <string name="Music">음악</string>
+    <string name="Movie">영화</string>
+    <string name="News">뉴스</string>
+    <string name="Audio_Mode">오디오 모드</string>
+    <string name="Audio_Settings">오디오 설정</string>
 </resources>
