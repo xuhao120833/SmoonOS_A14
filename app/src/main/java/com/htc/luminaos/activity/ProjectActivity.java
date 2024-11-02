@@ -90,6 +90,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         projectBinding.rlDisplaySettings.setOnHoverListener(this);
         projectBinding.rlColorMode.setOnClickListener(this);
         projectBinding.rlColorMode.setOnHoverListener(this);
+        projectBinding.rlAudioMode.setOnClickListener(this);
+        projectBinding.rlAudioMode.setOnHoverListener(this);
         projectBinding.rlProjectMode.setOnClickListener(this);
         projectBinding.rlProjectMode.setOnHoverListener(this);
         projectBinding.rlAutoKeystone.setOnClickListener(this);
@@ -161,6 +163,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
 
         projectBinding.rlDisplaySettings.setVisibility(MyApplication.config.displaySetting ? View.VISIBLE : View.GONE);
         projectBinding.rlColorMode.setVisibility(MyApplication.config.brightAndColor? View.VISIBLE : View.GONE);
+        projectBinding.rlAudioMode.setVisibility(MyApplication.config.AudioMode?View.VISIBLE:View.GONE);
         projectBinding.rlProjectMode.setVisibility(MyApplication.config.projectMode ? View.VISIBLE : View.GONE);
         projectBinding.rlDeviceMode2.setVisibility(MyApplication.config.deviceMode ? View.VISIBLE : View.GONE);
         projectBinding.rlDigitalZoom.setVisibility(MyApplication.config.wholeZoom ? View.VISIBLE : View.GONE);
@@ -297,6 +300,9 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         switch (v.getId()) {
             case R.id.rl_color_mode:
                 startNewActivity(PictureModeActivity.class);
+                break;
+            case R.id.rl_audio_mode:
+                startNewActivity(AudioModeActivity.class);
                 break;
             case R.id.rl_power_mode:
                 if (cur_project_mode == project_name.size() - 1)

@@ -244,6 +244,7 @@
                 android:layout_marginTop="@dimen/y_19"
                 android:background="@drawable/main_settings_bg"
                 style="@style/focusStyle"
+                android:visibility="gone"
                 >
 
                 <TextView
