@@ -88,7 +88,7 @@ public class DBUtils extends SQLiteOpenHelper {
                     "action TEXT );";
             db.execSQL(mainApp_sql);
 
-			// 创建listModules表
+            // 创建listModules表
             Log.d(TAG, " 创建 listModules 表 ");
             String listModules_sql = "CREATE TABLE " + TABLENAME_LISTMODULES + " (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -99,7 +99,7 @@ public class DBUtils extends SQLiteOpenHelper {
             db.execSQL(listModules_sql);
 
             // 创建brand品牌表
-            Log.d(TAG," 创建brand品牌表");
+            Log.d(TAG, " 创建brand品牌表");
             String brandLogo_sql = "CREATE TABLE " + TABLENAME_BRANDLOGO + " (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "iconData BLOB );";
@@ -143,17 +143,25 @@ public class DBUtils extends SQLiteOpenHelper {
      * @param packagename
      * @return
      */
-    public long addFavorites(String appName,String packagename,Drawable drawable) {
-        long code = -1;
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put("appName", appName);
-        cv.put("packagename", packagename);
-        cv.put("iconData", drawableToByteArray(drawable));
-        code = db.insert(TABLENAME_FAVORITES, null, cv);
-        sharedPreferences.edit().putBoolean(Contants.MODIFY, true).apply();
-        db.close();
-        return code;
+    public long addFavorites(String appName, String packagename, Drawable drawable) {
+        synchronized (this) {
+            SQLiteDatabase db = null;
+            try {
+                long code = -1;
+                db = getWritableDatabase();
+                ContentValues cv = new ContentValues();
+                cv.put("appName", appName);
+                cv.put("packagename", packagename);
+                cv.put("iconData", drawableToByteArray(drawable));
+                code = db.insert(TABLENAME_FAVORITES, null, cv);
+                sharedPreferences.edit().putBoolean(Contants.MODIFY, true).apply();
+                db.close();
+                return code;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 0;
+            }
+        }
     }
 
 
@@ -163,18 +171,25 @@ public class DBUtils extends SQLiteOpenHelper {
      * @return
      */
     public ArrayList<AppSimpleBean> getFavorites() {
-        ArrayList<AppSimpleBean> list = new ArrayList<AppSimpleBean>();
-        SQLiteDatabase db = getReadableDatabase();
-        String sql = "select id , packagename  from " + TABLENAME_FAVORITES;
-        Cursor cs = db.rawQuery(sql, null);
-        while (cs.moveToNext()) {
-            AppSimpleBean bean = new AppSimpleBean();
-            bean.setId(cs.getInt(0));
-            bean.setPackagename(cs.getString(1));
-            list.add(bean);
+        synchronized (this) {
+            try {
+                ArrayList<AppSimpleBean> list = new ArrayList<AppSimpleBean>();
+                SQLiteDatabase db = getReadableDatabase();
+                String sql = "select id , packagename  from " + TABLENAME_FAVORITES;
+                Cursor cs = db.rawQuery(sql, null);
+                while (cs.moveToNext()) {
+                    AppSimpleBean bean = new AppSimpleBean();
+                    bean.setId(cs.getInt(0));
+                    bean.setPackagename(cs.getString(1));
+                    list.add(bean);
+                }
+                db.close();
+                return list;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
-        db.close();
-        return list;
     }
 
 
@@ -185,13 +200,20 @@ public class DBUtils extends SQLiteOpenHelper {
      * @return
      */
     public int deleteFavorites(String packagename) {
-        int code = -1;
-        SQLiteDatabase db = getWritableDatabase();
-        code = db.delete(TABLENAME_FAVORITES, "packagename=?",
-                new String[]{packagename});
-        db.close();
-        sharedPreferences.edit().putBoolean(Contants.MODIFY, true).apply();
-        return code;
+        synchronized (this) {
+            try {
+                int code = -1;
+                SQLiteDatabase db = getWritableDatabase();
+                code = db.delete(TABLENAME_FAVORITES, "packagename=?",
+                        new String[]{packagename});
+                db.close();
+                sharedPreferences.edit().putBoolean(Contants.MODIFY, true).apply();
+                return code;
+            }catch (Exception e) {
+                e.printStackTrace();
+                return -1;
+            }
+        }
     }
 
 
@@ -199,63 +221,69 @@ public class DBUtils extends SQLiteOpenHelper {
      * 清空收藏
      */
     public void clearFavorites() {
-        SQLiteDatabase db = getWritableDatabase();
-        String sql = "delete from " + TABLENAME_FAVORITES;
-        db.execSQL(sql);
-        db.close();
-        sharedPreferences.edit().putBoolean(Contants.MODIFY, true).apply();
+        synchronized (this) {
+            SQLiteDatabase db = getWritableDatabase();
+            String sql = "delete from " + TABLENAME_FAVORITES;
+            db.execSQL(sql);
+            db.close();
+            sharedPreferences.edit().putBoolean(Contants.MODIFY, true).apply();
+        }
     }
 
 
     public Drawable getFavoritesIcon(String packageName) {
-        SQLiteDatabase db = getReadableDatabase();
-        Drawable iconDrawable = null;
-        // 查询语句
-        String query = "SELECT iconData FROM " + TABLENAME_FAVORITES + " WHERE packagename = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{packageName});
-        try {
-            if (cursor != null && cursor.moveToFirst()) {
-                byte[] iconBlob = cursor.getBlob(cursor.getColumnIndex("iconData"));
-                iconDrawable = byteArrayToDrawable(iconBlob);  // 将字节数组转换为 Drawable
+        synchronized (this) {
+            SQLiteDatabase db = getReadableDatabase();
+            Drawable iconDrawable = null;
+            // 查询语句
+            String query = "SELECT iconData FROM " + TABLENAME_FAVORITES + " WHERE packagename = ?";
+            Cursor cursor = db.rawQuery(query, new String[]{packageName});
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    byte[] iconBlob = cursor.getBlob(cursor.getColumnIndex("iconData"));
+                    iconDrawable = byteArrayToDrawable(iconBlob);  // 将字节数组转换为 Drawable
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                // 关闭 Cursor 和数据库连接
+                if (cursor != null) {
+                    cursor.close();
+                }
+                db.close();
             }
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            // 关闭 Cursor 和数据库连接
-            if (cursor != null) {
-                cursor.close();
-            }
-            db.close();
+            Log.d(TAG, "Shortcuts 读取iconDrawable " + iconDrawable);
+            return iconDrawable;
         }
-        Log.d(TAG, "Shortcuts 读取iconDrawable "+iconDrawable);
-        return iconDrawable;
     }
 
 
     public String getFavoritesAppName(String packageName) {
-        SQLiteDatabase db = getReadableDatabase();
-        String appName = null;
-        Cursor cursor = null;
-        try {
-            // SQL 查询语句，通过 packagename 查找 appName
-            String query = "SELECT appName FROM " + TABLENAME_FAVORITES + " WHERE packagename = ?";
-            // 执行查询
-            cursor = db.rawQuery(query, new String[]{packageName});
-            // 检查结果是否存在
-            if (cursor != null && cursor.moveToFirst()) {
-                // 获取 appName 列的数据
-                appName = cursor.getString(cursor.getColumnIndex("appName"));
+        synchronized (this) {
+            SQLiteDatabase db = getReadableDatabase();
+            String appName = null;
+            Cursor cursor = null;
+            try {
+                // SQL 查询语句，通过 packagename 查找 appName
+                String query = "SELECT appName FROM " + TABLENAME_FAVORITES + " WHERE packagename = ?";
+                // 执行查询
+                cursor = db.rawQuery(query, new String[]{packageName});
+                // 检查结果是否存在
+                if (cursor != null && cursor.moveToFirst()) {
+                    // 获取 appName 列的数据
+                    appName = cursor.getString(cursor.getColumnIndex("appName"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (cursor != null) {
+                    cursor.close(); // 关闭 cursor 以释放资源
+                }
+                db.close();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cursor != null) {
-                cursor.close(); // 关闭 cursor 以释放资源
-            }
-            db.close();
+            Log.d(TAG, "Shortcuts 读取appName " + appName);
+            return appName;
         }
-        Log.d(TAG, "Shortcuts 读取appName "+appName);
-        return appName;
     }
 
 
@@ -274,32 +302,35 @@ public class DBUtils extends SQLiteOpenHelper {
 //        cursor.close();
 //        return count;
 //    }
-
     public int getFavoritesCount() {
-        SQLiteDatabase db = getWritableDatabase();
-        String countQuery = "SELECT COUNT(*) FROM " + TABLENAME_FAVORITES;
-        Cursor cursor = db.rawQuery(countQuery, null);
-        int count = 0;
+        synchronized (this) {
+            SQLiteDatabase db = getWritableDatabase();
+            String countQuery = "SELECT COUNT(*) FROM " + TABLENAME_FAVORITES;
+            Cursor cursor = db.rawQuery(countQuery, null);
+            int count = 0;
 
-        if (cursor.moveToFirst()) {
-            count = cursor.getInt(0);
+            if (cursor.moveToFirst()) {
+                count = cursor.getInt(0);
+            }
+            cursor.close();
+            return count;
         }
-        cursor.close();
-        return count;
     }
 
 
     public boolean isExistData(String packagename) {
-        boolean isExist = false;
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cs = db.rawQuery("select id , packagename  from "
-                        + TABLENAME_FAVORITES + " where packagename = ?",
-                new String[]{packagename});
-        while (cs.moveToNext()) {
-            isExist = true;
+        synchronized (this){
+            boolean isExist = false;
+            SQLiteDatabase db = getWritableDatabase();
+            Cursor cs = db.rawQuery("select id , packagename  from "
+                            + TABLENAME_FAVORITES + " where packagename = ?",
+                    new String[]{packagename});
+            while (cs.moveToNext()) {
+                isExist = true;
+            }
+            db.close();
+            return isExist;
         }
-        db.close();
-        return isExist;
     }
 
     /***
@@ -312,178 +343,158 @@ public class DBUtils extends SQLiteOpenHelper {
      * @param action
      */
     public void insertMainAppData(String tag, String appName, Drawable drawable, String action) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("tag", tag);
-        values.put("appName", appName);
-        values.put("iconData", drawableToByteArray(drawable));  // 插入 BLOB 数据
-        values.put("action", action);
+        synchronized (this) {
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("tag", tag);
+            values.put("appName", appName);
+            values.put("iconData", drawableToByteArray(drawable));  // 插入 BLOB 数据
+            values.put("action", action);
 
-        // 检查是否存在相同的 tag
-        String selection = "tag = ?";
-        String[] selectionArgs = { tag };
-        int rowsAffected = db.update(TABLENAME_MAINAPP, values, selection, selectionArgs);
+            // 检查是否存在相同的 tag
+            String selection = "tag = ?";
+            String[] selectionArgs = {tag};
+            int rowsAffected = db.update(TABLENAME_MAINAPP, values, selection, selectionArgs);
 
-        if (rowsAffected == 0) {
-            // 如果没有记录被更新，说明不存在这个 tag，执行插入操作
-            long code = db.insert(TABLENAME_MAINAPP, null, values);
-            if (code == -1) {
-                Log.d(TAG, "MainApp插入数据失败");
+            if (rowsAffected == 0) {
+                // 如果没有记录被更新，说明不存在这个 tag，执行插入操作
+                long code = db.insert(TABLENAME_MAINAPP, null, values);
+                if (code == -1) {
+                    Log.d(TAG, "MainApp插入数据失败");
+                } else {
+                    Log.d(TAG, "MainApp插入数据成功，行ID：" + code);
+                }
             } else {
-                Log.d(TAG, "MainApp插入数据成功，行ID：" + code);
+                Log.d(TAG, "MainApp数据更新成功，更新行数：" + rowsAffected);
             }
-        } else {
-            Log.d(TAG, "MainApp数据更新成功，更新行数：" + rowsAffected);
+            db.close();
         }
     }
 
-    public void insertFilterApps(String []packageNames) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
+    public void insertFilterApps(String[] packageNames) {
+        synchronized (this) {
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues values = new ContentValues();
 
-        // 遍历数组并插入到数据库中
-        for (String packageName : packageNames) {
-            values.clear(); // 清空之前的值
-            values.put("packageName", packageName);
-            long code = db.insert(TABLENAME_FILTERAPPS, null, values);
-            if (code == -1) {
-                Log.d(TAG, "FilterApps插入数据失败");
-            } else {
-                Log.d(TAG, "FilterApps插入数据成功，行ID：" + code);
+            // 遍历数组并插入到数据库中
+            for (String packageName : packageNames) {
+                values.clear(); // 清空之前的值
+                values.put("packageName", packageName);
+                long code = db.insert(TABLENAME_FILTERAPPS, null, values);
+                if (code == -1) {
+                    Log.d(TAG, "FilterApps插入数据失败");
+                } else {
+                    Log.d(TAG, "FilterApps插入数据成功，行ID：" + code);
+                }
             }
+            db.close();
         }
     }
 
     public String[] getFilterApps() {
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = null;
-        String[] packageNames = null;
+        synchronized (this) {
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor cursor = null;
+            String[] packageNames = null;
 
-        try {
-            // 查询所有数据
-            cursor = db.query(TABLENAME_FILTERAPPS, new String[] {"packageName"}, null, null, null, null, null);
+            try {
+                // 查询所有数据
+                cursor = db.query(TABLENAME_FILTERAPPS, new String[]{"packageName"}, null, null, null, null, null);
 
-            if (cursor != null && cursor.moveToFirst()) {
-                // 获取数据行数
-                int count = cursor.getCount();
-                // 初始化数组
-                packageNames = new String[count];
+                if (cursor != null && cursor.moveToFirst()) {
+                    // 获取数据行数
+                    int count = cursor.getCount();
+                    // 初始化数组
+                    packageNames = new String[count];
 
-                // 遍历Cursor，填充数组
-                int index = 0;
-                do {
-                    String packageName = cursor.getString(cursor.getColumnIndex("packageName"));
-                    packageName = packageName.trim();
-                    packageNames[index++] = packageName;
-                    Log.d(TAG," getFilterApps "+packageName);
-                } while (cursor.moveToNext());
+                    // 遍历Cursor，填充数组
+                    int index = 0;
+                    do {
+                        String packageName = cursor.getString(cursor.getColumnIndex("packageName"));
+                        packageName = packageName.trim();
+                        packageNames[index++] = packageName;
+                        Log.d(TAG, " getFilterApps " + packageName);
+                    } while (cursor.moveToNext());
+                }
+            } catch (Exception e) {
+                // 捕获异常并记录日志
+                Log.e(TAG, "读取数据失败", e);
+            } finally {
+                // 确保Cursor和数据库连接在完成后关闭
+                if (cursor != null) {
+                    cursor.close();
+                }
+                db.close();
             }
-        } catch (Exception e) {
-            // 捕获异常并记录日志
-            Log.e(TAG, "读取数据失败", e);
-        } finally {
-            // 确保Cursor和数据库连接在完成后关闭
-            if (cursor != null) {
-                cursor.close();
-            }
-            db.close();
+            return packageNames;
         }
-
-        return packageNames;
     }
 
 
     public void insertListModulesData(String tag, Drawable drawable, Hashtable hashtable, String action) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("tag", tag);
-        values.put("iconData", drawableToByteArray(drawable));  // 插入 BLOB 数据
-        // hashtable序列化存入数据库
-        saveHashtableToDatabase(hashtable, values);
-        values.put("action", action);
+        synchronized (this) {
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("tag", tag);
+            values.put("iconData", drawableToByteArray(drawable));  // 插入 BLOB 数据
+            // hashtable序列化存入数据库
+            saveHashtableToDatabase(hashtable, values);
+            values.put("action", action);
 
-        // 检查是否存在相同的 tag
-        String selection = "tag = ?";
-        String[] selectionArgs = { tag };
-        int rowsAffected = db.update(TABLENAME_LISTMODULES, values, selection, selectionArgs);
+            // 检查是否存在相同的 tag
+            String selection = "tag = ?";
+            String[] selectionArgs = {tag};
+            int rowsAffected = db.update(TABLENAME_LISTMODULES, values, selection, selectionArgs);
 
-        if (rowsAffected == 0) {
-            // 如果没有记录被更新，说明不存在这个 tag，执行插入操作
-            long code = db.insert(TABLENAME_LISTMODULES, null, values);
-            if (code == -1) {
-                Log.d(TAG, "ListModules插入数据失败");
+            if (rowsAffected == 0) {
+                // 如果没有记录被更新，说明不存在这个 tag，执行插入操作
+                long code = db.insert(TABLENAME_LISTMODULES, null, values);
+                if (code == -1) {
+                    Log.d(TAG, "ListModules插入数据失败");
+                } else {
+                    Log.d(TAG, "ListModules插入数据成功，行ID：" + code);
+                }
             } else {
-                Log.d(TAG, "ListModules插入数据成功，行ID：" + code);
+                Log.d(TAG, "ListModules数据更新成功，更新行数：" + rowsAffected);
             }
-        } else {
-            Log.d(TAG, "ListModules数据更新成功，更新行数：" + rowsAffected);
+            db.close();
         }
     }
 
     public void insertBrandLogoData(Drawable drawable) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("iconData", drawableToByteArray(drawable));
+        synchronized (this) {
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("iconData", drawableToByteArray(drawable));
 
-        // 检查是否存在数据（假设表中只有一个logo）
-        int rowsAffected = db.update(TABLENAME_BRANDLOGO, values, null, null);
+            // 检查是否存在数据（假设表中只有一个logo）
+            int rowsAffected = db.update(TABLENAME_BRANDLOGO, values, null, null);
 
-        if (rowsAffected == 0) {
-            // 如果没有记录被更新，说明表中还没有数据，执行插入操作
-            long code = db.insert(TABLENAME_BRANDLOGO, null, values);
-            if (code == -1) {
-                Log.d(TAG, "BrandLogo插入数据失败");
+            if (rowsAffected == 0) {
+                // 如果没有记录被更新，说明表中还没有数据，执行插入操作
+                long code = db.insert(TABLENAME_BRANDLOGO, null, values);
+                if (code == -1) {
+                    Log.d(TAG, "BrandLogo插入数据失败");
+                } else {
+                    Log.d(TAG, "BrandLogo插入数据成功，行ID：" + code);
+                }
             } else {
-                Log.d(TAG, "BrandLogo插入数据成功，行ID：" + code);
+                Log.d(TAG, "BrandLogo数据更新成功，更新行数：" + rowsAffected);
             }
-        } else {
-            Log.d(TAG, "BrandLogo数据更新成功，更新行数：" + rowsAffected);
+            db.close();
         }
     }
 
 
     public Hashtable<String, String> getHashtableFromListModules(String tag) {
-        SQLiteDatabase db = getWritableDatabase();
-        Hashtable<String, String> hashtable = null;
+        synchronized (this) {
+            SQLiteDatabase db = getWritableDatabase();
+            Hashtable<String, String> hashtable = null;
 
-        // 查询数据库获取保存的JSON字符串，通过tag筛选
-        Cursor cursor = db.query(
-                "listModules",            // 表名
-                new String[]{"hashtable_data"}, // 要查询的列
-                "tag = ?",                     // 查询条件
-                new String[]{tag},             // 查询条件的参数
-                null,                          // 不进行分组
-                null,                          // 不进行分组后的筛选
-                null                           // 不进行排序
-        );
-
-        if (cursor != null && cursor.moveToFirst()) {
-            String jsonString = cursor.getString(cursor.getColumnIndex("hashtable_data"));
-
-            Log.d(TAG," 读取到的jsonString的值为 "+jsonString);
-
-            // 使用Gson将JSON字符串反序列化为Hashtable
-            Gson gson = new Gson();
-            Type type = new TypeToken<Hashtable<String, String>>() {}.getType();
-            hashtable = gson.fromJson(jsonString, type);
-
-            Log.d(TAG," 获取到的阿拉伯语言 "+hashtable.get("ar"));
-
-            cursor.close();  // 关闭Cursor
-        }
-
-        return hashtable;  // 返回反序列化后的Hashtable
-    }
-
-    public String getActionFromListModules(String tag){
-
-        SQLiteDatabase db = getWritableDatabase();
-        String action = null;
-        Cursor cursor = null;
-        try {
-             cursor = db.query(
+            // 查询数据库获取保存的JSON字符串，通过tag筛选
+            Cursor cursor = db.query(
                     "listModules",            // 表名
-                    new String[]{"action"},        // 要查询的列
+                    new String[]{"hashtable_data"}, // 要查询的列
                     "tag = ?",                     // 查询条件
                     new String[]{tag},             // 查询条件的参数
                     null,                          // 不进行分组
@@ -491,80 +502,121 @@ public class DBUtils extends SQLiteOpenHelper {
                     null                           // 不进行排序
             );
 
-            // 检查是否有结果，并提取 action
             if (cursor != null && cursor.moveToFirst()) {
-                action = cursor.getString(cursor.getColumnIndex("action"));
+                String jsonString = cursor.getString(cursor.getColumnIndex("hashtable_data"));
+
+                Log.d(TAG, " 读取到的jsonString的值为 " + jsonString);
+
+                // 使用Gson将JSON字符串反序列化为Hashtable
+                Gson gson = new Gson();
+                Type type = new TypeToken<Hashtable<String, String>>() {
+                }.getType();
+                hashtable = gson.fromJson(jsonString, type);
+
+                Log.d(TAG, " 获取到的阿拉伯语言 " + hashtable.get("ar"));
+
+                cursor.close();  // 关闭Cursor
             }
-            Log.d(TAG, "getActionFromListModules action " +action);
-        } catch (Exception e) {
-            Log.d(TAG, "getActionFromListModules查询失败", e);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
+            db.close();
+            return hashtable;  // 返回反序列化后的Hashtable
         }
-        return action;
+    }
+
+    public String getActionFromListModules(String tag) {
+        synchronized (this) {
+            SQLiteDatabase db = getWritableDatabase();
+            String action = null;
+            Cursor cursor = null;
+            try {
+                cursor = db.query(
+                        "listModules",            // 表名
+                        new String[]{"action"},        // 要查询的列
+                        "tag = ?",                     // 查询条件
+                        new String[]{tag},             // 查询条件的参数
+                        null,                          // 不进行分组
+                        null,                          // 不进行分组后的筛选
+                        null                           // 不进行排序
+                );
+
+                // 检查是否有结果，并提取 action
+                if (cursor != null && cursor.moveToFirst()) {
+                    action = cursor.getString(cursor.getColumnIndex("action"));
+                }
+                Log.d(TAG, "getActionFromListModules action " + action);
+            } catch (Exception e) {
+                Log.d(TAG, "getActionFromListModules查询失败", e);
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+            db.close();
+            return action;
+        }
     }
 
     public Drawable getDrawableFromListModules(String tag) {
-        SQLiteDatabase db = getWritableDatabase();
-        Drawable drawable =null;
-        // 查询数据库获取保存的JSON字符串，通过tag筛选
-        Cursor cursor = db.query(
-                "listModules",            // 表名
-                new String[]{"iconData"}, // 要查询的列
-                "tag = ?",                     // 查询条件
-                new String[]{tag},             // 查询条件的参数
-                null,                          // 不进行分组
-                null,                          // 不进行分组后的筛选
-                null                           // 不进行排序
-        );
-        try {
-            if (cursor != null && cursor.moveToFirst()) {
-                byte[] iconData = cursor.getBlob(cursor.getColumnIndex("iconData"));
-                drawable = byteArrayToDrawable(iconData);  // 将字节数组转换为 Drawable
+        synchronized (this) {
+            SQLiteDatabase db = getWritableDatabase();
+            Drawable drawable = null;
+            // 查询数据库获取保存的JSON字符串，通过tag筛选
+            Cursor cursor = db.query(
+                    "listModules",            // 表名
+                    new String[]{"iconData"}, // 要查询的列
+                    "tag = ?",                     // 查询条件
+                    new String[]{tag},             // 查询条件的参数
+                    null,                          // 不进行分组
+                    null,                          // 不进行分组后的筛选
+                    null                           // 不进行排序
+            );
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    byte[] iconData = cursor.getBlob(cursor.getColumnIndex("iconData"));
+                    drawable = byteArrayToDrawable(iconData);  // 将字节数组转换为 Drawable
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                // 关闭 Cursor 和数据库连接
+                if (cursor != null) {
+                    cursor.close();
+                }
+                db.close();
             }
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            // 关闭 Cursor 和数据库连接
-            if (cursor != null) {
-                cursor.close();
-            }
-            db.close();
+            return drawable;
         }
-        return drawable;
     }
 
     public Drawable getDrawableFromBrandLogo(int id) {
-        SQLiteDatabase db = getReadableDatabase();
-        Drawable drawable = null;
-        Cursor cursor = db.query(
-                TABLENAME_BRANDLOGO,             // 表名
-                new String[]{"iconData"},        // 要查询的列
-                "id = ?",                        // 查询条件
-                new String[]{String.valueOf(id)}, // 查询条件的参数
-                null,                            // 不进行分组
-                null,                            // 不进行分组后的筛选
-                null                             // 不进行排序
-        );
-        try {
-            if (cursor != null && cursor.moveToFirst()) {
-                byte[] iconData = cursor.getBlob(cursor.getColumnIndex("iconData"));
-                drawable = byteArrayToDrawable(iconData);  // 将字节数组转换为 Drawable
+        synchronized (this) {
+            SQLiteDatabase db = getReadableDatabase();
+            Drawable drawable = null;
+            Cursor cursor = db.query(
+                    TABLENAME_BRANDLOGO,             // 表名
+                    new String[]{"iconData"},        // 要查询的列
+                    "id = ?",                        // 查询条件
+                    new String[]{String.valueOf(id)}, // 查询条件的参数
+                    null,                            // 不进行分组
+                    null,                            // 不进行分组后的筛选
+                    null                             // 不进行排序
+            );
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    byte[] iconData = cursor.getBlob(cursor.getColumnIndex("iconData"));
+                    drawable = byteArrayToDrawable(iconData);  // 将字节数组转换为 Drawable
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                // 关闭 Cursor 和数据库连接
+                if (cursor != null) {
+                    cursor.close();
+                }
+                db.close();
             }
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            // 关闭 Cursor 和数据库连接
-            if (cursor != null) {
-                cursor.close();
-            }
-            db.close();
+            return drawable;  // 返回 Drawable
         }
-        return drawable;  // 返回 Drawable
     }
-
 
 
     /***
@@ -576,7 +628,7 @@ public class DBUtils extends SQLiteOpenHelper {
      * @return
      */
     public byte[] drawableToByteArray(Drawable drawable) {
-        if(drawable ==null){
+        if (drawable == null) {
             return null;
         }
         Bitmap bitmap = getBitmapFromDrawable(drawable);
@@ -593,39 +645,40 @@ public class DBUtils extends SQLiteOpenHelper {
      * @return
      */
     public Drawable getIconDataByTag(String tag) {
-        SQLiteDatabase db = getReadableDatabase();
-        Drawable drawable = null;
-        Cursor cursor = null;
+        synchronized (this) {
+            SQLiteDatabase db = getReadableDatabase();
+            Drawable drawable = null;
+            Cursor cursor = null;
 
-        try {
-            // 查询数据库中的数据
-            cursor = db.query(
-                    TABLENAME_MAINAPP,                   // 表名
-                    new String[]{"iconData"},            // 需要查询的列名
-                    "tag = ?",                          // 查询条件
-                    new String[]{tag},                  // 查询条件的参数
-                    null,                                // Group By
-                    null,                                // Having
-                    null                                 // Order By
-            );
+            try {
+                // 查询数据库中的数据
+                cursor = db.query(
+                        TABLENAME_MAINAPP,                   // 表名
+                        new String[]{"iconData"},            // 需要查询的列名
+                        "tag = ?",                          // 查询条件
+                        new String[]{tag},                  // 查询条件的参数
+                        null,                                // Group By
+                        null,                                // Having
+                        null                                 // Order By
+                );
 
-            // 检查是否查找到结果
-            if (cursor != null && cursor.moveToFirst()) {
-                byte[] iconData = cursor.getBlob(cursor.getColumnIndex("iconData"));
-                drawable = byteArrayToDrawable(iconData);  // 将字节数组转换为 Drawable
+                // 检查是否查找到结果
+                if (cursor != null && cursor.moveToFirst()) {
+                    byte[] iconData = cursor.getBlob(cursor.getColumnIndex("iconData"));
+                    drawable = byteArrayToDrawable(iconData);  // 将字节数组转换为 Drawable
+                }
+                Log.d(TAG, "查询数据成功");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                // 关闭 Cursor 和数据库连接
+                if (cursor != null) {
+                    cursor.close();
+                }
+                db.close();
             }
-            Log.d(TAG, "查询数据成功");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            // 关闭 Cursor 和数据库连接
-            if (cursor != null) {
-                cursor.close();
-            }
-            db.close();
+            return drawable;
         }
-
-        return drawable;
     }
 
     /***
@@ -643,63 +696,63 @@ public class DBUtils extends SQLiteOpenHelper {
     }
 
     public String getAppNameByTag(String tag) {
-        SQLiteDatabase db = getReadableDatabase();
-        String appName = null;
+        synchronized (this) {
+            SQLiteDatabase db = getReadableDatabase();
+            String appName = null;
 
-        // 查询条件
-        String selection = "tag = ?";
-        String[] selectionArgs = {tag};
+            // 查询条件
+            String selection = "tag = ?";
+            String[] selectionArgs = {tag};
 
-        // 查询数据库
-        Cursor cursor = db.query(
-                TABLENAME_MAINAPP,   // 表名
-                new String[]{"appName"}, // 查询的列
-                selection,          // 查询条件
-                selectionArgs,      // 查询条件参数
-                null,               // 分组
-                null,               // 分组条件
-                null                // 排序
-        );
-
-        // 处理查询结果
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                appName = cursor.getString(cursor.getColumnIndex("appName"));
+            // 查询数据库
+            Cursor cursor = db.query(
+                    TABLENAME_MAINAPP,   // 表名
+                    new String[]{"appName"}, // 查询的列
+                    selection,          // 查询条件
+                    selectionArgs,      // 查询条件参数
+                    null,               // 分组
+                    null,               // 分组条件
+                    null                // 排序
+            );
+            // 处理查询结果
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    appName = cursor.getString(cursor.getColumnIndex("appName"));
+                }
+                cursor.close();
             }
-            cursor.close();
+            db.close();
+            return appName;
         }
-
-        return appName;
     }
 
     public String getActionByTag(String tag) {
-        SQLiteDatabase db = getReadableDatabase();
-        String action = null;
-
-        // 查询条件
-        String selection = "tag = ?";
-        String[] selectionArgs = {tag};
-
-        // 查询数据库
-        Cursor cursor = db.query(
-                TABLENAME_MAINAPP,   // 表名
-                new String[]{"action"}, // 查询的列
-                selection,          // 查询条件
-                selectionArgs,      // 查询条件参数
-                null,               // 分组
-                null,               // 分组条件
-                null                // 排序
-        );
-
-        // 处理查询结果
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                action = cursor.getString(cursor.getColumnIndex("action"));
+        synchronized (this) {
+            SQLiteDatabase db = getReadableDatabase();
+            String action = null;
+            // 查询条件
+            String selection = "tag = ?";
+            String[] selectionArgs = {tag};
+            // 查询数据库
+            Cursor cursor = db.query(
+                    TABLENAME_MAINAPP,   // 表名
+                    new String[]{"action"}, // 查询的列
+                    selection,          // 查询条件
+                    selectionArgs,      // 查询条件参数
+                    null,               // 分组
+                    null,               // 分组条件
+                    null                // 排序
+            );
+            // 处理查询结果
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    action = cursor.getString(cursor.getColumnIndex("action"));
+                }
+                cursor.close();
             }
-            cursor.close();
+            db.close();
+            return action;
         }
-
-        return action;
     }
 
     public void saveHashtableToDatabase(Hashtable<String, String> hashtable, ContentValues values) {
@@ -707,22 +760,22 @@ public class DBUtils extends SQLiteOpenHelper {
         Gson gson = new Gson();
         String jsonString = gson.toJson(hashtable);
 
-        Log.d(TAG,"序列化之后的hashtable_data值为 "+jsonString);
+        Log.d(TAG, "序列化之后的hashtable_data值为 " + jsonString);
 
         // 创建ContentValues用于插入数据
         values.put("hashtable_data", jsonString);  // 将序列化后的字符串存入ContentValues
     }
 
 
-    public void deleteTable(){
+    public void deleteTable() {
         SQLiteDatabase db = getWritableDatabase();
         int rowsAffected = -1;
         try {
-            rowsAffected =db.delete(TABLENAME_FAVORITES, null, null);
-            rowsAffected =db.delete(TABLENAME_MAINAPP, null, null);
-            rowsAffected =db.delete(TABLENAME_LISTMODULES, null, null);
-            rowsAffected =db.delete(TABLENAME_BRANDLOGO, null, null);
-        }catch (Exception e) {
+            rowsAffected = db.delete(TABLENAME_FAVORITES, null, null);
+            rowsAffected = db.delete(TABLENAME_MAINAPP, null, null);
+            rowsAffected = db.delete(TABLENAME_LISTMODULES, null, null);
+            rowsAffected = db.delete(TABLENAME_BRANDLOGO, null, null);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
