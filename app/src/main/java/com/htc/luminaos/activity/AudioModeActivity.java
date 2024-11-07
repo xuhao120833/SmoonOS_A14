@@ -118,6 +118,7 @@ public class AudioModeActivity extends BaseActivity implements View.OnKeyListene
         sound_mode = tvAudioControl.getAudioMode();
         activityAudioModeBinding.audioModeTv.setText(soundMode_name[sound_mode]);
         updateAllEQValue();
+        updateAudioStatus();
     }
 
     @Override
@@ -132,6 +133,7 @@ public class AudioModeActivity extends BaseActivity implements View.OnKeyListene
                 tvAudioControl.setAudioMode(sound_mode);
                 activityAudioModeBinding.audioModeTv.setText(soundMode_name[sound_mode]);
                 updateAllEQValue();
+                updateAudioStatus();
                 break;
             case R.id.rl_120hz:
                 if (value_120hz==100)
@@ -304,6 +306,7 @@ public class AudioModeActivity extends BaseActivity implements View.OnKeyListene
                     tvAudioControl.setAudioMode(sound_mode);
                     activityAudioModeBinding.audioModeTv.setText(soundMode_name[sound_mode]);
                     updateAllEQValue();
+                    updateAudioStatus();
                     break;
 
                 case R.id.rl_120hz:
@@ -368,6 +371,7 @@ public class AudioModeActivity extends BaseActivity implements View.OnKeyListene
                     tvAudioControl.setAudioMode(sound_mode);
                     activityAudioModeBinding.audioModeTv.setText(soundMode_name[sound_mode]);
                     updateAllEQValue();
+                    updateAudioStatus();
                     break;
                 case R.id.rl_120hz:
                     if (value_120hz==100)
@@ -439,6 +443,72 @@ public class AudioModeActivity extends BaseActivity implements View.OnKeyListene
         activityAudioModeBinding.tv3khz.setText(""+value_3khz);
         activityAudioModeBinding.tv7d5khz.setText(""+value_7d5khz);
         activityAudioModeBinding.tv12khz.setText(""+value_12khz);
+    }
+
+    private void updateAudioStatus() {
+        if(sound_mode == 4) {
+            activityAudioModeBinding.scrollImage.setFocusable(true);
+            activityAudioModeBinding.rl120hz.setEnabled(true);
+            activityAudioModeBinding.right120.setEnabled(true);
+            activityAudioModeBinding.left120.setEnabled(true);
+            activityAudioModeBinding.rl200hz.setEnabled(true);
+            activityAudioModeBinding.right200.setEnabled(true);
+            activityAudioModeBinding.left200.setEnabled(true);
+            activityAudioModeBinding.rl500hz.setEnabled(true);
+            activityAudioModeBinding.right500.setEnabled(true);
+            activityAudioModeBinding.left500.setEnabled(true);
+            activityAudioModeBinding.rl1d2khz.setEnabled(true);
+            activityAudioModeBinding.right1d2k.setEnabled(true);
+            activityAudioModeBinding.left1d2k.setEnabled(true);
+            activityAudioModeBinding.rl3khz.setEnabled(true);
+            activityAudioModeBinding.right3k.setEnabled(true);
+            activityAudioModeBinding.left3k.setEnabled(true);
+            activityAudioModeBinding.rl7d5khz.setEnabled(true);
+            activityAudioModeBinding.right7d5k.setEnabled(true);
+            activityAudioModeBinding.left7d5k.setEnabled(true);
+            activityAudioModeBinding.rl12khz.setEnabled(true);
+            activityAudioModeBinding.right12k.setEnabled(true);
+            activityAudioModeBinding.left12k.setEnabled(true);
+
+            activityAudioModeBinding.rl120hz.setAlpha(1.0f);
+            activityAudioModeBinding.rl200hz.setAlpha(1.0f);
+            activityAudioModeBinding.rl500hz.setAlpha(1.0f);
+            activityAudioModeBinding.rl1d2khz.setAlpha(1.0f);
+            activityAudioModeBinding.rl3khz.setAlpha(1.0f);
+            activityAudioModeBinding.rl7d5khz.setAlpha(1.0f);
+            activityAudioModeBinding.rl12khz.setAlpha(1.0f);
+        }else {
+            activityAudioModeBinding.scrollImage.setFocusable(false);
+            activityAudioModeBinding.rl120hz.setEnabled(false);
+            activityAudioModeBinding.right120.setEnabled(false);
+            activityAudioModeBinding.left120.setEnabled(false);
+            activityAudioModeBinding.rl200hz.setEnabled(false);
+            activityAudioModeBinding.right200.setEnabled(false);
+            activityAudioModeBinding.left200.setEnabled(false);
+            activityAudioModeBinding.rl500hz.setEnabled(false);
+            activityAudioModeBinding.right500.setEnabled(false);
+            activityAudioModeBinding.left500.setEnabled(false);
+            activityAudioModeBinding.rl1d2khz.setEnabled(false);
+            activityAudioModeBinding.right1d2k.setEnabled(false);
+            activityAudioModeBinding.left1d2k.setEnabled(false);
+            activityAudioModeBinding.rl3khz.setEnabled(false);
+            activityAudioModeBinding.right3k.setEnabled(false);
+            activityAudioModeBinding.left3k.setEnabled(false);
+            activityAudioModeBinding.rl7d5khz.setEnabled(false);
+            activityAudioModeBinding.right7d5k.setEnabled(false);
+            activityAudioModeBinding.left7d5k.setEnabled(false);
+            activityAudioModeBinding.rl12khz.setEnabled(false);
+            activityAudioModeBinding.right12k.setEnabled(false);
+            activityAudioModeBinding.left12k.setEnabled(false);
+
+            activityAudioModeBinding.rl120hz.setAlpha(0.7f);
+            activityAudioModeBinding.rl200hz.setAlpha(0.7f);
+            activityAudioModeBinding.rl500hz.setAlpha(0.7f);
+            activityAudioModeBinding.rl1d2khz.setAlpha(0.7f);
+            activityAudioModeBinding.rl3khz.setAlpha(0.7f);
+            activityAudioModeBinding.rl7d5khz.setAlpha(0.7f);
+            activityAudioModeBinding.rl12khz.setAlpha(0.7f);
+        }
     }
 
 }

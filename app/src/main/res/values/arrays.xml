@@ -136,7 +136,7 @@
         <item>@string/Music</item>
         <item>@string/Movie</item>
         <item>@string/News</item>
-        <!--<item>User</item>-->
+        <item>@string/picture_mode_custom_name</item>
     </string-array>
 
 </resources>
