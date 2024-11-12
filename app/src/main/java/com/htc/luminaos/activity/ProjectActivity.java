@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -25,6 +26,8 @@ import com.htc.luminaos.MyApplication;
 import com.htc.luminaos.R;
 import com.htc.luminaos.databinding.ActivityProjectBinding;
 import com.htc.luminaos.databinding.ResetKeystoreLayoutBinding;
+import com.htc.luminaos.receiver.VaFocusCallBack;
+import com.htc.luminaos.receiver.VaFocusReceiver;
 import com.htc.luminaos.settings.utils.Constants;
 import com.htc.luminaos.utils.AppUtils;
 import com.htc.luminaos.utils.Contants;
@@ -46,7 +49,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ProjectActivity extends BaseActivity implements View.OnKeyListener {
+public class ProjectActivity extends BaseActivity implements View.OnKeyListener, VaFocusCallBack {
 
     private ActivityProjectBinding projectBinding;
     private int cur_project_mode = 0;
@@ -76,6 +79,9 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
 
     Handler handler = new Handler();
 
+    IntentFilter filter;
+    VaFocusReceiver vaFocusReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +89,15 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         setContentView(projectBinding.getRoot());
         initView();
         initData();
+        filter = new IntentFilter("intent.htc.vafocus");
+        vaFocusReceiver = new VaFocusReceiver(this);
+        registerReceiver(vaFocusReceiver, filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(vaFocusReceiver);
     }
 
     private void initView() {
@@ -131,15 +146,15 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
                     int calibratedTips = R.string.no_caalibrated;
                     int i = 0;
                     i = Constants.CheckCalibrated(AwTvSystemManager.getInstance(getApplicationContext()).getSecureStorageKey("vafocusCam").trim());
-                    if (i!=1 && i!=3){
-                        i=checkNewBDDATA();
+                    if (i != 1 && i != 3) {
+                        i = checkNewBDDATA();
                     }
                     calibratedTips = getStringId(i);
                     int finalCalibratedTips = calibratedTips;
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(v.getContext(), getString(R.string.auto_four_corner_hint)+";"+getString(finalCalibratedTips), Toast.LENGTH_LONG).show();
+                            Toast.makeText(v.getContext(), getString(R.string.auto_four_corner_hint) + ";" + getString(finalCalibratedTips), Toast.LENGTH_LONG).show();
                         }
                     }, 2000); // 2000毫秒 = 2秒
                 } else {
@@ -162,8 +177,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
         projectBinding.digitalZoomRight.setOnClickListener(this);
 
         projectBinding.rlDisplaySettings.setVisibility(MyApplication.config.displaySetting ? View.VISIBLE : View.GONE);
-        projectBinding.rlColorMode.setVisibility(MyApplication.config.brightAndColor? View.VISIBLE : View.GONE);
-        projectBinding.rlAudioMode.setVisibility(MyApplication.config.AudioMode?View.VISIBLE:View.GONE);
+        projectBinding.rlColorMode.setVisibility(MyApplication.config.brightAndColor ? View.VISIBLE : View.GONE);
+        projectBinding.rlAudioMode.setVisibility(MyApplication.config.AudioMode ? View.VISIBLE : View.GONE);
         projectBinding.rlProjectMode.setVisibility(MyApplication.config.projectMode ? View.VISIBLE : View.GONE);
         projectBinding.rlDeviceMode2.setVisibility(MyApplication.config.deviceMode ? View.VISIBLE : View.GONE);
         projectBinding.rlDigitalZoom.setVisibility(MyApplication.config.wholeZoom ? View.VISIBLE : View.GONE);
@@ -763,22 +778,22 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
     }
 
     //新的标定数据校验
-    private int checkNewBDDATA(){
-        int ret1,ret2,ret3,ret4;
+    private int checkNewBDDATA() {
+        int ret1, ret2, ret3, ret4;
         ret1 = scUtils.checkbddata(AwTvSystemManager.getInstance(getApplicationContext()).getSecureStorageKey("PoCamX"));
         ret2 = scUtils.checkbddata(AwTvSystemManager.getInstance(getApplicationContext()).getSecureStorageKey("PoCamY"));
         ret3 = scUtils.checkbddata(AwTvSystemManager.getInstance(getApplicationContext()).getSecureStorageKey("JbCamX"));
         ret4 = scUtils.checkbddata(AwTvSystemManager.getInstance(getApplicationContext()).getSecureStorageKey("JbCamY"));
-        if (ret1==1 && ret2==1 && ret3==1 && ret4==1)
+        if (ret1 == 1 && ret2 == 1 && ret3 == 1 && ret4 == 1)
             return 1;
-        else if (ret1==0 && ret2==0 && ret3==0 && ret4==0)
+        else if (ret1 == 0 && ret2 == 0 && ret3 == 0 && ret4 == 0)
             return 0;
 
         return -1;
     }
 
-    private  int getStringId(int i){
-        switch (i){
+    private int getStringId(int i) {
+        switch (i) {
             case 1:
                 return R.string.calibrated;
             case 2:
@@ -790,5 +805,14 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener 
             default:
                 return R.string.no_caalibrated;
         }
+    }
+
+    @Override
+    public void vaFocusChange() {
+        Log.d(TAG," vaFocusChange "+All);
+        All = 0;
+        projectBinding.digitalZoomTv.setText("0");
+        projectBinding.digitalZoomRight.setVisibility(View.VISIBLE);
+        projectBinding.digitalZoomLeft.setVisibility(View.GONE);
     }
 }

@@ -200,7 +200,7 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
                 return "Hotstar";
             case "com.jio.media.ondemand":
                 return "JioCinema";
-            case "jp.happyon.android":
+            case "com.hulu.plus":
                 return "Hulu";
             case "tv.abema":
                 return "ABEMA";
@@ -233,7 +233,7 @@ public class ShortcutsAdapterCustom extends RecyclerView.Adapter<ShortcutsAdapte
                 return R.drawable.hotstar;
             case "com.jio.media.ondemand":
                 return R.drawable.jio_cinema;
-            case "jp.happyon.android":
+            case "com.hulu.plus":
                 return R.drawable.hulu;
             case "tv.abema":
                 return R.drawable.abema;
