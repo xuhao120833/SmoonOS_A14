@@ -77,7 +77,6 @@ public class BlurImageView {
             m2.setScale(1 / (float)inSampleSize , 1 / (float)inSampleSize);
             bitmap = Bitmap.createBitmap(bitmap,0,0,width,height,m2,false);
         }
-
         return bitmap;
     }
 

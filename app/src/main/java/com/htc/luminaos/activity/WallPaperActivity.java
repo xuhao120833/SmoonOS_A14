@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -149,6 +150,16 @@ public class WallPaperActivity extends BaseActivity {
         initFocus();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    protected void onResume(){
+        super.onResume();
+//        getPath();
+//        wallPaperBinding.wallpaperRv.getAdapter().notifyDataSetChanged();
+//        initFocus();
+        Log.d(TAG," 执行onResume");
+    }
+
     private void initView() {
 //        wallPaperBinding.localItem.setOnClickListener(this);
 //        wallPaperBinding.usbItem.setOnClickListener(this);
@@ -156,7 +167,6 @@ public class WallPaperActivity extends BaseActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         wallPaperBinding.wallpaperRv.setLayoutManager(layoutManager);
         wallPaperBinding.wallpaperRv.addItemDecoration(new SpacesItemDecoration(SpacesItemDecoration.pxAdapter(22.5F), SpacesItemDecoration.pxAdapter(22.5F), SpacesItemDecoration.pxAdapter(10), SpacesItemDecoration.pxAdapter(10)));
-
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
@@ -318,7 +328,6 @@ public class WallPaperActivity extends BaseActivity {
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
         }
-
         //判断图片大小，如果超过限制就做缩小处理
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
@@ -326,13 +335,10 @@ public class WallPaperActivity extends BaseActivity {
             bitmap = narrowBitmap(bitmap);
         }
         //缩小完毕
-
         File dir = new File(Contants.WALLPAPER_DIR);
         if (!dir.exists()) dir.mkdirs();
-
         File file1 = new File(Contants.WALLPAPER_MAIN);
 //        if (file1.exists()) file1.delete();
-
         try (FileOutputStream fileOutputStream = new FileOutputStream(file1)) {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream); // 可根据需要更改格式
             fileOutputStream.flush();
@@ -340,7 +346,6 @@ public class WallPaperActivity extends BaseActivity {
             e.printStackTrace();
         }
     }
-
 
     private void CopyResIdToSd(Bitmap bitmap) {
         File file1 = new File(Contants.WALLPAPER_DIR);
@@ -374,7 +379,6 @@ public class WallPaperActivity extends BaseActivity {
             bitmap = narrowBitmap(bitmap);
         }
         //缩小完毕
-
         try {
             File file2 = new File(Contants.WALLPAPER_MAIN);
             if (file2.exists())
@@ -385,7 +389,6 @@ public class WallPaperActivity extends BaseActivity {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
             bos.flush();
             bos.close();
-
             //原来的逻辑文件输出到文件
 //            FileInputStream fileInputStream = new FileInputStream(file);
 //            FileOutputStream fileOutputStream = new FileOutputStream(file2);

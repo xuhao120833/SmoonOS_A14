@@ -82,6 +82,11 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
     IntentFilter filter;
     VaFocusReceiver vaFocusReceiver;
 
+    public int[] lt_xy = new int[2];
+    public int[] rt_xy = new int[2];
+    public int[] lb_xy = new int[2];
+    public int[] rb_xy = new int[2];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -601,7 +606,11 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
         t = max_value - t;
         r = max_value - r;
         b = max_value - b;
-        changeform(l, t, r, b);
+//        changeform(l, t, r, b);
+
+        if (!SystemProperties.get("persist.sys.camok", "0").equals("1") || getAuto()) {
+            changeform(l, t, r, b);
+        } else updateZoom(max_value - l);
     }
 
     public void changeform(int l, int t, int right, int bottom) {
@@ -622,6 +631,32 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
             sendKeystoneBroadcast();
         } else {
             KeystoneUtils.UpdateKeystoneZOOM(true);
+        }
+    }
+
+    public void updateZoom(int zoom) {
+        lt_xy = KeystoneUtils.getKeystoneHtcLeftAndTopXY();
+        rt_xy = KeystoneUtils.getKeystoneHtcRightAndTopXY();
+        lb_xy = KeystoneUtils.getKeystoneHtcLeftAndBottomXY();
+        rb_xy = KeystoneUtils.getKeystoneHtcRightAndBottomXY();
+        int[] px4 = new int[4];
+        int[] py4 = new int[4];
+        px4[0] = Integer.parseInt(df.format((lt_xy[0] * KeystoneUtils.lcd_w) / 1000));
+        py4[0] = Integer.parseInt(df.format(((1000 - lt_xy[1]) * KeystoneUtils.lcd_h) / 1000));
+        px4[1] = Integer.parseInt(df.format(((1000 - rt_xy[0]) * KeystoneUtils.lcd_w) / 1000));
+        py4[1] = Integer.parseInt(df.format(((1000 - rt_xy[1]) * KeystoneUtils.lcd_h) / 1000));
+        px4[2] = Integer.parseInt(df.format((lb_xy[0] * KeystoneUtils.lcd_w) / 1000));
+        py4[2] = Integer.parseInt(df.format((lb_xy[1] * KeystoneUtils.lcd_h) / 1000));
+        px4[3] = Integer.parseInt(df.format(((1000 - rb_xy[0]) * KeystoneUtils.lcd_w) / 1000));
+        py4[3] = Integer.parseInt(df.format((rb_xy[1] * KeystoneUtils.lcd_h) / 1000));
+        DecimalFormat df = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.CHINA));
+        float a = Float.parseFloat(df.format((max_value - zoom * 2) * 0.01).replace(",", "."));
+        Log.d("hzj", "float  a =" + a);
+        int old_ratio = KeystoneUtils.readGlobalSettings(this, "zoom_scale_old", 0);
+        int ratio = KeystoneUtils.readGlobalSettings(this, "zoom_scale", 0);
+        int[] tpData = scUtils.getpxRatioxy(px4, py4, old_ratio, ratio, a, KeystoneUtils.lcd_w, KeystoneUtils.lcd_h);
+        if (tpData != null && tpData[8] == 1) {
+            KeystoneUtils.optKeystoneFun(tpData);
         }
     }
 
