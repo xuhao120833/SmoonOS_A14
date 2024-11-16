@@ -270,4 +270,8 @@
 	<string name="News">新闻</string>
 	<string name="Audio_Mode">声音模式</string>
 	<string name="Audio_Settings">声音设置</string>
+	<string name="_16_9">16:9</string>
+	<string name="_16_10">16:10</string>
+	<string name="_4_3">4:3</string>
+	<string name="screen_zoom">画面缩放</string>
 </resources>

@@ -44,6 +44,7 @@ import com.softwinner.tv.common.AwTvDisplayTypes;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -53,6 +54,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
 
     private ActivityProjectBinding projectBinding;
     private int cur_project_mode = 0;
+    private int old_project_mode = -1;
     List<String> project_name = new ArrayList<>();
     private AwTvDisplayManager tvDisplayManager;
 
@@ -65,7 +67,10 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
     private int bottom = 100;
     private int max_value = 100;
     private int All;
+    private int zoom_scale =0;
     private int ZOOM_MAX = 20;
+
+    private int zoom_value = 0;
     DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.CHINESE));//格式化小数
     private double scale = 1D;//缩放比例，根据选中的屏幕缩放模式
     private int step_x = 16;//X轴步进
@@ -86,6 +91,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
     public int[] rt_xy = new int[2];
     public int[] lb_xy = new int[2];
     public int[] rb_xy = new int[2];
+
+    String[] screen_zoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +135,9 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
         projectBinding.rlDigitalZoom.setOnKeyListener(this);
         projectBinding.rlDigitalZoom.setOnHoverListener(this);
         projectBinding.rlDigitalZoom.setOnClickListener(this);
+        projectBinding.rlScreenZoom.setOnKeyListener(this);
+        projectBinding.rlScreenZoom.setOnHoverListener(this);
+        projectBinding.rlScreenZoom.setOnClickListener(this);
         projectBinding.rlHorizontalCorrect.setOnKeyListener(this);
         projectBinding.rlHorizontalCorrect.setOnHoverListener(this);
         projectBinding.rlVerticalCorrect.setOnKeyListener(this);
@@ -180,6 +190,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
 
         projectBinding.digitalZoomLeft.setOnClickListener(this);
         projectBinding.digitalZoomRight.setOnClickListener(this);
+        projectBinding.screenZoomLeft.setOnClickListener(this);
+        projectBinding.screenZoomRight.setOnClickListener(this);
 
         projectBinding.rlDisplaySettings.setVisibility(MyApplication.config.displaySetting ? View.VISIBLE : View.GONE);
         projectBinding.rlColorMode.setVisibility(MyApplication.config.brightAndColor ? View.VISIBLE : View.GONE);
@@ -187,6 +199,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
         projectBinding.rlProjectMode.setVisibility(MyApplication.config.projectMode ? View.VISIBLE : View.GONE);
         projectBinding.rlDeviceMode2.setVisibility(MyApplication.config.deviceMode ? View.VISIBLE : View.GONE);
         projectBinding.rlDigitalZoom.setVisibility(MyApplication.config.wholeZoom ? View.VISIBLE : View.GONE);
+        projectBinding.rlScreenZoom.setVisibility(MyApplication.config.screenZoom ? View.VISIBLE : View.GONE);
         projectBinding.rlAutoKeystone.setVisibility(MyApplication.config.autoKeystone ? View.VISIBLE : View.GONE);
         projectBinding.rlInitAngle.setVisibility(MyApplication.config.initAngleCorrect ? View.VISIBLE : View.GONE);
         projectBinding.rlManualKeystone.setVisibility(MyApplication.config.manualKeystone ? View.VISIBLE : View.GONE);
@@ -235,6 +248,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
     }
 
     private void initData() {
+        screen_zoom =  getResources().getStringArray(R.array.screen_zoom);
         tvDisplayManager = AwTvDisplayManager.getInstance();
         project_name.add(getString(R.string.project_mode_1));
         project_name.add(getString(R.string.project_mode_2));
@@ -274,6 +288,24 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
         initMbRecognize();
         initAutoFourCorner();
         projectBinding.autoFocusSwitch.setChecked(get_auto_focus());
+
+        //16:9 16:10 4:3 画面缩放
+        updateSzoomTv();
+    }
+
+    private void updateSzoomTv() {
+        zoom_scale = KeystoneUtils.readGlobalSettings(this,KeystoneUtils.ZOOM_SCALE,0);
+        switch (zoom_scale) {
+            case 0:
+                projectBinding.screenZoomeTv.setText(screen_zoom[0]);
+                break;
+            case 1:
+                projectBinding.screenZoomeTv.setText(screen_zoom[1]);
+                break;
+            case 2:
+                projectBinding.screenZoomeTv.setText(screen_zoom[2]);
+                break;
+        }
     }
 
     private void initAuto() {
@@ -325,6 +357,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                 startNewActivity(AudioModeActivity.class);
                 break;
             case R.id.rl_power_mode:
+                old_project_mode = cur_project_mode;
                 if (cur_project_mode == project_name.size() - 1)
                     cur_project_mode = 0;
                 else
@@ -390,6 +423,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                 builder.show();
                 break;
             case R.id.rl_project_mode:
+                old_project_mode = cur_project_mode;
                 Log.d(TAG, "onClick向右切换安装模式");
                 if (cur_project_mode == project_name.size() - 1)
                     cur_project_mode = 0;
@@ -413,7 +447,6 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                 set_screen_zoom(All, All, All, All);
                 updateZoomView();
                 break;
-
             case R.id.digital_zoom_left:
                 if (All <= 0)
                     break;
@@ -427,6 +460,39 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                 All++;
                 set_screen_zoom(All, All, All, All);
                 updateZoomView();
+                break;
+            case R.id.rl_screen_zoom:
+                zoom_scale++;
+                if(zoom_scale>2)
+                    zoom_scale = 0;
+                if (!SystemProperties.get("persist.sys.camok","0").equals("1") || SystemProperties.getBoolean("persist.sys.tpryauto",false))
+                    set_screen_zoom(zoom_value,zoom_value,zoom_value,zoom_value,zoom_scale);
+                else
+                    updateScaleZoom(zoom_scale);
+                KeystoneUtils.writeGlobalSettings(this,KeystoneUtils.ZOOM_SCALE,zoom_scale);
+                updateSzoomTv();
+                break;
+            case R.id.screen_zoom_left:
+                zoom_scale--;
+                if(zoom_scale<0)
+                    zoom_scale = 2;
+                if (!SystemProperties.get("persist.sys.camok","0").equals("1") || SystemProperties.getBoolean("persist.sys.tpryauto",false))
+                    set_screen_zoom(zoom_value,zoom_value,zoom_value,zoom_value,zoom_scale);
+                else
+                    updateScaleZoom(zoom_scale);
+                KeystoneUtils.writeGlobalSettings(this,KeystoneUtils.ZOOM_SCALE,zoom_scale);
+                updateSzoomTv();
+                break;
+            case R.id.screen_zoom_right:
+                zoom_scale++;
+                if(zoom_scale>2)
+                    zoom_scale = 0;
+                if (!SystemProperties.get("persist.sys.camok","0").equals("1") || SystemProperties.getBoolean("persist.sys.tpryauto",false))
+                    set_screen_zoom(zoom_value,zoom_value,zoom_value,zoom_value,zoom_scale);
+                else
+                    updateScaleZoom(zoom_scale);
+                KeystoneUtils.writeGlobalSettings(this,KeystoneUtils.ZOOM_SCALE,zoom_scale);
+                updateSzoomTv();
                 break;
         }
     }
@@ -462,7 +528,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                     Log.d(TAG, "向左切换安装模式");
                     if (event.getAction() != KeyEvent.ACTION_UP)
                         break;
-
+                    old_project_mode = cur_project_mode;
                     if (cur_project_mode == 0)
                         cur_project_mode = project_name.size() - 1;
                     else
@@ -480,6 +546,19 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                     All--;
                     set_screen_zoom(All, All, All, All);
                     updateZoomView();
+                    break;
+                case R.id.rl_screen_zoom:
+                    if (event.getAction() == KeyEvent.ACTION_UP)
+                        break;
+                    zoom_scale--;
+                    if(zoom_scale<0)
+                        zoom_scale = 2;
+                    if (!SystemProperties.get("persist.sys.camok","0").equals("1") || SystemProperties.getBoolean("persist.sys.tpryauto",false))
+                        set_screen_zoom(zoom_value,zoom_value,zoom_value,zoom_value,zoom_scale);
+                    else
+                        updateScaleZoom(zoom_scale);
+                    KeystoneUtils.writeGlobalSettings(this,KeystoneUtils.ZOOM_SCALE,zoom_scale);
+                    updateSzoomTv();
                     break;
                 case R.id.rl_horizontal_correct:
                     break;
@@ -504,6 +583,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                     Log.d(TAG, "向右切换安装模式");
                     if (event.getAction() != KeyEvent.ACTION_UP)
                         break;
+                    old_project_mode = cur_project_mode;
                     if (cur_project_mode == project_name.size() - 1)
                         cur_project_mode = 0;
                     else
@@ -521,6 +601,19 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                     All++;
                     set_screen_zoom(All, All, All, All);
                     updateZoomView();
+                    break;
+                case R.id.rl_screen_zoom:
+                    if (event.getAction() == KeyEvent.ACTION_UP)
+                        break;
+                    zoom_scale++;
+                    if(zoom_scale>2)
+                        zoom_scale = 0;
+                    if (!SystemProperties.get("persist.sys.camok","0").equals("1") || SystemProperties.getBoolean("persist.sys.tpryauto",false))
+                        set_screen_zoom(zoom_value,zoom_value,zoom_value,zoom_value,zoom_scale);
+                    else
+                        updateScaleZoom(zoom_scale);
+                    KeystoneUtils.writeGlobalSettings(this,KeystoneUtils.ZOOM_SCALE,zoom_scale);
+                    updateSzoomTv();
                     break;
                 case R.id.rl_horizontal_correct:
                     break;
@@ -561,8 +654,14 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
     private void updateProjectMode() {
         tvDisplayManager.factorySetPanelValue(AwTvDisplayTypes.EnumPanelConfigType.E_AW_PANEL_CONFIG_MIRROR, cur_project_mode);
         projectBinding.projectModeTv.setText(project_name.get(cur_project_mode));
+//        SystemProperties.set("persist.sys.panelvalue", String.valueOf(cur_project_mode));
+//        if (getAuto())
+//            sendProjectBroadCast();
         SystemProperties.set("persist.sys.panelvalue", String.valueOf(cur_project_mode));
-        if (getAuto())
+        if (SystemProperties.get("persist.sys.camok","0").equals("1")
+                && SystemProperties.get("persist.sys.focusupdn","0").equals("0"))
+            KeystoneUtils.setKeystoneNormalXY(old_project_mode,cur_project_mode);
+        if (SystemProperties.getBoolean("persist.sys.tpryauto",false))
             sendProjectBroadCast();
     }
 
@@ -849,5 +948,57 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
         projectBinding.digitalZoomTv.setText("0");
         projectBinding.digitalZoomRight.setVisibility(View.VISIBLE);
         projectBinding.digitalZoomLeft.setVisibility(View.GONE);
+    }
+
+    //全局缩放和比例兼容
+    public  void set_screen_zoom(int l,int t,int r,int b,int scaleMode){
+        if (scaleMode==0){
+            scale = 1D;
+            step_x = 16;
+            step_y = 9;
+        }else if (scaleMode==2){
+            scale = 0.875D;
+            step_x = 12;
+            step_y = 9;
+        }else if (scaleMode==1){
+            scale = 0.95D;
+            step_x = 16;
+            step_y = 10;
+        }
+
+        l = 100 - l;
+        t = 100 - t;
+        r = 100 - r;
+        b = 100 - b;
+        changeform(l,t,r,b);
+        String modify_value = "overscan " +df.format((double)l * scale)  + "," + t  + "," + df.format((double)r * scale) + "," + b ;
+        SystemProperties.set("persist.vendor.overscan.main",modify_value);
+    }
+
+    public void  updateScaleZoom(int scale){
+        lt_xy = KeystoneUtils.getKeystoneHtcLeftAndTopXY();
+        rt_xy = KeystoneUtils.getKeystoneHtcRightAndTopXY();
+        lb_xy = KeystoneUtils.getKeystoneHtcLeftAndBottomXY();
+        rb_xy = KeystoneUtils.getKeystoneHtcRightAndBottomXY();
+        int[] px4 = new int[4];
+        int[] py4 = new int[4];
+        px4[0] = Integer.parseInt(df.format((lt_xy[0] * KeystoneUtils.lcd_w)/1000));
+        py4[0] = Integer.parseInt(df.format(((1000-lt_xy[1]) * KeystoneUtils.lcd_h)/1000));
+        px4[1] = Integer.parseInt(df.format(((1000-rt_xy[0]) * KeystoneUtils.lcd_w)/1000));
+        py4[1] = Integer.parseInt(df.format(((1000-rt_xy[1]) * KeystoneUtils.lcd_h)/1000));
+        px4[2] = Integer.parseInt(df.format((lb_xy[0] * KeystoneUtils.lcd_w)/1000));
+        py4[2] =Integer.parseInt(df.format((lb_xy[1] * KeystoneUtils.lcd_h)/1000));
+        px4[3] = Integer.parseInt(df.format(((1000-rb_xy[0]) * KeystoneUtils.lcd_w)/1000));
+        py4[3] =Integer.parseInt(df.format((rb_xy[1] * KeystoneUtils.lcd_h)/1000));
+        LogUtils.d("px4 = "+ Arrays.toString(px4) +"  py4 = "+ Arrays.toString(py4));
+        DecimalFormat df = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.CHINA));
+        float a = Float.parseFloat(df.format((100- KeystoneUtils.readGlobalSettings(this,"zoom_value",0)*2)*0.01).replace(",","."));
+        int oldScale = KeystoneUtils.readGlobalSettings(this,"zoom_scale_old",0);
+        Log.d("hzj","a="+a+" oldScale="+oldScale+" scale="+scale);
+        int[] tpData = scUtils.getpxRatioxy(px4, py4, oldScale,
+                scale, a, KeystoneUtils.lcd_w, KeystoneUtils.lcd_h);
+        if(tpData[8]==1){
+            KeystoneUtils.optKeystoneFun(tpData);
+        }
     }
 }

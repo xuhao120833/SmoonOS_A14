@@ -270,4 +270,8 @@
     <string name="News">ニュース</string>
     <string name="Audio_Mode">オーディオモード</string>
     <string name="Audio_Settings">オーディオ設定</string>
+    <string name="_16_9">16:9</string>
+    <string name="_16_10">16:10</string>
+    <string name="_4_3">4:3</string>
+    <string name="screen_zoom">画面ズーム</string>
 </resources>

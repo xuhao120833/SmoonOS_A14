@@ -270,4 +270,8 @@
     <string name="News">Berita</string>
     <string name="Audio_Mode">Mod Audio</string>
     <string name="Audio_Settings">Tetapan Audio</string>
+    <string name="_16_9">16:9</string>
+    <string name="_16_10">16:10</string>
+    <string name="_4_3">4:3</string>
+    <string name="screen_zoom">Zum skrin</string>
 </resources>

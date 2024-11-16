@@ -66,6 +66,8 @@ public class Config {
     public  boolean displaySetting=false;
     public  boolean wholeZoom=true;
 
+    public boolean screenZoom=true;
+
     //设备模式
     public boolean deviceMode = true;
 

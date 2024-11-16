@@ -270,5 +270,9 @@
     <string name="News">Новини</string>
     <string name="Audio_Mode">Аудіо режим</string>
     <string name="Audio_Settings">Налаштування аудіо</string>
+    <string name="_16_9">16:9</string>
+    <string name="_16_10">16:10</string>
+    <string name="_4_3">4:3</string>
+    <string name="screen_zoom">Масштабування екрана</string>
 </resources>
 

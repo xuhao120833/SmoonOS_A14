@@ -48,6 +48,12 @@
         <item>@string/power_mode_2</item>
     </string-array>
 
+    <string-array name="screen_zoom">
+        <item>@string/_16_9</item>
+        <item>@string/_16_10</item>
+        <item>@string/_4_3</item>
+    </string-array>
+
     <string-array name="power_mode_value" translatable="false">
         <item>shutdown</item>
         <item>str</item>

@@ -311,7 +311,66 @@
             <RelativeLayout
                 android:layout_width="@dimen/x_1080"
                 android:layout_height="@dimen/y_80"
+                android:id="@+id/rl_screen_zoom"
                 android:layout_below="@id/rl_digital_zoom"
+                android:layout_marginBottom="@dimen/y_19"
+                android:layout_marginStart="@dimen/x_100"
+                android:background="@drawable/main_settings_bg"
+                style="@style/focusStyle"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x_50"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_27"
+                    android:text="@string/screen_zoom"
+                    android:duplicateParentState="true"
+                    />
+
+                <View
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/x_50"
+                    android:id="@+id/screen_zoom_right"
+                    android:background="@drawable/arrow_right_bg"
+                    android:duplicateParentState="true"
+                    />
+
+                <View
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/x_468"
+                    android:id="@+id/screen_zoom_left"
+                    android:background="@drawable/arrow_left_bg"
+                    android:duplicateParentState="true"
+                    />
+
+                <TextView
+                    android:layout_width="@dimen/x_368"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/screen_zoome_tv"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_103"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_23"
+                    android:gravity="center"
+                    android:text="16 : 9"
+                    android:duplicateParentState="true"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="@dimen/x_1080"
+                android:layout_height="@dimen/y_80"
+                android:layout_below="@id/rl_screen_zoom"
                 android:id="@+id/rl_vertical_correct"
                 android:layout_marginStart="@dimen/x_100"
                 android:layout_marginBottom="@dimen/y_19"
