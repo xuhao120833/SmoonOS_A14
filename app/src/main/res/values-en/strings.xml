@@ -74,7 +74,7 @@
     <string name="update_firmware">Local upgrade</string>
     <string name="all_apps">All applications</string>
     <string name="app_manager_settings">Application settings</string>
-    <string name="bluetooth">Bluetooth settings</string>
+    <string name="bluetooth">Bluetooth Settings</string>
     <string name="bluetooth_switch">Bluetooth switch</string>
     <string name="search_bluetooth">Search for Bluetooth devices</string>
     <string name="paired_devices">Paired devices</string>
@@ -86,9 +86,9 @@
     <string name="timezone">Time zone</string>
     <string name="time_format">Use 24-hour format</string>
     <string name="language_keyboard">Language and keyboard</string>
-    <string name="language_setting">Language settings</string>
+    <string name="language_setting">Language Settings</string>
     <string name="inputmethod">Input method</string>
-    <string name="inputmethod_setting">Input method settings</string>
+    <string name="inputmethod_setting">Input method Settings</string>
     <string name="shortcut_editor">Shortcut editor</string>
     <string name="wallpaper_setting">Wallpaper settings</string>
     <string name="usb">USB</string>
@@ -268,7 +268,7 @@
     <string name="Music">Music</string>
     <string name="Movie">Movie</string>
     <string name="News">News</string>
-    <string name="Audio_Mode">Audio Mode</string>
+    <string name="Audio_Mode">Audio Settings</string>
     <string name="Audio_Settings">Audio Settings</string>
     <string name="_16_9">16:9</string>
     <string name="_16_10">16:10</string>
