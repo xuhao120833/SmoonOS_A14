@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/muqi_main_bg"
+    android:id="@+id/rl_main"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    tools:context=".activity.MainActivity">
+
+    <FrameLayout
+        android:layout_width="@dimen/x_350"
+        android:layout_height="@dimen/y_133"
+        android:layout_marginStart="@dimen/x_57">
+
+        <ImageView
+            android:id="@+id/brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:layout_gravity="start|center_vertical"
+            android:src="@drawable/brand" />
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_battery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_40"
+        android:layout_marginEnd="@dimen/x_20"
+        style="@style/focusStyle"
+        android:clickable="true"
+        android:visibility="gone"
+        android:background="@drawable/circle_bar_bg_custom"
+        android:layout_toStartOf="@+id/rl_usb_connect">
+
+        <ImageView
+            android:id="@+id/battery"
+            android:layout_width="@dimen/x_60"
+            android:layout_height="@dimen/y_60"
+            android:padding="@dimen/y_3"
+            android:src="@drawable/battery_4" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_usb_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_40"
+        android:layout_marginEnd="@dimen/x_20"
+        style="@style/focusStyle"
+        android:clickable="true"
+        android:visibility="gone"
+        android:background="@drawable/circle_bar_bg_custom"
+        android:layout_toStartOf="@+id/rl_signal_source">
+
+        <ImageView
+            android:id="@+id/usb_connect"
+            android:layout_width="@dimen/x_60"
+            android:layout_height="@dimen/y_60"
+            android:padding="@dimen/y_3"
+            android:src="@drawable/usb_green" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_signal_source"
+        style="@style/focusStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_40"
+        android:layout_marginEnd="@dimen/x_20"
+        android:layout_toStartOf="@+id/rl_wallpapers"
+        android:background="@drawable/circle_bar_bg_custom"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/signal_source"
+            android:layout_width="@dimen/x_60"
+            android:layout_height="@dimen/y_60"
+            android:padding="@dimen/y_3"
+            android:src="@drawable/bar_signal" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_wallpapers"
+        style="@style/focusStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_40"
+        android:layout_marginEnd="@dimen/x_20"
+        android:layout_toStartOf="@+id/rl_muqi_bt"
+        android:background="@drawable/circle_bar_bg_custom"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/wallpaper"
+            android:layout_width="@dimen/x_60"
+            android:layout_height="@dimen/y_60"
+            android:padding="@dimen/y_3"
+            android:src="@drawable/htc_switch_bg" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_40"
+        android:layout_marginEnd="@dimen/x_20"
+        style="@style/focusStyle"
+        android:clickable="true"
+        android:background="@drawable/circle_bar_bg_custom"
+        android:layout_toStartOf="@+id/rl_muqi_usb">
+
+        <ImageView
+            android:id="@+id/muqi_bt"
+            android:layout_width="@dimen/x_60"
+            android:layout_height="@dimen/y_60"
+            android:padding="@dimen/y_3"
+            android:src="@drawable/muqi_bt" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_usb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_40"
+        android:layout_marginEnd="@dimen/x_20"
+        style="@style/focusStyle"
+        android:clickable="true"
+        android:background="@drawable/circle_bar_bg_custom"
+        android:layout_toStartOf="@+id/rl_muqi_settings">
+
+        <ImageView
+            android:id="@+id/muqi_usb"
+            android:layout_width="@dimen/x_60"
+            android:layout_height="@dimen/y_60"
+            android:padding="@dimen/y_3"
+            android:src="@drawable/muqi_usb" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_40"
+        android:layout_marginEnd="@dimen/x_20"
+        style="@style/focusStyle"
+        android:clickable="true"
+        android:background="@drawable/circle_bar_bg_custom"
+        android:layout_toStartOf="@+id/rl_muqi_wifi">
+
+        <ImageView
+            android:id="@+id/muqi_settings"
+            android:layout_width="@dimen/x_60"
+            android:layout_height="@dimen/y_60"
+            android:padding="@dimen/y_2"
+            android:layout_centerInParent="true"
+            android:src="@drawable/muqi_settings" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_wifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_40"
+        android:layout_marginEnd="@dimen/x_40"
+        style="@style/focusStyle"
+        android:clickable="true"
+        android:background="@drawable/circle_bar_bg_custom"
+        android:layout_toStartOf="@+id/rl_time">
+
+        <ImageView
+            android:id="@+id/muqi_wifi"
+            android:layout_width="@dimen/x_60"
+            android:layout_height="@dimen/y_60"
+            android:padding="@dimen/y_3"
+            android:src="@drawable/wifi_custom_4" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_35"
+        android:layout_marginEnd="@dimen/x_30"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:id="@+id/time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="14:01"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/y_48"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_24"
+        android:layout_marginEnd="@dimen/x_24"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/rl_time">
+
+        <TextView
+            android:id="@+id/calendar_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/y_20"
+            android:textColor="#ffffff"
+            android:text="Tuesday | 12/08/24" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:descendantFocusability="blocksDescendants"
+        android:layout_marginTop="@dimen/y_270">
+
+        <ImageView
+            android:id="@+id/muqi_left"
+            android:layout_width="@dimen/x_60"
+            android:layout_height="@dimen/y_60"
+            android:clickable="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/muqi_left" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_icon1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_265"
+        android:layout_marginStart="@dimen/x_39"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_toEndOf="@+id/rl_muqi_left">
+
+        <ImageView
+            android:id="@+id/muqi_icon1"
+            android:layout_width="@dimen/x_70"
+            android:layout_height="@dimen/y_70"
+            android:layout_centerInParent="true"
+            android:src="@drawable/netflix" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x_39"
+        android:layout_toEndOf="@+id/rl_muqi_left"
+        android:layout_below="@id/rl_muqi_icon1">
+
+        <TextView
+            android:id="@+id/muqi_text1"
+            android:layout_width="@dimen/x_70"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/y_15"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:alpha="0.5"
+            android:text="Netflix">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_icon2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_250"
+        android:layout_marginStart="@dimen/x_32"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_toEndOf="@+id/rl_muqi_icon1">
+
+        <ImageView
+            android:id="@+id/muqi_icon2"
+            android:layout_width="@dimen/x_100"
+            android:layout_height="@dimen/y_100"
+            android:layout_centerInParent="true"
+            android:src="@drawable/youtube" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x_32"
+        android:layout_toEndOf="@+id/rl_muqi_icon1"
+        android:layout_below="@id/rl_muqi_icon2">
+
+        <TextView
+            android:id="@+id/muqi_text2"
+            android:layout_width="@dimen/x_100"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/y_18"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:alpha="0.6"
+            android:text="Youtube">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_icon3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_225"
+        android:layout_marginStart="@dimen/x_32"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_toEndOf="@+id/rl_muqi_icon2">
+
+        <ImageView
+            android:id="@+id/muqi_icon3"
+            android:layout_width="@dimen/x_150"
+            android:layout_height="@dimen/y_150"
+            android:layout_centerInParent="true"
+            android:src="@drawable/chrome" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x_32"
+        android:layout_toEndOf="@+id/rl_muqi_icon2"
+        android:layout_below="@id/rl_muqi_icon3">
+
+        <TextView
+            android:id="@+id/muqi_text3"
+            android:layout_width="@dimen/x_150"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/y_24"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:alpha="0.8"
+            android:text="Chrome">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_icon4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_175"
+        style="@style/focusStyle"
+        android:layout_marginStart="@dimen/x_32"
+        android:layout_toEndOf="@+id/rl_muqi_icon3"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/muqi_icon4"
+            android:layout_width="@dimen/x_250"
+            android:layout_height="@dimen/y_250"
+            android:layout_centerInParent="true"
+            android:src="@drawable/max" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_text4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x_32"
+        android:layout_toEndOf="@+id/rl_muqi_icon3"
+        android:layout_below="@id/rl_muqi_icon4">
+
+        <TextView
+            android:id="@+id/muqi_text4"
+            android:layout_width="@dimen/x_250"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/y_40"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="max">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_icon5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_225"
+        android:layout_marginStart="@dimen/x_32"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_toEndOf="@+id/rl_muqi_icon4">
+
+        <ImageView
+            android:id="@+id/muqi_icon5"
+            android:layout_width="@dimen/x_150"
+            android:layout_height="@dimen/y_150"
+            android:layout_centerInParent="true"
+            android:src="@drawable/tving" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_text5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x_32"
+        android:layout_toEndOf="@+id/rl_muqi_icon4"
+        android:layout_below="@id/rl_muqi_icon5">
+
+        <TextView
+            android:id="@+id/muqi_text5"
+            android:layout_width="@dimen/x_150"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/y_24"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:alpha="0.8"
+            android:text="Tving">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_icon6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_250"
+        android:layout_marginStart="@dimen/x_32"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_toEndOf="@+id/rl_muqi_icon5">
+
+        <ImageView
+            android:id="@+id/muqi_icon6"
+            android:layout_width="@dimen/x_100"
+            android:layout_height="@dimen/y_100"
+            android:src="@drawable/hulu" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_text6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x_32"
+        android:layout_toEndOf="@+id/rl_muqi_icon5"
+        android:layout_below="@id/rl_muqi_icon6">
+
+        <TextView
+            android:id="@+id/muqi_text6"
+            android:layout_width="@dimen/x_100"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/y_18"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:alpha="0.6"
+            android:text="Hulu">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_icon7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_265"
+        android:layout_marginStart="@dimen/x_32"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_toEndOf="@+id/rl_muqi_icon6">
+
+        <ImageView
+            android:id="@+id/muqi_icon7"
+            android:layout_width="@dimen/x_70"
+            android:layout_height="@dimen/y_70"
+            android:layout_centerInParent="true"
+            android:src="@drawable/disney" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_text7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x_32"
+        android:layout_toEndOf="@+id/rl_muqi_icon6"
+        android:layout_below="@id/rl_muqi_icon7">
+
+        <TextView
+            android:id="@+id/muqi_text7"
+            android:layout_width="@dimen/x_70"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/y_15"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:alpha="0.5"
+            android:text="Disney">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_muqi_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_270"
+        android:layout_marginStart="@dimen/x_39"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_toEndOf="@+id/rl_muqi_icon7"
+        >
+
+        <ImageView
+            android:id="@+id/muqi_right"
+            android:layout_width="@dimen/x_60"
+            android:layout_height="@dimen/y_60"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/muqi_right" />
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y_100"
+        android:id="@+id/shortcuts_rv"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/x_64"
+        android:layout_marginEnd="@dimen/x_64"
+        android:layout_marginBottom="@dimen/y_60"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        tools:listitem="@layout/shortcuts_item_muqi"
+        />
+
+</RelativeLayout>

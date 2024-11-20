@@ -25,12 +25,15 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
 import com.htc.luminaos.MyApplication;
+import com.htc.luminaos.adapter.ShortcutsAdapterMuQi;
+import com.htc.luminaos.databinding.ActivityMainMuqiBinding;
 import com.htc.luminaos.receiver.AppCallBack;
 import com.htc.luminaos.receiver.AppReceiver;
 import com.htc.luminaos.receiver.BatteryReceiver;
 import com.htc.luminaos.receiver.UsbDeviceCallBack;
 import com.htc.luminaos.utils.BatteryCallBack;
 import com.htc.luminaos.utils.BlurImageView;
+import com.htc.luminaos.utils.CircularQueue;
 import com.htc.luminaos.utils.FileUtils;
 
 import android.os.Environment;
@@ -39,6 +42,7 @@ import android.os.Message;
 import android.os.SystemProperties;
 import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
+import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -47,6 +51,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.htc.luminaos.R;
@@ -126,7 +132,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     private ActivityMainBinding mainBinding;
 
-    public ActivityMainCustomBinding customBinding;
+    public ActivityMainMuqiBinding customBinding;
     private ArrayList<ShortInfoBean> short_list = new ArrayList<>();
 
     boolean get_default_url = false;
@@ -175,19 +181,30 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     private List<StorageVolume> localDevicesList;
 
+    private AudioManager audioManager = null;
+
+    private List<AppInfoBean> appInfoBeans = null;
+
+    private CircularQueue circularQueue = null;
+
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
-                case 202:
-                    ShortcutsAdapter shortcutsAdapter = new ShortcutsAdapter(MainActivity.this, short_list);
-                    shortcutsAdapter.setItemCallBack(itemCallBack);
-                    mainBinding.shortcutsRv.setAdapter(shortcutsAdapter);
-                    break;
+//                case 202:
+//                    ShortcutsAdapter shortcutsAdapter = new ShortcutsAdapter(MainActivity.this, short_list);
+//                    shortcutsAdapter.setItemCallBack(itemCallBack);
+//                    mainBinding.shortcutsRv.setAdapter(shortcutsAdapter);
+//                    break;
                 case 204:
                     ShortcutsAdapterCustom shortcutsAdapterCustom = new ShortcutsAdapterCustom(MainActivity.this, short_list);
                     shortcutsAdapterCustom.setItemCallBack(itemCallBackCustom);
                     customBinding.shortcutsRv.setAdapter(shortcutsAdapterCustom);
+                    break;
+                case 205:
+                    ShortcutsAdapterMuQi shortcutsAdapterMuQi = new ShortcutsAdapterMuQi(MainActivity.this, short_list);
+                    shortcutsAdapterMuQi.setItemCallBack(itemCallBackMuQi);
+                    customBinding.shortcutsRv.setAdapter(shortcutsAdapterMuQi);
                     break;
                 case DATA_ERROR:
                     requestFlag = false;
@@ -205,12 +222,33 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
     });
 
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        //定制逻辑 xuhao add 20240717
+//        try {
+//            customBinding = ActivityMainCustomBinding.inflate(LayoutInflater.from(this));
+//            setContentView(customBinding.getRoot());
+//            initViewCustom();
+//            initDataCustom();
+//            initReceiver();
+//            wifiManager = (WifiManager) getSystemService(Service.WIFI_SERVICE);
+//            storageManager = (StorageManager) getSystemService(Context.STORAGE_SERVICE);
+//            localDevicesList = new ArrayList<StorageVolume>();
+//            devicesPathAdd();
+////            countUsbDevices(getApplicationContext());
+//            Log.d(TAG, " onCreate快捷图标 short_list " + short_list.size());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //定制逻辑 xuhao add 20240717
         try {
-            customBinding = ActivityMainCustomBinding.inflate(LayoutInflater.from(this));
+            customBinding = ActivityMainMuqiBinding.inflate(LayoutInflater.from(this));
             setContentView(customBinding.getRoot());
             initViewCustom();
             initDataCustom();
@@ -245,99 +283,171 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     }
 
-    private void initView() {
-        mainBinding.rlApps.setOnClickListener(this);
-        mainBinding.rlGoogle.setOnClickListener(this);
-        mainBinding.rlSettings.setOnClickListener(this);
-        mainBinding.rlUsb.setOnClickListener(this);
-        mainBinding.rlAv.setOnClickListener(this);
-        mainBinding.rlHdmi1.setOnClickListener(this);
-        mainBinding.rlHdmi2.setOnClickListener(this);
-        mainBinding.rlVga.setOnClickListener(this);
-        mainBinding.rlManual.setOnClickListener(this);
-        mainBinding.rlWifi.setOnClickListener(this);
-        mainBinding.rlBluetooth.setOnClickListener(this);
-        mainBinding.rlWallpapers.setOnClickListener(this);
-        mainBinding.rlApps.setOnHoverListener(this);
-        mainBinding.rlGoogle.setOnHoverListener(this);
-        mainBinding.rlSettings.setOnHoverListener(this);
-        mainBinding.rlUsb.setOnHoverListener(this);
-        mainBinding.rlAv.setOnHoverListener(this);
-        mainBinding.rlHdmi1.setOnHoverListener(this);
-        mainBinding.rlHdmi2.setOnHoverListener(this);
-        mainBinding.rlVga.setOnHoverListener(this);
-        mainBinding.rlManual.setOnHoverListener(this);
-        mainBinding.rlWifi.setOnHoverListener(this);
-        mainBinding.rlBluetooth.setOnHoverListener(this);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mainBinding.shortcutsRv.addItemDecoration(new SpacesItemDecoration(0,
-                (int) (getWindowManager().getDefaultDisplay().getWidth() * 0.03), 0, 0));
-        mainBinding.shortcutsRv.setLayoutManager(layoutManager);
-    }
+//    private void initViewCustom() {
+    //总共12个
+    //1 我的应用 新的UI放到recyclerView里面去了
+    //2 应用商店
+//        customBinding.rlGoogle.setOnClickListener(this);
+//        customBinding.rlGoogle.setOnHoverListener(this);
+//        customBinding.rlGoogle.setOnFocusChangeListener(this);
+//        //3 设置
+//        customBinding.rlSettings.setOnClickListener(this);
+//        customBinding.rlSettings.setOnHoverListener(this);
+//        customBinding.rlSettings.setOnFocusChangeListener(this);
+//        //4 文件管理
+//        customBinding.rlUsb.setOnClickListener(this);
+//        customBinding.rlUsb.setOnHoverListener(this);
+//        customBinding.rlUsb.setOnFocusChangeListener(this);
+//        //5 HDMI 1
+//        customBinding.rlHdmi1.setOnClickListener(this);
+//        customBinding.rlHdmi1.setOnHoverListener(this);
+//        customBinding.rlHdmi1.setOnFocusChangeListener(this);
+//        //6 rl_av
+//        //7 rl_hdmi2
+//        //8 rl_vga
+//        //9 rl_manual 说明书，新的UI没这个功能
+//        //10 wifi
+//        customBinding.rlWifi.setOnClickListener(this);
+//        customBinding.rlWifi.setOnHoverListener(this);
+//        customBinding.rlWifi.setOnFocusChangeListener(this);
+//        //11 蓝牙
+//        customBinding.rlBluetooth.setOnClickListener(this);
+//        customBinding.rlBluetooth.setOnHoverListener(this);
+//        customBinding.rlBluetooth.setOnFocusChangeListener(this);
+//        //12 切换背景
+//        customBinding.rlWallpapers.setOnClickListener(this);
+//        customBinding.rlWallpapers.setOnHoverListener(this);
+//        customBinding.rlWallpapers.setOnFocusChangeListener(this);
+//        //13 Eshare
+//        customBinding.homeEshare.setOnClickListener(this);
+//        customBinding.homeEshare.setOnHoverListener(this);
+//        customBinding.homeEshare.setOnFocusChangeListener(this);
+//        //14 Netflix
+//        customBinding.homeNetflix.setOnClickListener(this);
+//        customBinding.homeNetflix.setOnHoverListener(this);
+//        customBinding.homeNetflix.setOnFocusChangeListener(this);
+//        //15 Youtube
+//        customBinding.homeYoutube.setOnClickListener(this);
+//        customBinding.homeYoutube.setOnHoverListener(this);
+//        customBinding.homeYoutube.setOnFocusChangeListener(this);
+//        //16 迪士尼
+//        customBinding.homeDisney.setOnClickListener(this);
+//        customBinding.homeDisney.setOnHoverListener(this);
+//        customBinding.homeDisney.setOnFocusChangeListener(this);
+    //17 首页Usb插入、拔出图标
+//        customBinding.usbConnect
+//        //18 电池状态
+//        initBattery();
+//        //19 U盘插入
+//        customBinding.rlUsbConnect.setOnClickListener(this);
+//        customBinding.rlUsbConnect.setOnHoverListener(this);
+//        customBinding.rlUsbConnect.setOnFocusChangeListener(this);
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this) {
+//            @Override
+//            public boolean canScrollHorizontally() {
+//                // 禁用水平滚动
+//                return false;
+//            }
+//        };
+//        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+////        customBinding.shortcutsRv.addItemDecoration(new SpacesItemDecoration(0,
+////                (int) (getWindowManager().getDefaultDisplay().getWidth() * 0.03), 0, 0));
+//        //定义Item之间的间距
+//        customBinding.shortcutsRv.addItemDecoration(new SpacesItemDecoration(0,
+//                (int) getResources().getDimension(R.dimen.x_43), 0, 0));
+//        customBinding.shortcutsRv.setLayoutManager(layoutManager);
+//    }
 
     private void initViewCustom() {
-
-        //总共12个
-        //1 我的应用 新的UI放到recyclerView里面去了
-
-        //2 应用商店
-        customBinding.rlGoogle.setOnClickListener(this);
-        customBinding.rlGoogle.setOnHoverListener(this);
-        customBinding.rlGoogle.setOnFocusChangeListener(this);
-        //3 设置
-        customBinding.rlSettings.setOnClickListener(this);
-        customBinding.rlSettings.setOnHoverListener(this);
-        customBinding.rlSettings.setOnFocusChangeListener(this);
-        //4 文件管理
-        customBinding.rlUsb.setOnClickListener(this);
-        customBinding.rlUsb.setOnHoverListener(this);
-        customBinding.rlUsb.setOnFocusChangeListener(this);
-        //5 HDMI 1
-        customBinding.rlHdmi1.setOnClickListener(this);
-        customBinding.rlHdmi1.setOnHoverListener(this);
-        customBinding.rlHdmi1.setOnFocusChangeListener(this);
-        //6 rl_av
-        //7 rl_hdmi2
-        //8 rl_vga
-        //9 rl_manual 说明书，新的UI没这个功能
-        //10 wifi
-        customBinding.rlWifi.setOnClickListener(this);
-        customBinding.rlWifi.setOnHoverListener(this);
-        customBinding.rlWifi.setOnFocusChangeListener(this);
-        //11 蓝牙
-        customBinding.rlBluetooth.setOnClickListener(this);
-        customBinding.rlBluetooth.setOnHoverListener(this);
-        customBinding.rlBluetooth.setOnFocusChangeListener(this);
-        //12 切换背景
-        customBinding.rlWallpapers.setOnClickListener(this);
-        customBinding.rlWallpapers.setOnHoverListener(this);
-        customBinding.rlWallpapers.setOnFocusChangeListener(this);
-        //13 Eshare
-        customBinding.homeEshare.setOnClickListener(this);
-        customBinding.homeEshare.setOnHoverListener(this);
-        customBinding.homeEshare.setOnFocusChangeListener(this);
-        //14 Netflix
-        customBinding.homeNetflix.setOnClickListener(this);
-        customBinding.homeNetflix.setOnHoverListener(this);
-        customBinding.homeNetflix.setOnFocusChangeListener(this);
-        //15 Youtube
-        customBinding.homeYoutube.setOnClickListener(this);
-        customBinding.homeYoutube.setOnHoverListener(this);
-        customBinding.homeYoutube.setOnFocusChangeListener(this);
-        //16 迪士尼
-        customBinding.homeDisney.setOnClickListener(this);
-        customBinding.homeDisney.setOnHoverListener(this);
-        customBinding.homeDisney.setOnFocusChangeListener(this);
-        //17 首页Usb插入、拔出图标
-//        customBinding.usbConnect
-        //18 电池状态
-        initBattery();
-        //19 U盘插入
+        //U盘
         customBinding.rlUsbConnect.setOnClickListener(this);
         customBinding.rlUsbConnect.setOnHoverListener(this);
         customBinding.rlUsbConnect.setOnFocusChangeListener(this);
+        //信源
+        customBinding.rlSignalSource.setOnClickListener(this);
+        customBinding.rlSignalSource.setOnHoverListener(this);
+        customBinding.rlSignalSource.setOnFocusChangeListener(this);
+        //背景切换
+        customBinding.rlWallpapers.setOnClickListener(this);
+        customBinding.rlWallpapers.setOnHoverListener(this);
+        customBinding.rlWallpapers.setOnFocusChangeListener(this);
+        //蓝牙
+        customBinding.rlMuqiBt.setOnClickListener(this);
+        customBinding.rlMuqiBt.setOnHoverListener(this);
+        customBinding.rlMuqiBt.setOnFocusChangeListener(this);
+        //文件管理器
+        customBinding.rlMuqiUsb.setOnClickListener(this);
+        customBinding.rlMuqiUsb.setOnHoverListener(this);
+        customBinding.rlMuqiUsb.setOnFocusChangeListener(this);
+        //设置
+        customBinding.rlMuqiSettings.setOnClickListener(this);
+        customBinding.rlMuqiSettings.setOnHoverListener(this);
+        customBinding.rlMuqiSettings.setOnFocusChangeListener(this);
+        //wifi
+        customBinding.rlMuqiWifi.setOnClickListener(this);
+        customBinding.rlMuqiWifi.setOnHoverListener(this);
+        customBinding.rlMuqiWifi.setOnFocusChangeListener(this);
+        //icon1
+        customBinding.rlMuqiIcon1.setOnClickListener(this);
+        //icon2
+        customBinding.rlMuqiIcon2.setOnClickListener(this);
+        //icon3
+        customBinding.rlMuqiIcon3.setOnClickListener(this);
+        //icon4
+        customBinding.rlMuqiIcon4.setOnClickListener(this);
+        customBinding.rlMuqiIcon4.setOnHoverListener(this);
+        customBinding.rlMuqiIcon4.setOnFocusChangeListener(this);
+        customBinding.rlMuqiIcon4.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // 只在按下时处理
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
+                        case KeyEvent.KEYCODE_DPAD_LEFT:
+                            if (circularQueue != null) {
+                                circularQueue.moveLeft();
+                                update7Icon(circularQueue.front, circularQueue.rear);
+                            }
+                            if (getButtonSound()) {
+                                audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_DOWN);
+                            }
+//                            ToastUtil.showShortToast(getApplicationContext(),"向左移动");
+                            return true;
+                        case KeyEvent.KEYCODE_DPAD_RIGHT:
+                            if (circularQueue != null) {
+                                circularQueue.moveRight();
+                                update7Icon(circularQueue.front, circularQueue.rear);
+                            }
+                            if (getButtonSound()) {
+                                audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_DOWN);
+                            }
+//                            ToastUtil.showShortToast(getApplicationContext(),"向右移动");
+                            return true;
+
+                        case KeyEvent.KEYCODE_DPAD_UP:
+                        case KeyEvent.KEYCODE_DPAD_DOWN:
+
+                            return false;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+        //icon5
+        customBinding.rlMuqiIcon5.setOnClickListener(this);
+        //icon6
+        customBinding.rlMuqiIcon6.setOnClickListener(this);
+        //icon7
+        customBinding.rlMuqiIcon7.setOnClickListener(this);
+        //left
+        customBinding.muqiLeft.setOnClickListener(this);
+        //right
+        customBinding.muqiRight.setOnClickListener(this);
+        // 电池状态
+        initBattery();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this) {
             @Override
@@ -347,23 +457,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             }
         };
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//        customBinding.shortcutsRv.addItemDecoration(new SpacesItemDecoration(0,
-//                (int) (getWindowManager().getDefaultDisplay().getWidth() * 0.03), 0, 0));
         //定义Item之间的间距
         customBinding.shortcutsRv.addItemDecoration(new SpacesItemDecoration(0,
-                (int) getResources().getDimension(R.dimen.x_43), 0, 0));
+                (int) getResources().getDimension(R.dimen.x_20), 0, 0));
         customBinding.shortcutsRv.setLayoutManager(layoutManager);
-    }
-
-    private void initData() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initDataApp();
-                short_list = loadHomeAppData();
-                handler.sendEmptyMessage(202);
-            }
-        }).start();
     }
 
     public void initBattery() {
@@ -513,7 +610,25 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 initDataApp();
                 short_list = loadHomeAppData();
                 Log.d(TAG, " initDataCustom快捷图标 short_list " + short_list.size());
-                handler.sendEmptyMessage(204);
+//                handler.sendEmptyMessage(204);
+                appInfoBeans = AppUtils.getApplicationMsg(MainActivity.this);
+                if (appInfoBeans != null) {
+                    circularQueue = new CircularQueue<>(appInfoBeans);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // 设置首页的配置图标
+                            try {
+                                update7Icon(circularQueue.front, circularQueue.rear);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+//                handler.sendEmptyMessage(204);
+                }
+                handler.sendEmptyMessage(205);
             }
         }).start();
     }
@@ -585,9 +700,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     }
 
-    ShortcutsAdapter.ItemCallBack itemCallBack = new ShortcutsAdapter.ItemCallBack() {
-        @Override
-        public void onItemClick(int i) {
+//    ShortcutsAdapter.ItemCallBack itemCallBack = new ShortcutsAdapter.ItemCallBack() {
+//        @Override
+//        public void onItemClick(int i) {
 //            if (i < short_list.size()) {
 //                if (short_list.get(i).getAppname() != null) {
 //                    AppUtils.startNewApp(MainActivity.this, short_list.get(i).getPackageName());
@@ -608,10 +723,33 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 //            } else {
 //                AppUtils.startNewActivity(MainActivity.this, AppFavoritesActivity.class);
 //            }
+//        }
+//    };
+
+    ShortcutsAdapterCustom.ItemCallBack itemCallBackCustom = new ShortcutsAdapterCustom.ItemCallBack() {
+        @Override
+        public void onItemClick(int i, String name) {
+            if (i < short_list.size()) {
+
+                Log.d(TAG, " xuhao执行点击前 " + i);
+                if (i == 0) {
+                    Log.d(TAG, " 打开APP详情页");
+                    startNewActivity(AppsActivity.class);
+                    return;
+                }
+                Log.d(TAG, " short_list.get(i).getPackageName() " + short_list.get(i).getPackageName());
+                if (!AppUtils.startNewApp(MainActivity.this, short_list.get(i).getPackageName())) {
+                    appName = name;
+                    requestChannelData();
+                }
+
+            } else {
+                AppUtils.startNewActivity(MainActivity.this, AppFavoritesActivity.class);
+            }
         }
     };
 
-    ShortcutsAdapterCustom.ItemCallBack itemCallBackCustom = new ShortcutsAdapterCustom.ItemCallBack() {
+    ShortcutsAdapterMuQi.ItemCallBack itemCallBackMuQi = new ShortcutsAdapterMuQi.ItemCallBack() {
         @Override
         public void onItemClick(int i, String name) {
             if (i < short_list.size()) {
@@ -693,52 +831,13 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     @Override
     public void onClick(View v) {
-
-
         String appname = null;
         String action = null;
-
         switch (v.getId()) {
-
-            case R.id.rl_wallpapers:
-                startNewActivity(WallPaperActivity.class);
-                break;
-            case R.id.rl_Google:
-
-                appname = DBUtils.getInstance(this).getAppNameByTag("icon4");
-                action = DBUtils.getInstance(this).getActionByTag("icon4");
-                Log.d(TAG, " appnameaction" + appname + " " + action);
-
-                if (appname != null && action != null && !appname.equals("") && !action.equals("")) {
-                    if (!AppUtils.startNewApp(MainActivity.this, action)) {
-                        appName = appname;
-                        requestChannelData();
-                    }
-
-                } else {
-                    AppUtils.startNewApp(MainActivity.this, "com.htc.storeos");
-                }
-
-//                AppUtils.startNewApp(MainActivity.this, "com.htc.storeos");
-                break;
-            case R.id.rl_apps:
-                startNewActivity(AppsActivity.class);
-                break;
-            case R.id.rl_settings:
-                startNewActivity(MainSettingActivity.class);
-                break;
-            case R.id.rl_usb:
-//                AppUtils.startNewApp(MainActivity.this, "com.softwinner.TvdFileManager");
-                AppUtils.startNewApp(MainActivity.this, "com.hisilicon.explorer");
-                break;
             case R.id.rl_usb_connect:
                 AppUtils.startNewApp(MainActivity.this, "com.hisilicon.explorer");
                 break;
-            case R.id.rl_av:
-                startSource("CVBS1");
-                break;
-            case R.id.rl_hdmi1:
-//                startSource("HDMI1");
+            case R.id.signal_source:
                 try {
                     String listaction = DBUtils.getInstance(this).getActionFromListModules("list3");
                     if (listaction != null && !listaction.equals("")) { //读取配置
@@ -750,107 +849,50 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     e.printStackTrace();
                 }
                 break;
-            case R.id.rl_hdmi2:
-                startSource("HDMI2");
-                break;
-            case R.id.rl_vga:
-                startSource("VGA");
-                break;
-            case R.id.rl_manual:
-                ManualQrDialog manualQrDialog = new ManualQrDialog(this, R.style.DialogTheme);
-                manualQrDialog.show();
-                break;
-            case R.id.rl_wifi:
-                startNewActivity(WifiActivity.class);
+            case R.id.rl_wallpapers:
+                startNewActivity(WallPaperActivity.class);
                 break;
             case R.id.rl_bluetooth:
                 startNewActivity(BluetoothActivity.class);
                 break;
-            case R.id.home_eshare:
-                try {
-                    String listaction = DBUtils.getInstance(this).getActionFromListModules("list1");
-                    if (listaction != null && !listaction.equals("")) { //读取配置
-                        goAction(listaction);
-                    } else {// 默认跳转
-                        AppUtils.startNewApp(MainActivity.this, "com.ecloud.eshare.server");
+            case R.id.rl_muqi_usb:
+                AppUtils.startNewApp(MainActivity.this, "com.hisilicon.explorer");
+                break;
+            case R.id.rl_muqi_settings:
+                startNewActivity(MainSettingActivity.class);
+                break;
+            case R.id.rl_muqi_icon4:
+                if (appInfoBeans != null && circularQueue != null) {
+                    int icon4position = -1;
+                    if (circularQueue.front + 3 < appInfoBeans.size()) {
+                        icon4position = circularQueue.front + 3;
+                    } else if (circularQueue.front + 3 == appInfoBeans.size()) {
+                        icon4position = 0;
+                    } else if (circularQueue.front + 3 > appInfoBeans.size()) {
+                        icon4position = circularQueue.front + 3 - appInfoBeans.size();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    AppUtils.startNewApp(MainActivity.this, appInfoBeans.get(icon4position).getApppackagename());
                 }
                 break;
-            case R.id.home_disney:
-                Log.d("xuhao", "打开迪士尼");
-
-                appname = DBUtils.getInstance(this).getAppNameByTag("icon3");
-                action = DBUtils.getInstance(this).getActionByTag("icon3");
-
-                if (appname != null && action != null && !appname.equals("") && !action.equals("")) {
-                    if (!AppUtils.startNewApp(MainActivity.this, action)) {
-                        appName = appname;
-                        requestChannelData();
-                    }
-
-                } else if (!AppUtils.startNewApp(MainActivity.this, "com.disney.disneyplus")) {
-                    appName = "Disney+";
-                    requestChannelData();
+            case R.id.muqi_left:
+                if (circularQueue != null) {
+                    circularQueue.moveLeft();
+                    update7Icon(circularQueue.front, circularQueue.rear);
                 }
-//                AppUtils.startNewApp(MainActivity.this, "com.disney.disneyplus");
+                if (getButtonSound()) {
+                    audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_DOWN);
+                }
                 break;
-            case R.id.home_netflix:
-                Log.d("xuhao", "打开奈飞");
-
-                appname = DBUtils.getInstance(this).getAppNameByTag("icon1");
-                action = DBUtils.getInstance(this).getActionByTag("icon1");
-
-                if (appname != null && action != null && !appname.equals("") && !action.equals("")) {
-                    if (!AppUtils.startNewApp(MainActivity.this, action)) {
-                        Log.d("xuhao", "打开奈飞 第一个坑位不为空 " + appname + "2" + action + "3");
-                        appName = appname;
-                        requestChannelData();
-                    }
-
-                } else if (!AppUtils.startNewApp(MainActivity.this, "com.netflix.mediaclient")) {
-                    if (!AppUtils.startNewApp(MainActivity.this, "com.netflix.ninja")) {
-                        Log.d("xuhao", "打开奈飞 第一个坑位为空");
-                        appName = "Netflix";
-                        requestChannelData();
-                    }
+            case R.id.muqi_right:
+                if (circularQueue != null) {
+                    circularQueue.moveRight();
+                    update7Icon(circularQueue.front, circularQueue.rear);
                 }
-
-//                if (!AppUtils.startNewApp(MainActivity.this, "com.netflix.mediaclient")) {
-//                    appName = "Netflix";
-//                    requestChannelData();
-//                }
-//                AppUtils.startNewApp(MainActivity.this, "com.netflix.mediaclient");
-//                com.netflix.mediaclient 手机版
-//                com.netflix.ninja 电视版
-                break;
-            case R.id.home_youtube:
-                Log.d("xuhao", "打开YOUtube");
-
-                appname = DBUtils.getInstance(this).getAppNameByTag("icon2");
-                action = DBUtils.getInstance(this).getActionByTag("icon2");
-
-                if (appname != null && action != null && !appname.equals("") && !action.equals("")) {
-                    if (!AppUtils.startNewApp(MainActivity.this, action)) {
-                        appName = appname;
-                        requestChannelData();
-                    }
-
-                } else if (!AppUtils.startNewApp(MainActivity.this, "com.google.android.youtube.tv")) {
-                    appName = "Youtube";
-                    requestChannelData();
+                if (getButtonSound()) {
+                    audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_DOWN);
                 }
-
-
-//                if (!AppUtils.startNewApp(MainActivity.this, "com.google.android.youtube.tv")) {
-//                    appName = "Youtube";
-//                    requestChannelData();
-//                }
-//                AppUtils.startNewApp(MainActivity.this, "com.google.android.youtube.tv");
                 break;
         }
-
     }
 
     private void goAction(String listaction) {
@@ -969,17 +1011,17 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
         //设置首页的配置图标
         // 在主线程中更新 UI
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                // 设置首页的配置图标
-                try {
-                    setIconOrText();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                // 设置首页的配置图标
+//                try {
+//                    setIconOrText();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
         return isLoad;
     }
@@ -1030,7 +1072,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     }
 
-    private void readShortcuts(JSONObject obj, List<String> residentList, SharedPreferences sharedPreferences) {
+    private void readShortcuts(JSONObject obj, List<String> residentList, SharedPreferences
+            sharedPreferences) {
         try {
             if (obj.has("apps")) {
                 JSONArray jsonarrray = obj.getJSONArray("apps");
@@ -1170,7 +1213,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
         //xuhao add 默认添加我的应用按钮
         ShortInfoBean mshortInfoBean = new ShortInfoBean();
-        mshortInfoBean.setAppicon(ContextCompat.getDrawable(this, R.drawable.home_app_manager));
+        mshortInfoBean.setAppicon(ContextCompat.getDrawable(this, R.drawable.muqi_apps));
         shortInfoBeans.add(mshortInfoBean);
         //xuhao
 
@@ -1205,11 +1248,11 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         boolean isConnected = BluetoothUtils.getInstance(this)
                 .isBluetoothConnected();
         if (isConnected) {
-//            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_con);
-            customBinding.homeBluetooth.setImageResource(R.drawable.bt_custom_green);
-        } else {
-//            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_not);
-            customBinding.homeBluetooth.setImageResource(R.drawable.bt_custom2);
+////            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_con);
+//            customBinding.homeBluetooth.setImageResource(R.drawable.bt_custom_green);
+//        } else {
+////            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_not);
+//            customBinding.homeBluetooth.setImageResource(R.drawable.bt_custom2);
         }
     }
 
@@ -1220,7 +1263,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 //                        .getCurrentTime(this);
 //        mainBinding.timeTv.setText(builder);
 
-        customBinding.timeTv.setText(TimeUtils.getCurrentTime(this));
+//        customBinding.timeTv.setText(TimeUtils.getCurrentTime(this));
     }
 
 
@@ -1266,7 +1309,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     public void getWifiState(int state) {
         if (state == 1) {
 //            mainBinding.homeWifi.setBackgroundResource(R.drawable.wifi_not);
-            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_4);
+//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_4);
         }
     }
 
@@ -1332,29 +1375,29 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     @Override
     public void getWifiNumber(int count) {
 
-        List<ScanResult> wifiList = wifiManager.getScanResults();
-        Log.d(TAG, "getWifiNumber " + count);
-
-        if (count == 1) {
-            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_4);
-            return;
-        } else if (count == 3) {
-            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
-            return;
-        }
-
-        Log.d(TAG, " level数据" + count);
-        if (count < -85) {
-            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_1);
-        } else if (count < -70) {
-            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_2);
-        } else if (count < -60) {
-            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_3);
-        } else if (count < -50) {
-            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
-        } else {
-            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
-        }
+//        List<ScanResult> wifiList = wifiManager.getScanResults();
+//        Log.d(TAG, "getWifiNumber " + count);
+//
+//        if (count == 1) {
+//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_4);
+//            return;
+//        } else if (count == 3) {
+//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
+//            return;
+//        }
+//
+//        Log.d(TAG, " level数据" + count);
+//        if (count < -85) {
+//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_1);
+//        } else if (count < -70) {
+//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_2);
+//        } else if (count < -60) {
+//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_3);
+//        } else if (count < -50) {
+//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
+//        } else {
+//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
+//        }
     }
 
     @Override
@@ -1452,35 +1495,35 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     private void setMainApp() {
         Drawable drawable = DBUtils.getInstance(this).getIconDataByTag("icon1");
         if (drawable != null) {
-            customBinding.icon1.setImageDrawable(drawable);
+//            customBinding.icon1.setImageDrawable(drawable);
         }
 
         drawable = DBUtils.getInstance(this).getIconDataByTag("icon2");
         if (drawable != null) {
-            customBinding.icon2.setImageDrawable(drawable);
+//            customBinding.icon2.setImageDrawable(drawable);
         }
 
         drawable = DBUtils.getInstance(this).getIconDataByTag("icon3");
         if (drawable != null) {
-            customBinding.icon3.setImageDrawable(drawable);
+//            customBinding.icon3.setImageDrawable(drawable);
         }
 
         drawable = DBUtils.getInstance(this).getIconDataByTag("icon4");
         if (drawable != null) {
-            customBinding.icon4.setImageDrawable(drawable);
+//            customBinding.icon4.setImageDrawable(drawable);
         }
     }
 
     private void setListModules() {
         Drawable drawable = DBUtils.getInstance(this).getDrawableFromListModules("list1");
         if (drawable != null) {
-            customBinding.eshareIcon.setImageDrawable(drawable);
+//            customBinding.eshareIcon.setImageDrawable(drawable);
             drawable = null;
         }
 
         drawable = DBUtils.getInstance(this).getDrawableFromListModules("list3");
         if (drawable != null) {
-            customBinding.hdmiIcon.setImageDrawable(drawable);
+//            customBinding.hdmiIcon.setImageDrawable(drawable);
             drawable = null;
         }
 
@@ -1493,7 +1536,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             String text = mHashtable1.get(LanguageUtil.getCurrentLanguage());
             Log.d(TAG, "xu当前语言 text eshareText" + text);
             if (text != null && !text.isEmpty()) {
-                customBinding.eshareText.setText(text);
+//                customBinding.eshareText.setText(text);
             }
 
 //            switch (LanguageUtil.getCurrentLanguage()) {
@@ -1553,7 +1596,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             String text = mHashtable2.get(LanguageUtil.getCurrentLanguage());
             Log.d(TAG, "xu当前语言 text hdmiText" + text);
             if (text != null && !text.isEmpty()) {
-                customBinding.hdmiText.setText(text);
+//                customBinding.hdmiText.setText(text);
             }
 //            switch (LanguageUtil.getCurrentLanguage()) {
 //                case "zh-CN":
@@ -1908,6 +1951,54 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 }
             }
         }
+    }
+
+    private void update7Icon(int front, int rear) {
+        if (appInfoBeans != null && appInfoBeans.size() >= 7) {
+            // 创建图标和文本视图的数组
+            ImageView[] iconViews = {
+                    customBinding.muqiIcon1, customBinding.muqiIcon2, customBinding.muqiIcon3,
+                    customBinding.muqiIcon4, customBinding.muqiIcon5, customBinding.muqiIcon6,
+                    customBinding.muqiIcon7
+            };
+
+            TextView[] textViews = {
+                    customBinding.muqiText1, customBinding.muqiText2, customBinding.muqiText3,
+                    customBinding.muqiText4, customBinding.muqiText5, customBinding.muqiText6,
+                    customBinding.muqiText7
+            };
+
+            int size = appInfoBeans.size();
+            int i = 0;
+
+            if (front < rear) {
+                // 正常情况，front 小于 rear
+                for (int index = front; index <= rear; index++, i++) {
+                    iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
+                    textViews[i].setText(appInfoBeans.get(index).getAppname());
+                }
+            } else {
+                // 循环队列情况，front 大于 rear
+                // 先处理 front 到队列末尾
+                for (int index = front; index < size; index++, i++) {
+                    iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
+                    textViews[i].setText(appInfoBeans.get(index).getAppname());
+                }
+                // 再处理从队列起始到 rear
+                for (int index = 0; index <= rear; index++, i++) {
+                    iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
+                    textViews[i].setText(appInfoBeans.get(index).getAppname());
+                }
+            }
+        } else {
+            // 处理条件不满足的情况
+            Log.d(TAG, " App数量太少都没满足7个");
+        }
+    }
+
+    private boolean getButtonSound(){
+        return Settings.System.getInt(getContentResolver(),
+                Settings.System.SOUND_EFFECTS_ENABLED, 0)==1;
     }
 
 }
