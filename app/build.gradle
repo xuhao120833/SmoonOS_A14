@@ -13,7 +13,7 @@ android {
         applicationId "com.htc.luminaos"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 3
+        versionCode 1
         versionName releaseTime()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -66,7 +66,7 @@ android {
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 // 显示app名称+当前版本号
-                def fileName = "LuminaOS_QZ-V${variant.versionCode}"
+                def fileName = "MuqiOS-V${variant.versionCode}"
                 // 如果有渠道，显示渠道名""
                 if (variant.flavorName!=""){
                     fileName = fileName + "-${variant.flavorName}"

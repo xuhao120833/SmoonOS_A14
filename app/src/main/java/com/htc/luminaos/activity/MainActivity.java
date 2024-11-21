@@ -273,7 +273,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             if ((boolean) ShareUtil.get(this, Contants.MODIFY, false)) {
                 short_list = loadHomeAppData();
 //            handler.sendEmptyMessage(202);
-                handler.sendEmptyMessage(204);
+//                handler.sendEmptyMessage(204);
+                handler.sendEmptyMessage(205);
                 ShareUtil.put(this, Contants.MODIFY, false);
             }
             Log.d(TAG, " onResume快捷图标 short_list " + short_list.size());
@@ -282,82 +283,6 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
 
     }
-
-//    private void initViewCustom() {
-    //总共12个
-    //1 我的应用 新的UI放到recyclerView里面去了
-    //2 应用商店
-//        customBinding.rlGoogle.setOnClickListener(this);
-//        customBinding.rlGoogle.setOnHoverListener(this);
-//        customBinding.rlGoogle.setOnFocusChangeListener(this);
-//        //3 设置
-//        customBinding.rlSettings.setOnClickListener(this);
-//        customBinding.rlSettings.setOnHoverListener(this);
-//        customBinding.rlSettings.setOnFocusChangeListener(this);
-//        //4 文件管理
-//        customBinding.rlUsb.setOnClickListener(this);
-//        customBinding.rlUsb.setOnHoverListener(this);
-//        customBinding.rlUsb.setOnFocusChangeListener(this);
-//        //5 HDMI 1
-//        customBinding.rlHdmi1.setOnClickListener(this);
-//        customBinding.rlHdmi1.setOnHoverListener(this);
-//        customBinding.rlHdmi1.setOnFocusChangeListener(this);
-//        //6 rl_av
-//        //7 rl_hdmi2
-//        //8 rl_vga
-//        //9 rl_manual 说明书，新的UI没这个功能
-//        //10 wifi
-//        customBinding.rlWifi.setOnClickListener(this);
-//        customBinding.rlWifi.setOnHoverListener(this);
-//        customBinding.rlWifi.setOnFocusChangeListener(this);
-//        //11 蓝牙
-//        customBinding.rlBluetooth.setOnClickListener(this);
-//        customBinding.rlBluetooth.setOnHoverListener(this);
-//        customBinding.rlBluetooth.setOnFocusChangeListener(this);
-//        //12 切换背景
-//        customBinding.rlWallpapers.setOnClickListener(this);
-//        customBinding.rlWallpapers.setOnHoverListener(this);
-//        customBinding.rlWallpapers.setOnFocusChangeListener(this);
-//        //13 Eshare
-//        customBinding.homeEshare.setOnClickListener(this);
-//        customBinding.homeEshare.setOnHoverListener(this);
-//        customBinding.homeEshare.setOnFocusChangeListener(this);
-//        //14 Netflix
-//        customBinding.homeNetflix.setOnClickListener(this);
-//        customBinding.homeNetflix.setOnHoverListener(this);
-//        customBinding.homeNetflix.setOnFocusChangeListener(this);
-//        //15 Youtube
-//        customBinding.homeYoutube.setOnClickListener(this);
-//        customBinding.homeYoutube.setOnHoverListener(this);
-//        customBinding.homeYoutube.setOnFocusChangeListener(this);
-//        //16 迪士尼
-//        customBinding.homeDisney.setOnClickListener(this);
-//        customBinding.homeDisney.setOnHoverListener(this);
-//        customBinding.homeDisney.setOnFocusChangeListener(this);
-    //17 首页Usb插入、拔出图标
-//        customBinding.usbConnect
-//        //18 电池状态
-//        initBattery();
-//        //19 U盘插入
-//        customBinding.rlUsbConnect.setOnClickListener(this);
-//        customBinding.rlUsbConnect.setOnHoverListener(this);
-//        customBinding.rlUsbConnect.setOnFocusChangeListener(this);
-//
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this) {
-//            @Override
-//            public boolean canScrollHorizontally() {
-//                // 禁用水平滚动
-//                return false;
-//            }
-//        };
-//        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-////        customBinding.shortcutsRv.addItemDecoration(new SpacesItemDecoration(0,
-////                (int) (getWindowManager().getDefaultDisplay().getWidth() * 0.03), 0, 0));
-//        //定义Item之间的间距
-//        customBinding.shortcutsRv.addItemDecoration(new SpacesItemDecoration(0,
-//                (int) getResources().getDimension(R.dimen.x_43), 0, 0));
-//        customBinding.shortcutsRv.setLayoutManager(layoutManager);
-//    }
 
     private void initViewCustom() {
         //U盘
@@ -837,10 +762,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             case R.id.rl_usb_connect:
                 AppUtils.startNewApp(MainActivity.this, "com.hisilicon.explorer");
                 break;
-            case R.id.signal_source:
+            case R.id.rl_signal_source:
                 try {
                     String listaction = DBUtils.getInstance(this).getActionFromListModules("list3");
-                    if (listaction != null && !listaction.equals("")) { //读取配置
+                    if (listaction != null && !listaction.isEmpty()) { //读取配置
                         goAction(listaction);
                     } else {// 默认跳转
                         startSource("HDMI1");
@@ -852,7 +777,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             case R.id.rl_wallpapers:
                 startNewActivity(WallPaperActivity.class);
                 break;
-            case R.id.rl_bluetooth:
+            case R.id.rl_muqi_bt:
                 startNewActivity(BluetoothActivity.class);
                 break;
             case R.id.rl_muqi_usb:
@@ -860,6 +785,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 break;
             case R.id.rl_muqi_settings:
                 startNewActivity(MainSettingActivity.class);
+                break;
+            case R.id.rl_muqi_wifi:
+                startNewActivity(WifiActivity.class);
                 break;
             case R.id.rl_muqi_icon4:
                 if (appInfoBeans != null && circularQueue != null) {
@@ -911,6 +839,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     }
 
     private void startSource(String sourceName) {
+        Log.d(TAG, " startSource启动信源 " + sourceName);
         Intent intent_hdmi = new Intent();
         intent_hdmi.setComponent(new ComponentName("com.softwinner.awlivetv", "com.softwinner.awlivetv.MainActivity"));
         intent_hdmi.putExtra("input_source", sourceName);
@@ -1996,9 +1925,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
     }
 
-    private boolean getButtonSound(){
+    private boolean getButtonSound() {
         return Settings.System.getInt(getContentResolver(),
-                Settings.System.SOUND_EFFECTS_ENABLED, 0)==1;
+                Settings.System.SOUND_EFFECTS_ENABLED, 0) == 1;
     }
 
 }

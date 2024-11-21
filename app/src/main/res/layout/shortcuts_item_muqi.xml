@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/x_91"
+    android:layout_height="@dimen/x_125"
     android:id="@+id/rl_item"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:background="@drawable/muqi_shortcuts_focus_bg"
-    android:layout_margin="@dimen/y_3"
     style="@style/focusStyle"
     android:clickable="true"
     android:orientation="vertical">
@@ -16,19 +15,25 @@
         android:layout_width="@dimen/x_70"
         android:layout_height="@dimen/y_70"
         android:layout_gravity="center"
-        android:padding="@dimen/x_3"
+        android:layout_marginTop="@dimen/y_15"
+        android:layout_marginStart="@dimen/x_10"
+        android:layout_marginEnd="@dimen/x_10"
+        android:layout_marginBottom="@dimen/y_10"
         android:src="@drawable/muqi_shortcutsapp"
+        android:scaleType="fitXY"
         android:duplicateParentState="true" />
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/x_80"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
-        android:singleLine="true"
         android:text="Add"
+        android:layout_marginBottom="@dimen/y_10"
         android:textColor="@color/white"
+        android:singleLine="true"
+        android:ellipsize="marquee"
         android:textSize="@dimen/x_15" />
 
 </LinearLayout>

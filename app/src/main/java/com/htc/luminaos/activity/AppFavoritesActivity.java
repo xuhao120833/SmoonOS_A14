@@ -84,17 +84,14 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 	}
 
 	public void initView() {
-
 		appfavorites_gridview =  findViewById(R.id.appfavorites_gridview);
 		select_number_tv =  findViewById(R.id.select_number_tv);
-
 	}
 
 
 	public void initData() {
 		initReceiver();
 		loadDataApp();
-		
 	}
 
 
@@ -119,17 +116,12 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 	 * 注销广播
 	 */
 	private void destoryReceiver() {
-
-
 		if (appReceiver != null) {
 			unregisterReceiver(appReceiver);
 		}
-
-
 	}
 
 	private void initReceiver() {
-
 		// app
 		appFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
 		appFilter.addAction(Intent.ACTION_PACKAGE_REPLACED);
@@ -137,7 +129,6 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 		appFilter.addDataScheme("package");
 		appReceiver = new AppReceiver(this);
 		registerReceiver(appReceiver, appFilter);
-
 	}
 
 
@@ -149,9 +140,7 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 		} else {
 			select_number_tv.setText("0/0");
 		}
-
 		appfavorites_gridview.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
@@ -160,11 +149,8 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 							getString(R.string.resident_app));
 					return;
 				}
-
 				list.get(position).setCheck(!list.get(position).isCheck());
-
 				select_number_tv.setText((position + 1) + "/" + list.size());
-
 				int count = 0;
 				for (int i = 0; i < list.size(); i++) {
 					if (list.get(i).isCheck()) {
@@ -174,7 +160,6 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 				}
 				Log.d(tag," 快捷栏数量 count "+count);
 				Log.d(tag," 快捷栏数量 getFavoritesCount() "+DBUtils.getInstance(getApplicationContext()).getFavoritesCount());
-
 				//这里得分两种情况，有配置文件和没有配置文件
 				int favorites =0;
 				int max =0;
@@ -184,7 +169,7 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 				}
 				if (!file.exists()) {
 					favorites = count;
-					max = 7;
+					max = 9;
 					Log.d(tag," 快捷栏数量 !file.exists() ");
 					if (favorites > max) {// count>favorites是新增
 						list.get(position)
@@ -216,7 +201,7 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 					}
 				}else {
 					favorites = DBUtils.getInstance(getApplicationContext()).getFavoritesCount();
-					max = 6;
+					max = 9;
 					Log.d(tag," 快捷栏数量 file.exists() ");
 					if (favorites > max && list.get(position).isCheck()) {
 						list.get(position)
@@ -250,12 +235,10 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 			}
 		});
 
-		appfavorites_gridview
-				.setOnItemSelectedListener(new OnItemSelectedListener() {
+		appfavorites_gridview.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 					@Override
-					public void onItemSelected(AdapterView<?> parent,
-                                               View view, int position, long id) {
+					public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 						
 						selected = position;
 						select_number_tv.setText((selected + 1) + "/"
@@ -341,7 +324,6 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 				.getApplicationMsg(AppFavoritesActivity.this);
 		ArrayList<AppSimpleBean> simpleList = DBUtils.getInstance(
 				AppFavoritesActivity.this).getFavorites();
-
 		for (int i = 0; i < simpleList.size(); i++) {
 			for (int j = 0; j < mList.size(); j++) {
 				if (simpleList.get(i).getPackagename()
@@ -350,27 +332,21 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 				}
 			}
 		}
-
 		if (mList != null) {
 			list = mList;
 			loadAllApp();
 		}
-
 	}
 
 
 
 	private class AppTask extends AsyncTask<Void, Void, Object> {
-
 		@Override
 		protected Object doInBackground(Void... arg0) {
-			
-
 			ArrayList<AppInfoBean> list = AppUtils
 					.getApplicationMsg(AppFavoritesActivity.this);
 			ArrayList<AppSimpleBean> simpleList = DBUtils.getInstance(
 					AppFavoritesActivity.this).getFavorites();
-
 			for (int i = 0; i < simpleList.size(); i++) {
 				for (int j = 0; j < list.size(); j++) {
 					if (simpleList.get(i).getPackagename()
@@ -379,20 +355,16 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 					}
 				}
 			}
-
 			return list;
 		}
-
 		@Override
 		protected void onPostExecute(Object result) {
-			
 			super.onPostExecute(result);
 			if (result != null) {
 				list = (ArrayList<AppInfoBean>) result;
 				mHandler.sendEmptyMessage(Handler_update);
 			}
 		}
-
 	}
 
 	private Handler mHandler = new Handler(new Handler.Callback() {

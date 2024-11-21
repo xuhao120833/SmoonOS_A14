@@ -3,7 +3,7 @@
     <!-- 焦点状态时的背景 -->
     <item android:state_focused="true">
         <shape android:shape="rectangle">
-            <solid android:color="@android:color/transparent" /> <!-- 背景透明 -->
+            <solid android:color="#33000000" /> <!-- 背景透明 -->
             <stroke
                 android:width="2px"
             android:color="@android:color/white" /> <!-- 白色边框 -->

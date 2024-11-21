@@ -17,12 +17,12 @@
 
         <ImageView
             android:id="@+id/brand"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/x_220"
             android:layout_height="wrap_content"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:layout_gravity="start|center_vertical"
-            android:src="@drawable/brand" />
+            android:src="@drawable/muqi_logo" />
 
     </FrameLayout>
 
@@ -272,6 +272,8 @@
             android:textColor="#ffffff"
             android:gravity="center"
             android:alpha="0.5"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             android:text="Netflix">
 
         </TextView>
@@ -312,6 +314,8 @@
             android:textColor="#ffffff"
             android:gravity="center"
             android:alpha="0.6"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             android:text="Youtube">
 
         </TextView>
@@ -352,6 +356,8 @@
             android:textColor="#ffffff"
             android:gravity="center"
             android:alpha="0.8"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             android:text="Chrome">
 
         </TextView>
@@ -367,6 +373,22 @@
         android:layout_marginStart="@dimen/x_32"
         android:layout_toEndOf="@+id/rl_muqi_icon3"
         android:clickable="true">
+
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/icon_card"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:cardCornerRadius="@dimen/y_30"-->
+<!--            app:cardElevation="0dp">-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/muqi_icon4"-->
+<!--                android:layout_width="@dimen/x_250"-->
+<!--                android:layout_height="@dimen/y_250"-->
+<!--                android:scaleType="fitXY"-->
+<!--                android:layout_centerInParent="true"-->
+<!--                android:src="@drawable/max" />-->
+<!--        </androidx.cardview.widget.CardView>-->
 
         <ImageView
             android:id="@+id/muqi_icon4"
@@ -392,6 +414,8 @@
             android:textColor="#ffffff"
             android:gravity="center"
             android:textStyle="bold"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             android:text="max">
 
         </TextView>
@@ -432,6 +456,8 @@
             android:textColor="#ffffff"
             android:gravity="center"
             android:alpha="0.8"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             android:text="Tving">
 
         </TextView>
@@ -471,6 +497,8 @@
             android:textColor="#ffffff"
             android:gravity="center"
             android:alpha="0.6"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             android:text="Hulu">
 
         </TextView>
@@ -511,6 +539,8 @@
             android:textColor="#ffffff"
             android:gravity="center"
             android:alpha="0.5"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             android:text="Disney">
 
         </TextView>
@@ -541,7 +571,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y_100"
+        android:layout_height="@dimen/y_126"
         android:id="@+id/shortcuts_rv"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/x_64"

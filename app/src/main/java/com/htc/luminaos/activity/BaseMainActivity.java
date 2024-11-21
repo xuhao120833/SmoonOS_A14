@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.htc.luminaos.MyApplication;
 import com.htc.luminaos.R;
@@ -33,6 +35,7 @@ import androidx.annotation.Nullable;
  */
 public class BaseMainActivity extends Activity implements View.OnClickListener, View.OnHoverListener, View.OnFocusChangeListener {
 
+    private static String TAG = "BaseMainActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,6 +121,18 @@ public class BaseMainActivity extends Activity implements View.OnClickListener, 
             animationSet.addAnimation(scaleAnimation);
             animationSet.setFillAfter(true);
             v.startAnimation(animationSet);
+            if (v.getId() == R.id.rl_muqi_icon4) {
+                Log.d(TAG," rl_muqi_icon4获取到焦点");
+                // 获取 rl_muqi_icon4 的父级布局
+                ViewGroup root = (ViewGroup) v.getParent().getParent();
+                ViewGroup rlmuqiText4 = root.findViewById(R.id.rl_muqi_text4);
+                // 通过 parentLayout 查找 muqi_text4
+                TextView muqiText4 = rlmuqiText4.findViewById(R.id.muqi_text4);
+                if (muqiText4 != null) {
+                    muqiText4.setSelected(true); // 启动跑马灯效果
+                }
+            }
+
         } else {
             ScaleAnimation scaleAnimation = new ScaleAnimation(1.10f, 1.0f,
                     1.10f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,

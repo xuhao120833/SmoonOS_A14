@@ -129,6 +129,7 @@ public class ShortcutsAdapterMuQi extends RecyclerView.Adapter<ShortcutsAdapterM
                     animationSet.setFillAfter(true);
                     ViewCompat.setTranslationZ(v, 10f);
                     v.startAnimation(animationSet);
+                    myViewHolder.name.setSelected(true);
                 } else {
                     ScaleAnimation scaleAnimation = new ScaleAnimation(1.10f, 1.0f,
                             1.10f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
@@ -138,6 +139,7 @@ public class ShortcutsAdapterMuQi extends RecyclerView.Adapter<ShortcutsAdapterM
                     animationSet.setFillAfter(true);
                     ViewCompat.setTranslationZ(v, 0f);
                     v.startAnimation(animationSet);
+                    myViewHolder.name.setSelected(false);
                 }
             }
         });
@@ -213,11 +215,11 @@ public class ShortcutsAdapterMuQi extends RecyclerView.Adapter<ShortcutsAdapterM
 
     @Override
     public int getItemCount() {
-        if (short_list.size() < 12) {
+//        if (short_list.size() < 10) {
             return short_list.size() + 1;
-        } else {
-            return short_list.size();
-        }
+//        } else {
+//            return short_list.size();
+//        }
     }
 
     @Override
@@ -252,7 +254,6 @@ public class ShortcutsAdapterMuQi extends RecyclerView.Adapter<ShortcutsAdapterM
 
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-
             AnimationSet animationSet = new AnimationSet(true);
             v.bringToFront();
             if (hasFocus) {

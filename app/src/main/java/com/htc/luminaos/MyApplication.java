@@ -171,7 +171,7 @@ public class MyApplication extends Application {
     private void initWallpaperData() {
 
         Utils.drawables.add(getResources().getDrawable(R.drawable.background_main));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.background_custom));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.background8));
         Utils.drawables.add(getResources().getDrawable(R.drawable.background1));
         Utils.drawables.add(getResources().getDrawable(R.drawable.background5));
         Utils.drawables.add(getResources().getDrawable(R.drawable.background10));
