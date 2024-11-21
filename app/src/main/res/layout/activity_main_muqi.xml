@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/y_40"
         android:layout_marginEnd="@dimen/x_20"
-        android:layout_toStartOf="@+id/rl_wallpapers"
+        android:layout_toStartOf="@+id/rl_clear_memory"
         android:background="@drawable/circle_bar_bg_custom"
         android:clickable="true">
 
@@ -85,6 +85,25 @@
             android:padding="@dimen/y_3"
             android:src="@drawable/bar_signal" />
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_clear_memory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_40"
+        android:layout_marginEnd="@dimen/x_20"
+        style="@style/focusStyle"
+        android:clickable="true"
+        android:background="@drawable/circle_bar_bg_custom"
+        android:layout_toStartOf="@+id/rl_wallpapers">
+
+        <ImageView
+            android:id="@+id/clear_memory"
+            android:layout_width="@dimen/x_60"
+            android:layout_height="@dimen/y_60"
+            android:padding="@dimen/y_3"
+            android:src="@drawable/bar_clean" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -153,7 +172,7 @@
         style="@style/focusStyle"
         android:clickable="true"
         android:background="@drawable/circle_bar_bg_custom"
-        android:layout_toStartOf="@+id/rl_muqi_wifi">
+        android:layout_toStartOf="@+id/rl_ethernet">
 
         <ImageView
             android:id="@+id/muqi_settings"
@@ -162,6 +181,26 @@
             android:padding="@dimen/y_2"
             android:layout_centerInParent="true"
             android:src="@drawable/muqi_settings" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_ethernet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y_40"
+        android:layout_marginEnd="@dimen/x_20"
+        style="@style/focusStyle"
+        android:clickable="true"
+        android:visibility="gone"
+        android:background="@drawable/circle_bar_bg_custom"
+        android:layout_toStartOf="@+id/rl_muqi_wifi">
+
+        <ImageView
+            android:id="@+id/home_ethernet"
+            android:layout_width="@dimen/x_60"
+            android:layout_height="@dimen/y_60"
+            android:padding="@dimen/y_3"
+            android:src="@drawable/bar_ethernet" />
     </RelativeLayout>
 
     <RelativeLayout

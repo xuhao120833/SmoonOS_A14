@@ -3,6 +3,7 @@ package com.htc.luminaos.activity;
 import static com.htc.luminaos.utils.BlurImageView.MAX_BITMAP_SIZE;
 import static com.htc.luminaos.utils.BlurImageView.narrowBitmap;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
@@ -19,6 +20,9 @@ import android.graphics.drawable.Drawable;
 import android.hardware.usb.UsbManager;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkRequest;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -187,6 +191,12 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     private CircularQueue circularQueue = null;
 
+    private ConnectivityManager connectivityManager;
+
+    private ConnectivityManager.NetworkCallback networkCallback;
+
+    private boolean isEther = false;
+
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -214,6 +224,16 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     requestFlag = false;
                     if (channelData != null && channelData.getData().size() > 0) {
                         startAppFormChannel();
+                    }
+                    break;
+                case 0:
+                    if (customBinding.rlEthernet.getVisibility() == View.VISIBLE) {
+                        customBinding.rlEthernet.setVisibility(View.GONE);
+                    }
+                    break;
+                case 1:
+                    if (customBinding.rlEthernet.getVisibility() == View.GONE) {
+                        customBinding.rlEthernet.setVisibility(View.VISIBLE);
                     }
                     break;
             }
@@ -259,6 +279,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             devicesPathAdd();
 //            countUsbDevices(getApplicationContext());
             Log.d(TAG, " onCreate快捷图标 short_list " + short_list.size());
+            isEthernetConnect(getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -293,6 +314,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         customBinding.rlSignalSource.setOnClickListener(this);
         customBinding.rlSignalSource.setOnHoverListener(this);
         customBinding.rlSignalSource.setOnFocusChangeListener(this);
+        //清除缓存
+        customBinding.rlClearMemory.setOnClickListener(this);
+        customBinding.rlClearMemory.setOnHoverListener(this);
+        customBinding.rlClearMemory.setOnFocusChangeListener(this);
         //背景切换
         customBinding.rlWallpapers.setOnClickListener(this);
         customBinding.rlWallpapers.setOnHoverListener(this);
@@ -774,6 +799,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     e.printStackTrace();
                 }
                 break;
+            case R.id.rl_clear_memory:
+                goAction("com.htc.clearmemory/com.htc.clearmemory.MainActivity");
+                break;
             case R.id.rl_wallpapers:
                 startNewActivity(WallPaperActivity.class);
                 break;
@@ -824,17 +852,21 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     }
 
     private void goAction(String listaction) {
-        Log.d(TAG, " goAction list配置跳转 " + listaction);
-        if (listaction.contains("/")) {
-            String[] parts = listaction.split("/", 2);
-            String packageName = parts[0];
-            String activityName = parts[1];
-            Log.d(TAG, " goAction 包名活动名 " + packageName + " " + activityName);
-            startNewActivity(packageName, activityName);
-        } else if (listaction.equals("HDMI1") || listaction.equals("HDMI2") || listaction.equals("VGA") || listaction.equals("CVBS1")) {
-            startSource(listaction);
-        } else {
-            AppUtils.startNewApp(MainActivity.this, listaction);
+        try {
+            Log.d(TAG, " goAction list配置跳转 " + listaction);
+            if (listaction.contains("/")) {
+                String[] parts = listaction.split("/", 2);
+                String packageName = parts[0];
+                String activityName = parts[1];
+                Log.d(TAG, " goAction 包名活动名 " + packageName + " " + activityName);
+                startNewActivity(packageName, activityName);
+            } else if (listaction.equals("HDMI1") || listaction.equals("HDMI2") || listaction.equals("VGA") || listaction.equals("CVBS1")) {
+                startSource(listaction);
+            } else {
+                AppUtils.startNewApp(MainActivity.this, listaction);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -1930,4 +1962,52 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 Settings.System.SOUND_EFFECTS_ENABLED, 0) == 1;
     }
 
+    /**
+     * android 11 检测以太网连接
+     *
+     * @param context
+     * @return
+     */
+    @SuppressLint("MissingPermission")
+    public boolean isEthernetConnect(Context context) {
+        try {
+            connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (connectivityManager != null) {
+                // 以太网已连接
+                // 以太网已断开
+                networkCallback = new ConnectivityManager.NetworkCallback() {
+                    @Override
+                    public void onAvailable(Network network) {
+                        super.onAvailable(network);
+                        // 以太网已连接
+                        isEther = true;
+                        handler.sendEmptyMessage(1);
+//                    Message msg = new Message();
+//                    msg.what = ETHERNET_HANDLE;
+//                    msg.arg1 = 1;
+//                    mHandler.sendMessage(msg);
+                    }
+
+                    @Override
+                    public void onLost(Network network) {
+                        super.onLost(network);
+                        // 以太网已断开
+                        isEther = false;
+                        handler.sendEmptyMessage(0);
+//                    Message msg2 = new Message();
+//                    msg2.what = ETHERNET_HANDLE;
+//                    msg2.arg1 = 0;
+//                    mHandler.sendMessage(msg2);
+                    }
+                };
+                NetworkRequest request = new NetworkRequest.Builder()
+                        .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
+                        .build();
+                connectivityManager.registerNetworkCallback(request, networkCallback);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isEther;
+    }
 }

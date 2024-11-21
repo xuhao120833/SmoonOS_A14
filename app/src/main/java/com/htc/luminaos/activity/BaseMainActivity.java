@@ -141,6 +141,17 @@ public class BaseMainActivity extends Activity implements View.OnClickListener, 
             scaleAnimation.setDuration(150);
             animationSet.setFillAfter(true);
             v.startAnimation(animationSet);
+//            if (v.getId() == R.id.rl_muqi_icon4) {
+//                Log.d(TAG," rl_muqi_icon4获取到焦点");
+//                // 获取 rl_muqi_icon4 的父级布局
+//                ViewGroup root = (ViewGroup) v.getParent().getParent();
+//                ViewGroup rlmuqiText4 = root.findViewById(R.id.rl_muqi_text4);
+//                // 通过 parentLayout 查找 muqi_text4
+//                TextView muqiText4 = rlmuqiText4.findViewById(R.id.muqi_text4);
+//                if (muqiText4 != null) {
+//                    muqiText4.setSelected(false); // 去掉跑马灯效果
+//                }
+//            }
         }
     }
 
