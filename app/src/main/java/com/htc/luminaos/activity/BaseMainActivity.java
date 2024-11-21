@@ -110,7 +110,6 @@ public class BaseMainActivity extends Activity implements View.OnClickListener, 
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-
         AnimationSet animationSet = new AnimationSet(true);
         v.bringToFront();
         if (hasFocus) {
@@ -124,15 +123,13 @@ public class BaseMainActivity extends Activity implements View.OnClickListener, 
             if (v.getId() == R.id.rl_muqi_icon4) {
                 Log.d(TAG," rl_muqi_icon4获取到焦点");
                 // 获取 rl_muqi_icon4 的父级布局
-                ViewGroup root = (ViewGroup) v.getParent().getParent();
-                ViewGroup rlmuqiText4 = root.findViewById(R.id.rl_muqi_text4);
+                ViewGroup rl_muqi_icon4 = (ViewGroup) v.getParent();
                 // 通过 parentLayout 查找 muqi_text4
-                TextView muqiText4 = rlmuqiText4.findViewById(R.id.muqi_text4);
+                TextView muqiText4 = rl_muqi_icon4.findViewById(R.id.muqi_text4);
                 if (muqiText4 != null) {
                     muqiText4.setSelected(true); // 启动跑马灯效果
                 }
             }
-
         } else {
             ScaleAnimation scaleAnimation = new ScaleAnimation(1.10f, 1.0f,
                     1.10f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
@@ -141,17 +138,16 @@ public class BaseMainActivity extends Activity implements View.OnClickListener, 
             scaleAnimation.setDuration(150);
             animationSet.setFillAfter(true);
             v.startAnimation(animationSet);
-//            if (v.getId() == R.id.rl_muqi_icon4) {
-//                Log.d(TAG," rl_muqi_icon4获取到焦点");
-//                // 获取 rl_muqi_icon4 的父级布局
-//                ViewGroup root = (ViewGroup) v.getParent().getParent();
-//                ViewGroup rlmuqiText4 = root.findViewById(R.id.rl_muqi_text4);
-//                // 通过 parentLayout 查找 muqi_text4
-//                TextView muqiText4 = rlmuqiText4.findViewById(R.id.muqi_text4);
-//                if (muqiText4 != null) {
-//                    muqiText4.setSelected(false); // 去掉跑马灯效果
-//                }
-//            }
+            if (v.getId() == R.id.rl_muqi_icon4) {
+                Log.d(TAG," rl_muqi_icon4获取到焦点");
+                // 获取 rl_muqi_icon4 的父级布局
+                ViewGroup rl_muqi_icon4 = (ViewGroup) v.getParent();
+                // 通过 parentLayout 查找 muqi_text4
+                TextView muqiText4 = rl_muqi_icon4.findViewById(R.id.muqi_text4);
+                if (muqiText4 != null) {
+                    muqiText4.setSelected(false); // 关闭跑马灯效果
+                }
+            }
         }
     }
 

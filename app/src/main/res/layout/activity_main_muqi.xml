@@ -290,18 +290,7 @@
             android:id="@+id/muqi_icon1"
             android:layout_width="@dimen/x_70"
             android:layout_height="@dimen/y_70"
-            android:layout_centerInParent="true"
             android:src="@drawable/netflix" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_muqi_text1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/x_39"
-        android:layout_toEndOf="@+id/rl_muqi_left"
-        android:layout_below="@id/rl_muqi_icon1">
 
         <TextView
             android:id="@+id/muqi_text1"
@@ -313,11 +302,36 @@
             android:alpha="0.5"
             android:singleLine="true"
             android:ellipsize="marquee"
+            android:layout_below="@+id/muqi_icon1"
             android:text="Netflix">
 
         </TextView>
 
     </RelativeLayout>
+
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/rl_muqi_text1"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/x_39"-->
+<!--        android:layout_toEndOf="@+id/rl_muqi_left"-->
+<!--        android:layout_below="@id/rl_muqi_icon1">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/muqi_text1"-->
+<!--            android:layout_width="@dimen/x_70"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="@dimen/y_15"-->
+<!--            android:textColor="#ffffff"-->
+<!--            android:gravity="center"-->
+<!--            android:alpha="0.5"-->
+<!--            android:singleLine="true"-->
+<!--            android:ellipsize="marquee"-->
+<!--            android:text="Netflix">-->
+
+<!--        </TextView>-->
+
+<!--    </RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/rl_muqi_icon2"
@@ -333,17 +347,7 @@
             android:id="@+id/muqi_icon2"
             android:layout_width="@dimen/x_100"
             android:layout_height="@dimen/y_100"
-            android:layout_centerInParent="true"
             android:src="@drawable/youtube" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_muqi_text2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/x_32"
-        android:layout_toEndOf="@+id/rl_muqi_icon1"
-        android:layout_below="@id/rl_muqi_icon2">
 
         <TextView
             android:id="@+id/muqi_text2"
@@ -355,11 +359,35 @@
             android:alpha="0.6"
             android:singleLine="true"
             android:ellipsize="marquee"
+            android:layout_below="@+id/muqi_icon2"
             android:text="Youtube">
 
         </TextView>
-
     </RelativeLayout>
+
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/rl_muqi_text2"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/x_32"-->
+<!--        android:layout_toEndOf="@+id/rl_muqi_icon1"-->
+<!--        android:layout_below="@id/rl_muqi_icon2">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/muqi_text2"-->
+<!--            android:layout_width="@dimen/x_100"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="@dimen/y_18"-->
+<!--            android:textColor="#ffffff"-->
+<!--            android:gravity="center"-->
+<!--            android:alpha="0.6"-->
+<!--            android:singleLine="true"-->
+<!--            android:ellipsize="marquee"-->
+<!--            android:text="Youtube">-->
+
+<!--        </TextView>-->
+
+<!--    </RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/rl_muqi_icon3"
@@ -375,17 +403,7 @@
             android:id="@+id/muqi_icon3"
             android:layout_width="@dimen/x_150"
             android:layout_height="@dimen/y_150"
-            android:layout_centerInParent="true"
             android:src="@drawable/chrome" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_muqi_text3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/x_32"
-        android:layout_toEndOf="@+id/rl_muqi_icon2"
-        android:layout_below="@id/rl_muqi_icon3">
 
         <TextView
             android:id="@+id/muqi_text3"
@@ -397,11 +415,35 @@
             android:alpha="0.8"
             android:singleLine="true"
             android:ellipsize="marquee"
+            android:layout_below="@+id/muqi_icon3"
             android:text="Chrome">
 
         </TextView>
-
     </RelativeLayout>
+
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/rl_muqi_text3"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/x_32"-->
+<!--        android:layout_toEndOf="@+id/rl_muqi_icon2"-->
+<!--        android:layout_below="@id/rl_muqi_icon3">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/muqi_text3"-->
+<!--            android:layout_width="@dimen/x_150"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="@dimen/y_24"-->
+<!--            android:textColor="#ffffff"-->
+<!--            android:gravity="center"-->
+<!--            android:alpha="0.8"-->
+<!--            android:singleLine="true"-->
+<!--            android:ellipsize="marquee"-->
+<!--            android:text="Chrome">-->
+
+<!--        </TextView>-->
+
+<!--    </RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/rl_muqi_icon4"
@@ -433,17 +475,7 @@
             android:id="@+id/muqi_icon4"
             android:layout_width="@dimen/x_250"
             android:layout_height="@dimen/y_250"
-            android:layout_centerInParent="true"
             android:src="@drawable/max" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_muqi_text4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/x_32"
-        android:layout_toEndOf="@+id/rl_muqi_icon3"
-        android:layout_below="@id/rl_muqi_icon4">
 
         <TextView
             android:id="@+id/muqi_text4"
@@ -455,11 +487,35 @@
             android:textStyle="bold"
             android:singleLine="true"
             android:ellipsize="marquee"
+            android:layout_below="@+id/muqi_icon4"
             android:text="max">
 
         </TextView>
-
     </RelativeLayout>
+
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/rl_muqi_text4"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/x_32"-->
+<!--        android:layout_toEndOf="@+id/rl_muqi_icon3"-->
+<!--        android:layout_below="@id/rl_muqi_icon4">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/muqi_text4"-->
+<!--            android:layout_width="@dimen/x_250"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="@dimen/y_40"-->
+<!--            android:textColor="#ffffff"-->
+<!--            android:gravity="center"-->
+<!--            android:textStyle="bold"-->
+<!--            android:singleLine="true"-->
+<!--            android:ellipsize="marquee"-->
+<!--            android:text="max">-->
+
+<!--        </TextView>-->
+
+<!--    </RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/rl_muqi_icon5"
@@ -475,17 +531,7 @@
             android:id="@+id/muqi_icon5"
             android:layout_width="@dimen/x_150"
             android:layout_height="@dimen/y_150"
-            android:layout_centerInParent="true"
             android:src="@drawable/tving" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_muqi_text5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/x_32"
-        android:layout_toEndOf="@+id/rl_muqi_icon4"
-        android:layout_below="@id/rl_muqi_icon5">
 
         <TextView
             android:id="@+id/muqi_text5"
@@ -497,11 +543,35 @@
             android:alpha="0.8"
             android:singleLine="true"
             android:ellipsize="marquee"
+            android:layout_below="@+id/muqi_icon5"
             android:text="Tving">
 
         </TextView>
-
     </RelativeLayout>
+
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/rl_muqi_text5"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/x_32"-->
+<!--        android:layout_toEndOf="@+id/rl_muqi_icon4"-->
+<!--        android:layout_below="@id/rl_muqi_icon5">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/muqi_text5"-->
+<!--            android:layout_width="@dimen/x_150"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="@dimen/y_24"-->
+<!--            android:textColor="#ffffff"-->
+<!--            android:gravity="center"-->
+<!--            android:alpha="0.8"-->
+<!--            android:singleLine="true"-->
+<!--            android:ellipsize="marquee"-->
+<!--            android:text="Tving">-->
+
+<!--        </TextView>-->
+
+<!--    </RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/rl_muqi_icon6"
@@ -518,15 +588,6 @@
             android:layout_width="@dimen/x_100"
             android:layout_height="@dimen/y_100"
             android:src="@drawable/hulu" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_muqi_text6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/x_32"
-        android:layout_toEndOf="@+id/rl_muqi_icon5"
-        android:layout_below="@id/rl_muqi_icon6">
 
         <TextView
             android:id="@+id/muqi_text6"
@@ -538,11 +599,35 @@
             android:alpha="0.6"
             android:singleLine="true"
             android:ellipsize="marquee"
+            android:layout_below="@+id/muqi_icon6"
             android:text="Hulu">
 
         </TextView>
-
     </RelativeLayout>
+
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/rl_muqi_text6"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/x_32"-->
+<!--        android:layout_toEndOf="@+id/rl_muqi_icon5"-->
+<!--        android:layout_below="@id/rl_muqi_icon6">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/muqi_text6"-->
+<!--            android:layout_width="@dimen/x_100"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="@dimen/y_18"-->
+<!--            android:textColor="#ffffff"-->
+<!--            android:gravity="center"-->
+<!--            android:alpha="0.6"-->
+<!--            android:singleLine="true"-->
+<!--            android:ellipsize="marquee"-->
+<!--            android:text="Hulu">-->
+
+<!--        </TextView>-->
+
+<!--    </RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/rl_muqi_icon7"
@@ -558,17 +643,7 @@
             android:id="@+id/muqi_icon7"
             android:layout_width="@dimen/x_70"
             android:layout_height="@dimen/y_70"
-            android:layout_centerInParent="true"
             android:src="@drawable/disney" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_muqi_text7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/x_32"
-        android:layout_toEndOf="@+id/rl_muqi_icon6"
-        android:layout_below="@id/rl_muqi_icon7">
 
         <TextView
             android:id="@+id/muqi_text7"
@@ -580,11 +655,35 @@
             android:alpha="0.5"
             android:singleLine="true"
             android:ellipsize="marquee"
+            android:layout_below="@+id/muqi_icon7"
             android:text="Disney">
 
         </TextView>
-
     </RelativeLayout>
+
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/rl_muqi_text7"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/x_32"-->
+<!--        android:layout_toEndOf="@+id/rl_muqi_icon6"-->
+<!--        android:layout_below="@id/rl_muqi_icon7">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/muqi_text7"-->
+<!--            android:layout_width="@dimen/x_70"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="@dimen/y_15"-->
+<!--            android:textColor="#ffffff"-->
+<!--            android:gravity="center"-->
+<!--            android:alpha="0.5"-->
+<!--            android:singleLine="true"-->
+<!--            android:ellipsize="marquee"-->
+<!--            android:text="Disney">-->
+
+<!--        </TextView>-->
+
+<!--    </RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/rl_muqi_right"

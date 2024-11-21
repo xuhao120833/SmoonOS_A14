@@ -170,14 +170,29 @@ public class MyApplication extends Application {
 
     private void initWallpaperData() {
 
-        Utils.drawables.add(getResources().getDrawable(R.drawable.background_main));
         Utils.drawables.add(getResources().getDrawable(R.drawable.background8));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.background1));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.background5));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.background10));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.background11));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.background12));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.background13));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.background_main));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background1));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background2));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background3));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background4));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background5));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background6));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background7));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background8));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background9));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background10));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background11));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background12));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background13));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background14));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background15));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background16));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background17));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background18));
+        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background19));
+
+
 
         new Thread(() -> copyMyWallpaper()).start();
 
