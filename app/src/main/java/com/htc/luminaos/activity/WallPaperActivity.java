@@ -80,7 +80,7 @@ public class WallPaperActivity extends BaseActivity {
                 case Contants.PICTURE_RESULT:
                     if (msg.obj != null) {
                         File[] files = (File[]) msg.obj;
-                        WallPaperAdapter wallPaperAdapter = new WallPaperAdapter(WallPaperActivity.this, files, threadExecutor, handler);
+                        WallPaperAdapter wallPaperAdapter = new WallPaperAdapter(WallPaperActivity.this, files, handler);
                         wallPaperAdapter.setWallPaperOnCallBack(onCallBack);
                         wallPaperBinding.wallpaperRv.setAdapter(wallPaperAdapter);
                     }
@@ -236,7 +236,7 @@ public class WallPaperActivity extends BaseActivity {
     }
 
     private void loadLocal() {
-        WallPaperAdapter wallPaperAdapter = new WallPaperAdapter(getApplicationContext(), Utils.drawables, threadExecutor, handler);
+        WallPaperAdapter wallPaperAdapter = new WallPaperAdapter(getApplicationContext(), Utils.drawables, handler,wallPaperBinding.wallpaperRv);
 //        wallPaperAdapter.setHasStableIds(true);
         wallPaperAdapter.setWallPaperOnCallBack(onCallBack);
         wallPaperBinding.wallpaperRv.setAdapter(wallPaperAdapter);

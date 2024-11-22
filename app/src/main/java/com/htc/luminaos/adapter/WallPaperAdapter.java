@@ -43,10 +43,15 @@ import com.htc.luminaos.widget.FocusKeepRecyclerView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -61,7 +66,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
     WallPaperOnCallBack wallPaperOnCallBack;
     File[] files;
     boolean isLocal = true;
-    ExecutorService threadExecutor;
+    private ExecutorService executorService = Executors.newFixedThreadPool(8);
     Handler handler;
 
     FocusKeepRecyclerView focusKeepRecyclerView;
@@ -71,20 +76,24 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
 
     private LruCache<String, Bitmap> imageCache;
 
-    public WallPaperAdapter(Context mContext, ArrayList<Drawable> drawables, ExecutorService threadExecutor, Handler handler) {
+    private static LruCache<Integer, BitmapDrawable> drawableCache;
+
+    private Map<Integer, Future<?>> taskMap = new ConcurrentHashMap<>();
+
+    public WallPaperAdapter(Context mContext, ArrayList<Drawable> drawables, Handler handler, FocusKeepRecyclerView focusKeepRecyclerView) {
         this.mContext = mContext;
         this.drawables = drawables;
-        this.threadExecutor = threadExecutor;
         this.handler = handler;
+        this.focusKeepRecyclerView = focusKeepRecyclerView;
         selectpostion = readShared();
-//        initCache();
+        initCache();
     }
 
-    public WallPaperAdapter(Context mContext, File[] files, ExecutorService threadExecutor, Handler handler) {
+    public WallPaperAdapter(Context mContext, File[] files, Handler handler) {
         this.mContext = mContext;
         this.files = files;
         isLocal = false;
-        this.threadExecutor = threadExecutor;
+//        this.threadExecutor = threadExecutor;
         this.handler = handler;
         selectpostion = readShared();
     }
@@ -96,13 +105,13 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        Log.d(TAG," 执行onCreateViewHolder "+i);
         return new MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.wallpaper_custom_item, null));
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, @SuppressLint("RecyclerView") final int i) {
-        Log.d(TAG, " 执行onBindViewHolder ");
         selectpostion = readShared();
         if (i == selectpostion) {
             myViewHolder.check.setVisibility(View.VISIBLE);
@@ -121,25 +130,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
         }
 //        myViewHolder.rl_item.setOnFocusChangeListener(this);
         if (i < drawables.size()) {
-            threadExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    BitmapDrawable d = null;
-                    if (drawables.get(i) != null) {
-                        d = (BitmapDrawable) drawables.get(i);
-                    }
-                    Bitmap bitmap = drawableToBitamp(d);
-                    Bitmap bp = compressBitmap(bitmap);
-                    BitmapDrawable finalD = new BitmapDrawable(bp);
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            myViewHolder.icon.setBackground(finalD);
-                        }
-                    });
-
-                }
-            });
+            loadAndSetBackground(i,myViewHolder);
         } else {
             myViewHolder.icon_card.setCardBackgroundColor(Color.parseColor("#00000000"));
             myViewHolder.icon.setBackgroundResource(R.drawable.wallpaper_add);
@@ -152,7 +143,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
                     int position = myViewHolder.getAdapterPosition();
                     if (position < drawables.size()) {
                         if (selectpostion == position) {
-                            myViewHolder.check.setVisibility(View.GONE);
+//                            myViewHolder.check.setVisibility(View.GONE);
                         } else {
                             //写入数据库
                             writeShared(position);
@@ -178,6 +169,51 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
         });
 
         myViewHolder.rl_item.setOnHoverListener(this);
+    }
+
+//    @Override
+//    public void onViewRecycled(@NonNull MyViewHolder holder) {
+//        super.onViewRecycled(holder);
+//        int position = (int) holder.icon.getTag();
+//        if (taskMap.containsKey(position)) {
+//            taskMap.get(position).cancel(true);
+//        }
+//    }
+
+    private void loadAndSetBackground(int i, MyViewHolder myViewHolder) {
+        myViewHolder.icon.setBackgroundColor(Color.WHITE);
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                BitmapDrawable cachedDrawable = drawableCache.get(i); // 尝试从缓存中获取
+                if (cachedDrawable == null) {
+                    // 缓存中没有，需要重新加载和压缩
+                    BitmapDrawable d = null;
+                    if (drawables.get(i) != null) {
+                        d = (BitmapDrawable) drawables.get(i);
+                    }
+                    Bitmap bitmap = drawableToBitamp(d);
+                    Bitmap bp = compressBitmap(bitmap);
+                    BitmapDrawable finalD = new BitmapDrawable(bp);
+
+                    // 加入缓存
+                    drawableCache.put(i, finalD);
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            myViewHolder.icon.setBackground(finalD);
+                        }
+                    });
+                }else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            myViewHolder.icon.setBackground(cachedDrawable);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private Bitmap compressImageFromFile(String srcPath) {
@@ -339,17 +375,19 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
     }
 
     // 初始化缓存
-    private void initCache() {
-        // 设置缓存的最大大小为最大可用内存的1/8
+    public void initCache() {
+        // 初始化缓存，设置最大缓存大小为当前可用内存的1/8
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         final int cacheSize = maxMemory / 8;
-        imageCache = new LruCache<String, Bitmap>(cacheSize) {
-            @Override
-            protected int sizeOf(String key, Bitmap bitmap) {
-                // Cache size will be measured in kilobytes rather than number of items
-                return bitmap.getByteCount() / 1024;
-            }
-        };
+        if(drawableCache == null) {
+            drawableCache = new LruCache<Integer, BitmapDrawable>(cacheSize) {
+                @Override
+                protected int sizeOf(Integer key, BitmapDrawable value) {
+                    // 缓存大小以KB为单位
+                    return value.getBitmap().getByteCount() / 1024;
+                }
+            };
+        }
     }
 
     public Bitmap drawableToBitamp(Drawable drawable) {
