@@ -242,27 +242,6 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
     });
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        //定制逻辑 xuhao add 20240717
-//        try {
-//            customBinding = ActivityMainCustomBinding.inflate(LayoutInflater.from(this));
-//            setContentView(customBinding.getRoot());
-//            initViewCustom();
-//            initDataCustom();
-//            initReceiver();
-//            wifiManager = (WifiManager) getSystemService(Service.WIFI_SERVICE);
-//            storageManager = (StorageManager) getSystemService(Context.STORAGE_SERVICE);
-//            localDevicesList = new ArrayList<StorageVolume>();
-//            devicesPathAdd();
-////            countUsbDevices(getApplicationContext());
-//            Log.d(TAG, " onCreate快捷图标 short_list " + short_list.size());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -275,6 +254,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             initReceiver();
             wifiManager = (WifiManager) getSystemService(Service.WIFI_SERVICE);
             storageManager = (StorageManager) getSystemService(Context.STORAGE_SERVICE);
+            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             localDevicesList = new ArrayList<StorageVolume>();
             devicesPathAdd();
 //            countUsbDevices(getApplicationContext());
@@ -555,21 +535,25 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 //读取首页的配置文件，优先读取网络服务器配置，其次读本地配置。只读取一次，清除应用缓存可触发再次读取。
                 initDataApp();
                 short_list = loadHomeAppData();
                 Log.d(TAG, " initDataCustom快捷图标 short_list " + short_list.size());
 //                handler.sendEmptyMessage(204);
-                appInfoBeans = AppUtils.getApplicationMsg(MainActivity.this);
+                if(DBUtils.getInstance(getApplicationContext()).isMiddleAppsFull()) { //middleApps配置大于7个
+                    appInfoBeans = DBUtils.getInstance(getApplicationContext()).getMiddleApps();
+                    Log.d(TAG, " middleApps配置大于或等于7个 " + appInfoBeans.size());
+                } else { //小于7个就轮巡所有APP
+                    appInfoBeans = AppUtils.getApplicationMsg(MainActivity.this);
+                }
                 if (appInfoBeans != null) {
                     circularQueue = new CircularQueue<>(appInfoBeans);
-
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             // 设置首页的配置图标
                             try {
+                                Log.d(TAG, " update7Icon " + circularQueue.rear);
                                 update7Icon(circularQueue.front, circularQueue.rear);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -604,7 +588,6 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         wifiFilter.addAction(WifiManager.RSSI_CHANGED_ACTION);
         wifiFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         wifiFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-
         wifiReceiver = new MyWifiReceiver(this);
         registerReceiver(wifiReceiver, wifiFilter);
 
@@ -703,7 +686,6 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         @Override
         public void onItemClick(int i, String name) {
             if (i < short_list.size()) {
-
                 Log.d(TAG, " xuhao执行点击前 " + i);
                 if (i == 0) {
                     Log.d(TAG, " 打开APP详情页");
@@ -818,8 +800,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 startNewActivity(WifiActivity.class);
                 break;
             case R.id.rl_muqi_icon4:
+                int icon4position = -1;
                 if (appInfoBeans != null && circularQueue != null) {
-                    int icon4position = -1;
+//                    int icon4position = -1;
                     if (circularQueue.front + 3 < appInfoBeans.size()) {
                         icon4position = circularQueue.front + 3;
                     } else if (circularQueue.front + 3 == appInfoBeans.size()) {
@@ -827,6 +810,13 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     } else if (circularQueue.front + 3 > appInfoBeans.size()) {
                         icon4position = circularQueue.front + 3 - appInfoBeans.size();
                     }
+                }
+                if(DBUtils.getInstance(getApplicationContext()).isMiddleAppsFull()) {
+                    if (!AppUtils.startNewApp(MainActivity.this, appInfoBeans.get(icon4position).getApppackagename())) {
+                        appName = appInfoBeans.get(icon4position).getAppname();
+                        requestChannelData();
+                    }
+                }else {
                     AppUtils.startNewApp(MainActivity.this, appInfoBeans.get(icon4position).getApppackagename());
                 }
                 break;
@@ -940,7 +930,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 //                readDefaultBackground(obj);
 
                 //读取首页四大APP图标
-                readMain(obj);
+//                readMain(obj);
+
+                //读取middleApps
+                readMiddleApps(obj);
 
                 //读取APP快捷图标
                 readShortcuts(obj, residentList, sharedPreferences);
@@ -949,7 +942,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 readFilterApps(obj);
 
                 //读取右边list第一个、第三个的配置
-                readListModules(obj);
+//                readListModules(obj);
                 Log.d(TAG, " 当前的语言环境是： " + LanguageUtil.getCurrentLanguage());
 
                 //读取品牌图标
@@ -972,17 +965,17 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
         //设置首页的配置图标
         // 在主线程中更新 UI
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                // 设置首页的配置图标
-//                try {
-//                    setIconOrText();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // 设置首页的配置图标
+                try {
+                    setIconOrText();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         return isLoad;
     }
@@ -1033,8 +1026,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     }
 
-    private void readShortcuts(JSONObject obj, List<String> residentList, SharedPreferences
-            sharedPreferences) {
+    private void readShortcuts(JSONObject obj, List<String> residentList, SharedPreferences sharedPreferences) {
         try {
             if (obj.has("apps")) {
                 JSONArray jsonarrray = obj.getJSONArray("apps");
@@ -1078,6 +1070,25 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                                 .addFavorites(appName, packageName, drawable);
                         Log.d(TAG, " Shortcuts 添加快捷数据库成功 " + appName + " " + packageName);
                     }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void readMiddleApps(JSONObject obj) {
+        try {
+            if (obj.has("middleApps")) {
+                JSONArray jsonarrray = obj.getJSONArray("middleApps");
+                for (int i = 0; i < jsonarrray.length(); i++) {
+                    JSONObject jsonobject = jsonarrray.getJSONObject(i);
+                    String appName = jsonobject.getString("appName");
+                    String packageName = jsonobject.getString("packageName");
+                    String iconPath = jsonobject.getString("iconPath");
+                    Drawable drawable = FileUtils.loadImageAsDrawable(this, iconPath);
+                    long addCode = DBUtils.getInstance(this).insertMiddleApps(appName, packageName, drawable);
+                    Log.d(TAG, " readMiddleApps 添加快捷数据库成功 " + appName + " " + packageName);
                 }
             }
         } catch (Exception e) {
@@ -1209,11 +1220,11 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         boolean isConnected = BluetoothUtils.getInstance(this)
                 .isBluetoothConnected();
         if (isConnected) {
-////            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_con);
-//            customBinding.homeBluetooth.setImageResource(R.drawable.bt_custom_green);
-//        } else {
-////            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_not);
-//            customBinding.homeBluetooth.setImageResource(R.drawable.bt_custom2);
+//            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_con);
+            customBinding.muqiBt.setImageResource(R.drawable.bt_custom_green);
+        } else {
+//            mainBinding.homeBluetooth.setBackgroundResource(R.drawable.bluetooth_not);
+            customBinding.muqiBt.setImageResource(R.drawable.bt_custom2);
         }
     }
 
@@ -1224,7 +1235,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 //                        .getCurrentTime(this);
 //        mainBinding.timeTv.setText(builder);
 
-//        customBinding.timeTv.setText(TimeUtils.getCurrentTime(this));
+        customBinding.timeText.setText(TimeUtils.getCurrentTime(this));
+        customBinding.calendarText.setText(TimeUtils.getShortWeekDay() + " | " + TimeUtils.getCurrentDate());
     }
 
 
@@ -1270,95 +1282,35 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     public void getWifiState(int state) {
         if (state == 1) {
 //            mainBinding.homeWifi.setBackgroundResource(R.drawable.wifi_not);
-//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_4);
+            customBinding.muqiWifi.setImageResource(R.drawable.wifi_custom_4);
         }
     }
 
-//    View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
-//        @Override
-//        public void onFocusChange(View v, boolean hasFocus) {
-//            AnimationSet animationSet = new AnimationSet(true);
-//            v.bringToFront();
-//            if (hasFocus) {
-//                ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.50f,
-//                        1.0f, 1.50f, Animation.RELATIVE_TO_SELF, 0.5f,
-//                        Animation.RELATIVE_TO_SELF, 0.5f);
-//                scaleAnimation.setDuration(150);
-//                animationSet.addAnimation(scaleAnimation);
-//                animationSet.setFillAfter(true);
-//                v.startAnimation(animationSet);
-//            } else {
-//                ScaleAnimation scaleAnimation = new ScaleAnimation(1.50f, 1.0f,
-//                        1.50f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
-//                        Animation.RELATIVE_TO_SELF, 0.5f);
-//                animationSet.addAnimation(scaleAnimation);
-//                scaleAnimation.setDuration(150);
-//                animationSet.setFillAfter(true);
-//                v.startAnimation(animationSet);
-//            }
-//        }
-//    };
-
-//    @Override
-//    public void getWifiNumber(int count) {
-//
-//        List<ScanResult> wifiList = wifiManager.getScanResults();
-//        Log.d(TAG,"getWifiNumber "+count);
-//        switch (count) {
-//            case -1:
-////                mainBinding.homeWifi.setBackgroundResource(R.drawable.wifi_not);
-//                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_4);
-//                break;
-//            case 0:
-////                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_1_focus);
-//                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_1);
-//                break;
-//            case 1:
-////                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_2_focus);
-//                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_2);
-//                break;
-//            case 2:
-////                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_2_focus);
-//                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_3);
-//                break;
-//            case 3:
-////                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_2_focus);
-//                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
-//                break;
-//            default:
-////                mainBinding.homeWifi.setBackgroundResource(R.drawable.bar_wifi_full_focus);
-//                customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
-//                break;
-//
-//        }
-//    }
-
     @Override
     public void getWifiNumber(int count) {
+        List<ScanResult> wifiList = wifiManager.getScanResults();
+        Log.d(TAG, "getWifiNumber " + count);
 
-//        List<ScanResult> wifiList = wifiManager.getScanResults();
-//        Log.d(TAG, "getWifiNumber " + count);
-//
-//        if (count == 1) {
-//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_4);
-//            return;
-//        } else if (count == 3) {
-//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
-//            return;
-//        }
-//
-//        Log.d(TAG, " level数据" + count);
-//        if (count < -85) {
-//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_1);
-//        } else if (count < -70) {
-//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_2);
-//        } else if (count < -60) {
-//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_3);
-//        } else if (count < -50) {
-//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
-//        } else {
-//            customBinding.homeWifi.setImageResource(R.drawable.wifi_custom_green_4);
-//        }
+        if (count == 1) {
+            customBinding.muqiWifi.setImageResource(R.drawable.wifi_custom_4);
+            return;
+        } else if (count == 3) {
+            customBinding.muqiWifi.setImageResource(R.drawable.wifi_custom_green_4);
+            return;
+        }
+
+        Log.d(TAG, " level数据" + count);
+        if (count < -85) {
+            customBinding.muqiWifi.setImageResource(R.drawable.wifi_custom_green_1);
+        } else if (count < -70) {
+            customBinding.muqiWifi.setImageResource(R.drawable.wifi_custom_green_2);
+        } else if (count < -60) {
+            customBinding.muqiWifi.setImageResource(R.drawable.wifi_custom_green_3);
+        } else if (count < -50) {
+            customBinding.muqiWifi.setImageResource(R.drawable.wifi_custom_green_4);
+        } else {
+            customBinding.muqiWifi.setImageResource(R.drawable.wifi_custom_green_4);
+        }
     }
 
     @Override
@@ -1440,10 +1392,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     private void setIconOrText() {
 
         //1、MainApp
-        setMainApp();
+//        setMainApp();
 
         //2、ListModules
-        setListModules();
+//        setListModules();
 
         //3、brandLogo
         setbrandLogo();
@@ -1935,19 +1887,33 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             if (front < rear) {
                 // 正常情况，front 小于 rear
                 for (int index = front; index <= rear; index++, i++) {
-                    iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
+                    if(appInfoBeans.get(index).getAppicon()!= null) {
+                        iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
+                    } else {
+                        iconViews[i].setImageResource(getAppIcon(appInfoBeans.get(index).getApppackagename()));
+                    }
                     textViews[i].setText(appInfoBeans.get(index).getAppname());
                 }
             } else {
                 // 循环队列情况，front 大于 rear
                 // 先处理 front 到队列末尾
                 for (int index = front; index < size; index++, i++) {
-                    iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
+//                    iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
+                    if(appInfoBeans.get(index).getAppicon()!= null) {
+                        iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
+                    } else {
+                        iconViews[i].setImageResource(getAppIcon(appInfoBeans.get(index).getApppackagename()));
+                    }
                     textViews[i].setText(appInfoBeans.get(index).getAppname());
                 }
                 // 再处理从队列起始到 rear
                 for (int index = 0; index <= rear; index++, i++) {
-                    iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
+//                    iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
+                    if(appInfoBeans.get(index).getAppicon()!= null) {
+                        iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
+                    } else {
+                        iconViews[i].setImageResource(getAppIcon(appInfoBeans.get(index).getApppackagename()));
+                    }
                     textViews[i].setText(appInfoBeans.get(index).getAppname());
                 }
             }
@@ -2009,5 +1975,38 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             e.printStackTrace();
         }
         return isEther;
+    }
+
+    private int getAppIcon(String pkg) {
+        switch (pkg) {
+            case "com.netflix.ninja":
+                return R.drawable.netflix;
+            case "com.netflix.mediaclient":
+                return R.drawable.netflix;
+            case "com.disney.disneyplus":
+                return R.drawable.disney;
+            case "com.google.android.youtube.tv":
+                return R.drawable.youtube;
+            case "com.chrome.beta":
+                return R.drawable.chrome;
+            case "com.amazon.avod.thirdpartyclient":
+                return R.drawable.primevideo;
+            case "net.cj.cjhv.gs.tving":
+                return R.drawable.tving;
+            case "com.wbd.stream":
+                return R.drawable.max;
+            case "com.frograms.wplay":
+                return R.drawable.watcha;
+            case "in.startv.hotstar.dplus":
+                return R.drawable.hotstar;
+            case "com.jio.media.ondemand":
+                return R.drawable.jio_cinema;
+            case "com.hulu.plus":
+                return R.drawable.hulu;
+            case "tv.abema":
+                return R.drawable.abema;
+            default:
+                return R.mipmap.ic_launcher_round;
+        }
     }
 }

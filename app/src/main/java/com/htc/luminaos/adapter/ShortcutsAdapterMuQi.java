@@ -7,6 +7,7 @@ import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,6 +19,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
@@ -45,6 +47,7 @@ public class ShortcutsAdapterMuQi extends RecyclerView.Adapter<ShortcutsAdapterM
     int number = -1;
 
     private static String TAG = "ShortcutsAdapterMuQi";
+    android.os.Handler handler = new Handler();
 
     public ShortcutsAdapterMuQi(Context mContext, ArrayList<ShortInfoBean> short_list) {
         this.mContext = mContext;
@@ -141,6 +144,21 @@ public class ShortcutsAdapterMuQi extends RecyclerView.Adapter<ShortcutsAdapterM
                     v.startAnimation(animationSet);
                     myViewHolder.name.setSelected(false);
                 }
+
+                if (hasFocus) {
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            int position = ((RecyclerView) v.getParent()).getChildAdapterPosition(v);
+                            if (short_list.size() == 11 && position != 0) {
+                                Toast.makeText(v.getContext(), mContext.getString(R.string.shortcuts_tips), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }, 3500); // 3000毫秒 = 3秒
+                } else {
+                    // 失去焦点时，取消延迟任务
+                    handler.removeCallbacksAndMessages(null);
+                }
             }
         });
 
@@ -204,7 +222,7 @@ public class ShortcutsAdapterMuQi extends RecyclerView.Adapter<ShortcutsAdapterM
                 return R.drawable.hotstar;
             case "com.jio.media.ondemand":
                 return R.drawable.jio_cinema;
-            case "jp.happyon.android":
+            case "com.hulu.plus":
                 return R.drawable.hulu;
             case "tv.abema":
                 return R.drawable.abema;
@@ -215,11 +233,11 @@ public class ShortcutsAdapterMuQi extends RecyclerView.Adapter<ShortcutsAdapterM
 
     @Override
     public int getItemCount() {
-//        if (short_list.size() < 10) {
+        if (short_list.size() < 11) {
             return short_list.size() + 1;
-//        } else {
-//            return short_list.size();
-//        }
+        } else {
+            return short_list.size();
+        }
     }
 
     @Override

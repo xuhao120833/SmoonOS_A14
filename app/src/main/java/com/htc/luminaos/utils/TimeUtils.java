@@ -13,8 +13,8 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * @author  作者：zgr
- * @version 创建时间：2016年11月4日 下午12:06:19
+ * @author  作者：xuhao
+ * @version 创建时间：2024年11月4日 下午12:06:19
  * 类说明
  */
 public class TimeUtils {
@@ -144,7 +144,7 @@ public class TimeUtils {
 			result=dateFormat.format(new Date());
 		} catch (Exception e) {
 			try {
-				java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(context.getApplicationContext());
+				java.text.DateFormat dateFormat = DateFormat.getDateFormat(context.getApplicationContext());
 				result=dateFormat.format(new Date());
 			} catch (Exception e2) {
 				// TODO: handle exception
@@ -160,6 +160,11 @@ public class TimeUtils {
 		return Settings.System.getString(
 				context.getContentResolver(),
 				Settings.System.DATE_FORMAT);
+	}
+
+	public static String getShortWeekDay() {
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE.", Locale.ENGLISH);
+		return sdf.format(new Date());
 	}
 	
 }

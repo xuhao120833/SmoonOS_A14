@@ -17,6 +17,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.htc.luminaos.entry.AppInfoBean;
 import com.htc.luminaos.entry.AppSimpleBean;
 
 import java.io.ByteArrayOutputStream;
@@ -36,6 +37,7 @@ public class DBUtils extends SQLiteOpenHelper {
     private static DBUtils mInstance = null;
     private final static String DATABASE_NAME = "htc_launcher.db";
     private final static int VERSION = 1;
+    private final String TABLENAME_MIDDLEAPPS = "table_middleapps";
     private final String TABLENAME_FAVORITES = "table_favorites";
 
     private final String TABLENAME_FILTERAPPS = "filterApps";
@@ -64,6 +66,12 @@ public class DBUtils extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         try {
             // TODO Auto-generated method stub
+            // 创建middleApps表
+            Log.d(TAG, " 创建middleApps数据表 ");
+            String middleApps_sql = "CREATE TABLE " + TABLENAME_MIDDLEAPPS
+                    + " ( id integer primary key, appName TEXT, packagename text, iconData BLOB );";
+            db.execSQL(middleApps_sql);
+
             // 创建我的收藏表
             Log.d(TAG, " 创建apps数据表 ");
             String favorites_sql = "CREATE TABLE " + TABLENAME_FAVORITES
@@ -119,6 +127,9 @@ public class DBUtils extends SQLiteOpenHelper {
 
         // TODO Auto-generated method stub
         String favorites_sql = "DROP TABLE IF EXISTS " + TABLENAME_FAVORITES;
+        db.execSQL(favorites_sql);
+
+        favorites_sql = "DROP TABLE IF EXISTS " + TABLENAME_MIDDLEAPPS;
         db.execSQL(favorites_sql);
 
         favorites_sql = "DROP TABLE IF EXISTS " + TABLENAME_FILTERAPPS;
@@ -209,7 +220,7 @@ public class DBUtils extends SQLiteOpenHelper {
                 db.close();
                 sharedPreferences.edit().putBoolean(Contants.MODIFY, true).apply();
                 return code;
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return -1;
             }
@@ -319,7 +330,7 @@ public class DBUtils extends SQLiteOpenHelper {
 
 
     public boolean isExistData(String packagename) {
-        synchronized (this){
+        synchronized (this) {
             boolean isExist = false;
             SQLiteDatabase db = getWritableDatabase();
             Cursor cs = db.rawQuery("select id , packagename  from "
@@ -332,6 +343,93 @@ public class DBUtils extends SQLiteOpenHelper {
             return isExist;
         }
     }
+
+    public long insertMiddleApps(String appName, String packageName, Drawable drawable) {
+        synchronized (this) {
+            SQLiteDatabase db = null;
+            try {
+                long code = -1;
+                db = getWritableDatabase();
+                ContentValues cv = new ContentValues();
+                cv.put("appName", appName);
+                cv.put("packagename", packageName);
+                cv.put("iconData", drawableToByteArray(drawable));
+                code = db.insert(TABLENAME_MIDDLEAPPS, null, cv);
+                sharedPreferences.edit().putBoolean(Contants.MODIFY, true).apply();
+                db.close();
+                return code;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 0;
+            }
+        }
+    }
+
+    public boolean isMiddleAppsFull() {
+        boolean isFull = false;
+        Cursor cursor = null;
+        SQLiteDatabase db = null;
+        synchronized (this) {
+            try {
+                db = getWritableDatabase();
+                // 查询 middleApps 表中的数据条数
+                String query = "SELECT COUNT(*) FROM " + TABLENAME_MIDDLEAPPS;
+                cursor = db.rawQuery(query, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    int count = cursor.getInt(0); // 获取第一列的结果（记录条数）
+                    Log.d(TAG, "middleApps表中记录数: " + count);
+                    isFull = (count >= 7); // 判断是否达到或超过 7 条数据
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                db.close();
+                if (cursor != null) {
+                    cursor.close(); // 确保关闭 Cursor
+                }
+            }
+            return isFull; // 返回是否已满
+        }
+    }
+
+    public List<AppInfoBean> getMiddleApps() {
+        List<AppInfoBean> appInfoBeans = new ArrayList<AppInfoBean>();
+        Cursor cursor = null;
+        SQLiteDatabase db = null;
+        Drawable iconDrawable = null;
+        synchronized (this) {
+            try {
+                db = getWritableDatabase();
+                // 查询 middleApps 表的所有数据
+                String query = "SELECT * FROM " + TABLENAME_MIDDLEAPPS + " ORDER BY id ASC"; // 按 id 升序排列
+                cursor = db.rawQuery(query, null);
+                // 遍历查询结果
+                if (cursor != null && cursor.moveToFirst()) {
+                    do {
+                        AppInfoBean appInfo = new AppInfoBean();
+                        appInfo.setAppname(cursor.getString(cursor.getColumnIndex("appName")));
+                        appInfo.setApppackagename(cursor.getString(cursor.getColumnIndex("packagename")));
+                        appInfo.setApplicationInfo(null);
+                        byte[] iconBlob = cursor.getBlob(cursor.getColumnIndex("iconData"));
+                        iconDrawable = byteArrayToDrawable(iconBlob);
+                        appInfo.setAppicon(iconDrawable);
+                        appInfo.setMname(null);
+                        appInfoBeans.add(appInfo);
+                    } while (cursor.moveToNext());
+                    return appInfoBeans;
+                }
+            }catch (Exception e) {
+                e.printStackTrace();
+            }finally {
+                db.close();
+                if (cursor != null) {
+                    cursor.close(); // 确保关闭 Cursor
+                }
+            }
+        }
+        return null;
+    }
+
 
     /***
      * Time:2024/8/10

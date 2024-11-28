@@ -169,7 +169,7 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 				}
 				if (!file.exists()) {
 					favorites = count;
-					max = 9;
+					max = 10;
 					Log.d(tag," 快捷栏数量 !file.exists() ");
 					if (favorites > max) {// count>favorites是新增
 						list.get(position)

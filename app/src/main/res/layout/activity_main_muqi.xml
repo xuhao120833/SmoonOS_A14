@@ -255,7 +255,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/y_20"
             android:textColor="#ffffff"
-            android:text="Tuesday | 12/08/24" />
+            android:text="Wed. | 2024/10/9" />
     </RelativeLayout>
 
     <RelativeLayout
