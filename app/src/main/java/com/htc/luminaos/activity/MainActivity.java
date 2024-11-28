@@ -3,6 +3,9 @@ package com.htc.luminaos.activity;
 import static com.htc.luminaos.utils.BlurImageView.MAX_BITMAP_SIZE;
 import static com.htc.luminaos.utils.BlurImageView.narrowBitmap;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -54,6 +57,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -112,6 +116,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -197,6 +202,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     private boolean isEther = false;
 
+    int front = -1;
+    int rear = -1;
+
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -245,10 +253,16 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            // 恢复数据
+            front = savedInstanceState.getInt("front", -1);
+            rear = savedInstanceState.getInt("rear", -1);
+        }
         //定制逻辑 xuhao add 20240717
         try {
             customBinding = ActivityMainMuqiBinding.inflate(LayoutInflater.from(this));
             setContentView(customBinding.getRoot());
+            setViewInvisible();
             initViewCustom();
             initDataCustom();
             initReceiver();
@@ -264,6 +278,18 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             e.printStackTrace();
         }
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //onSaveInstanceState() → onPause() → onStop() → onDestroy()
+        super.onSaveInstanceState(outState);
+        //保存数据到 Bundle,避免系统设置如语言改变时，首页midlleApp显示的位置复位。
+        if (circularQueue != null) {
+            outState.putInt("front", circularQueue.front);                // 保存头指针
+            outState.putInt("rear", circularQueue.rear);                // 保存尾指针
+        }
+    }
+
 
     @Override
     protected void onResume() {
@@ -284,6 +310,85 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
 
     }
+
+    private void setViewInvisible(){
+        //icon1
+        customBinding.rlMuqiIcon1.setVisibility(View.INVISIBLE);
+        //icon2
+        customBinding.rlMuqiIcon2.setVisibility(View.INVISIBLE);
+        //icon3
+        customBinding.rlMuqiIcon3.setVisibility(View.INVISIBLE);
+        //icon4
+        customBinding.rlMuqiIcon4.setVisibility(View.INVISIBLE);
+        //icon5
+        customBinding.rlMuqiIcon5.setVisibility(View.INVISIBLE);
+        //icon6
+        customBinding.rlMuqiIcon6.setVisibility(View.INVISIBLE);
+        //icon7
+        customBinding.rlMuqiIcon7.setVisibility(View.INVISIBLE);
+        //left
+        customBinding.muqiLeft.setVisibility(View.INVISIBLE);
+        //right
+        customBinding.muqiRight.setVisibility(View.INVISIBLE);
+        //快捷栏
+        customBinding.shortcutsRv.setVisibility(View.INVISIBLE);
+
+    }
+
+//    private void setViewVisible(){
+//        //icon1
+//        customBinding.rlMuqiIcon1.setVisibility(View.VISIBLE);
+//        //icon2
+//        customBinding.rlMuqiIcon2.setVisibility(View.VISIBLE);
+//        //icon3
+//        customBinding.rlMuqiIcon3.setVisibility(View.VISIBLE);
+//        //icon4
+//        customBinding.rlMuqiIcon4.setVisibility(View.VISIBLE);
+//        //icon5
+//        customBinding.rlMuqiIcon5.setVisibility(View.VISIBLE);
+//        //icon6
+//        customBinding.rlMuqiIcon6.setVisibility(View.VISIBLE);
+//        //icon7
+//        customBinding.rlMuqiIcon7.setVisibility(View.VISIBLE);
+//        //left
+//        customBinding.muqiLeft.setVisibility(View.VISIBLE);
+//        //right
+//        customBinding.muqiRight.setVisibility(View.VISIBLE);
+//        //快捷栏
+//        customBinding.shortcutsRv.setVisibility(View.VISIBLE);
+//    }
+
+    private void setViewVisible() {
+        // 动画时间
+        int duration = 2000;
+        // 创建 AnimatorSet
+        AnimatorSet animatorSet = new AnimatorSet();
+        List<Animator> animators = new ArrayList<>();
+        // 添加所有视图的淡入动画
+        for (View view : Arrays.asList(
+                customBinding.rlMuqiIcon1,
+                customBinding.rlMuqiIcon2,
+                customBinding.rlMuqiIcon3,
+                customBinding.rlMuqiIcon4,
+                customBinding.rlMuqiIcon5,
+                customBinding.rlMuqiIcon6,
+                customBinding.rlMuqiIcon7,
+                customBinding.muqiLeft,
+                customBinding.muqiRight,
+                customBinding.shortcutsRv
+        )) {
+            view.setVisibility(View.VISIBLE);
+            view.setAlpha(0f);
+            ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f);
+            animator.setDuration(duration);
+            animator.setInterpolator(new DecelerateInterpolator());
+            animators.add(animator);
+        }
+        // 同时运行所有动画
+        animatorSet.playTogether(animators);
+        animatorSet.start();
+    }
+
 
     private void initViewCustom() {
         //U盘
@@ -540,7 +645,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 short_list = loadHomeAppData();
                 Log.d(TAG, " initDataCustom快捷图标 short_list " + short_list.size());
 //                handler.sendEmptyMessage(204);
-                if(DBUtils.getInstance(getApplicationContext()).isMiddleAppsFull()) { //middleApps配置大于7个
+                if (DBUtils.getInstance(getApplicationContext()).isMiddleAppsFull()) { //middleApps配置大于7个
                     appInfoBeans = DBUtils.getInstance(getApplicationContext()).getMiddleApps();
                     Log.d(TAG, " middleApps配置大于或等于7个 " + appInfoBeans.size());
                 } else { //小于7个就轮巡所有APP
@@ -553,8 +658,13 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                         public void run() {
                             // 设置首页的配置图标
                             try {
+                                if (front != -1 && rear != -1) {
+                                    circularQueue.front = front;
+                                    circularQueue.rear = rear;
+                                }
                                 Log.d(TAG, " update7Icon " + circularQueue.rear);
                                 update7Icon(circularQueue.front, circularQueue.rear);
+                                setViewVisible();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -811,12 +921,12 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                         icon4position = circularQueue.front + 3 - appInfoBeans.size();
                     }
                 }
-                if(DBUtils.getInstance(getApplicationContext()).isMiddleAppsFull()) {
+                if (DBUtils.getInstance(getApplicationContext()).isMiddleAppsFull()) {
                     if (!AppUtils.startNewApp(MainActivity.this, appInfoBeans.get(icon4position).getApppackagename())) {
                         appName = appInfoBeans.get(icon4position).getAppname();
                         requestChannelData();
                     }
-                }else {
+                } else {
                     AppUtils.startNewApp(MainActivity.this, appInfoBeans.get(icon4position).getApppackagename());
                 }
                 break;
@@ -1887,7 +1997,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             if (front < rear) {
                 // 正常情况，front 小于 rear
                 for (int index = front; index <= rear; index++, i++) {
-                    if(appInfoBeans.get(index).getAppicon()!= null) {
+                    if (appInfoBeans.get(index).getAppicon() != null) {
                         iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
                     } else {
                         iconViews[i].setImageResource(getAppIcon(appInfoBeans.get(index).getApppackagename()));
@@ -1899,7 +2009,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 // 先处理 front 到队列末尾
                 for (int index = front; index < size; index++, i++) {
 //                    iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
-                    if(appInfoBeans.get(index).getAppicon()!= null) {
+                    if (appInfoBeans.get(index).getAppicon() != null) {
                         iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
                     } else {
                         iconViews[i].setImageResource(getAppIcon(appInfoBeans.get(index).getApppackagename()));
@@ -1909,7 +2019,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 // 再处理从队列起始到 rear
                 for (int index = 0; index <= rear; index++, i++) {
 //                    iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
-                    if(appInfoBeans.get(index).getAppicon()!= null) {
+                    if (appInfoBeans.get(index).getAppicon() != null) {
                         iconViews[i].setImageDrawable(appInfoBeans.get(index).getAppicon());
                     } else {
                         iconViews[i].setImageResource(getAppIcon(appInfoBeans.get(index).getApppackagename()));

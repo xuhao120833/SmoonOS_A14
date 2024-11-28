@@ -99,7 +99,7 @@ public class ShortcutsAdapterMuQi extends RecyclerView.Adapter<ShortcutsAdapterM
             }
         } else if (i == 0) {
             myViewHolder.icon.setImageDrawable(short_list.get(i).getAppicon());
-            myViewHolder.name.setText("Apps");
+            myViewHolder.name.setText(mContext.getResources().getString(R.string.all_apps));
         }
 
         myViewHolder.rl_item.setOnClickListener(new View.OnClickListener() {
