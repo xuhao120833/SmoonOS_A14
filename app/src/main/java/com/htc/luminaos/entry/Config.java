@@ -33,6 +33,9 @@ public class Config {
     public boolean saturation = true;
     public boolean sharpness = true;
 
+    //电源模式 上电开机 上电待机
+    public boolean powerMode = true;
+
     public int brightnessDefault = 50;
     public int contrastDefault = 50;
     public int hueDefault = 50;
@@ -85,7 +88,7 @@ public class Config {
     public boolean onlineUpdate = true;
     public boolean serialNumber = true;
 
-    public boolean AudioMode = false; //声音模式
+    public boolean AudioMode = true; //声音模式
     public boolean Menu120HZ = true;
     public boolean Menu200HZ = true;
     public boolean Menu500HZ = true;

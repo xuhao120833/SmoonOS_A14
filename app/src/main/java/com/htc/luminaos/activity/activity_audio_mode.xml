@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_main"
+    tools:context=".activity.BluetoothActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_40"
+        android:text="@string/Audio_Settings"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x_40" />
+
+    <RelativeLayout
+        android:id="@+id/rl_audio_mode"
+        style="@style/focusStyle"
+        android:layout_width="@dimen/x_1080"
+        android:layout_height="@dimen/y_80"
+        android:layout_below="@id/title"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_19"
+        android:background="@drawable/main_settings_bg">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x_50"
+            android:duplicateParentState="true"
+            android:text="@string/Audio_Mode"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_27" />
+
+        <View
+            android:id="@+id/audio_mode_right"
+            android:layout_width="@dimen/x_53"
+            android:layout_height="@dimen/y_53"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x_50"
+            android:background="@drawable/arrow_right_bg"
+            android:duplicateParentState="true" />
+
+        <View
+            android:id="@+id/audio_mode_left"
+            android:layout_width="@dimen/x_53"
+            android:layout_height="@dimen/y_53"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x_468"
+            android:background="@drawable/arrow_left_bg"
+            android:duplicateParentState="true" />
+
+        <TextView
+            android:id="@+id/audio_mode_tv"
+            android:layout_width="@dimen/x_368"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x_103"
+            android:duplicateParentState="true"
+            android:gravity="center"
+            android:text="@string/Standard"
+            android:textColor="@color/tv_color"
+            android:textSize="@dimen/x_23" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="@dimen/x_1080"
+        android:layout_height="@dimen/y_6"
+        android:layout_below="@id/rl_audio_mode"
+        android:layout_marginStart="@dimen/x_100"
+        android:layout_marginTop="@dimen/y_15"
+        android:layout_marginBottom="@dimen/y_19"
+        style="@style/unfocusStyle"
+        android:background="@drawable/corner_line" />
+
+
+    <com.htc.luminaos.view.CustomScrollView
+        android:id="@+id/scroll_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/rl_120hz"
+                style="@style/focusStyle"
+                android:layout_width="@dimen/x_1080"
+                android:layout_height="@dimen/y_80"
+                android:layout_marginStart="@dimen/x_100"
+                android:background="@drawable/main_settings_bg">
+
+                <TextView
+                    android:id="@+id/iv_120hz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x_50"
+                    android:layout_marginTop="@dimen/y_4"
+                    android:duplicateParentState="true"
+                    android:text="&lt;120Hz"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_27" />
+
+                <View
+                    android:id="@+id/right_120"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_50"
+                    android:background="@drawable/arrow_right_bg"
+                    android:duplicateParentState="true" />
+
+                <View
+                    android:id="@+id/left_120"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_468"
+                    android:background="@drawable/arrow_left_bg"
+                    android:duplicateParentState="true" />
+
+                <TextView
+                    android:id="@+id/tv_120hz"
+                    android:layout_width="@dimen/x_368"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_103"
+                    android:duplicateParentState="true"
+                    android:gravity="center"
+                    android:text="100"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_23" />
+
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_200hz"
+                style="@style/focusStyle"
+                android:layout_width="@dimen/x_1080"
+                android:layout_height="@dimen/y_80"
+                android:layout_below="@id/rl_120hz"
+                android:layout_marginStart="@dimen/x_100"
+                android:layout_marginTop="@dimen/y_19"
+                android:background="@drawable/main_settings_bg">
+
+                <TextView
+                    android:id="@+id/iv_200hz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x_50"
+                    android:layout_marginTop="@dimen/y_4"
+                    android:duplicateParentState="true"
+                    android:text="200Hz"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_27" />
+
+                <View
+                    android:id="@+id/right_200"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_50"
+                    android:background="@drawable/arrow_right_bg"
+                    android:duplicateParentState="true" />
+
+                <View
+                    android:id="@+id/left_200"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_468"
+                    android:background="@drawable/arrow_left_bg"
+                    android:duplicateParentState="true" />
+
+                <TextView
+                    android:id="@+id/tv_200hz"
+                    android:layout_width="@dimen/x_368"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_103"
+                    android:duplicateParentState="true"
+                    android:gravity="center"
+                    android:text="100"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_23" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_500hz"
+                style="@style/focusStyle"
+                android:layout_width="@dimen/x_1080"
+                android:layout_height="@dimen/y_80"
+                android:layout_below="@id/rl_200hz"
+                android:layout_marginStart="@dimen/x_100"
+                android:layout_marginTop="@dimen/y_19"
+                android:background="@drawable/main_settings_bg">
+
+                <TextView
+                    android:id="@+id/iv_500hz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x_50"
+                    android:layout_marginTop="@dimen/y_4"
+                    android:duplicateParentState="true"
+                    android:text="500Hz"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_27" />
+
+                <View
+                    android:id="@+id/right_500"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_50"
+                    android:background="@drawable/arrow_right_bg"
+                    android:duplicateParentState="true" />
+
+                <View
+                    android:id="@+id/left_500"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_468"
+                    android:background="@drawable/arrow_left_bg"
+                    android:duplicateParentState="true" />
+
+                <TextView
+                    android:id="@+id/tv_500hz"
+                    android:layout_width="@dimen/x_368"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_103"
+                    android:duplicateParentState="true"
+                    android:gravity="center"
+                    android:text="100"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_23" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_1d2khz"
+                style="@style/focusStyle"
+                android:layout_width="@dimen/x_1080"
+                android:layout_height="@dimen/y_80"
+                android:layout_below="@id/rl_500hz"
+                android:layout_marginStart="@dimen/x_100"
+                android:layout_marginTop="@dimen/y_19"
+                android:background="@drawable/main_settings_bg">
+
+                <TextView
+                    android:id="@+id/iv_1d2khz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x_50"
+                    android:layout_marginTop="@dimen/y_4"
+                    android:duplicateParentState="true"
+                    android:text="1.2KHz"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_27" />
+
+                <View
+                    android:id="@+id/right_1d2k"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_50"
+                    android:background="@drawable/arrow_right_bg"
+                    android:duplicateParentState="true" />
+
+                <View
+                    android:id="@+id/left_1d2k"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_468"
+                    android:background="@drawable/arrow_left_bg"
+                    android:duplicateParentState="true" />
+
+                <TextView
+                    android:id="@+id/tv_1d2khz"
+                    android:layout_width="@dimen/x_368"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_103"
+                    android:duplicateParentState="true"
+                    android:gravity="center"
+                    android:text="100"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_23" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_3khz"
+                style="@style/focusStyle"
+                android:layout_width="@dimen/x_1080"
+                android:layout_height="@dimen/y_80"
+                android:layout_below="@id/rl_1d2khz"
+                android:layout_marginStart="@dimen/x_100"
+                android:layout_marginTop="17dp"
+                android:background="@drawable/main_settings_bg">
+
+                <TextView
+                    android:id="@+id/iv_3khz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/x_50"
+                    android:layout_marginTop="@dimen/y_4"
+                    android:duplicateParentState="true"
+                    android:text="3KHz"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_27" />
+
+                <View
+                    android:id="@+id/right_3k"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_50"
+                    android:background="@drawable/arrow_right_bg"
+                    android:duplicateParentState="true" />
+
+                <View
+                    android:id="@+id/left_3k"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_468"
+                    android:background="@drawable/arrow_left_bg"
+                    android:duplicateParentState="true" />
+
+                <TextView
+                    android:id="@+id/tv_3khz"
+                    android:layout_width="@dimen/x_368"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_103"
+                    android:duplicateParentState="true"
+                    android:gravity="center"
+                    android:text="100"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_23" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_7d5khz"
+                style="@style/focusStyle"
+                android:layout_width="@dimen/x_1080"
+                android:layout_height="@dimen/y_80"
+                android:layout_below="@id/rl_3khz"
+                android:layout_marginStart="@dimen/x_100"
+                android:layout_marginTop="@dimen/y_19"
+                android:background="@drawable/main_settings_bg">
+
+                <TextView
+                    android:id="@+id/iv_7d5khz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x_50"
+                    android:layout_marginTop="@dimen/y_4"
+                    android:duplicateParentState="true"
+                    android:text="7.5KHz"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_27" />
+
+                <View
+                    android:id="@+id/right_7d5k"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_50"
+                    android:background="@drawable/arrow_right_bg"
+                    android:duplicateParentState="true" />
+
+                <View
+                    android:id="@+id/left_7d5k"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_468"
+                    android:background="@drawable/arrow_left_bg"
+                    android:duplicateParentState="true" />
+
+                <TextView
+                    android:id="@+id/tv_7d5khz"
+                    android:layout_width="@dimen/x_368"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_103"
+                    android:duplicateParentState="true"
+                    android:gravity="center"
+                    android:text="100"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_23" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_12khz"
+                style="@style/focusStyle"
+                android:layout_width="@dimen/x_1080"
+                android:layout_height="@dimen/y_80"
+                android:layout_below="@id/rl_7d5khz"
+                android:layout_marginStart="@dimen/x_100"
+                android:layout_marginTop="@dimen/y_19"
+                android:background="@drawable/main_settings_bg">
+
+                <TextView
+                    android:id="@+id/iv_12khz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x_50"
+                    android:layout_marginTop="@dimen/y_4"
+                    android:duplicateParentState="true"
+                    android:text="&gt;12KHz"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_27" />
+
+                <View
+                    android:id="@+id/right_12k"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_50"
+                    android:background="@drawable/arrow_right_bg"
+                    android:duplicateParentState="true" />
+
+                <View
+                    android:id="@+id/left_12k"
+                    android:layout_width="@dimen/x_53"
+                    android:layout_height="@dimen/y_53"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_468"
+                    android:background="@drawable/arrow_left_bg"
+                    android:duplicateParentState="true" />
+
+                <TextView
+                    android:id="@+id/tv_12khz"
+                    android:layout_width="@dimen/x_368"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x_103"
+                    android:duplicateParentState="true"
+                    android:gravity="center"
+                    android:text="100"
+                    android:textColor="@color/tv_color"
+                    android:textSize="@dimen/x_23" />
+            </RelativeLayout>
+
+
+
+        </RelativeLayout>
+
+    </com.htc.luminaos.view.CustomScrollView>
+
+
+</RelativeLayout>
