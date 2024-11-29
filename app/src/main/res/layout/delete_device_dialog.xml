@@ -12,7 +12,7 @@
         android:textSize="@dimen/x_26"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/y_50"
-        
+
         />
 
 
@@ -30,6 +30,8 @@
         android:textSize="@dimen/x_25"
         android:layout_marginStart="@dimen/x_30"
         android:layout_marginBottom="@dimen/y_30"
+        android:ellipsize="marquee"
+        android:singleLine="true"
         />
     <TextView
         android:layout_width="@dimen/x_150"
