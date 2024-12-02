@@ -1,4 +1,4 @@
-package com.htc.luminaos;
+package com.htc.smoonos;
 
 import org.junit.Test;
 

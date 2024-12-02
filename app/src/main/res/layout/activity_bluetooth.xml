@@ -130,7 +130,7 @@
                 android:textColor="@color/white"
                 />
 
-            <com.htc.luminaos.widget.FocusKeepRecyclerView
+            <com.htc.smoonos.widget.FocusKeepRecyclerView
                 android:layout_width="@dimen/x_1080"
                 android:layout_height="wrap_content"
                 android:id="@+id/pair_rv"
@@ -154,7 +154,7 @@
                 android:layout_below="@id/pair_rv"
                 />
 
-            <com.htc.luminaos.widget.FocusKeepRecyclerView
+            <com.htc.smoonos.widget.FocusKeepRecyclerView
                 android:layout_width="@dimen/x_1080"
                 android:layout_height="wrap_content"
                 android:id="@+id/available_rv"

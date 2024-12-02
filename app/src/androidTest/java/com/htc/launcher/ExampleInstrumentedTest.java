@@ -1,4 +1,4 @@
-package com.htc.luminaos;
+package com.htc.smoonos;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.htc.luminaos", appContext.getPackageName());
+        assertEquals("com.htc.smoonos", appContext.getPackageName());
     }
 }

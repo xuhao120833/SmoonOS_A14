@@ -124,7 +124,7 @@
         android:background="@drawable/corner_line"
         />
 
-    <com.htc.luminaos.widget.FocusKeepRecyclerView
+    <com.htc.smoonos.widget.FocusKeepRecyclerView
         android:layout_width="@dimen/x_1080"
         android:layout_height="wrap_content"
         android:id="@+id/wifi_rv"

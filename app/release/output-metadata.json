@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.htc.luminaos",
+  "applicationId": "com.htc.smoonos",
   "variantName": "release",
   "elements": [
     {
@@ -12,9 +12,9 @@
       "filters": [],
       "properties": [],
       "versionCode": 1,
-      "versionName": "2411281809",
+      "versionName": "2412021638",
       "enabled": true,
-      "outputFile": "MuqiOS-V1-2411281809-release.apk"
+      "outputFile": "SmoonOS-V1-2412021638-release.apk"
     }
   ]
 }

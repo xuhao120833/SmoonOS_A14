@@ -70,7 +70,7 @@
 
     </RelativeLayout>
 
-    <com.htc.luminaos.widget.RLRelativelayout
+    <com.htc.smoonos.widget.RLRelativelayout
         android:layout_width="@dimen/x_1080"
         android:layout_height="@dimen/y_80"
         android:layout_below="@id/rl_language"
@@ -113,7 +113,7 @@
             android:duplicateParentState="true"
             />
 
-    </com.htc.luminaos.widget.RLRelativelayout>
+    </com.htc.smoonos.widget.RLRelativelayout>
 
     <RelativeLayout
         android:layout_width="@dimen/x_1080"

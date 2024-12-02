@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LuminaOS</string>
+    <string name="app_name">SmoonOS</string>
     <string name="wifi_remembered">تم الحفظ</string>
     <string name="isconnected">(متصل)</string>
     <string name="wifi_disabled_password_failure">حدثت مشكلة في التحقق من الهوية</string>

@@ -138,7 +138,7 @@
         android:background="@drawable/corner_line" />
 
 
-    <com.htc.luminaos.view.CustomScrollView
+    <com.htc.smoonos.view.CustomScrollView
         android:id="@+id/scroll_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -437,7 +437,7 @@
             </RelativeLayout>
         </RelativeLayout>
 
-    </com.htc.luminaos.view.CustomScrollView>
+    </com.htc.smoonos.view.CustomScrollView>
 
 
 </RelativeLayout>

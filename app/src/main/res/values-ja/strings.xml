@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LuminaOS</string>
+    <string name="app_name">SmoonOS</string>
     <string name="wifi_remembered">保存されました</string>
     <string name="isconnected">(接続済み)</string>
     <string name="wifi_disabled_password_failure">認証に問題があります</string>
