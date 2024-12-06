@@ -184,7 +184,6 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
                     Bitmap bitmap = drawableToBitamp(d);
 //                    Bitmap bp = compressBitmap(bitmap);
                     BitmapDrawable finalD = new BitmapDrawable(bitmap);
-
                     // 加入缓存
                     drawableCache.put(i, finalD);
                     handler.post(new Runnable() {

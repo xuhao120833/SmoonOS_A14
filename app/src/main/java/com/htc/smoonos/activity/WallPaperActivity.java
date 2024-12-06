@@ -98,7 +98,6 @@ public class WallPaperActivity extends BaseActivity {
                 case Contants.DISSMISS_DIALOG:
                     if (switchDialog != null && switchDialog.isShowing())
                         switchDialog.dismiss();
-
                     setWallPaper();
                     break;
                 case Contants.RESET_CHECK:

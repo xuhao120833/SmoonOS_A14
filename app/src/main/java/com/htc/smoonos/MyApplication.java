@@ -9,6 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.baidu.mobstat.StatService;
 import com.google.gson.Gson;
 import com.htc.smoonos.entry.Config;
@@ -37,6 +40,11 @@ public class MyApplication extends Application {
     public static Config config = new Config();
     public static BitmapDrawable mainDrawable = null;
     public static BitmapDrawable otherDrawable = null;
+//    private MutableLiveData<Boolean> isDataInitialized = new MutableLiveData<>();
+//
+//    public LiveData<Boolean> getIsDataInitialized() {
+//        return isDataInitialized; // 只暴露不可变的 LiveData
+//    }
 
 
     @Override
@@ -49,15 +57,13 @@ public class MyApplication extends Application {
         editor.apply();
         if (new File(Contants.WALLPAPER_MAIN).exists())
             mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
-        new Thread(() -> {
-            try {
-                // JSON 解析
-                parseConfigFile();
-            } catch (Exception e) {
-                // 打印异常日志
-                e.printStackTrace();
-            }
-        }).start();
+        try {
+            // JSON 解析
+            parseConfigFile();
+        } catch (Exception e) {
+            // 打印异常日志
+            e.printStackTrace();
+        }
         initDisplaySize();
         initWallpaperData();
         StatService.init(this, "5dd227fad8", "Baidu Market");
@@ -114,7 +120,7 @@ public class MyApplication extends Application {
         DisplayMetrics dm = getResources().getDisplayMetrics();
         int screenWidth = dm.widthPixels;
         int screenHeight = dm.heightPixels;
-        Log.d("hzj", "screenWidth " + screenWidth + " screenHeight " + screenHeight);
+        Log.d(TAG, "screenWidth " + screenWidth + " screenHeight " + screenHeight);
         KeystoneUtils.lcd_h = screenHeight;
         KeystoneUtils.lcd_w = screenWidth;
         KeystoneUtils.minH_size = config.manualKeystoneWidth;
@@ -162,6 +168,13 @@ public class MyApplication extends Application {
 
     private void initWallpaperData() {
         new Thread(() -> {
+//            try {
+//                // JSON 解析
+//                parseConfigFile();
+//            } catch (Exception e) {
+//                // 打印异常日志
+//                e.printStackTrace();
+//            }
             Utils.drawables.add(getResources().getDrawable(R.drawable.background8));
             Utils.drawables.add(getResources().getDrawable(R.drawable.background_main));
             Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background1));
@@ -185,6 +198,9 @@ public class MyApplication extends Application {
             Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background19));
             // 调用 copyMyWallpaper 方法
             copyMyWallpaper();
+            // 数据加载完成后更新 LiveData
+//            Log.d(TAG,"执行完initWallpaperData");
+//            isDataInitialized.postValue(true);
         }).start();
     }
 

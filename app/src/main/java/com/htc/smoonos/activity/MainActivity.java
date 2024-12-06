@@ -119,6 +119,7 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import okhttp3.Call;
@@ -256,6 +257,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             timerManager.startTimer();
             customBinding = ActivityMainMuqiBinding.inflate(LayoutInflater.from(this));
             setContentView(customBinding.getRoot());
+            setDefaultBackgroundById();
 //            setViewInvisible();
             initViewCustom();
             initDataCustom();
@@ -988,79 +990,48 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         int code = sharedPreferences.getInt("code", 0);
         Log.d(TAG, " initDataApp读code值 " + code);
         if (code == 0) {  //保证配置文件只在最初读一次
-
             //1、优先连接服务器读取配置
 
             //2、服务器没有，就读本地
             Log.d(TAG, " MainActivity开始读取配置文件 ");
-
             // 读取文件,优先读取oem分区
             File file = new File("/oem/shortcuts.config");
-
             if (!file.exists()) {
                 file = new File("/system/shortcuts.config");
             }
-
             if (!file.exists()) {
                 Log.d(TAG, " 配置文件不存在 ");
                 DBUtils.getInstance(this).deleteTable();
-
                 editor.putInt("code", 1);
                 editor.apply();
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // 设置首页的配置图标
-                        try {
-                            setDefaultBackground();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
                 return false;
             }
-
             try {
                 FileInputStream is = new FileInputStream(file);
                 byte[] b = new byte[is.available()];
                 is.read(b);
                 String result = new String(b);
-
                 Log.d(TAG, " MainActivity读取到的配置文件 " + result); //这里把配置文件原封不动的读取出来，不做一整行处理
-
                 List<String> residentList = new ArrayList<>();
                 JSONObject obj = new JSONObject(result);
-
                 //读取默认背景配置 这块提前放到MyApplication中
 //                readDefaultBackground(obj);
-
                 //读取首页四大APP图标
 //                readMain(obj);
-
                 //读取middleApps
                 readMiddleApps(obj);
-
                 //读取APP快捷图标
                 readShortcuts(obj, residentList, sharedPreferences);
-
                 //读取filterApps屏蔽显示的APP
                 readFilterApps(obj);
-
                 //读取右边list第一个、第三个的配置
 //                readListModules(obj);
                 Log.d(TAG, " 当前的语言环境是： " + LanguageUtil.getCurrentLanguage());
-
                 //读取品牌图标
                 readBrand(obj);
-
                 //是否显示时间
                 //readTime();
-
                 editor.putString("resident", residentList.toString());
-
                 editor.putInt("code", 1);
                 editor.apply();
                 is.close();
@@ -1070,7 +1041,6 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 isLoad = false;
             }
         }
-
         //设置首页的配置图标
         // 在主线程中更新 UI
         runOnUiThread(new Runnable() {
@@ -1498,212 +1468,67 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     }
 
     private void setIconOrText() {
-
         //1、MainApp
 //        setMainApp();
-
         //2、ListModules
 //        setListModules();
-
         //3、brandLogo
         setbrandLogo();
-
         //4、DefaultBackground
-        setDefaultBackground();
-
+//        setDefaultBackground();
     }
 
-    private void setMainApp() {
-        Drawable drawable = DBUtils.getInstance(this).getIconDataByTag("icon1");
-        if (drawable != null) {
-//            customBinding.icon1.setImageDrawable(drawable);
-        }
+//    private void setMainApp() {
+//        Drawable drawable = DBUtils.getInstance(this).getIconDataByTag("icon1");
+//        if (drawable != null) {
+////            customBinding.icon1.setImageDrawable(drawable);
+//        }
+//
+//        drawable = DBUtils.getInstance(this).getIconDataByTag("icon2");
+//        if (drawable != null) {
+////            customBinding.icon2.setImageDrawable(drawable);
+//        }
+//
+//        drawable = DBUtils.getInstance(this).getIconDataByTag("icon3");
+//        if (drawable != null) {
+////            customBinding.icon3.setImageDrawable(drawable);
+//        }
+//
+//        drawable = DBUtils.getInstance(this).getIconDataByTag("icon4");
+//        if (drawable != null) {
+////            customBinding.icon4.setImageDrawable(drawable);
+//        }
+//    }
 
-        drawable = DBUtils.getInstance(this).getIconDataByTag("icon2");
-        if (drawable != null) {
-//            customBinding.icon2.setImageDrawable(drawable);
-        }
-
-        drawable = DBUtils.getInstance(this).getIconDataByTag("icon3");
-        if (drawable != null) {
-//            customBinding.icon3.setImageDrawable(drawable);
-        }
-
-        drawable = DBUtils.getInstance(this).getIconDataByTag("icon4");
-        if (drawable != null) {
-//            customBinding.icon4.setImageDrawable(drawable);
-        }
-    }
-
-    private void setListModules() {
-        Drawable drawable = DBUtils.getInstance(this).getDrawableFromListModules("list1");
-        if (drawable != null) {
-//            customBinding.eshareIcon.setImageDrawable(drawable);
-            drawable = null;
-        }
-
-        drawable = DBUtils.getInstance(this).getDrawableFromListModules("list3");
-        if (drawable != null) {
-//            customBinding.hdmiIcon.setImageDrawable(drawable);
-            drawable = null;
-        }
-
-        Hashtable<String, String> mHashtable1 = DBUtils.getInstance(this).getHashtableFromListModules("list1");
-        Hashtable<String, String> mHashtable2 = DBUtils.getInstance(this).getHashtableFromListModules("list3");
-
-        Log.d(TAG, "xu当前语言" + LanguageUtil.getCurrentLanguage());
-
-        if (mHashtable1 != null) {
-            String text = mHashtable1.get(LanguageUtil.getCurrentLanguage());
-            Log.d(TAG, "xu当前语言 text eshareText" + text);
-            if (text != null && !text.isEmpty()) {
-//                customBinding.eshareText.setText(text);
-            }
-
-//            switch (LanguageUtil.getCurrentLanguage()) {
-//                case "zh-CN":
-//                    Log.d(TAG, "中文设置eshareText和hdmiText");
-//                    text = mHashtable1.get("zh-CN");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.eshareText.setText(mHashtable1.get("zh-CN"));
-//                    }
-//                    break;
-//                case "zh-TW":
-//                    text = mHashtable1.get("zh-TW");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.eshareText.setText(mHashtable1.get("zh-TW"));
-//                    }
-//                    break;
-//                case "zh-HK":
-//                    text = mHashtable1.get("zh-HK");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.eshareText.setText(mHashtable1.get("zh-HK"));
-//                    }
-//                    break;
-//                case "ko-KR":
-//                    text = mHashtable1.get("ko-KR");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.eshareText.setText(mHashtable1.get("ko-KR"));
-//                    }
-//                    break;
-//                case "ja-JP":
-//                    text = mHashtable1.get("ja-JP");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.eshareText.setText(mHashtable1.get("ja-JP"));
-//                    }
-//                    break;
-//                case "en-US":
-//                    text = mHashtable1.get("en-US");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.eshareText.setText(mHashtable1.get("en-US"));
-//                    }
-//                    break;
-//                case "ru-RU":
-//                    text = mHashtable1.get("ru-RU");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.eshareText.setText(mHashtable1.get("ru-RU"));
-//                    }
-//                    break;
-//                case "ar-EG":
-//                    text = mHashtable1.get("ar-EG");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.eshareText.setText(mHashtable1.get("ar-EG"));
-//                    }
-//                    break;
-//            }
-        }
-
-        if (mHashtable2 != null) {
-            String text = mHashtable2.get(LanguageUtil.getCurrentLanguage());
-            Log.d(TAG, "xu当前语言 text hdmiText" + text);
-            if (text != null && !text.isEmpty()) {
-//                customBinding.hdmiText.setText(text);
-            }
-//            switch (LanguageUtil.getCurrentLanguage()) {
-//                case "zh-CN":
-//                    Log.d(TAG, "中文设置eshareText和hdmiText");
-//                    text = mHashtable2.get("zh-CN");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.hdmiText.setText(mHashtable2.get("zh-CN"));
-//                    }
-//                    break;
-//                case "zh-TW":
-//                    text = mHashtable2.get("zh-TW");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.hdmiText.setText(mHashtable2.get("zh-TW"));
-//                    }
-//                    break;
-//                case "zh-HK":
-//                    text = mHashtable2.get("zh-HK");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.hdmiText.setText(mHashtable2.get("zh-HK"));
-//                    }
-//                    break;
-//                case "ko-KR":
-//                    text = mHashtable2.get("ko-KR");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.hdmiText.setText(mHashtable2.get("ko-KR"));
-//                    }
-//                    break;
-//                case "ja-JP":
-//                    text = mHashtable2.get("ja-JP");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.hdmiText.setText(mHashtable2.get("ja-JP"));
-//                    }
-//                    break;
-//                case "en-US":
-//                    text = mHashtable2.get("en-US");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.hdmiText.setText(mHashtable2.get("en-US"));
-//                    }
-//                    break;
-//                case "ru-RU":
-//                    text = mHashtable2.get("ru-RU");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.hdmiText.setText(mHashtable2.get("ru-RU"));
-//                    }
-//                    break;
-//                case "ar-EG":
-//                    text = mHashtable2.get("ar-EG");
-//                    if (text != null && !text.equals("")) {
-//                        customBinding.hdmiText.setText(mHashtable2.get("ar-EG"));
-//                    }
-//                    break;
-//            }
-        }
-
-//        if (mHashtable2 != null) {
-//            String text = null;
-//            switch (LanguageUtil.getCurrentLanguage()) {
-//                case "zh-CN":
-//                    Log.d(TAG, "中文设置eshareText和hdmiText");
-//                    customBinding.hdmiText.setText(mHashtable2.get("zh-CN"));
-//                    break;
-//                case "zh-TW":
-//                    customBinding.hdmiText.setText(mHashtable2.get("zh-TW"));
-//                    break;
-//                case "zh-HK":
-//                    customBinding.hdmiText.setText(mHashtable2.get("zh-HK"));
-//                    break;
-//                case "ko-KR":
-//                    customBinding.hdmiText.setText(mHashtable2.get("ko-KR"));
-//                    break;
-//                case "ja-JP":
-//                    customBinding.hdmiText.setText(mHashtable2.get("ja-JP"));
-//                    break;
-//                case "en-US":
-//                    customBinding.hdmiText.setText(mHashtable2.get("en-US"));
-//                    break;
-//                case "ru-RU":
-//                    customBinding.hdmiText.setText(mHashtable2.get("ru-RU"));
-//                    break;
-//                case "ar-EG":
-//                    customBinding.hdmiText.setText(mHashtable2.get("ar-EG"));
-//                    break;
+//    private void setListModules() {
+//        Drawable drawable = DBUtils.getInstance(this).getDrawableFromListModules("list1");
+//        if (drawable != null) {
+////            customBinding.eshareIcon.setImageDrawable(drawable);
+//            drawable = null;
+//        }
+//        drawable = DBUtils.getInstance(this).getDrawableFromListModules("list3");
+//        if (drawable != null) {
+////            customBinding.hdmiIcon.setImageDrawable(drawable);
+//            drawable = null;
+//        }
+//        Hashtable<String, String> mHashtable1 = DBUtils.getInstance(this).getHashtableFromListModules("list1");
+//        Hashtable<String, String> mHashtable2 = DBUtils.getInstance(this).getHashtableFromListModules("list3");
+//        Log.d(TAG, "xu当前语言" + LanguageUtil.getCurrentLanguage());
+//        if (mHashtable1 != null) {
+//            String text = mHashtable1.get(LanguageUtil.getCurrentLanguage());
+//            Log.d(TAG, "xu当前语言 text eshareText" + text);
+//            if (text != null && !text.isEmpty()) {
+////                customBinding.eshareText.setText(text);
 //            }
 //        }
-
-    }
+//        if (mHashtable2 != null) {
+//            String text = mHashtable2.get(LanguageUtil.getCurrentLanguage());
+//            Log.d(TAG, "xu当前语言 text hdmiText" + text);
+//            if (text != null && !text.isEmpty()) {
+////                customBinding.hdmiText.setText(text);
+//            }
+//        }
+//    }
 
     private void setbrandLogo() {
         Drawable drawable = DBUtils.getInstance(this).getDrawableFromBrandLogo(1);
@@ -1712,7 +1537,30 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
     }
 
-    private void setDefaultBackground() {
+//    private void setDefaultBackground() {
+//        //如果用户自主修改了背景，那么重启之后不再设置默认背景start
+//        SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
+//        int selectBg = sharedPreferences.getInt(Contants.SelectWallpaperLocal, -1);
+//        if (selectBg != -1) {
+//            Log.d(TAG, " setDefaultBackground 用户已经自主修改了背景");
+//            return;
+//        }
+//        //背景控制end
+//        String defaultbg = sharedPreferences.getString(Contants.DefaultBg, "1");
+//        Log.d(TAG, " setDefaultBackground defaultbg " + defaultbg);
+//        int number = Integer.parseInt(defaultbg);
+//        Log.d(TAG, " setDefaultBackground number " + number);
+//        if (number > Utils.drawables.size()) {
+//            Log.d(TAG, " setDefaultBackground 用户设置的默认背景，超出了范围");
+//            return;
+//        }
+//        MyApplication.mainDrawable = (BitmapDrawable) Utils.drawables.get(number - 1);
+//        setWallPaper(Utils.drawables.get(number - 1));
+//        setDefaultBg(Utils.drawables.get(number - 1));
+//    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void setDefaultBackgroundById() {
         //如果用户自主修改了背景，那么重启之后不再设置默认背景start
         SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
         int selectBg = sharedPreferences.getInt(Contants.SelectWallpaperLocal, -1);
@@ -1725,41 +1573,42 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         Log.d(TAG, " setDefaultBackground defaultbg " + defaultbg);
         int number = Integer.parseInt(defaultbg);
         Log.d(TAG, " setDefaultBackground number " + number);
-        if (number > Utils.drawables.size()) {
+        if (number > Utils.drawablesId.length) {
             Log.d(TAG, " setDefaultBackground 用户设置的默认背景，超出了范围");
             return;
         }
-        MyApplication.mainDrawable = (BitmapDrawable) Utils.drawables.get(number - 1);
-        setWallPaper(Utils.drawables.get(number - 1));
-        setDefaultBg(Utils.drawables.get(number - 1));
+        setWallPaper(Utils.drawablesId[number - 1]);
+        Drawable drawable = getResources().getDrawable(Utils.drawablesId[number - 1]);
+        MyApplication.mainDrawable = (BitmapDrawable) drawable;
+        setDefaultBg(drawable);
     }
 
-    private void setDefaultBg(int resId) {
-        threadExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                CopyResIdToSd(resId);
-                CopyResIdToSd(BlurImageView.BoxBlurFilter(MainActivity.this, resId));
-                if (new File(Contants.WALLPAPER_MAIN).exists()) {
-                    MyApplication.mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
-                }
-                if (new File(Contants.WALLPAPER_OTHER).exists())
-                    MyApplication.otherDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_OTHER));
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // 设置首页的配置图标
-                        try {
-                            setWallPaper();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
-            }
-        });
-    }
+//    private void setDefaultBg(int resId) {
+//        threadExecutor.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                CopyResIdToSd(resId);
+//                CopyResIdToSd(BlurImageView.BoxBlurFilter(MainActivity.this, resId));
+//                if (new File(Contants.WALLPAPER_MAIN).exists()) {
+//                    MyApplication.mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
+//                }
+//                if (new File(Contants.WALLPAPER_OTHER).exists())
+//                    MyApplication.otherDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_OTHER));
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        // 设置首页的配置图标
+//                        try {
+//                            setWallPaper();
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//
+//            }
+//        });
+//    }
 
     private void setDefaultBg(Drawable drawable) {
         threadExecutor.execute(new Runnable() {
@@ -1769,11 +1618,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 if (new File(Contants.WALLPAPER_MAIN).exists()) {
                     MyApplication.mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
                 }
-
             }
         });
     }
-
 
     @Override
     public void appChange(String packageName) {
@@ -1800,113 +1647,105 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         Log.d(TAG, "MainActivity 收到安装广播");
     }
 
-    private void CopyResIdToSd(int resId) {
-        File file = new File(Contants.WALLPAPER_DIR);
-        if (!file.exists())
-            file.mkdir();
+//    private void CopyResIdToSd(int resId) {
+//        File file = new File(Contants.WALLPAPER_DIR);
+//        if (!file.exists())
+//            file.mkdir();
+//        InputStream inputStream = getResources().openRawResource(resId);
+//        try {
+//            File file1 = new File(Contants.WALLPAPER_MAIN);
+//            if (file1.exists())
+//                file1.delete();
+//            FileOutputStream fileOutputStream = new FileOutputStream(file1);
+//            byte[] buf = new byte[1024];
+//            int bytesRead;
+//            while ((bytesRead = inputStream.read(buf)) != -1) {
+//                fileOutputStream.write(buf, 0, bytesRead);
+//            }
+//            fileOutputStream.flush();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-        InputStream inputStream = getResources().openRawResource(resId);
-        try {
-            File file1 = new File(Contants.WALLPAPER_MAIN);
-            if (file1.exists())
-                file1.delete();
+//    private void CopyResIdToSd(Bitmap bitmap) {
+//        File file1 = new File(Contants.WALLPAPER_DIR);
+//        if (!file1.exists())
+//            file1.mkdir();
+//
+//        File file = new File(Contants.WALLPAPER_OTHER);//将要保存图片的路径
+//        if (file.exists())
+//            file.delete();
+//        try {
+//            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+//            bos.flush();
+//            bos.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-            FileOutputStream fileOutputStream = new FileOutputStream(file1);
-
-            byte[] buf = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buf)) != -1) {
-                fileOutputStream.write(buf, 0, bytesRead);
-            }
-            fileOutputStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void CopyResIdToSd(Bitmap bitmap) {
-        File file1 = new File(Contants.WALLPAPER_DIR);
-        if (!file1.exists())
-            file1.mkdir();
-
-        File file = new File(Contants.WALLPAPER_OTHER);//将要保存图片的路径
-        if (file.exists())
-            file.delete();
-        try {
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
-            bos.flush();
-            bos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int countUsbDevices(Context context) {
-        File storageDir = new File("/storage/");
-        int usbCount = 0;
-
-        if (storageDir.exists() && storageDir.isDirectory()) {
-            File[] directories = storageDir.listFiles();
-            Log.d(TAG, "检测到  directories" + directories);
-            if (directories != null) {
-                for (File dir : directories) {
-                    Log.d(TAG, "检测到  directories");
-                    // 检查子目录是否是一个挂载点，并且是否是外部可移动存储
-                    if (dir.isDirectory() && dir.canRead() && isUsbDevice(dir)) {
-                        usbCount++;
-                    }
-                }
-            }
-        }
-
-        Log.d(TAG, "检测到 " + usbCount + " 个U盘");
-        return usbCount;
-    }
+//    public int countUsbDevices(Context context) {
+//        File storageDir = new File("/storage/");
+//        int usbCount = 0;
+//
+//        if (storageDir.exists() && storageDir.isDirectory()) {
+//            File[] directories = storageDir.listFiles();
+//            Log.d(TAG, "检测到  directories" + directories);
+//            if (directories != null) {
+//                for (File dir : directories) {
+//                    Log.d(TAG, "检测到  directories");
+//                    // 检查子目录是否是一个挂载点，并且是否是外部可移动存储
+//                    if (dir.isDirectory() && dir.canRead() && isUsbDevice(dir)) {
+//                        usbCount++;
+//                    }
+//                }
+//            }
+//        }
+//        Log.d(TAG, "检测到 " + usbCount + " 个U盘");
+//        return usbCount;
+//    }
 
     // 辅助函数，用于判断给定目录是否为 USB 设备
-    private boolean isUsbDevice(File dir) {
-        try {
-            // 获取目录的挂载信息
-            String mountInfo = getMountInfo(dir);
-            // 检查是否为支持的 USB 设备文件系统格式
-            return mountInfo.contains("vfat") ||
-                    mountInfo.contains("exfat") ||
-                    mountInfo.contains("ntfs") ||
-                    mountInfo.contains("fat32") ||
-                    mountInfo.contains("fuse");
-        } catch (Exception e) {
-            Log.e(TAG, "检查目录是否为 USB 设备时出错", e);
-            return false;
-        }
-    }
-
+//    private boolean isUsbDevice(File dir) {
+//        try {
+//            // 获取目录的挂载信息
+//            String mountInfo = getMountInfo(dir);
+//            // 检查是否为支持的 USB 设备文件系统格式
+//            return mountInfo.contains("vfat") ||
+//                    mountInfo.contains("exfat") ||
+//                    mountInfo.contains("ntfs") ||
+//                    mountInfo.contains("fat32") ||
+//                    mountInfo.contains("fuse");
+//        } catch (Exception e) {
+//            Log.e(TAG, "检查目录是否为 USB 设备时出错", e);
+//            return false;
+//        }
+//    }
 
     // 获取目录的挂载信息
-    private String getMountInfo(File dir) {
-        try {
-            // 使用 "mount" 命令获取挂载信息
-            Process process = Runtime.getRuntime().exec("mount");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            StringBuilder output = new StringBuilder();
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                if (line.contains(dir.getAbsolutePath())) {
-                    output.append(line);
-                    break;
-                }
-            }
-
-            reader.close();
-            Log.e(TAG, "检测到 output.toString() " + output.toString());
-            return output.toString();
-        } catch (IOException e) {
-            Log.e(TAG, "获取挂载信息时出错", e);
-            return "";
-        }
-    }
+//    private String getMountInfo(File dir) {
+//        try {
+//            // 使用 "mount" 命令获取挂载信息
+//            Process process = Runtime.getRuntime().exec("mount");
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//            StringBuilder output = new StringBuilder();
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                if (line.contains(dir.getAbsolutePath())) {
+//                    output.append(line);
+//                    break;
+//                }
+//            }
+//            reader.close();
+//            Log.e(TAG, "检测到 output.toString() " + output.toString());
+//            return output.toString();
+//        } catch (IOException e) {
+//            Log.e(TAG, "获取挂载信息时出错", e);
+//            return "";
+//        }
+//    }
 
 
     private void CopyDrawableToSd(Drawable drawable) {
@@ -1919,7 +1758,6 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
         }
-
         //判断图片大小，如果超过限制就做缩小处理
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
@@ -1927,13 +1765,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             bitmap = narrowBitmap(bitmap);
         }
         //缩小完毕
-
         File dir = new File(Contants.WALLPAPER_DIR);
         if (!dir.exists()) dir.mkdirs();
-
         File file1 = new File(Contants.WALLPAPER_MAIN);
 //        if (file1.exists()) file1.delete();
-
         try (FileOutputStream fileOutputStream = new FileOutputStream(file1)) {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream); // 可根据需要更改格式
             fileOutputStream.flush();
