@@ -58,6 +58,17 @@ public class MyApplication extends Application {
             e.printStackTrace();
         }
 
+//        new Thread(() -> {
+//            try {
+//                // JSON 解析
+//                parseConfigFile();
+//            } catch (Exception e) {
+//                // 打印异常日志
+//                e.printStackTrace();
+//                Log.e("ParseConfig", "Error parsing config file: " + e.getMessage());
+//            }
+//        }).start();
+
         initDisplaySize();
 
         initWallpaperData();
@@ -83,7 +94,6 @@ public class MyApplication extends Application {
 
     private void parseConfigFile() {
         String configContent;
-
         //优先读取oem分区，其次读取system分区
         if (new File("/oem/config.ini").exists()) {
             configContent = FileUtils.readFileContent("/oem/config.ini"); //这里的作用就是从shortcuts.config中一行一行的读取字符，然后将它们合并成一行字符串
@@ -94,7 +104,6 @@ public class MyApplication extends Application {
         }
         if (configContent == null || configContent.equals(""))
             return;
-
         Log.d(TAG, " 配置文件configContent " + configContent);
         try {
             Gson gson = new Gson();
@@ -104,7 +113,6 @@ public class MyApplication extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         //读取背景的默认图片
         SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -166,39 +174,63 @@ public class MyApplication extends Application {
         }
     }
 
+//    private void initWallpaperData() {
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.background8));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.background_main));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background1));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background2));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background3));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background4));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background5));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background6));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background7));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background8));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background9));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background10));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background11));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background12));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background13));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background14));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background15));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background16));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background17));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background18));
+//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background19));
+//        new Thread(() -> copyMyWallpaper()).start();
+//    }
+
     private void initWallpaperData() {
+        new Thread(() -> {
+            Utils.drawables.add(getResources().getDrawable(R.drawable.background8));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.background_main));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background1));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background2));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background3));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background4));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background5));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background6));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background7));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background8));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background9));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background10));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background11));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background12));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background13));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background14));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background15));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background16));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background17));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background18));
+            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background19));
 
-        Utils.drawables.add(getResources().getDrawable(R.drawable.background8));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.background_main));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background1));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background2));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background3));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background4));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background5));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background6));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background7));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background8));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background9));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background10));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background11));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background12));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background13));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background14));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background15));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background16));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background17));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background18));
-        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background19));
-
-
-
-        new Thread(() -> copyMyWallpaper()).start();
-
+            // 调用 copyMyWallpaper 方法
+            copyMyWallpaper();
+        }).start();
     }
+
 
     private void copyMyWallpaper() {
         String[] imageExtensions = {".jpg", ".jpeg", ".png", ".bmp", ".webp"};
-
         File directory = new File("/sdcard/.mywallpaper");
         if (directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles();
@@ -217,7 +249,6 @@ public class MyApplication extends Application {
                 }
             }
         }
-
     }
 
 }

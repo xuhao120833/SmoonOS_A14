@@ -39,6 +39,7 @@ import com.htc.smoonos.utils.Contants;
 import com.htc.smoonos.utils.DialogUtils;
 import com.htc.smoonos.utils.LogUtils;
 import com.htc.smoonos.utils.StorageUtils;
+import com.htc.smoonos.utils.TimerManager;
 import com.htc.smoonos.utils.Utils;
 import com.htc.smoonos.widget.FocusKeepRecyclerView;
 import com.htc.smoonos.widget.SpacesItemDecoration;
@@ -68,6 +69,9 @@ public class WallPaperActivity extends BaseActivity {
 
     long curTime = 0;
     private static String TAG = "WallPaperActivity";
+
+//    private static TimerManager timerManager = null;
+
 
     Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -143,6 +147,10 @@ public class WallPaperActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         wallPaperBinding = ActivityWallpaperCustomBinding.inflate(LayoutInflater.from(this));
         setContentView(wallPaperBinding.getRoot());
+//        if(timerManager == null){
+//            timerManager = new TimerManager();
+//        }
+//        Log.d(TAG,"onCreate timerManager"+timerManager);
         initView();
         getPath();
         initData();
@@ -151,12 +159,12 @@ public class WallPaperActivity extends BaseActivity {
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
 //        getPath();
 //        wallPaperBinding.wallpaperRv.getAdapter().notifyDataSetChanged();
 //        initFocus();
-        Log.d(TAG," 执行onResume");
+        Log.d(TAG, " 执行onResume");
     }
 
     private void initView() {
@@ -193,20 +201,6 @@ public class WallPaperActivity extends BaseActivity {
                 RecyclerView.Adapter adapter = wallpaperRv.getAdapter();
                 if (adapter != null) {
                     int position = adapter.getItemCount() - 2; // 倒数第二个项的位置
-
-//                    // 滚动到倒数第二个项的位置
-//                    wallpaperRv.smoothScrollToPosition(position);
-//                    // 给 RecyclerView 的 Item 设置焦点
-//                    wallpaperRv.post(() -> {
-//                        // 确保 RecyclerView 已经滚动到目标位置，并且 ViewHolder 不为 null
-//                        RecyclerView.ViewHolder viewHolder = wallpaperRv.findViewHolderForAdapterPosition(position);
-//                        if (viewHolder != null) {
-//                            viewHolder.itemView.requestFocus();
-//                        } else {
-//                            Log.e(TAG, "无法找到指定位置的 ViewHolder");
-//                        }
-//                    });
-
                     // 添加滚动监听器
                     wallpaperRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
                         @Override
@@ -218,6 +212,10 @@ public class WallPaperActivity extends BaseActivity {
                                 RecyclerView.ViewHolder viewHolder = wallpaperRv.findViewHolderForAdapterPosition(position);
                                 if (viewHolder != null) {
                                     viewHolder.itemView.requestFocus();
+                                    // 触发点击事件
+                                    viewHolder.itemView.performClick();
+//                                    timerManager.stopTimer();
+//                                    timerManager.printElapsedTime();
                                 } else {
                                     Log.e(TAG, "无法找到指定位置的 ViewHolder");
                                 }
@@ -235,7 +233,7 @@ public class WallPaperActivity extends BaseActivity {
     }
 
     private void loadLocal() {
-        WallPaperAdapter wallPaperAdapter = new WallPaperAdapter(getApplicationContext(), Utils.drawables, handler,wallPaperBinding.wallpaperRv);
+        WallPaperAdapter wallPaperAdapter = new WallPaperAdapter(getApplicationContext(), Utils.drawables, handler, wallPaperBinding.wallpaperRv);
 //        wallPaperAdapter.setHasStableIds(true);
         wallPaperAdapter.setWallPaperOnCallBack(onCallBack);
         wallPaperBinding.wallpaperRv.setAdapter(wallPaperAdapter);
@@ -547,6 +545,7 @@ public class WallPaperActivity extends BaseActivity {
             Bitmap bitmap = BitmapFactory.decodeFile(copypath);
             Drawable drawable = new BitmapDrawable(getResources(), bitmap);
             Utils.drawables.add(drawable);
+//            timerManager.getElapsedTime();
 //            Utils.FILE_PATH = path;
 //            Utils.drawables.add(-1);
         }

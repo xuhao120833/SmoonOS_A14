@@ -24,7 +24,9 @@ import com.htc.smoonos.entry.AppInfoBean;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class AppUtils {
 
@@ -54,15 +56,11 @@ public class AppUtils {
                         break;
                     }
                 }
-
                 if (has_flag)
                     continue;
-
                 resolveInfos.add(resolveInfo_lb);
-
             }
         }
-
         //排除"filterApps" 屏蔽掉的APP
 //		String[] filterApps = MyApplication.config.filterApps.split(";");
         String[] filterApps = DBUtils.getInstance(context).getFilterApps();
@@ -71,11 +69,26 @@ public class AppUtils {
             Log.d(TAG, " 禁用名单 " + filterApps[0]);
             stringList = Arrays.asList(filterApps);
         }
-
         // 调用系统排序 ， 根据name排序
         // 该排序很重要，否则只能显示系统应用，而不能列出第三方应用程序
         Collections.sort(resolveInfos,
                 new ResolveInfo.DisplayNameComparator(pm));
+        // 强制使用英文排序
+//        Collections.sort(resolveInfos, new Comparator<ResolveInfo>() {
+//            @Override
+//            public int compare(ResolveInfo o1, ResolveInfo o2) {
+//                // 获取 PackageManager
+//                PackageManager pm = context.getPackageManager();
+//
+//                // 获取英文显示名称
+//                String name1 = o1.loadLabel(pm).toString();
+//                String name2 = o2.loadLabel(pm).toString();
+//
+//                // 强制使用英文排序，忽略大小写
+//                return name1.toLowerCase(Locale.ENGLISH).compareTo(name2.toLowerCase(Locale.ENGLISH));
+//            }
+//        });
+
         for (ResolveInfo reInfo : resolveInfos) {
             String activityName = reInfo.activityInfo.name; // 获得该应用程序的启动Activity的name
             String pkgName = reInfo.activityInfo.packageName; // 获得应用程序的包名

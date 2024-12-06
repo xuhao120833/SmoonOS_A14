@@ -21,9 +21,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.htc.smoonos.MyApplication;
 import com.htc.smoonos.R;
 import com.htc.smoonos.adapter.WifiFoundAdapter;
 import com.htc.smoonos.databinding.ActivityWifiBinding;
@@ -95,6 +97,7 @@ public class WifiActivity extends BaseActivity  implements WifiEnabledReceiver.W
     private void initView(){
         wifiBinding.rlWifiSwitch.setOnClickListener(this);
         wifiBinding.rlAddNetwork.setOnClickListener(this);
+        wifiBinding.rlIpSettings.setOnClickListener(this);
         wifiBinding.rlWifiSwitch.setOnHoverListener(this);
         wifiBinding.rlAddNetwork.setOnHoverListener(this);
         wifiBinding.wifiSwitch.setOnClickListener(this);
@@ -119,6 +122,8 @@ public class WifiActivity extends BaseActivity  implements WifiEnabledReceiver.W
                 });
             }
         });
+
+        wifiBinding.rlIpSettings.setVisibility(MyApplication.config.wifiIpSettings ? View.VISIBLE : View.GONE);
     }
 
     private void initData(){
@@ -149,7 +154,25 @@ public class WifiActivity extends BaseActivity  implements WifiEnabledReceiver.W
                 mWifiManager.startScan();
                 startanim(true);
                 break;
+            case R.id.rl_ip_settings:
+                if (isWifiConnected()) {
+                    startNewActivity(WifiIpSetActivity.class);
+                } else {
+                    Toast.makeText(this, getResources().getString(R.string.network_disconnect_tip), Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
+    }
+
+    private boolean isWifiConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            return networkInfo != null
+                    && networkInfo.isConnected()
+                    && networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
+        }
+        return false;
     }
 
     Runnable RefreshRunnable = new Runnable() {

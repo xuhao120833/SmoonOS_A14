@@ -44,6 +44,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <activity
+            android:name=".activity.WifiIpSetActivity"
+            android:exported="false" />
+
         <receiver
             android:name="com.htc.smoonos.receiver.VaFocusReceiver"
             android:enabled="true"

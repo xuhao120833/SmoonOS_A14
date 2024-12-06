@@ -9,11 +9,16 @@ import android.os.storage.StorageVolume;
 import android.util.Log;
 import android.view.View;
 
+import com.htc.smoonos.R;
 import com.htc.smoonos.activity.MainActivity;
 import com.htc.smoonos.utils.Utils;
 
 import java.util.HashMap;
 import java.util.List;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+
+import androidx.core.content.ContextCompat;
 
 public class UsbDeviceReceiver extends BroadcastReceiver {
 
@@ -43,7 +48,10 @@ public class UsbDeviceReceiver extends BroadcastReceiver {
                 if(isExternalStoragePath(path)) {
                     Utils.hasUsbDevice = true;
                     Utils.usbDevicesNumber++;
-                    if(activity.customBinding.rlUsbConnect.getVisibility() == View.GONE) {
+//                    if(activity.customBinding.rlUsbConnect.getVisibility() == View.GONE) {
+//                        callBack.UsbDeviceChange();
+//                    }
+                    if(!isImageViewShowingDrawable(activity,activity.customBinding.muqiUsb, R.drawable.muqi_usb_green)) {
                         callBack.UsbDeviceChange();
                     }
                     Log.d(TAG, "UsbDeviceReceiver 有USB设备插入挂载成功 显示U盘图标" + Utils.usbDevicesNumber);
@@ -93,6 +101,22 @@ public class UsbDeviceReceiver extends BroadcastReceiver {
             return false;
         }
         return true;
+    }
+
+    // 判断 ImageView 显示的图片是否为指定资源
+    public boolean isImageViewShowingDrawable(Context context, ImageView imageView, int drawableResId) {
+        // 获取当前 ImageView 显示的 Drawable
+        Drawable currentDrawable = imageView.getDrawable();
+        // 获取目标 Drawable
+        Drawable targetDrawable = ContextCompat.getDrawable(context, drawableResId);
+
+        // 比较两者的 ConstantState（如果 ConstantState 相同，则代表是同一个资源）
+        if (currentDrawable != null && targetDrawable != null) {
+            boolean same = currentDrawable.getConstantState().equals(targetDrawable.getConstantState());
+            Log.d(TAG," customBinding.muqiUsb 的对比结果");
+            return same;
+        }
+        return false;
     }
 
 }

@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.htc.smoonos.R;
 import com.htc.smoonos.utils.Contants;
 import com.htc.smoonos.utils.ShareUtil;
+import com.htc.smoonos.utils.TimerManager;
 import com.htc.smoonos.widget.FocusKeepRecyclerView;
 
 import java.io.File;

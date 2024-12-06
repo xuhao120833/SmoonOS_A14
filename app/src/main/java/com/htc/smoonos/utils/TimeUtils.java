@@ -163,7 +163,8 @@ public class TimeUtils {
 	}
 
 	public static String getShortWeekDay() {
-		SimpleDateFormat sdf = new SimpleDateFormat("EEE.", Locale.ENGLISH);
+//		SimpleDateFormat sdf = new SimpleDateFormat("EEE.", Locale.ENGLISH);
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE.", Locale.getDefault());
 		return sdf.format(new Date());
 	}
 	

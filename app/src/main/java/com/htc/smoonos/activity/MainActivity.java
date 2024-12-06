@@ -88,6 +88,7 @@ import com.htc.smoonos.utils.NetWorkUtils;
 import com.htc.smoonos.utils.ShareUtil;
 import com.htc.smoonos.utils.SystemPropertiesUtil;
 import com.htc.smoonos.utils.TimeUtils;
+import com.htc.smoonos.utils.TimerManager;
 import com.htc.smoonos.utils.ToastUtil;
 import com.htc.smoonos.utils.Uri;
 import com.htc.smoonos.utils.Utils;
@@ -192,6 +193,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     private ConnectivityManager.NetworkCallback networkCallback;
 
     private boolean isEther = false;
+    private TimerManager timerManager = new TimerManager();
 
     int front = -1;
     int rear = -1;
@@ -251,9 +253,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
         //定制逻辑 xuhao add 20240717
         try {
+            timerManager.startTimer();
             customBinding = ActivityMainMuqiBinding.inflate(LayoutInflater.from(this));
             setContentView(customBinding.getRoot());
-            setViewInvisible();
+//            setViewInvisible();
             initViewCustom();
             initDataCustom();
             initReceiver();
@@ -278,6 +281,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         if (circularQueue != null) {
             outState.putInt("front", circularQueue.front);                // 保存头指针
             outState.putInt("rear", circularQueue.rear);                // 保存尾指针
+            Log.d(TAG,"onSaveInstanceState 保存头尾指针 front "+circularQueue.front+" rear"+circularQueue.rear);
         }
     }
 
@@ -383,9 +387,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     private void initViewCustom() {
         //U盘
-        customBinding.rlUsbConnect.setOnClickListener(this);
-        customBinding.rlUsbConnect.setOnHoverListener(this);
-        customBinding.rlUsbConnect.setOnFocusChangeListener(this);
+//        customBinding.rlUsbConnect.setOnClickListener(this);
+//        customBinding.rlUsbConnect.setOnHoverListener(this);
+//        customBinding.rlUsbConnect.setOnFocusChangeListener(this);
         //信源
         customBinding.rlSignalSource.setOnClickListener(this);
         customBinding.rlSignalSource.setOnHoverListener(this);
@@ -653,8 +657,11 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                                     circularQueue.front = front;
                                     circularQueue.rear = rear;
                                 }
+                                Log.d(TAG,"initDataCustom 读取头尾指针 front "+circularQueue.front+" rear"+circularQueue.rear);
                                 Log.d(TAG, " update7Icon " + circularQueue.rear);
                                 update7Icon(circularQueue.front, circularQueue.rear);
+                                timerManager.stopTimer();
+                                timerManager.printElapsedTime();
                                 setViewVisible();
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -1360,16 +1367,16 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     @Override
     public void UsbDeviceChange() {
-
         Log.d("UsbDeviceChange ", String.valueOf(Utils.hasUsbDevice));
-
         if (Utils.hasUsbDevice) {
             Log.d("UsbDeviceChange ", "usbConnect设为VISIBLE");
-            customBinding.rlUsbConnect.setVisibility(View.VISIBLE);
+//            customBinding.rlUsbConnect.setVisibility(View.VISIBLE);
+            customBinding.muqiUsb.setImageResource(R.drawable.muqi_usb_green);
         } else {
-            customBinding.rlUsbConnect.clearFocus();
-            customBinding.rlUsbConnect.clearAnimation();
-            customBinding.rlUsbConnect.setVisibility(View.GONE);
+            customBinding.muqiUsb.setImageResource(R.drawable.muqi_usb);
+//            customBinding.rlUsbConnect.clearFocus();
+//            customBinding.rlUsbConnect.clearAnimation();
+//            customBinding.rlUsbConnect.setVisibility(View.GONE);
             Log.d("UsbDeviceChange ", "usbConnect设为GONE");
         }
     }
@@ -1954,9 +1961,10 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     /* 获取USB设备路径列表 */
                     Utils.hasUsbDevice = true;
                     Utils.usbDevicesNumber += 2;
-                    if (customBinding.rlUsbConnect.getVisibility() == View.GONE) {
-                        customBinding.rlUsbConnect.setVisibility(View.VISIBLE);
-                    }
+//                    if (customBinding.rlUsbConnect.getVisibility() == View.GONE) {
+//                        customBinding.rlUsbConnect.setVisibility(View.VISIBLE);
+//                    }
+                    customBinding.muqiUsb.setImageResource(R.drawable.muqi_usb_green);
                     Log.d(TAG, " 检测到USB设备 " + storageVolume.getPath() + " Utils.hasUsbDevice " + Utils.hasUsbDevice
                             + " Utils.usbDevicesNumber " + Utils.usbDevicesNumber);
                 } else if (storageVolume.getPath().contains("sata")) {
