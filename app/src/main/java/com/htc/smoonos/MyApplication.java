@@ -47,38 +47,24 @@ public class MyApplication extends Application {
         editor.putBoolean(Contants.TimeOffStatus, false);
         editor.putInt(Contants.TimeOffIndex, 0);
         editor.apply();
-
         if (new File(Contants.WALLPAPER_MAIN).exists())
             mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
-
-        try {
-            //json解析1
-            parseConfigFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-//        new Thread(() -> {
-//            try {
-//                // JSON 解析
-//                parseConfigFile();
-//            } catch (Exception e) {
-//                // 打印异常日志
-//                e.printStackTrace();
-//                Log.e("ParseConfig", "Error parsing config file: " + e.getMessage());
-//            }
-//        }).start();
-
+        new Thread(() -> {
+            try {
+                // JSON 解析
+                parseConfigFile();
+            } catch (Exception e) {
+                // 打印异常日志
+                e.printStackTrace();
+            }
+        }).start();
         initDisplaySize();
-
         initWallpaperData();
-
         StatService.init(this, "5dd227fad8", "Baidu Market");
         //启动百度自动埋点服务 https://mtj.baidu.com/static/userguide/book/android/adconfig/circle/circle.html
         StatService.setAuthorizedState(this, true);
 //        StatService.autoTrace(this);
         StatService.autoTrace(this, true, false);
-
 
         //需要对webview监控的话，换如下方法
         // 自动埋点，建议在Application中调用。否则可能造成部分页面遗漏，无法完整统计。
@@ -174,31 +160,6 @@ public class MyApplication extends Application {
         }
     }
 
-//    private void initWallpaperData() {
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.background8));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.background_main));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background1));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background2));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background3));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background4));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background5));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background6));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background7));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background8));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background9));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background10));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background11));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background12));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background13));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background14));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background15));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background16));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background17));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background18));
-//        Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background19));
-//        new Thread(() -> copyMyWallpaper()).start();
-//    }
-
     private void initWallpaperData() {
         new Thread(() -> {
             Utils.drawables.add(getResources().getDrawable(R.drawable.background8));
@@ -222,12 +183,10 @@ public class MyApplication extends Application {
             Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background17));
             Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background18));
             Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background19));
-
             // 调用 copyMyWallpaper 方法
             copyMyWallpaper();
         }).start();
     }
-
 
     private void copyMyWallpaper() {
         String[] imageExtensions = {".jpg", ".jpeg", ".png", ".bmp", ".webp"};
