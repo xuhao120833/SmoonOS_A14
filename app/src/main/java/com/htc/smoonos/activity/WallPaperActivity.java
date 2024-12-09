@@ -257,11 +257,11 @@ public class WallPaperActivity extends BaseActivity {
                 public void run() {
                     CopyDrawableToSd(drawable);
 //                    CopyResIdToSd(BlurImageView.BoxBlurFilter(WallPaperActivity.this, resId));
-                    if (new File(Contants.WALLPAPER_MAIN).exists())
-                        MyApplication.mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
+//                    if (new File(Contants.WALLPAPER_MAIN).exists())
+//                        MyApplication.mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
 //                    if (new File(Contants.WALLPAPER_OTHER).exists())
 //                        MyApplication.otherDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_OTHER));
-                    handler.sendEmptyMessage(Contants.DISSMISS_DIALOG);
+//                    handler.sendEmptyMessage(Contants.DISSMISS_DIALOG);
                 }
             });
         }
@@ -331,6 +331,9 @@ public class WallPaperActivity extends BaseActivity {
             bitmap = narrowBitmap(bitmap);
         }
         //缩小完毕
+//        if (new File(Contants.WALLPAPER_MAIN).exists())
+        MyApplication.mainDrawable = new BitmapDrawable(bitmap);
+        handler.sendEmptyMessage(Contants.DISSMISS_DIALOG);
         File dir = new File(Contants.WALLPAPER_DIR);
         if (!dir.exists()) dir.mkdirs();
         File file1 = new File(Contants.WALLPAPER_MAIN);

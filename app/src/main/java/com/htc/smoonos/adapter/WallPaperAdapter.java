@@ -131,7 +131,7 @@ public class WallPaperAdapter extends RecyclerView.Adapter<WallPaperAdapter.MyVi
                     //xuhao add
                     int position = myViewHolder.getAdapterPosition();
                     if (position < drawables.size()) {
-                        if (selectpostion == position) {
+                        if (selectpostion == position) { //当前点击的和上次点击的位置一样，不做处理
 //                            myViewHolder.check.setVisibility(View.GONE);
                         } else {
                             //写入数据库
