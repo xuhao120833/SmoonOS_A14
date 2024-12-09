@@ -7,6 +7,7 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
@@ -19,6 +20,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
@@ -29,6 +31,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.htc.smoonos.MyApplication;
 import com.htc.smoonos.adapter.ShortcutsAdapterMuQi;
 import com.htc.smoonos.databinding.ActivityMainMuqiBinding;
@@ -194,10 +197,12 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     private ConnectivityManager.NetworkCallback networkCallback;
 
     private boolean isEther = false;
-    private TimerManager timerManager = new TimerManager();
+//    private TimerManager timerManager = new TimerManager();
 
     int front = -1;
     int rear = -1;
+
+    private Dialog loadingDialog;
 
     Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -254,11 +259,11 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
         //定制逻辑 xuhao add 20240717
         try {
-            timerManager.startTimer();
+//            timerManager.startTimer();
             customBinding = ActivityMainMuqiBinding.inflate(LayoutInflater.from(this));
             setContentView(customBinding.getRoot());
             setDefaultBackgroundById();
-//            setViewInvisible();
+            setViewInvisible();
             initViewCustom();
             initDataCustom();
             initReceiver();
@@ -309,27 +314,28 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     }
 
     private void setViewInvisible(){
-        //icon1
-        customBinding.rlMuqiIcon1.setVisibility(View.INVISIBLE);
-        //icon2
-        customBinding.rlMuqiIcon2.setVisibility(View.INVISIBLE);
-        //icon3
-        customBinding.rlMuqiIcon3.setVisibility(View.INVISIBLE);
-        //icon4
-        customBinding.rlMuqiIcon4.setVisibility(View.INVISIBLE);
-        //icon5
-        customBinding.rlMuqiIcon5.setVisibility(View.INVISIBLE);
-        //icon6
-        customBinding.rlMuqiIcon6.setVisibility(View.INVISIBLE);
-        //icon7
-        customBinding.rlMuqiIcon7.setVisibility(View.INVISIBLE);
-        //left
-        customBinding.muqiLeft.setVisibility(View.INVISIBLE);
-        //right
-        customBinding.muqiRight.setVisibility(View.INVISIBLE);
-        //快捷栏
-        customBinding.shortcutsRv.setVisibility(View.INVISIBLE);
-
+//        customBinding.rlMain.setVisibility(View.INVISIBLE);
+        showLottieLoading();
+//        //icon1
+//        customBinding.rlMuqiIcon1.setVisibility(View.INVISIBLE);
+//        //icon2
+//        customBinding.rlMuqiIcon2.setVisibility(View.INVISIBLE);
+//        //icon3
+//        customBinding.rlMuqiIcon3.setVisibility(View.INVISIBLE);
+//        //icon4
+//        customBinding.rlMuqiIcon4.setVisibility(View.INVISIBLE);
+//        //icon5
+//        customBinding.rlMuqiIcon5.setVisibility(View.INVISIBLE);
+//        //icon6
+//        customBinding.rlMuqiIcon6.setVisibility(View.INVISIBLE);
+//        //icon7
+//        customBinding.rlMuqiIcon7.setVisibility(View.INVISIBLE);
+//        //left
+//        customBinding.muqiLeft.setVisibility(View.INVISIBLE);
+//        //right
+//        customBinding.muqiRight.setVisibility(View.INVISIBLE);
+//        //快捷栏
+//        customBinding.shortcutsRv.setVisibility(View.INVISIBLE);
     }
 
 //    private void setViewVisible(){
@@ -356,6 +362,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 //    }
 
     private void setViewVisible() {
+        dismissLottieLoading();
         // 动画时间
         int duration = 2000;
         // 创建 AnimatorSet
@@ -662,8 +669,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                                 Log.d(TAG,"initDataCustom 读取头尾指针 front "+circularQueue.front+" rear"+circularQueue.rear);
                                 Log.d(TAG, " update7Icon " + circularQueue.rear);
                                 update7Icon(circularQueue.front, circularQueue.rear);
-                                timerManager.stopTimer();
-                                timerManager.printElapsedTime();
+//                                timerManager.stopTimer();
+//                                timerManager.printElapsedTime();
                                 setViewVisible();
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -1953,4 +1960,48 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 return R.mipmap.ic_launcher_round;
         }
     }
+
+    private void showLottieLoading() {
+        customBinding.rlMain.setVisibility(View.INVISIBLE);
+        // 创建 Dialog
+        loadingDialog = new Dialog(this);
+        loadingDialog.setContentView(R.layout.main_load);
+        loadingDialog.setCancelable(false); // 禁用点击外部关闭
+        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT)); // 透明背景
+
+        LottieAnimationView lottieLoadingView = loadingDialog.findViewById(R.id.loadingAnimation);
+        if (lottieLoadingView != null) {
+            lottieLoadingView.setSpeed(2.0f); // 设置为 2 倍速播放
+        }
+        // 显示 Dialog
+        loadingDialog.show();
+    }
+
+//    private void dismissLottieLoading() {
+//        customBinding.rlMain.setVisibility(View.VISIBLE);
+//        if (loadingDialog != null && loadingDialog.isShowing()) {
+//            loadingDialog.dismiss();
+//        }
+//    }
+
+    private void dismissLottieLoading() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            // 使用淡出动画
+            customBinding.rlMain.setAlpha(0f);
+            customBinding.rlMain.setVisibility(View.VISIBLE);
+
+            customBinding.rlMain.animate()
+                    .alpha(1f)
+                    .setDuration(200) // 设置动画持续时间
+                    .withEndAction(() -> {
+                        if (loadingDialog != null && loadingDialog.isShowing()) {
+                            loadingDialog.dismiss();
+                        }
+                    })
+                    .start();
+        } else {
+            customBinding.rlMain.setVisibility(View.VISIBLE);
+        }
+    }
+
 }
