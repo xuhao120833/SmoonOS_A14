@@ -40,11 +40,11 @@ public class MyApplication extends Application {
     public static Config config = new Config();
     public static BitmapDrawable mainDrawable = null;
     public static BitmapDrawable otherDrawable = null;
-//    private MutableLiveData<Boolean> isDataInitialized = new MutableLiveData<>();
-//
-//    public LiveData<Boolean> getIsDataInitialized() {
-//        return isDataInitialized; // 只暴露不可变的 LiveData
-//    }
+    private MutableLiveData<Boolean> isDataInitialized = new MutableLiveData<>(false);
+
+    public MutableLiveData<Boolean> getIsDataInitialized() {
+        return isDataInitialized; // 只暴露不可变的 LiveData
+    }
 
 
     @Override
@@ -199,8 +199,8 @@ public class MyApplication extends Application {
             // 调用 copyMyWallpaper 方法
             copyMyWallpaper();
             // 数据加载完成后更新 LiveData
-//            Log.d(TAG,"执行完initWallpaperData");
-//            isDataInitialized.postValue(true);
+            Log.d(TAG,"执行完initWallpaperData");
+            isDataInitialized.postValue(true);//UI线程用setValue
         }).start();
     }
 

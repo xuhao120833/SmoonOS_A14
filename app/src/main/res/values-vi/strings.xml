@@ -276,6 +276,7 @@
     <string name="_4_3">4:3</string>
     <string name="screen_zoom">Phóng to màn hình</string>
     <string name="add">Thêm</string>
+    <string name="wallpper_load">Đang tải tài nguyên nền...</string>
 </resources>
 
 

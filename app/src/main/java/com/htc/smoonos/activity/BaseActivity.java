@@ -15,13 +15,14 @@ import com.htc.smoonos.R;
 import com.htc.smoonos.utils.Utils;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Author:
  * Date:
  * Description:
  */
-public class BaseActivity extends Activity implements View.OnClickListener, View.OnHoverListener, View.OnFocusChangeListener {
+public class BaseActivity extends AppCompatActivity implements View.OnClickListener, View.OnHoverListener, View.OnFocusChangeListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

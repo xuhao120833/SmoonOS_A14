@@ -4,6 +4,8 @@ import static com.htc.smoonos.utils.BlurImageView.MAX_BITMAP_SIZE;
 import static com.htc.smoonos.utils.BlurImageView.narrowBitmap;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +19,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.htc.smoonos.MyApplication;
 import com.htc.smoonos.R;
 import com.htc.smoonos.adapter.WallPaperAdapter;
@@ -71,6 +75,8 @@ public class WallPaperActivity extends BaseActivity {
     private static String TAG = "WallPaperActivity";
 
 //    private static TimerManager timerManager = null;
+    private MyApplication myApplication;
+    private Dialog loadingDialog;
 
 
     Handler handler = new Handler(new Handler.Callback() {
@@ -146,10 +152,7 @@ public class WallPaperActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         wallPaperBinding = ActivityWallpaperCustomBinding.inflate(LayoutInflater.from(this));
         setContentView(wallPaperBinding.getRoot());
-//        if(timerManager == null){
-//            timerManager = new TimerManager();
-//        }
-//        Log.d(TAG,"onCreate timerManager"+timerManager);
+        observeLiveData();
         initView();
         getPath();
         initData();
@@ -164,6 +167,31 @@ public class WallPaperActivity extends BaseActivity {
 //        wallPaperBinding.wallpaperRv.getAdapter().notifyDataSetChanged();
 //        initFocus();
         Log.d(TAG, " 执行onResume");
+    }
+
+    private void observeLiveData() {
+        myApplication = (MyApplication) getApplication();
+        if(myApplication != null) {
+//            MutableLiveData<Boolean> mutableLiveData = myApplication.getIsDataInitialized();
+            Boolean isInitialized = myApplication.getIsDataInitialized().getValue();
+            if(!isInitialized) {
+                Log.d(TAG," 背景资源还在加载中");
+                //显示动画
+                showLottieLoading();
+                //监听LiveData
+                myApplication.getIsDataInitialized().observe(this, isInitializedValue -> {
+                    if (isInitializedValue != null && isInitializedValue) {
+                        WallPaperAdapter adapter = (WallPaperAdapter) wallPaperBinding.wallpaperRv.getAdapter();
+                        adapter.notifyDataSetChanged();
+                        loadingDialog.dismiss();
+                    }
+                });
+
+            }else if(isInitialized){
+                Log.d(TAG," 背景资源已经加载完成");
+            }
+
+        }
     }
 
     private void initView() {
@@ -600,6 +628,20 @@ public class WallPaperActivity extends BaseActivity {
         } else {
             return super.onKeyDown(keyCode, event);
         }
+    }
+
+    private void showLottieLoading() {
+        // 创建 Dialog
+        loadingDialog = new Dialog(this);
+        loadingDialog.setContentView(R.layout.wapper_load);
+        loadingDialog.setCancelable(false); // 禁用点击外部关闭
+        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT)); // 透明背景
+//        LottieAnimationView lottieLoadingView = loadingDialog.findViewById(R.id.loadingAnimation);
+//        if (lottieLoadingView != null) {
+//            lottieLoadingView.setSpeed(2.0f); // 设置为 2 倍速播放
+//        }
+        // 显示 Dialog
+        loadingDialog.show();
     }
 
 }

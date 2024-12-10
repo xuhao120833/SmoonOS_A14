@@ -1622,9 +1622,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             @Override
             public void run() {
                 CopyDrawableToSd(drawable);
-                if (new File(Contants.WALLPAPER_MAIN).exists()) {
-                    MyApplication.mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
-                }
+//                if (new File(Contants.WALLPAPER_MAIN).exists()) {
+//                    MyApplication.mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
+//                }
             }
         });
     }
@@ -1772,6 +1772,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             bitmap = narrowBitmap(bitmap);
         }
         //缩小完毕
+        MyApplication.mainDrawable = new BitmapDrawable(bitmap);
         File dir = new File(Contants.WALLPAPER_DIR);
         if (!dir.exists()) dir.mkdirs();
         File file1 = new File(Contants.WALLPAPER_MAIN);
