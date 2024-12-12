@@ -11,10 +11,10 @@
       "type": "SINGLE",
       "filters": [],
       "properties": [],
-      "versionCode": 1,
-      "versionName": "2412101534",
+      "versionCode": 24121217,
+      "versionName": "1.0.0",
       "enabled": true,
-      "outputFile": "SmoonOS-V1-2412101534-release.apk"
+      "outputFile": "SmoonOS-V1.0.0-24121217-release.apk"
     }
   ]
 }

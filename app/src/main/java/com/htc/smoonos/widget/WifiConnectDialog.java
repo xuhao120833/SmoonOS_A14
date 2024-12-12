@@ -40,6 +40,7 @@ import androidx.annotation.NonNull;
 
 import com.htc.smoonos.R;
 import com.htc.smoonos.databinding.WifiConnectDialogBinding;
+import com.htc.smoonos.utils.Utils;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -52,6 +53,7 @@ import java.util.concurrent.Executors;
  */
 public class WifiConnectDialog extends BaseDialog implements View.OnClickListener {
     private Context mContext;
+    private static String TAG = "WifiConnectDialog";
     private View parent;
     private WifiConnectDialogBinding wifiConnectDialogBinding;
     private String wifi_name = "unknow";
@@ -86,7 +88,7 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        Log.d("hzj", "onclick");
+        Log.d("xuhao", "onclick");
         switch (v.getId()) {
             case R.id.enter:
                 if (wifiConnectDialogBinding.etPassword.getText().toString().isEmpty() ||
@@ -217,11 +219,17 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            if(isInitialStickyBroadcast()){//把注册完就发送的粘性(初始状态)广播过滤掉。
+                return;
+            }
             String action = intent.getAction();
             if (WifiManager.SUPPLICANT_STATE_CHANGED_ACTION.equals(action)) {
+                Log.d(TAG, " 收到SUPPLICANT_STATE_CHANGED_ACTION");
                 //请求连接的状态发生改变，（已经加入到一个接入点）
                 int supl_error = intent.getIntExtra(WifiManager.EXTRA_SUPPLICANT_ERROR, -1);
                 if (supl_error == WifiManager.ERROR_AUTHENTICATING) {
+                    Utils.logIntentExtras(intent,TAG);
+                    Log.d(TAG, " 收到SUPPLICANT_STATE_CHANGED_ACTION,执行passwordErrorDialog " + supl_error);
                     if (passwordErrorDialog == null) {
                         passwordErrorDialog = new PasswordErrorDialog(mContext, R.style.DialogTheme);
                     }
@@ -229,7 +237,6 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
                         showErrorDialog();
 //                        passwordErrorDialog.show();
                 }
-
             } else if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(action)) {
                 NetworkInfo networkInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
 
