@@ -11,6 +11,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
@@ -316,6 +317,28 @@ public class AppUtils {
         }
 
         return result;
+    }
+
+    /**
+     * 根据包名查询已安装应用的名称
+     *
+     * @param context     上下文对象
+     * @param packageName 应用的包名
+     * @return 应用的名称，如果未找到则返回 null
+     */
+    public static String getAppInfoByPackageName(Context context, String packageName) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(packageName, 0);
+            ApplicationInfo applicationInfo = packageInfo.applicationInfo;
+            String appName = applicationInfo.loadLabel(packageManager).toString();
+            Drawable appIcon = applicationInfo.loadIcon(packageManager);
+            return appName;
+        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+            Log.d(TAG,"getAppInfoByPackageName 没有查到应用数据，该应用未安装");
+            return null;
+        }
     }
 
 }

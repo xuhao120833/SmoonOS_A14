@@ -1462,6 +1462,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     private void startAppFormChannel() {
         for (AppsData appsData : channelData.getData()) {
+            Log.d(TAG,"startAppFormChannel appsData.getName: "+appsData.getName());
             if (appName.equals(appsData.getName())) {
                 Intent intent = new Intent();
                 intent.setComponent(new ComponentName("com.htc.storeos", "com.htc.storeos.AppDetailActivity"));
@@ -1844,7 +1845,15 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     } else {
                         iconViews[i].setImageResource(getAppIcon(appInfoBeans.get(index).getApppackagename()));
                     }
-                    textViews[i].setText(appInfoBeans.get(index).getAppname());
+                    String name = AppUtils.getAppInfoByPackageName(getApplicationContext(),appInfoBeans.get(index).getApppackagename());
+                    if(name != null) {
+                        Log.d(TAG,"textViews[i].setText(name) "+name);
+                        textViews[i].setText(name);
+                    } else {
+                        Log.d(TAG,"textViews[i].setText(appInfoBeans.get(index).getAppname()");
+                        textViews[i].setText(appInfoBeans.get(index).getAppname());
+                    }
+//                    textViews[i].setText(appInfoBeans.get(index).getAppname());
                 }
             } else {
                 // 循环队列情况，front 大于 rear
@@ -1856,7 +1865,15 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     } else {
                         iconViews[i].setImageResource(getAppIcon(appInfoBeans.get(index).getApppackagename()));
                     }
-                    textViews[i].setText(appInfoBeans.get(index).getAppname());
+                    String name = AppUtils.getAppInfoByPackageName(getApplicationContext(),appInfoBeans.get(index).getApppackagename());
+                    if(name != null) {
+                        Log.d(TAG,"textViews[i].setText(name) "+name);
+                        textViews[i].setText(name);
+                    } else {
+                        Log.d(TAG,"textViews[i].setText(appInfoBeans.get(index).getAppname()");
+                        textViews[i].setText(appInfoBeans.get(index).getAppname());
+                    }
+//                    textViews[i].setText(appInfoBeans.get(index).getAppname());
                 }
                 // 再处理从队列起始到 rear
                 for (int index = 0; index <= rear; index++, i++) {
@@ -1866,7 +1883,15 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     } else {
                         iconViews[i].setImageResource(getAppIcon(appInfoBeans.get(index).getApppackagename()));
                     }
-                    textViews[i].setText(appInfoBeans.get(index).getAppname());
+                    String name = AppUtils.getAppInfoByPackageName(getApplicationContext(),appInfoBeans.get(index).getApppackagename());
+                    if(name != null) {
+                        Log.d(TAG,"textViews[i].setText(name) "+name);
+                        textViews[i].setText(name);
+                    } else {
+                        Log.d(TAG,"textViews[i].setText(appInfoBeans.get(index).getAppname()");
+                        textViews[i].setText(appInfoBeans.get(index).getAppname());
+                    }
+//                    textViews[i].setText(appInfoBeans.get(index).getAppname());
                 }
             }
         } else {

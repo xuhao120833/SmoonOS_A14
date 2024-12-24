@@ -51,7 +51,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false  //混淆打开
+            minifyEnabled false  //混淆true打开
            // zipAlignEnabled true  //优化代码
             //shrinkResources true  //优化资源
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -84,7 +84,7 @@ android {
     }
 }
 
-static def getVersionNames() {
+static def getVersionNames() { //每次发布都要改
     return "1.0.0"
 }
 
