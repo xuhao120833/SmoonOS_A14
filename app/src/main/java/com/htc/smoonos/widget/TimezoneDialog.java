@@ -107,10 +107,23 @@ public class TimezoneDialog extends BaseDialog implements View.OnClickListener {
         list = getZones();
         if (list != null && list.size() > 0) {
             Collections.sort(list, comparator);
+            searchindex(list);
             TimezoneAdapter timezoneAdapter = new TimezoneAdapter(mContext,list,timeZoneLayoutBinding.timeZoneRv);
             timezoneAdapter.setCurrentPosition(mDefault);
             timezoneAdapter.setHasStableIds(true);
             timeZoneLayoutBinding.timeZoneRv.setAdapter(timezoneAdapter);
+        }
+    }
+
+    private void searchindex(ArrayList<HashMap> list){
+        for (int i = 0; i < list.size(); i++) {
+            HashMap map = list.get(i);
+//            Log.d(TAG," map.get(Contants.KEY_ID)"+map.get(Contants.KEY_ID)+" "+i+" "+TimeZone.getDefault().getID());
+            if (map.get(Contants.KEY_ID).equals(TimeZone.getDefault().getID())) {
+//                Log.d(TAG," map.get(Contants.KEY_ID)"+map.get(Contants.KEY_ID)+" "+i);
+                mDefault = i;
+                return;
+            }
         }
     }
 
@@ -181,9 +194,9 @@ public class TimezoneDialog extends BaseDialog implements View.OnClickListener {
         map.put(Contants.KEY_GMT, name.toString());
         map.put(Contants.KEY_OFFSET, offset);
 
-        if (id.equals(TimeZone.getDefault().getID())) {
-            mDefault = myData.size()-1;
-        }
+//        if (id.equals(TimeZone.getDefault().getID())) {
+//            mDefault = myData.size()-1;
+//        }
 
         myData.add(map);
     }
