@@ -85,7 +85,7 @@ android {
 }
 
 static def getVersionNames() { //每次发布都要改
-    return "1.0.0"
+    return "1.0.1"
 }
 
 static def releaseTime() {

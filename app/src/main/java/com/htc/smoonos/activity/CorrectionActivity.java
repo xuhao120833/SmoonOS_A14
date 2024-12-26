@@ -247,6 +247,7 @@ public class CorrectionActivity extends BaseActivity {
 
         int action = keyEvent.getAction();
         int keyCode = keyEvent.getKeyCode();
+        Log.d(TAG," 收到keycode "+keyCode+action);
 
         if ((keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_SETTINGS) && action == KeyEvent.ACTION_DOWN) {
             Log.d(TAG,"dispatchKeyEvent MENU键或者Settings键唤出矫正复位 " +keyCode);
@@ -998,6 +999,7 @@ public class CorrectionActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 KeystoneUtils.resetKeystone();
+                KeystoneUtils.writeGlobalSettings(getApplicationContext(), KeystoneUtils.ZOOM_VALUE, 0);
                 dialoge.dismiss();
                 direction_value_x.setText("0");
                 direction_value_y.setText("0");
