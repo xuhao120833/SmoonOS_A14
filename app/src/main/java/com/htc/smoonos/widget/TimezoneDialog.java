@@ -2,11 +2,12 @@ package com.htc.smoonos.widget;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,6 @@ import com.htc.smoonos.R;
 import com.htc.smoonos.adapter.TimezoneAdapter;
 import com.htc.smoonos.databinding.TimeZoneLayoutBinding;
 import com.htc.smoonos.utils.Contants;
-
 import org.xmlpull.v1.XmlPullParserException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -37,6 +38,7 @@ public class TimezoneDialog extends BaseDialog implements View.OnClickListener {
     TimeZoneLayoutBinding timeZoneLayoutBinding;
     private int mDefault;
     private ArrayList<HashMap> list = null;
+    private static String TAG = "TimezoneDialog";
 
     @Override
     public void onClick(View v) {
@@ -49,7 +51,7 @@ public class TimezoneDialog extends BaseDialog implements View.OnClickListener {
     }
 
     public TimezoneDialog(Context context, boolean cancelable,
-                          DialogInterface.OnCancelListener cancelListener) {
+                          OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
 
         this.mContext = context;
@@ -103,29 +105,50 @@ public class TimezoneDialog extends BaseDialog implements View.OnClickListener {
     }
 
     private void initData(){
-        MyComparator comparator = new MyComparator(Contants.KEY_OFFSET);
-        list = getZones();
-        if (list != null && list.size() > 0) {
-            Collections.sort(list, comparator);
-            searchindex(list);
-            TimezoneAdapter timezoneAdapter = new TimezoneAdapter(mContext,list,timeZoneLayoutBinding.timeZoneRv);
-            timezoneAdapter.setCurrentPosition(mDefault);
-            timezoneAdapter.setHasStableIds(true);
-            timeZoneLayoutBinding.timeZoneRv.setAdapter(timezoneAdapter);
+        try {
+            MyComparator comparator = new MyComparator(Contants.KEY_OFFSET);
+            list = getZones();
+            getSupportedTimeZones();
+            if (list != null && list.size() > 0) {
+                Collections.sort(list, comparator);
+                searchindex(list);
+                TimezoneAdapter timezoneAdapter = new TimezoneAdapter(mContext, list, timeZoneLayoutBinding.timeZoneRv);
+                timezoneAdapter.setCurrentPosition(mDefault);
+                timezoneAdapter.setHasStableIds(true);
+                timeZoneLayoutBinding.timeZoneRv.setAdapter(timezoneAdapter);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    private void searchindex(ArrayList<HashMap> list){
+//    private void searchindex(ArrayList<HashMap> list){
+//        for (int i = 0; i < list.size(); i++) {
+//            HashMap map = list.get(i);
+////            Log.d(TAG," map.get(Contants.KEY_ID)"+map.get(Contants.KEY_ID)+" "+i+" "+TimeZone.getDefault().getID());
+//            if (map.get(Contants.KEY_ID).equals(TimeZone.getDefault().getID())) {
+////                Log.d(TAG," map.get(Contants.KEY_ID)"+map.get(Contants.KEY_ID)+" "+i);
+//                mDefault = i;
+//                return;
+//            }
+//        }
+
+
+    private void searchindex(ArrayList<HashMap> list) {
         for (int i = 0; i < list.size(); i++) {
             HashMap map = list.get(i);
-//            Log.d(TAG," map.get(Contants.KEY_ID)"+map.get(Contants.KEY_ID)+" "+i+" "+TimeZone.getDefault().getID());
             if (map.get(Contants.KEY_ID).equals(TimeZone.getDefault().getID())) {
-//                Log.d(TAG," map.get(Contants.KEY_ID)"+map.get(Contants.KEY_ID)+" "+i);
                 mDefault = i;
+                Log.d(TAG," map.get(Contants.KEY_ID)"+map.get(Contants.KEY_ID)+" "+i);
+                // 将选中的元素移动到列表的第一个位置
+                list.remove(i);         // 从原位置移除
+                list.add(0, map);       // 添加到列表第一个位置
+                mDefault = 0;
                 return;
             }
         }
     }
+
 
     // parse timezones.xml to get timezone info
     private ArrayList<HashMap> getZones() {
@@ -147,6 +170,7 @@ public class TimezoneDialog extends BaseDialog implements View.OnClickListener {
                     String id = xrp.getAttributeValue(0);
                     String displayName = xrp.nextText();
                     addItem(myData, id, displayName, date);
+//                    Log.d(TAG," getZones "+id+" "+displayName);
                 }
                 while (xrp.getEventType() != XmlResourceParser.END_TAG) {
                     xrp.next();
@@ -195,6 +219,7 @@ public class TimezoneDialog extends BaseDialog implements View.OnClickListener {
         map.put(Contants.KEY_OFFSET, offset);
 
 //        if (id.equals(TimeZone.getDefault().getID())) {
+//            Log.d(TAG," addItem id "+id);
 //            mDefault = myData.size()-1;
 //        }
 
@@ -237,5 +262,31 @@ public class TimezoneDialog extends BaseDialog implements View.OnClickListener {
     @Override
     public void dismiss() {
         super.dismiss();
+    }
+
+    /**
+     * 获取 Android 系统支持的时区列表
+     *
+     * @return ArrayList<HashMap<String, String>> 时区列表，每个 HashMap 包含时区 ID 和显示名称
+     */
+    public static ArrayList<HashMap<String, String>> getSupportedTimeZones() {
+        ArrayList<HashMap<String, String>> timeZoneList = new ArrayList<>();
+
+        // 获取所有支持的时区 ID
+        String[] timeZoneIds = TimeZone.getAvailableIDs();
+
+        for (String id : timeZoneIds) {
+            if (!TextUtils.isEmpty(id)) {
+                TimeZone timeZone = TimeZone.getTimeZone(id);
+
+                HashMap<String, String> timeZoneInfo = new HashMap<>();
+                timeZoneInfo.put("id", id); // 时区 ID
+                timeZoneInfo.put("displayName", timeZone.getDisplayName(false, TimeZone.SHORT, Locale.getDefault())); // 时区显示名称
+                timeZoneList.add(timeZoneInfo);
+                Log.d(TAG," timeZoneInfo信息 "+id+"  "+timeZoneInfo.get(id));
+            }
+        }
+
+        return timeZoneList;
     }
 }
