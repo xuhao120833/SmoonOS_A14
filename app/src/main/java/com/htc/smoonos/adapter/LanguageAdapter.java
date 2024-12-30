@@ -1,6 +1,7 @@
 package com.htc.smoonos.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +16,8 @@ import com.htc.smoonos.utils.ScrollUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +32,7 @@ public class LanguageAdapter  extends RecyclerView.Adapter<LanguageAdapter.MyVie
     Context mContext;
     String cur_language="";
     private RecyclerView recyclerView;
+    private static String TAG = "LanguageAdapter";
 
     public LanguageAdapter(List<Language> languageList, Context mContext,RecyclerView recyclerView){
         this.mContext = mContext;
@@ -77,7 +81,18 @@ public class LanguageAdapter  extends RecyclerView.Adapter<LanguageAdapter.MyVie
             }
         });
 
-        if (cur_language.equals(language.getLocale().getLanguage()+language.getLocale().getCountry())){
+        String locale = null;
+        if(language.getLocale().getLanguage().equals("zh") || language.getLocale().getLanguage().equals("en") ){ //英文、中文单独拉出来处理，因为中英文附带了国家码。
+            cur_language = Locale.getDefault().getLanguage()+ Locale.getDefault().getCountry();
+            locale = language.getLocale().getLanguage()+ language.getLocale().getCountry();
+        } else {
+            cur_language = Locale.getDefault().getLanguage();
+            locale = language.getLocale().getLanguage();
+        }
+
+        Log.d(TAG," 语言环境 "+cur_language+" "+locale);
+
+        if (cur_language.equals(locale)){
             myViewHolder.status.setVisibility(View.VISIBLE);
         }else {
             myViewHolder.status.setVisibility(View.GONE);
