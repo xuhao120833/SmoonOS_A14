@@ -155,7 +155,8 @@
     <timezone id="Cuba">Horário de Cuba</timezone>
     <timezone id="EET">Horário da Europa Oriental</timezone>
     <timezone id="EST">Horário Padrão do Leste da América do Norte</timezone>
-    <timezone id="EST5EDT">Horário Padrão do Leste da América do Norte / Horário de Verão do Leste</timezone>
+    <timezone id="EST5EDT">Horário Padrão do Leste da América do Norte / Horário de Verão do Leste
+    </timezone>
     <timezone id="Egypt">Horário do Egito</timezone>
     <timezone id="Eire">Horário da Irlanda</timezone>
     <timezone id="Europe/Amsterdam">Europa/Amsterdã</timezone>
@@ -315,4 +316,5 @@
     <timezone id="Universal">Tempo Universal</timezone>
     <timezone id="WET">Horário da Europa Ocidental</timezone>
     <timezone id="Zulu">Hora Zulu</timezone>
+    <timezone id="America/Costa_Rica">Costa Rica</timezone>
 </timezones>
