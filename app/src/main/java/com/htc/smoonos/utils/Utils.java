@@ -8,6 +8,7 @@ import android.util.Log;
 import com.htc.smoonos.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Utils {
     public static boolean hasfocus = false;
@@ -47,6 +48,9 @@ public class Utils {
     };
 
     public static final int REQUEST_CODE_PICK_IMAGE = 1;
+
+    //全局时区列表
+    public static ArrayList<HashMap> list = null;
 
     /**
      * 打印 Intent 的 Extras 信息
