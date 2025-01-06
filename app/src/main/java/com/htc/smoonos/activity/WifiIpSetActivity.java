@@ -146,7 +146,7 @@ public class WifiIpSetActivity extends BaseActivity implements View.OnKeyListene
                 if (mode.equals(ipList.get(0))) {
                     wifiIpSet2Binding.ipModeTv.setText(ipList.get(1));
                     staticIpConfig.setDhcp(wifiIpSet2Binding.ipModeTv.getText().toString().equals(ipList.get(0)));
-                    setIpMode(staticIpConfig);
+//                    setIpMode(staticIpConfig);
                     setEnable(true);
 
                 } else if (mode.equals(ipList.get(1))) {
@@ -204,7 +204,7 @@ public class WifiIpSetActivity extends BaseActivity implements View.OnKeyListene
                 if (mode.equals(ipList.get(0))) {
                     wifiIpSet2Binding.ipModeTv.setText(ipList.get(1));
                     staticIpConfig.setDhcp(wifiIpSet2Binding.ipModeTv.getText().toString().equals(ipList.get(0)));
-                    setIpMode(staticIpConfig);
+//                    setIpMode(staticIpConfig);
                     setEnable(true);
 
                 } else if (mode.equals(ipList.get(1))) {
@@ -220,7 +220,7 @@ public class WifiIpSetActivity extends BaseActivity implements View.OnKeyListene
                 if (mode.equals(ipList.get(0))) {
                     wifiIpSet2Binding.ipModeTv.setText(ipList.get(1));
                     staticIpConfig.setDhcp(wifiIpSet2Binding.ipModeTv.getText().toString().equals(ipList.get(0)));
-                    setIpMode(staticIpConfig);
+//                    setIpMode(staticIpConfig);
                     setEnable(true);
 
                 } else if (mode.equals(ipList.get(1))) {
@@ -248,7 +248,7 @@ public class WifiIpSetActivity extends BaseActivity implements View.OnKeyListene
                     if (mode.equals(ipList.get(0))) {
                         wifiIpSet2Binding.ipModeTv.setText(ipList.get(1));
                         staticIpConfig.setDhcp(wifiIpSet2Binding.ipModeTv.getText().toString().equals(ipList.get(0)));
-                        setIpMode(staticIpConfig);
+//                        setIpMode(staticIpConfig);
                         setEnable(true);
 
                     } else if (mode.equals(ipList.get(1))) {
@@ -271,7 +271,7 @@ public class WifiIpSetActivity extends BaseActivity implements View.OnKeyListene
                     if (mode.equals(ipList.get(0))) {
                         wifiIpSet2Binding.ipModeTv.setText(ipList.get(1));
                         staticIpConfig.setDhcp(wifiIpSet2Binding.ipModeTv.getText().toString().equals(ipList.get(0)));
-                        setIpMode(staticIpConfig);
+//                        setIpMode(staticIpConfig);
                         setEnable(true);
 
                     } else if (mode.equals(ipList.get(1))) {
