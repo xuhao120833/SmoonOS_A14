@@ -3,7 +3,6 @@ package com.htc.smoonos.activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -37,6 +36,7 @@ import com.htc.smoonos.utils.ReflectUtil;
 import com.htc.smoonos.utils.ShareUtil;
 import com.htc.smoonos.utils.ToastUtil;
 import com.htc.smoonos.utils.scUtils;
+import com.htc.smoonos.widget.InitAngleDialog;
 import com.softwinner.tv.AwTvDisplayManager;
 import com.softwinner.tv.AwTvSystemManager;
 import com.softwinner.tv.common.AwTvDisplayTypes;
@@ -66,7 +66,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
     private int right = 100;
     private int bottom = 100;
     private int max_value = 100;
-    private int All;
+    public int All;
     private int zoom_scale =0;
     private int ZOOM_MAX = 20;
 
@@ -326,7 +326,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
         }
     }
 
-    private void setAuto() {
+    public void setAuto() {
         //int auto = PrjScreen.get_prj_auto_keystone_enable();
         //PrjScreen.set_prj_auto_keystone_enable(auto == 0 ? 1 : 0);
         boolean auto = getAuto();
@@ -419,17 +419,19 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                 AppUtils.startNewApp(this, "com.hysd.vafocus", "com.hysd.vafocus.VajzActivity");
                 break;
             case R.id.rl_init_angle:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-                builder.setTitle(getString(R.string.hint));
-                builder.setMessage(getString(R.string.defaultcorrectionhint));
-                builder.setPositiveButton(getString(R.string.enter), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        initCorrectAngle();
-                    }
-                });
-                builder.setNegativeButton(getString(R.string.cancel), null);
-                builder.show();
+//                AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+//                builder.setTitle(getString(R.string.hint));
+//                builder.setMessage(getString(R.string.defaultcorrectionhint));
+//                builder.setPositiveButton(getString(R.string.enter), new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface arg0, int arg1) {
+//                        initCorrectAngle();
+//                    }
+//                });
+//                builder.setNegativeButton(getString(R.string.cancel), null);
+//                builder.show();
+                InitAngleDialog initAngleDialog = new InitAngleDialog(this, R.style.DialogTheme);
+                initAngleDialog.show();
                 break;
             case R.id.rl_project_mode:
                 old_project_mode = cur_project_mode;
@@ -706,19 +708,22 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
         }
     }
 
-    private void updateZoomView() {
+    public void updateZoomView() {
         projectBinding.digitalZoomTv.setText(String.valueOf(All));
         if (All <= 0) {
             projectBinding.digitalZoomLeft.setVisibility(View.GONE);
             projectBinding.digitalZoomRight.setVisibility(View.VISIBLE);
-        } else if (All >= ZOOM_MAX) {
+        }
+        else if (All >= ZOOM_MAX) {
             projectBinding.digitalZoomLeft.setVisibility(View.VISIBLE);
             projectBinding.digitalZoomRight.setVisibility(View.GONE);
         } else {
             projectBinding.digitalZoomRight.setVisibility(View.VISIBLE);
             projectBinding.digitalZoomLeft.setVisibility(View.VISIBLE);
         }
+
     }
+
 
     public void set_screen_zoom(int l, int t, int r, int b) {
         KeystoneUtils.writeGlobalSettings(this, KeystoneUtils.ZOOM_VALUE, l);
