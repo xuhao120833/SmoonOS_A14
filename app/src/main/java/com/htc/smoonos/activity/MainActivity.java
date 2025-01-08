@@ -929,7 +929,13 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     }
                 }
                 if (DBUtils.getInstance(getApplicationContext()).isMiddleAppsFull()) {
-                    if (!AppUtils.startNewApp(MainActivity.this, appInfoBeans.get(icon4position).getApppackagename())) {
+                    if (appInfoBeans.get(icon4position).getApppackagename().contains("/")) {
+                        String[] parts = appInfoBeans.get(icon4position).getApppackagename().split("/", 2);
+                        String packageName = parts[0];
+                        String activityName = parts[1];
+                        Log.d(TAG, " goAction 包名活动名 " + packageName + " " + activityName);
+                        startNewActivity(packageName, activityName);
+                    }else if (!AppUtils.startNewApp(MainActivity.this, appInfoBeans.get(icon4position).getApppackagename())) {
                         appName = appInfoBeans.get(icon4position).getAppname();
                         requestChannelData();
                     }

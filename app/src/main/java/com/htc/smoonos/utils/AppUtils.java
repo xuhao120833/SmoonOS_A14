@@ -251,7 +251,7 @@ public class AppUtils {
     }
 
     /**
-     * 根据包启动APK
+     * 根据包名启动APK
      *
      * @param context
      * @param packageName
