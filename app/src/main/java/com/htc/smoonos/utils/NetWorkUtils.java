@@ -7,13 +7,18 @@ package com.htc.smoonos.utils;
  */
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.IpConfiguration;
 import android.net.LinkAddress;
+import android.net.LinkProperties;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.NetworkUtils;
+import android.net.RouteInfo;
 import android.net.StaticIpConfiguration;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
@@ -28,6 +33,7 @@ import com.htc.smoonos.bean.StaticIpConfig;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NetWorkUtils {
@@ -262,5 +268,98 @@ public class NetWorkUtils {
 			}
 		}
 		return false;
+	}
+
+	public static MyNetworkInfo getWiredNetworkInfo(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (connectivityManager == null) {
+			return null;
+		}
+
+		Network[] networks = connectivityManager.getAllNetworks();
+		for (Network network : networks) {
+			NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(network);
+			if (capabilities != null && capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+				LinkProperties linkProperties = connectivityManager.getLinkProperties(network);
+				if (linkProperties != null) {
+					String ipv4Address = null;
+					String gateway = null;
+					String subnetMask = null;
+					List<String> dnsServers = new ArrayList<>();
+					String macAddress = null; // MAC 地址
+
+					// Get IPv4 Address
+					for (LinkAddress linkAddress : linkProperties.getLinkAddresses()) {
+						InetAddress address = linkAddress.getAddress();
+						if (address instanceof Inet4Address) {
+							ipv4Address = address.getHostAddress();
+							break;
+						}
+					}
+
+					// Get Gateway
+					for (RouteInfo route : linkProperties.getRoutes()) {
+						if (route.getGateway() instanceof Inet4Address) {
+							gateway = route.getGateway().getHostAddress();
+							break;
+						}
+					}
+
+					// Get DNS Servers
+					for (InetAddress dns : linkProperties.getDnsServers()) {
+						if (dns instanceof Inet4Address) {
+							dnsServers.add(dns.getHostAddress());
+						}
+					}
+
+					// Calculate Subnet Mask (simple method)
+					if (!linkProperties.getLinkAddresses().isEmpty()) {
+						int prefixLength = linkProperties.getLinkAddresses().get(0).getPrefixLength();
+						subnetMask = prefixLengthToSubnetMask(prefixLength);
+					}
+
+					// 获取 MAC 地址（仅适用于有线网络）
+					NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+					String mac = networkInfo.getExtraInfo();
+
+					return new MyNetworkInfo(ipv4Address, gateway, subnetMask, dnsServers,mac);
+				}
+			}
+		}
+		return null;
+	}
+
+	@SuppressLint("DefaultLocale")
+	private static String prefixLengthToSubnetMask(int prefixLength) {
+		int mask = 0xffffffff << (32 - prefixLength);
+		return String.format("%d.%d.%d.%d",
+				(mask >> 24) & 0xff,
+				(mask >> 16) & 0xff,
+				(mask >> 8) & 0xff,
+				mask & 0xff);
+	}
+
+	public static class MyNetworkInfo {
+		public String ipv4Address;
+		public String gateway;
+		public String subnetMask;
+		public List<String> dnsServers;
+		public String mac;
+
+		public MyNetworkInfo(String ipv4Address, String gateway, String subnetMask, List<String> dnsServers,String mac) {
+			this.ipv4Address = ipv4Address;
+			this.gateway = gateway;
+			this.subnetMask = subnetMask;
+			this.dnsServers = dnsServers;
+			this.mac = mac;
+		}
+
+		@Override
+		public String toString() {
+			return "IPv4 Address: " + ipv4Address + "\n" +
+					"Gateway: " + gateway + "\n" +
+					"Subnet Mask: " + subnetMask + "\n" +
+					"DNS Servers: " + dnsServers;
+		}
 	}
 }
