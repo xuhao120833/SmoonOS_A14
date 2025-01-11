@@ -21,7 +21,9 @@ public class Utils {
     public static int usbDevicesNumber = 0;
 
     //默认背景使用的ArrayList
-    public static ArrayList<Drawable> drawables = new ArrayList<>();
+//    public static ArrayList<Drawable> drawables = new ArrayList<>();
+    public static ArrayList<Object> drawables = new ArrayList<>();
+
 
     public static int[] drawablesId = {
             R.drawable.background8,

@@ -1,5 +1,6 @@
 package com.htc.smoonos;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -168,44 +169,39 @@ public class MyApplication extends Application {
 
     private void initWallpaperData() {
         new Thread(() -> {
-//            try {
-//                // JSON 解析
-//                parseConfigFile();
-//            } catch (Exception e) {
-//                // 打印异常日志
-//                e.printStackTrace();
-//            }
             Utils.drawables.add(getResources().getDrawable(R.drawable.background8));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.background_main));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background1));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background2));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background3));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background4));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background5));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background6));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background7));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background8));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background9));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background10));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background11));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background12));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background13));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background14));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background15));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background16));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background17));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background18));
-            Utils.drawables.add(getResources().getDrawable(R.drawable.muqi_background19));
+            Utils.drawables.add(R.drawable.background_main);
+            Utils.drawables.add(R.drawable.muqi_background1);
+            Utils.drawables.add(R.drawable.muqi_background2);
+            Utils.drawables.add(R.drawable.muqi_background3);
+            Utils.drawables.add(R.drawable.muqi_background4);
+            Utils.drawables.add(R.drawable.muqi_background5);
+            Utils.drawables.add(R.drawable.muqi_background6);
+            Utils.drawables.add(R.drawable.muqi_background7);
+            Utils.drawables.add(R.drawable.muqi_background8);
+            Utils.drawables.add(R.drawable.muqi_background9);
+            Utils.drawables.add(R.drawable.muqi_background10);
+            Utils.drawables.add(R.drawable.muqi_background11);
+            Utils.drawables.add(R.drawable.muqi_background12);
+            Utils.drawables.add(R.drawable.muqi_background13);
+            Utils.drawables.add(R.drawable.muqi_background14);
+            Utils.drawables.add(R.drawable.muqi_background15);
+            Utils.drawables.add(R.drawable.muqi_background16);
+            Utils.drawables.add(R.drawable.muqi_background17);
+            Utils.drawables.add(R.drawable.muqi_background18);
+            Utils.drawables.add(R.drawable.muqi_background19);
+
             // 调用 copyMyWallpaper 方法
             copyMyWallpaper();
+            Utils.drawables.add(getResources().getDrawable(R.drawable.wallpaper_add));
             // 数据加载完成后更新 LiveData
-            Log.d(TAG,"执行完initWallpaperData");
+            Log.d(TAG, "执行完initWallpaperData");
             isDataInitialized.postValue(true);//UI线程用setValue
         }).start();
     }
 
     private void copyMyWallpaper() {
-        String[] imageExtensions = {".jpg", ".jpeg", ".png", ".bmp", ".webp"};
+        String[] imageExtensions = {".jpg", ".jpeg", ".png", ".bmp", ".webp",".gif"};
         File directory = new File("/sdcard/.mywallpaper");
         if (directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles();
@@ -214,9 +210,7 @@ public class MyApplication extends Application {
                     if (file.isFile()) {
                         for (String extension : imageExtensions) {
                             if (file.getName().toLowerCase().endsWith(extension)) {
-                                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                                Drawable drawable = new BitmapDrawable(getResources(), bitmap);
-                                Utils.drawables.add(drawable);
+                                Utils.drawables.add(file.getAbsolutePath());
                                 break; // 找到一个匹配后就跳出循环
                             }
                         }
