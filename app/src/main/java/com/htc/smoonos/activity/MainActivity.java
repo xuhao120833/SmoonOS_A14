@@ -85,6 +85,7 @@ import com.htc.smoonos.utils.BluetoothUtils;
 import com.htc.smoonos.utils.Constants;
 import com.htc.smoonos.utils.Contants;
 import com.htc.smoonos.utils.DBUtils;
+import com.htc.smoonos.utils.ImageUtils;
 import com.htc.smoonos.utils.LanguageUtil;
 import com.htc.smoonos.utils.LogUtils;
 import com.htc.smoonos.utils.NetWorkUtils;
@@ -213,11 +214,11 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 //                    shortcutsAdapter.setItemCallBack(itemCallBack);
 //                    mainBinding.shortcutsRv.setAdapter(shortcutsAdapter);
 //                    break;
-                case 204:
-                    ShortcutsAdapterCustom shortcutsAdapterCustom = new ShortcutsAdapterCustom(MainActivity.this, short_list);
-                    shortcutsAdapterCustom.setItemCallBack(itemCallBackCustom);
-                    customBinding.shortcutsRv.setAdapter(shortcutsAdapterCustom);
-                    break;
+//                case 204:
+//                    ShortcutsAdapterCustom shortcutsAdapterCustom = new ShortcutsAdapterCustom(MainActivity.this, short_list);
+//                    shortcutsAdapterCustom.setItemCallBack(itemCallBackCustom);
+//                    customBinding.shortcutsRv.setAdapter(shortcutsAdapterCustom);
+//                    break;
                 case 205:
                     ShortcutsAdapterMuQi shortcutsAdapterMuQi = new ShortcutsAdapterMuQi(MainActivity.this, short_list);
                     shortcutsAdapterMuQi.setItemCallBack(itemCallBackMuQi);
@@ -1573,6 +1574,30 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 //        setDefaultBg(Utils.drawables.get(number - 1));
 //    }
 
+//    @SuppressLint("UseCompatLoadingForDrawables")
+//    private void setDefaultBackgroundById() {
+//        //如果用户自主修改了背景，那么重启之后不再设置默认背景start
+//        SharedPreferences sharedPreferences = ShareUtil.getInstans(getApplicationContext());
+//        int selectBg = sharedPreferences.getInt(Contants.SelectWallpaperLocal, -1);
+//        if (selectBg != -1) {
+//            Log.d(TAG, " setDefaultBackground 用户已经自主修改了背景");
+//            return;
+//        }
+//        //背景控制end
+//        String defaultbg = sharedPreferences.getString(Contants.DefaultBg, "1");
+//        Log.d(TAG, " setDefaultBackground defaultbg " + defaultbg);
+//        int number = Integer.parseInt(defaultbg);
+//        Log.d(TAG, " setDefaultBackground number " + number);
+//        if (number > Utils.drawablesId.length) {
+//            Log.d(TAG, " setDefaultBackground 用户设置的默认背景，超出了范围");
+//            return;
+//        }
+//        setWallPaper(Utils.drawablesId[number - 1]);
+//        Drawable drawable = getResources().getDrawable(Utils.drawablesId[number - 1]);
+//        MyApplication.mainDrawable = (BitmapDrawable) drawable;
+//        setDefaultBg(drawable);
+//    }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     private void setDefaultBackgroundById() {
         //如果用户自主修改了背景，那么重启之后不再设置默认背景start
@@ -1584,17 +1609,35 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
         //背景控制end
         String defaultbg = sharedPreferences.getString(Contants.DefaultBg, "1");
-        Log.d(TAG, " setDefaultBackground defaultbg " + defaultbg);
+//        String defaultbg = MyApplication.config.defaultbackground;
+        if (defaultbg.isEmpty()) {
+            defaultbg = "1";
+        }
         int number = Integer.parseInt(defaultbg);
         Log.d(TAG, " setDefaultBackground number " + number);
-        if (number > Utils.drawablesId.length) {
-            Log.d(TAG, " setDefaultBackground 用户设置的默认背景，超出了范围");
-            return;
+        Log.d(TAG, " setDefaultBackground defaultbg " + defaultbg);
+        if(Utils.customBackground) {
+            String path = (String) Utils.drawables.get(number-1);
+            Log.d(TAG, " loadImageFromPath path " + path);
+            Drawable drawable = ImageUtils.loadImageFromPath(path,getApplicationContext());
+            MyApplication.mainDrawable = (BitmapDrawable) drawable;
+            setDefaultBg(drawable);
+        }else {
+            if (number > Utils.drawablesId.length) {
+                Log.d(TAG, " setDefaultBackground 用户设置的默认背景，超出了范围");
+                return;
+            }
+            if(number == 1) {
+                Drawable drawable = (Drawable) Utils.drawables.get(0);
+                MyApplication.mainDrawable = (BitmapDrawable) drawable;
+                setDefaultBg(drawable);
+            }else if(number>1) {
+                setWallPaper(Utils.drawablesId[number - 1]);
+                Drawable drawable = getResources().getDrawable(Utils.drawablesId[number - 1]);
+                MyApplication.mainDrawable = (BitmapDrawable) drawable;
+                setDefaultBg(drawable);
+            }
         }
-        setWallPaper(Utils.drawablesId[number - 1]);
-        Drawable drawable = getResources().getDrawable(Utils.drawablesId[number - 1]);
-        MyApplication.mainDrawable = (BitmapDrawable) drawable;
-        setDefaultBg(drawable);
     }
 
 //    private void setDefaultBg(int resId) {

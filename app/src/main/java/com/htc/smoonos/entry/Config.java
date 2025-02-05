@@ -23,6 +23,9 @@ public class Config {
     public boolean displayColorTemp = false;
     public boolean displayPictureModeShowCustom = true;
 
+    //用户自定义背景目录
+    public String custombackground = "";
+
     public boolean displayPictureModeWeiMiTitle = false;
 
     public boolean brightness = true;
