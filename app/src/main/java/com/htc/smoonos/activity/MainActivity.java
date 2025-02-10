@@ -53,11 +53,13 @@ import android.os.storage.StorageVolume;
 import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.htc.smoonos.R;
@@ -893,7 +895,12 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     if (listaction != null && !listaction.isEmpty()) { //读取配置
                         goAction(listaction);
                     } else {// 默认跳转
-                        startSource("HDMI1");
+                        if (Utils.sourceList.length > 1) { //支持多信源
+                            showSourceDialog();
+                        } else {
+                            // 默认跳转
+                            startSource("HDMI1");
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -2077,6 +2084,66 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         } else {
             customBinding.rlMain.setVisibility(View.VISIBLE);
         }
+    }
+
+    //正常背景
+    public void showSourceDialog() {
+        // 创建一个 Dialog 对象
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_source2); // 使用自定义布局
+        dialog.getWindow().setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT); // 宽度为屏幕宽度，高度自适应内容
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent); // 设置黑色背景
+        dialog.getWindow().setGravity(Gravity.CENTER); // 设置在屏幕中央显示
+        // 获取 LinearLayout 来动态添加选项
+        LinearLayout layout = dialog.findViewById(R.id.source_layout);
+//        // 设置 Lottie 动画视图
+//        LottieAnimationView lottieBackground = dialog.findViewById(R.id.lottie_background);
+        for (int i = 0; i < Utils.sourceListTitle.length + 1; i++) {
+            LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+            // 将 XML 布局文件转换为 View 对象
+            LinearLayout source_item = (LinearLayout) inflater.inflate(R.layout.source_item, null);
+            TextView source_title = (TextView) source_item.findViewById(R.id.source_title);
+            if (i == 0) {
+                source_title.setText(getResources().getString(R.string.choose_source));
+                source_title.setTextColor(getResources().getColor(R.color.black));
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        (int) getResources().getDimension(R.dimen.x_400),
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(0, (int) getResources().getDimension(R.dimen.x_30),
+                        0, (int) getResources().getDimension(R.dimen.x_30));
+                source_item.setLayoutParams(params);
+                source_item.setFocusable(false);
+                source_item.setFocusableInTouchMode(false);
+                layout.addView(source_item);
+                source_title.setSelected(true);
+            } else {
+                String title = Utils.sourceListTitle[i-1];
+                // 获取 LayoutInflater 对象
+                source_title.setText(title);
+                // 设置上下外边距
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        (int) getResources().getDimension(R.dimen.x_400),
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(0, 0,
+                        0, (int) getResources().getDimension(R.dimen.x_30));
+                source_item.setLayoutParams(params);
+                source_item.setBackgroundResource(R.drawable.source_bg_custom);
+                int finalI = i;
+                source_item.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startSource(Utils.sourceList[finalI-1]);
+                    }
+                });
+                source_item.setOnHoverListener(this);
+                // 将每一行的 LinearLayout 加入到主布局
+                layout.addView(source_item);
+            }
+        }
+        // 显示 Dialog
+        dialog.show();
     }
 
 }

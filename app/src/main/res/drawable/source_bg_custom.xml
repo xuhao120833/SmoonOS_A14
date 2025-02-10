@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 获取焦点状态 -->
+    <item android:state_focused="true">
+
+        <shape>
+            <solid android:color="#048cff" /> <!-- 黑色透明度50% -->
+            <corners android:radius="@dimen/y_15" /> <!-- 圆角半径 -->
+        </shape>
+
+    </item>
+
+    <!-- 正常状态 -->
+    <item>
+        <shape>
+            <solid android:color="#33000000" /> <!-- 黑色透明度50% -->
+            <corners android:radius="@dimen/y_15" /> <!-- 圆角半径 -->
+        </shape>
+    </item>
+</selector>

@@ -277,6 +277,7 @@
     <string name="screen_zoom">Масштаб экрана</string>
     <string name="add">Добавить</string>
     <string name="wallpper_load">Загрузка фоновых ресурсов...</string>
+    <string name="choose_source">Выбрать источник сигнала</string>
     <string name="follow_me">Пожалуйста, выполните следующие шаги:</string>
     <string name="init_angle_tip1">1. Положите машину на стол горизонтально, изображение должно быть перпендикулярно стене или экрану.</string>
     <string name="init_angle_tip2">2. Отрегулируйте угол наклона машины, чтобы изображение было стандартным прямоугольником.</string>

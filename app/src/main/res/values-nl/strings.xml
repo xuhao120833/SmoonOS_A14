@@ -277,6 +277,7 @@
     <string name="screen_zoom">Schermzoom</string>
     <string name="add">Toevoegen</string>
     <string name="wallpper_load">Achtergrondbronnen worden geladen...</string>
+    <string name="choose_source">Signaalbron selecteren</string>
     <string name="follow_me">Volg de onderstaande stappen:</string>
     <string name="init_angle_tip1">1. Plaats het apparaat horizontaal op het bureau, zorg ervoor dat het beeld verticaal is ten opzichte van de muur of het scherm.</string>
     <string name="init_angle_tip2">2. Pas de hoek van het apparaat aan om ervoor te zorgen dat het beeld een standaard rechthoek is.</string>

@@ -15,6 +15,7 @@ import com.htc.smoonos.databinding.ActivityOtherSettingsBinding;
 import com.htc.smoonos.service.TimeOffService;
 import com.htc.smoonos.utils.Contants;
 import com.htc.smoonos.utils.ShareUtil;
+import com.htc.smoonos.utils.Utils;
 import com.htc.smoonos.widget.FactoryResetDialog;
 import com.softwinner.tv.AwTvSystemManager;
 import com.softwinner.tv.common.AwTvSystemTypes;
@@ -119,8 +120,22 @@ public class OtherSettingsActivity extends BaseActivity implements View.OnKeyLis
         curPowerMode = mAwTvSystemManager.getPowerOnMode()== AwTvSystemTypes.EnumPowerMode.E_AW_POWER_MODE_DIRECT?1:0;
         otherSettingsBinding.powerModeTv.setText(powerModes[curPowerMode]);
 
-        boot_source_name =  getResources().getStringArray(R.array.boot_source_name);
-        boot_source_value = getResources().getStringArray(R.array.boot_source_value);
+        if (Utils.sourceList.length > 0 && !Utils.sourceList[0].isEmpty()) { //兼容多信源的情况
+            boot_source_name = new String[Utils.sourceListTitle.length + 1];
+            boot_source_name[0] = getResources().getString(R.string.boot_source_1);
+            System.arraycopy(Utils.sourceListTitle, 0, boot_source_name, 1, Utils.sourceListTitle.length);
+
+            boot_source_value = new String[Utils.sourceList.length + 1];
+            boot_source_value[0] = "LOCAL";
+            System.arraycopy(Utils.sourceList, 0, boot_source_value, 1, Utils.sourceList.length);
+//            boot_source_name = Utils.sourceListTitle;
+//            boot_source_value = Utils.sourceList;
+        } else {
+            boot_source_name = getResources().getStringArray(R.array.boot_source_name);
+            boot_source_value = getResources().getStringArray(R.array.boot_source_value);
+        }
+//        boot_source_name =  getResources().getStringArray(R.array.boot_source_name);
+//        boot_source_value = getResources().getStringArray(R.array.boot_source_value);
         String source_value = get_power_signal();
         for (int i=0;i<boot_source_value.length;i++){
             if (source_value.equals(boot_source_value[i])) {

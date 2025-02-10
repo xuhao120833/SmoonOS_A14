@@ -52,6 +52,11 @@ public class Utils {
     };
 
     public static final int REQUEST_CODE_PICK_IMAGE = 1;
+    //实际启动信源用到的名称 HDMI1,HDMI2,CVBS1
+    public static String[] sourceList = null;
+
+    //用来显示的名称 HDMI,HDMI2,AV
+    public static String[] sourceListTitle = null;
 
     //全局时区列表
     public static ArrayList<HashMap> list = null;

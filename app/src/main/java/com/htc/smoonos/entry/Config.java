@@ -49,6 +49,8 @@ public class Config {
     public boolean green = false;
     public boolean blue = false;
     public boolean displayVoiceMode = false;
+    public  String sourceList ="HDMI1";
+    public  String sourceListTitle ="HDMI";
 
     //wifi DHCP、静态IP切换
     public boolean wifiIpSettings = true;

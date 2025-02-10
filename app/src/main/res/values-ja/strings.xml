@@ -277,6 +277,7 @@
     <string name="screen_zoom">画面ズーム</string>
     <string name="add">追加</string>
     <string name="wallpper_load">背景リソースを読み込んでいます...</string>
+    <string name="choose_source">信号源を選択</string>
     <string name="follow_me">次の手順に従って操作してください：</string>
     <string name="init_angle_tip1">1.本機を水平にデスクに置き、画面を壁またはスクリーンに垂直に向けてください。</string>
     <string name="init_angle_tip2">2.本機の上下角度を調整し、画面が標準的な四角になるようにしてください。</string>

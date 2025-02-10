@@ -277,6 +277,7 @@
     <string name="screen_zoom">Ekran yakınlaştırma</string>
     <string name="add">Ekle</string>
     <string name="wallpper_load">Arka plan kaynakları yükleniyor...</string>
+    <string name="choose_source">Sinyal kaynağını seç</string>
     <string name="follow_me">โปรดทำตามขั้นตอนดังนี้:</string>
     <string name="init_angle_tip1">1. โปรดวางเครื่องให้ระดับกับโต๊ะและให้ภาพตั้งฉากกับผนังหรือหน้าจอโปรเจคเตอร์.</string>
     <string name="init_angle_tip2">2. ปรับมุมของเครื่องให้เหมาะสม เพื่อให้ภาพที่ฉายออกมามีรูปทรงสี่เหลี่ยมจัตุรัสมาตรฐาน.</string>

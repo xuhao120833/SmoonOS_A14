@@ -277,6 +277,7 @@
     <string name="screen_zoom">Képernyő nagyítása</string>
     <string name="add">Hozzáadás</string>
     <string name="wallpper_load">Háttérkép betöltése...</string>
+    <string name="choose_source">Válasszon jelforrást</string>
     <string name="follow_me">Kövesse az alábbi lépéseket:</string>
     <string name="init_angle_tip1">1. Helyezze a készüléket vízszintesen az asztalra, a kép legyen merőleges a falra vagy a vászonra.</string>
     <string name="init_angle_tip2">2. Állítsa be a készülék dőlésszögét, hogy a vetített kép szabályos téglalap legyen.</string>
