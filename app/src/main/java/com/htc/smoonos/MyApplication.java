@@ -1,5 +1,8 @@
 package com.htc.smoonos;
 
+import static com.htc.smoonos.utils.BlurImageView.MAX_BITMAP_SIZE;
+import static com.htc.smoonos.utils.BlurImageView.narrowBitmap;
+
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -57,8 +60,17 @@ public class MyApplication extends Application {
         editor.putBoolean(Contants.TimeOffStatus, false);
         editor.putInt(Contants.TimeOffIndex, 0);
         editor.apply();
-        if (new File(Contants.WALLPAPER_MAIN).exists())
-            mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
+        if (new File(Contants.WALLPAPER_MAIN).exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN);
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+            //判断图片大小，如果超过限制就做缩小处理
+            if (width * height * 6 >= MAX_BITMAP_SIZE) {
+                bitmap = narrowBitmap(bitmap);
+            }
+            mainDrawable = new BitmapDrawable(bitmap);
+//            mainDrawable = new BitmapDrawable(BitmapFactory.decodeFile(Contants.WALLPAPER_MAIN));
+        }
         try {
             // JSON 解析
             parseConfigFile();

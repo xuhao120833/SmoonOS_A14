@@ -43,6 +43,7 @@ import com.htc.smoonos.utils.Utils;
 import com.htc.smoonos.widget.FocusKeepRecyclerView;
 import com.htc.smoonos.widget.SpacesItemDecoration;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileFilter;
@@ -312,7 +313,69 @@ public class WallPaperActivity extends BaseActivity {
         }
     };
 
+//    private void CopyResIdToSd(int resId) {
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resId);
+//        //判断图片大小，如果超过限制就做缩小处理
+//        int width = bitmap.getWidth();
+//        int height = bitmap.getHeight();
+//        if (width * height * 6 >= MAX_BITMAP_SIZE) {
+//            bitmap = narrowBitmap(bitmap);
+//        }
+//        MyApplication.mainDrawable = new BitmapDrawable(bitmap);
+//        handler.sendEmptyMessage(Contants.DISSMISS_DIALOG);
+//        File dir = new File(Contants.WALLPAPER_DIR);
+//        if (!dir.exists()) {
+//            dir.mkdirs(); // 创建文件夹
+//        }
+//        File tempFile = new File(Contants.WALLPAPER_MAIN);
+//        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+//            // 使用 Bitmap.compress 压缩数据，直接将数据写入文件
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+//            Log.d(TAG, "文件拷贝成功: " + tempFile.getAbsolutePath());
+//            fos.flush();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Log.e(TAG, "文件拷贝失败: " + e.getMessage());
+//        } finally {
+//            // 确保资源释放
+//            System.gc(); // 提醒 JVM 执行垃圾回收
+//            Log.d(TAG, "内存和 CPU 资源已释放");
+//        }
+//    }
+
     private void CopyResIdToSd(int resId) {
+        // 获取图片资源的输入流
+        InputStream inputStream = getResources().openRawResource(resId);
+        // 创建目标文件夹
+        File dir = new File(Contants.WALLPAPER_DIR);
+        if (!dir.exists()) {
+            dir.mkdirs(); // 创建文件夹
+        }
+        // 创建目标文件
+        File tempFile = new File(Contants.WALLPAPER_MAIN);
+        try (FileOutputStream fos = new FileOutputStream(tempFile);
+             BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+            // 将输入流中的数据直接写入文件
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) != -1) {
+                bos.write(buffer, 0, length);
+            }
+            bos.flush(); // 刷新缓冲区
+            Log.d(TAG, "文件拷贝成功: " + tempFile.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e(TAG, "文件拷贝失败: " + e.getMessage());
+        } finally {
+            try {
+                inputStream.close(); // 关闭输入流
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // 确保资源释放
+//            System.gc(); // 提醒 JVM 执行垃圾回收
+            Log.d(TAG, "内存和 CPU 资源已释放");
+        }
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resId);
         //判断图片大小，如果超过限制就做缩小处理
         int width = bitmap.getWidth();
@@ -322,33 +385,6 @@ public class WallPaperActivity extends BaseActivity {
         }
         MyApplication.mainDrawable = new BitmapDrawable(bitmap);
         handler.sendEmptyMessage(Contants.DISSMISS_DIALOG);
-//        File dir = new File(Contants.WALLPAPER_DIR);
-//        if (!dir.exists()) dir.mkdirs();
-//        File file = new File(Contants.WALLPAPER_MAIN);
-//        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
-//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream); // 可根据需要更改格式
-//            fileOutputStream.flush();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        File dir = new File(Contants.WALLPAPER_DIR);
-        if (!dir.exists()) {
-            dir.mkdirs(); // 创建文件夹
-        }
-        File tempFile = new File(Contants.WALLPAPER_MAIN);
-        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-            // 使用 Bitmap.compress 压缩数据，直接将数据写入文件
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            Log.d(TAG, "文件拷贝成功: " + tempFile.getAbsolutePath());
-            fos.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e(TAG, "文件拷贝失败: " + e.getMessage());
-        } finally {
-            // 确保资源释放
-            System.gc(); // 提醒 JVM 执行垃圾回收
-            Log.d(TAG, "内存和 CPU 资源已释放");
-        }
     }
 
     /**
@@ -408,7 +444,7 @@ public class WallPaperActivity extends BaseActivity {
             Log.e(TAG, "文件拷贝失败: " + e.getMessage());
         } finally {
             // 确保资源释放
-            System.gc(); // 提醒 JVM 执行垃圾回收
+//            System.gc(); // 提醒 JVM 执行垃圾回收
             Log.d(TAG, "内存和 CPU 资源已释放");
         }
     }
@@ -438,7 +474,64 @@ public class WallPaperActivity extends BaseActivity {
 //        }
 //    }
 
+//    private void CopyFileToSd(String path) {
+//        Bitmap bitmap = BitmapFactory.decodeFile(path);
+//        int width = bitmap.getWidth();
+//        int height = bitmap.getHeight();
+//        //判断图片大小，如果超过限制就做缩小处理
+//        if (width * height * 6 >= MAX_BITMAP_SIZE) {
+//            bitmap = narrowBitmap(bitmap);
+//        }
+//        MyApplication.mainDrawable = new BitmapDrawable(bitmap);
+//        handler.sendEmptyMessage(Contants.DISSMISS_DIALOG);
+//        File dir = new File(Contants.WALLPAPER_DIR);
+//        if (!dir.exists()) {
+//            dir.mkdirs(); // 创建文件夹
+//        }
+//        File tempFile = new File(Contants.WALLPAPER_MAIN);
+//        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+//            // 使用 Bitmap.compress 压缩数据，直接将数据写入文件
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+//            Log.d(TAG, "文件拷贝成功: " + tempFile.getAbsolutePath());
+//            fos.flush();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Log.e(TAG, "文件拷贝失败: " + e.getMessage());
+//        } finally {
+//            // 确保资源释放
+//            System.gc(); // 提醒 JVM 执行垃圾回收
+//            Log.d(TAG, "内存和 CPU 资源已释放");
+//        }
+//    }
+
     private void CopyFileToSd(String path) {
+        // 创建目标文件夹
+        File dir = new File(Contants.WALLPAPER_DIR);
+        if (!dir.exists()) {
+            dir.mkdirs(); // 创建文件夹
+        }
+        // 创建目标文件
+        File tempFile = new File(Contants.WALLPAPER_MAIN);
+        try (FileInputStream fis = new FileInputStream(path);
+             FileOutputStream fos = new FileOutputStream(tempFile);
+             BufferedInputStream bis = new BufferedInputStream(fis);
+             BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+            // 读取源文件并写入目标文件
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = bis.read(buffer)) != -1) {
+                bos.write(buffer, 0, length);
+            }
+            bos.flush();  // 刷新缓冲区
+            Log.d(TAG, "文件拷贝成功: " + tempFile.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e(TAG, "文件拷贝失败: " + e.getMessage());
+        } finally {
+            // 确保资源释放
+//            System.gc(); // 提醒 JVM 执行垃圾回收
+            Log.d(TAG, "内存和 CPU 资源已释放");
+        }
         Bitmap bitmap = BitmapFactory.decodeFile(path);
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
@@ -448,34 +541,8 @@ public class WallPaperActivity extends BaseActivity {
         }
         MyApplication.mainDrawable = new BitmapDrawable(bitmap);
         handler.sendEmptyMessage(Contants.DISSMISS_DIALOG);
-//        File dir = new File(Contants.WALLPAPER_DIR);
-//        if (!dir.exists()) dir.mkdirs();
-//        File file = new File(Contants.WALLPAPER_MAIN);
-//        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
-//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream); // 可根据需要更改格式
-//            fileOutputStream.flush();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        File dir = new File(Contants.WALLPAPER_DIR);
-        if (!dir.exists()) {
-            dir.mkdirs(); // 创建文件夹
-        }
-        File tempFile = new File(Contants.WALLPAPER_MAIN);
-        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-            // 使用 Bitmap.compress 压缩数据，直接将数据写入文件
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            Log.d(TAG, "文件拷贝成功: " + tempFile.getAbsolutePath());
-            fos.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e(TAG, "文件拷贝失败: " + e.getMessage());
-        } finally {
-            // 确保资源释放
-            System.gc(); // 提醒 JVM 执行垃圾回收
-            Log.d(TAG, "内存和 CPU 资源已释放");
-        }
     }
+
 
     public FileFilter pictureFilter = new FileFilter() {
         @Override
@@ -617,7 +684,7 @@ public class WallPaperActivity extends BaseActivity {
             return "-1";
         } finally {
             // 确保所有资源被释放
-            System.gc(); // 提醒 JVM 执行垃圾回收
+//            System.gc(); // 提醒 JVM 执行垃圾回收
             Log.d(TAG, "内存和 CPU 资源已释放");
         }
     }
