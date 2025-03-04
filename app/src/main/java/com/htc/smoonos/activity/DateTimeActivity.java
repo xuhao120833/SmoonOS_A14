@@ -403,7 +403,7 @@ public class DateTimeActivity extends BaseActivity implements View.OnKeyListener
 
 
         //设置小时
-        np_hour.setMaxValue(24);
+        np_hour.setMaxValue(23);
         np_hour.setValue(hour); //中间参数 设置默认值
         np_hour.setMinValue(0);
 
