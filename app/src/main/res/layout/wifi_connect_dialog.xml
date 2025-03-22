@@ -45,14 +45,18 @@
         android:background="@drawable/edit_bg"
         
         />
+
     <ImageView
         android:layout_width="@dimen/x_40"
         android:layout_height="@dimen/y_40"
+        style="@style/focusStyle"
         android:id="@+id/password_visibility"
-        android:layout_toEndOf="@id/et_password"
-        android:layout_marginStart="@dimen/x_15"
-        android:layout_marginTop="@dimen/y_105"
-        
+        android:src="@drawable/password_eye_off"
+        android:layout_below="@id/connect_wifi_name"
+        android:layout_alignEnd="@id/et_password"
+        android:layout_marginTop="@dimen/y_40"
+        android:layout_marginEnd="@dimen/x_40"
+        android:background="@drawable/connect_bt"
         />
 
 
