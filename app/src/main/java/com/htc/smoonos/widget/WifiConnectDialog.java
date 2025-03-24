@@ -302,7 +302,7 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
         wifiConnectDialogBinding.cancel.setOnHoverListener(this);
         wifiConnectDialogBinding.passwordVisibility.setOnClickListener(this);
         wifiConnectDialogBinding.passwordVisibility.setOnHoverListener(this);
-        
+
         wifiConnectDialogBinding.enter.setEnabled(false);
         wifiConnectDialogBinding.connectWifiName.setText(mContext.getString(R.string.network_connect_tips, wifi_name));
         wifiConnectDialogBinding.checkboxShow

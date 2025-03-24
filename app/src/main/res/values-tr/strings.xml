@@ -284,5 +284,8 @@
     <string name="init_angle_tip3">3. กดปุ่มเริ่ม.</string>
     <string name="init_angle_tip4">การปรับเสร็จสิ้นและจะออกโดยอัตโนมัติ</string>
     <string name="start">เริ่ม</string>
+    <string name="bluetooth_receive_request">Gelen dosyayı kabul etmek istiyor musunuz?</string>
+    <string name="bluetooth_start_receive">Veri alımına başla</string>
+    <string name="accept">Kabul et</string>
 </resources>
 
