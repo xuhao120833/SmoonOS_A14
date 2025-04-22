@@ -49,7 +49,12 @@ public class AppsManagerAdapter extends RecyclerView.Adapter<AppsManagerAdapter.
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.app_settings_item, null));
+
+        MyViewHolder myViewHolder = new MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.app_settings_item, null));
+        myViewHolder.setIsRecyclable(false);
+        return myViewHolder;
+
+//        return new MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.app_settings_item, null));
     }
 
     @Override
@@ -57,9 +62,9 @@ public class AppsManagerAdapter extends RecyclerView.Adapter<AppsManagerAdapter.
         final AppInfoBean info = infoBeans.get(i);
         myViewHolder.icon.setImageDrawable(info.getAppicon());
         myViewHolder.name.setText(info.getAppname());
-        if(i==0) {
-            myViewHolder.rl_item.requestFocus();
-        }
+//        if(i==0) {
+//            myViewHolder.rl_item.requestFocus();
+//        }
         myViewHolder.rl_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
