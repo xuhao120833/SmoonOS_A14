@@ -39,6 +39,7 @@ import com.htc.smoonos.receiver.AppCallBack;
 import com.htc.smoonos.receiver.AppReceiver;
 import com.htc.smoonos.receiver.BatteryReceiver;
 import com.htc.smoonos.receiver.UsbDeviceCallBack;
+import com.htc.smoonos.service.TimeOffService;
 import com.htc.smoonos.utils.BatteryCallBack;
 import com.htc.smoonos.utils.BlurImageView;
 import com.htc.smoonos.utils.CircularQueue;
@@ -278,6 +279,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 //            countUsbDevices(getApplicationContext());
             Log.d(TAG, " onCreate快捷图标 short_list " + short_list.size());
             isEthernetConnect(getApplicationContext());
+            startRebootService();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -314,6 +316,23 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             e.printStackTrace();
         }
 
+    }
+
+    private void startRebootService() {
+        int[] time_off_value = getResources().getIntArray(R.array.time_off_value);
+        int cur_time_off_index = (int) ShareUtil.get(this, Contants.TimeOffIndex, 0);
+        Intent intent = new Intent(this, TimeOffService.class);
+        if (cur_time_off_index == 0) {
+            ShareUtil.put(this, Contants.TimeOffStatus, false);
+            intent.putExtra(Contants.TimeOffStatus, false);
+            intent.putExtra(Contants.TimeOffTime, -1);
+        } else {
+            ShareUtil.put(this, Contants.TimeOffStatus, true);
+            ShareUtil.put(this, Contants.TimeOffTime, time_off_value[cur_time_off_index]);
+            intent.putExtra(Contants.TimeOffStatus, true);
+            intent.putExtra(Contants.TimeOffTime, time_off_value[cur_time_off_index]);
+        }
+        startService(intent);
     }
 
     private void setViewInvisible(){

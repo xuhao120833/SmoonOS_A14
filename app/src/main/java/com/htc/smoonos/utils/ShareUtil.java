@@ -2,6 +2,7 @@ package com.htc.smoonos.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.SystemProperties;
 import android.util.Log;
 
 /**
@@ -40,6 +41,10 @@ public class ShareUtil {
         if (object instanceof String) {
             editor.putString(key, (String) object);
         } else if (object instanceof Integer) {
+            if(key.equals(Contants.TimeOffIndex)) {
+                int value = (Integer) object;
+                SystemProperties.set("persist.sys.timeoffindex", String.valueOf(value));
+            }
             editor.putInt(key, (Integer) object);
         } else if (object instanceof Boolean) {
             editor.putBoolean(key, (Boolean) object);
@@ -68,6 +73,9 @@ public class ShareUtil {
         if (defaultObject instanceof String) {
             return sp.getString(key, (String) defaultObject);
         } else if (defaultObject instanceof Integer) {
+            if(key.equals(Contants.TimeOffIndex)) {
+                return SystemProperties.getInt("persist.sys.timeoffindex",0);
+            }
             return sp.getInt(key, (Integer) defaultObject);
         } else if (defaultObject instanceof Boolean) {
             return sp.getBoolean(key, (Boolean) defaultObject);

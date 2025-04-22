@@ -49,6 +49,8 @@ public class Config {
     public boolean green = false;
     public boolean blue = false;
     public boolean displayVoiceMode = false;
+    //上电信源
+    public boolean bootSource = true;
     public  String sourceList ="HDMI1";
     public  String sourceListTitle ="HDMI";
 
