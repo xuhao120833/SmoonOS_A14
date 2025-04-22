@@ -113,6 +113,9 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
         super.onResume();
         All = KeystoneUtils.readGlobalSettings(this, KeystoneUtils.ZOOM_VALUE, 0);
         updateZoomView();
+
+        //16:9 16:10 4:3 画面缩放
+        updateSzoomTv();
     }
 
     @Override
@@ -299,11 +302,13 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
         projectBinding.autoFocusSwitch.setChecked(get_auto_focus());
 
         //16:9 16:10 4:3 画面缩放
-        updateSzoomTv();
+//        updateSzoomTv();
     }
 
-    private void updateSzoomTv() {
-        zoom_scale = KeystoneUtils.readGlobalSettings(this,KeystoneUtils.ZOOM_SCALE,0);
+    public void updateSzoomTv() {
+        Log.d(TAG,"updateSzoomTv zoom_scale"+zoom_scale);
+        zoom_scale = KeystoneUtils.readSystemProperties(KeystoneUtils.PROP_ZOOM_SCALE,zoom_scale);
+        Log.d(TAG,"updateSzoomTv zoom_scale"+zoom_scale);
         switch (zoom_scale) {
             case 0:
                 projectBinding.screenZoomeTv.setText(screen_zoom[0]);
@@ -480,7 +485,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                     set_screen_zoom(All,All,All,All,zoom_scale);
                 else
                     updateScaleZoom(zoom_scale);
-                KeystoneUtils.writeGlobalSettings(this,KeystoneUtils.ZOOM_SCALE,zoom_scale);
+                Log.d(TAG, " writeGlobalSettings KeystoneUtils.PROP_ZOOM_SCALE ");
+                KeystoneUtils.writeSystemProperties(KeystoneUtils.PROP_ZOOM_SCALE,zoom_scale);
                 updateSzoomTv();
                 break;
             case R.id.screen_zoom_left:
@@ -574,7 +580,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                         set_screen_zoom(All,All,All,All,zoom_scale);
                     else
                         updateScaleZoom(zoom_scale);
-                    KeystoneUtils.writeGlobalSettings(this,KeystoneUtils.ZOOM_SCALE,zoom_scale);
+                    Log.d(TAG, " KEYCODE_DPAD_LEFT writeGlobalSettings KeystoneUtils.PROP_ZOOM_SCALE ");
+                    KeystoneUtils.writeSystemProperties(KeystoneUtils.PROP_ZOOM_SCALE,zoom_scale);
                     updateSzoomTv();
 //                    break;
                     return true;
@@ -633,7 +640,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                         set_screen_zoom(All,All,All,All,zoom_scale);
                     else
                         updateScaleZoom(zoom_scale);
-                    KeystoneUtils.writeGlobalSettings(this,KeystoneUtils.ZOOM_SCALE,zoom_scale);
+                    Log.d(TAG, " KEYCODE_DPAD_RIGHT writeGlobalSettings KeystoneUtils.PROP_ZOOM_SCALE ");
+                    KeystoneUtils.writeSystemProperties(KeystoneUtils.PROP_ZOOM_SCALE,zoom_scale);
                     updateSzoomTv();
 //                    break;
                     return true;
