@@ -1029,7 +1029,11 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         SharedPreferences.Editor editor = sharedPreferences.edit();
         int code = sharedPreferences.getInt("code", 0);
         Log.d(TAG, " initDataApp读code值 " + code);
-        if (code == 0) {  //保证配置文件只在最初读一次
+        int reload = SystemProperties.getInt("persist.htc.reload",0);
+        if(reload == 1) {
+            DBUtils.getInstance(this).deleteTable();
+        }
+        if (code == 0 || reload == 1) {  //保证配置文件只在最初读一次
             //1、优先连接服务器读取配置
 
             //2、服务器没有，就读本地
@@ -1074,6 +1078,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 editor.putString("resident", residentList.toString());
                 editor.putInt("code", 1);
                 editor.apply();
+                SystemProperties.set("persist.htc.reload", String.valueOf(0));
                 is.close();
             } catch (Exception e) {
                 // TODO Auto-generated catch block
