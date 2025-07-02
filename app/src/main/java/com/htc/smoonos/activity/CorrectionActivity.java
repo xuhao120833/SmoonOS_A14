@@ -19,11 +19,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.htc.smoonos.R;
 import com.htc.smoonos.databinding.ResetKeystoreLayoutBinding;
 import com.htc.smoonos.utils.KeystoneUtils;
-
-import androidx.annotation.Nullable;
 
 public class CorrectionActivity extends BaseActivity {
 
@@ -247,7 +247,6 @@ public class CorrectionActivity extends BaseActivity {
 
         int action = keyEvent.getAction();
         int keyCode = keyEvent.getKeyCode();
-        Log.d(TAG," 收到keycode "+keyCode+action);
 
         if ((keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_SETTINGS) && action == KeyEvent.ACTION_DOWN) {
             Log.d(TAG,"dispatchKeyEvent MENU键或者Settings键唤出矫正复位 " +keyCode);
@@ -995,17 +994,20 @@ public class CorrectionActivity extends BaseActivity {
         window.setGravity(Gravity.CENTER);// 设置对话框位置
         window.setAttributes(params);
         window.setAttributes(params);
-        resetKeystoreLayoutBinding.enter.setOnClickListener(new View.OnClickListener() {
+        resetKeystoreLayoutBinding.enter.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 KeystoneUtils.resetKeystone();
                 KeystoneUtils.writeGlobalSettings(getApplicationContext(), KeystoneUtils.ZOOM_VALUE, 0);
+
+                KeystoneUtils.writeSystemProperties(KeystoneUtils.PROP_ZOOM_SCALE,0);
+
                 dialoge.dismiss();
                 direction_value_x.setText("0");
                 direction_value_y.setText("0");
             }
         });
-        resetKeystoreLayoutBinding.cancel.setOnClickListener(new View.OnClickListener() {
+        resetKeystoreLayoutBinding.cancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialoge.dismiss();
@@ -1021,6 +1023,6 @@ public class CorrectionActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
+
 }

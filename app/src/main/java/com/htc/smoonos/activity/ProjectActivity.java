@@ -756,17 +756,46 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
     }
 
 
+//    public void set_screen_zoom(int l, int t, int r, int b) {
+//        KeystoneUtils.writeGlobalSettings(this, KeystoneUtils.ZOOM_VALUE, l);
+//        l = max_value - l;
+//        t = max_value - t;
+//        r = max_value - r;
+//        b = max_value - b;
+////        changeform(l, t, r, b);
+//
+//        if (!SystemProperties.get("persist.sys.camok", "0").equals("1") || getAuto()) {
+//            changeform(l, t, r, b);
+//        } else updateZoom(max_value - l);
+//    }
+
     public void set_screen_zoom(int l, int t, int r, int b) {
-        KeystoneUtils.writeGlobalSettings(this, KeystoneUtils.ZOOM_VALUE, l);
+        KeystoneUtils.writeGlobalSettings(getApplicationContext(), KeystoneUtils.ZOOM_VALUE, l);
+
+        zoom_scale = KeystoneUtils.readSystemProperties(KeystoneUtils.PROP_ZOOM_SCALE,zoom_scale);
+        if (zoom_scale == 0) {
+            scale = 1D;
+            step_x = 16;
+            step_y = 9;
+        } else if (zoom_scale == 2) {
+            scale = 0.875D;
+            step_x = 12;
+            step_y = 9;
+        } else if (zoom_scale == 1) {
+            scale = 0.95D;
+            step_x = 16;
+            step_y = 10;
+        }
+
         l = max_value - l;
         t = max_value - t;
         r = max_value - r;
         b = max_value - b;
 //        changeform(l, t, r, b);
 
-        if (!SystemProperties.get("persist.sys.camok", "0").equals("1") || getAuto()) {
+        if (!SystemProperties.get("persist.sys.camok", "0").equals("1") || getAuto()) { //没有摄像头
             changeform(l, t, r, b);
-        } else updateZoom(max_value - l);
+        } else updateZoom(max_value - l); //有摄像头
     }
 
     public void changeform(int l, int t, int right, int bottom) {
