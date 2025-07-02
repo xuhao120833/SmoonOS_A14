@@ -955,9 +955,15 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
             @Override
             public void onClick(View v) {
                 KeystoneUtils.resetKeystone();
+
+                //数字缩放
                 KeystoneUtils.writeGlobalSettings(getApplicationContext(), KeystoneUtils.ZOOM_VALUE, 0);
                 All = 0;
                 updateZoomView();
+
+                //画面比例
+                KeystoneUtils.writeSystemProperties(KeystoneUtils.PROP_ZOOM_SCALE,0);
+                updateSzoomTv();
                 dialoge.dismiss();
             }
         });
