@@ -2098,7 +2098,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
             customBinding.rlMain.animate()
                     .alpha(1f)
-                    .setDuration(200) // 设置动画持续时间
+                    .setDuration(2000) // 设置动画持续时间
                     .withEndAction(() -> {
                         if (loadingDialog != null && loadingDialog.isShowing()) {
                             loadingDialog.dismiss();

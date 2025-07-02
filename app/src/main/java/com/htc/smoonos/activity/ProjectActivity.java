@@ -213,7 +213,11 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
         projectBinding.rlDigitalZoom.setVisibility(MyApplication.config.wholeZoom ? View.VISIBLE : View.GONE);
         projectBinding.rlScreenZoom.setVisibility(MyApplication.config.screenZoom ? View.VISIBLE : View.GONE);
         projectBinding.rlAutoKeystone.setVisibility(MyApplication.config.autoKeystone ? View.VISIBLE : View.GONE);
-        projectBinding.rlInitAngle.setVisibility(MyApplication.config.initAngleCorrect ? View.VISIBLE : View.GONE);
+        if ((boolean)ShareUtil.get(this,Contants.KEY_DEVELOPER_MODE,false) || MyApplication.config.initAngleCorrect){
+            projectBinding.rlInitAngle.setVisibility(View.VISIBLE);
+        } else {
+            projectBinding.rlInitAngle.setVisibility(View.GONE);
+        }
         projectBinding.rlManualKeystone.setVisibility(MyApplication.config.manualKeystone ? View.VISIBLE : View.GONE);
         projectBinding.rlResetKeystone.setVisibility(MyApplication.config.resetKeystone ? View.VISIBLE : View.GONE);
         projectBinding.rlAutoFocus.setVisibility(MyApplication.config.autoFocus ? View.VISIBLE : View.GONE);
@@ -232,7 +236,11 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
             if (SystemProperties.get("persist.sys.focusupdn", "0").equals("1")) {
                 //自动梯形
                 projectBinding.rlAutoKeystone.setVisibility(View.VISIBLE);
-                projectBinding.rlInitAngle.setVisibility(MyApplication.config.initAngleCorrect ? View.VISIBLE : View.GONE);
+                if ((boolean)ShareUtil.get(this,Contants.KEY_DEVELOPER_MODE,false) || MyApplication.config.initAngleCorrect){
+                    projectBinding.rlInitAngle.setVisibility(View.VISIBLE);
+                } else {
+                    projectBinding.rlInitAngle.setVisibility(View.GONE);
+                }
                 projectBinding.rlAutoFourCorner.setVisibility(View.GONE);
                 projectBinding.rlIntelligentObstacle.setVisibility(View.GONE);
                 projectBinding.rlScreenRecognition.setVisibility(View.GONE);
@@ -240,7 +248,11 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
 
         } else {
             projectBinding.rlAutoKeystone.setVisibility(View.VISIBLE);
-            projectBinding.rlInitAngle.setVisibility(MyApplication.config.initAngleCorrect ? View.VISIBLE : View.GONE);
+            if ((boolean)ShareUtil.get(this,Contants.KEY_DEVELOPER_MODE,false) || MyApplication.config.initAngleCorrect){
+                projectBinding.rlInitAngle.setVisibility(View.VISIBLE);
+            } else {
+                projectBinding.rlInitAngle.setVisibility(View.GONE);
+            }
             projectBinding.rlAutoFourCorner.setVisibility(View.GONE);
             projectBinding.rlIntelligentObstacle.setVisibility(View.GONE);
             projectBinding.rlScreenRecognition.setVisibility(View.GONE);
@@ -445,8 +457,9 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
 //                });
 //                builder.setNegativeButton(getString(R.string.cancel), null);
 //                builder.show();
-                InitAngleDialog initAngleDialog = new InitAngleDialog(this, R.style.DialogTheme);
-                initAngleDialog.show();
+//                InitAngleDialog initAngleDialog = new InitAngleDialog(this, R.style.DialogTheme);
+//                initAngleDialog.show();
+                startNewActivity(InitAngleActivity.class);
                 break;
             case R.id.rl_project_mode:
                 old_project_mode = cur_project_mode;

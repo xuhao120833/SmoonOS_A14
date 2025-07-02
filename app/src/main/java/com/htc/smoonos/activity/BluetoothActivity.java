@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.ParcelUuid;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak, BondStateCallBack, MyBlueBoothCallBack {
+public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak, BondStateCallBack, MyBlueBoothCallBack, View.OnKeyListener {
 
     private ActivityBluetoothBinding bluetoothBinding;
 
@@ -53,6 +54,7 @@ public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak
     private IntentFilter mCanFilter = new IntentFilter();
 
     public static BluetoothA2dp a2dp;
+    private static String TAG = "BluetoothActivity";
 
     /**
      * 配对广播
@@ -616,6 +618,19 @@ public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak
         bluetoothAdapter.closeProfileProxy(4,mBluetoothProfile);
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        int id = v.getId();
+        //解决按下键焦点跑到文件管理器的问题
+        if ((id == R.id.rl_search_ble) && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+            Log.d(TAG, " keCode " + keyCode + " " + event.getEventTime());
+            if ((bluetoothBinding.rlSearchBle.hasFocus()) && event.getAction() == KeyEvent.ACTION_DOWN) {
+                return bondList.isEmpty() && scanList.isEmpty();
+            }
+        }
+        return false;
     }
 
 }

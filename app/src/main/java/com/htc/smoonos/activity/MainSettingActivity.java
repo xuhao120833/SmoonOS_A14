@@ -236,7 +236,7 @@ public class MainSettingActivity extends BaseActivity {
                 startNewActivity(NetworkActivity.class);
                 break;
             case R.id.rl_bluetooth:
-                startNewActivity(BluetoothActivity.class);
+                startNewActivityBlue(BluetoothActivity.class);
                 break;
             case R.id.rl_project:
                 startNewActivity(ProjectActivity.class);

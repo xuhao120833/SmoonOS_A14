@@ -45,10 +45,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity
-            android:name=".activity.WifiIpSetActivity"
-            android:exported="false" />
-
+        <receiver
+            android:name=".receiver.InitAngleReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
         <receiver
             android:name="com.htc.smoonos.receiver.VaFocusReceiver"
             android:enabled="true"
@@ -165,7 +165,7 @@
             android:name="com.htc.smoonos.activity.MainActivity"
             android:exported="true"
             android:launchMode="singleInstance">
-            <intent-filter>
+            <intent-filter android:priority="4">
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.HOME" />
@@ -182,6 +182,12 @@
                 <data android:scheme="mtj5dd227fad8" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.InitAngleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.WifiIpSetActivity"
+            android:exported="false" />
 
         <service
             android:name="com.htc.smoonos.service.TimeOffService"
