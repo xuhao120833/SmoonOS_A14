@@ -111,7 +111,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
     protected void onResume() {
         Log.d(TAG,"执行onResume ProjectActivity");
         super.onResume();
-        All = KeystoneUtils.readGlobalSettings(this, KeystoneUtils.ZOOM_VALUE, 0);
+//        All = KeystoneUtils.readGlobalSettings(this, KeystoneUtils.ZOOM_VALUE, 0);
+        All = KeystoneUtils.readSystemProperties(KeystoneUtils.PROP_ZOOM_VALUE,0);
         updateZoomView();
 
         //16:9 16:10 4:3 画面缩放
@@ -315,7 +316,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                 break;
         }
 
-        All = KeystoneUtils.readGlobalSettings(this, KeystoneUtils.ZOOM_VALUE, 0);
+//        All = KeystoneUtils.readGlobalSettings(this, KeystoneUtils.ZOOM_VALUE, 0);
+        All = KeystoneUtils.readSystemProperties(KeystoneUtils.PROP_ZOOM_VALUE,0);
         updateZoomView();
         initAuto();
         initBstacle();
@@ -520,7 +522,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                     set_screen_zoom(All,All,All,All,zoom_scale);
                 else
                     updateScaleZoom(zoom_scale);
-                KeystoneUtils.writeGlobalSettings(this,KeystoneUtils.ZOOM_SCALE,zoom_scale);
+                KeystoneUtils.writeSystemProperties(KeystoneUtils.PROP_ZOOM_SCALE,zoom_scale);
                 updateSzoomTv();
                 break;
             case R.id.screen_zoom_right:
@@ -531,7 +533,7 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                     set_screen_zoom(All,All,All,All,zoom_scale);
                 else
                     updateScaleZoom(zoom_scale);
-                KeystoneUtils.writeGlobalSettings(this,KeystoneUtils.ZOOM_SCALE,zoom_scale);
+                KeystoneUtils.writeSystemProperties(KeystoneUtils.PROP_ZOOM_SCALE,zoom_scale);
                 updateSzoomTv();
                 break;
         }
@@ -770,7 +772,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
 //    }
 
     public void set_screen_zoom(int l, int t, int r, int b) {
-        KeystoneUtils.writeGlobalSettings(getApplicationContext(), KeystoneUtils.ZOOM_VALUE, l);
+//        KeystoneUtils.writeGlobalSettings(getApplicationContext(), KeystoneUtils.ZOOM_VALUE, l);
+        KeystoneUtils.writeSystemProperties(KeystoneUtils.PROP_ZOOM_VALUE,l);
 
         zoom_scale = KeystoneUtils.readSystemProperties(KeystoneUtils.PROP_ZOOM_SCALE,zoom_scale);
         if (zoom_scale == 0) {
@@ -837,8 +840,10 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
         DecimalFormat df = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.CHINA));
         float a = Float.parseFloat(df.format((max_value - zoom * 2) * 0.01).replace(",", "."));
         Log.d("hzj", "float  a =" + a);
-        int old_ratio = KeystoneUtils.readGlobalSettings(this, "zoom_scale_old", 0);
-        int ratio = KeystoneUtils.readGlobalSettings(this, "zoom_scale", 0);
+//        int old_ratio = KeystoneUtils.readGlobalSettings(this, "zoom_scale_old", 0);
+        int old_ratio = KeystoneUtils.readSystemProperties(KeystoneUtils.PROP_ZOOM_SCALE_OLD,0);
+//        int ratio = KeystoneUtils.readGlobalSettings(this, "zoom_scale", 0);
+        int ratio = KeystoneUtils.readSystemProperties(KeystoneUtils.PROP_ZOOM_SCALE,0);
         int[] tpData = scUtils.getpxRatioxy(px4, py4, old_ratio, ratio, a, KeystoneUtils.lcd_w, KeystoneUtils.lcd_h);
         if (tpData != null && tpData[8] == 1) {
             KeystoneUtils.optKeystoneFun(tpData);
@@ -986,7 +991,8 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
                 KeystoneUtils.resetKeystone();
 
                 //数字缩放
-                KeystoneUtils.writeGlobalSettings(getApplicationContext(), KeystoneUtils.ZOOM_VALUE, 0);
+//                KeystoneUtils.writeGlobalSettings(getApplicationContext(), KeystoneUtils.ZOOM_VALUE, 0);
+                KeystoneUtils.writeSystemProperties(KeystoneUtils.PROP_ZOOM_VALUE,0);
                 All = 0;
                 updateZoomView();
 
@@ -1086,8 +1092,10 @@ public class ProjectActivity extends BaseActivity implements View.OnKeyListener,
         py4[3] =Integer.parseInt(df.format((rb_xy[1] * KeystoneUtils.lcd_h)/1000));
         LogUtils.d("px4 = "+ Arrays.toString(px4) +"  py4 = "+ Arrays.toString(py4));
         DecimalFormat df = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.CHINA));
-        float a = Float.parseFloat(df.format((100- KeystoneUtils.readGlobalSettings(this,"zoom_value",0)*2)*0.01).replace(",","."));
-        int oldScale = KeystoneUtils.readGlobalSettings(this,"zoom_scale_old",0);
+//        float a = Float.parseFloat(df.format((100- KeystoneUtils.readGlobalSettings(this,"zoom_value",0)*2)*0.01).replace(",","."));
+        float a = Float.parseFloat(df.format((100- KeystoneUtils.readSystemProperties(KeystoneUtils.PROP_ZOOM_VALUE,0)*2)*0.01).replace(",","."));
+//        int oldScale = KeystoneUtils.readGlobalSettings(this,"zoom_scale_old",0);
+        int oldScale = KeystoneUtils.readSystemProperties(KeystoneUtils.PROP_ZOOM_SCALE_OLD,0);
         Log.d("hzj","a="+a+" oldScale="+oldScale+" scale="+scale);
         int[] tpData = scUtils.getpxRatioxy(px4, py4, oldScale,
                 scale, a, KeystoneUtils.lcd_w, KeystoneUtils.lcd_h);

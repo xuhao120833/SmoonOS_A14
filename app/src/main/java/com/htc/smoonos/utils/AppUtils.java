@@ -102,7 +102,7 @@ public class AppUtils {
             appInfo.setApplicationInfo(reInfo.activityInfo.applicationInfo);
             appInfo.setAppicon(icon);
             appInfo.setMname(activityName);
-            if (!stringList.contains(pkgName)) {
+            if (!stringList.contains(pkgName) && !Utils.specialAppsList.contains(pkgName)) {
                 list.add(appInfo); // 添加至列表中
             }
         }

@@ -26,9 +26,11 @@ public class KeystoneUtils {
 	public static final String PROP_KEYSTONE_RT_Y = "persist.display.keystone_rty";
 
 	public static final String ZOOM_VALUE = "zoom_value";
+	public static final String PROP_ZOOM_VALUE = "persist.sys.zoom_value";
 	public static final String ZOOM_SCALE = "zoom_scale";
 	public static final String PROP_ZOOM_SCALE = "persist.sys.zoom_scale";
 	public static final String ZOOM_SCALE_OLD = "zoom_scale_old";
+	public static final String PROP_ZOOM_SCALE_OLD = "persist.sys.zoom_scale_old";
 
 	public static final String PROP_HTC_KEYSTONE_LB_X = "persist.htc.keystone.lbx";
 	public static final String PROP_HTC_KEYSTONE_LB_Y = "persist.htc.keystone.lby";

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.htc.smoonos.R;
+import com.htc.smoonos.entry.SpecialApps;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,10 @@ public class Utils {
 //    public static ArrayList<Drawable> drawables = new ArrayList<>();
     public static ArrayList<Object> drawables = new ArrayList<>();
 
+    //一个全局的特定IP APP信息
+    public static SpecialApps specialApps = null;
+
+    public static String specialAppsList ="";
 
     public static int[] drawablesId = {
             R.drawable.background8,

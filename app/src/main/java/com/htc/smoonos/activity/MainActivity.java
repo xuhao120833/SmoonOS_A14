@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +39,7 @@ import com.htc.smoonos.databinding.ActivityMainMuqiBinding;
 import com.htc.smoonos.receiver.AppCallBack;
 import com.htc.smoonos.receiver.AppReceiver;
 import com.htc.smoonos.receiver.BatteryReceiver;
+import com.htc.smoonos.receiver.InitAngleReceiver;
 import com.htc.smoonos.receiver.UsbDeviceCallBack;
 import com.htc.smoonos.service.TimeOffService;
 import com.htc.smoonos.utils.BatteryCallBack;
@@ -159,6 +161,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     // wifi
     private IntentFilter wifiFilter = new IntentFilter();
     private MyWifiReceiver wifiReceiver = null;
+    private InitAngleReceiver initAngleReceiver = null;
     // 蓝牙
     private IntentFilter blueFilter = new IntentFilter();
     //usbDevice
@@ -769,7 +772,95 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         batteryFilter.addAction("action.projector.batterylevel");
         registerReceiver(batteryReceiver, batteryFilter);
 
+        //监听APPStore发出 特定IP广播，意味着它已经写了Settings ip_country_code 的值
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.htc.refreshApps");
+        registerReceiver(refreshAppsReceiver, intentFilter);
+        short_list = loadHomeAppData();
+        handler.sendEmptyMessage(205);
 
+        //初始角度矫正
+        initAngleReceiver = new InitAngleReceiver(getApplicationContext());
+        IntentFilter initAngleFilter = new IntentFilter();
+        initAngleFilter.addAction("com.htc.INITANGLE");
+        registerReceiver(initAngleReceiver, initAngleFilter);
+
+    }
+
+    BroadcastReceiver refreshAppsReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("com.htc.refreshApps".equals(intent.getAction())) {
+                File file = new File("/oem/shortcuts.config");
+                if (!file.exists()) {
+                    file = new File("/system/shortcuts.config");
+                }
+                if (!file.exists()) {
+                    file = new File("/system/others.config");
+                }
+                if (file.exists()) {
+                    File finalFile = file;
+                    threadExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            refreshApps(finalFile);
+                        }
+                    });
+                } else {
+                    Log.d(TAG, " 收到refreshApps的广播，且没有/system/others.config");
+                    short_list = loadHomeAppData();
+                    handler.sendEmptyMessage(205);
+                }
+            }
+        }
+    };
+
+    private void refreshApps(File file) {
+        try {
+            Log.d(TAG, " 收到refreshApps的广播，有/system/others.config，重新去读specialApps配置");
+            FileInputStream is = new FileInputStream(file);
+            byte[] b = new byte[is.available()];
+            is.read(b);
+            String result = new String(b);
+            List<String> residentList = new ArrayList<>();
+            JSONObject obj = new JSONObject(result);
+            readSpecialApps(obj, residentList);
+            short_list = loadHomeAppData();
+            handler.sendEmptyMessage(205);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void readSpecialApps(JSONObject obj, List<String> residentList) {
+        try {
+            if (obj.has("specialApps")) {
+                DBUtils.getInstance(this).clearSpecialAppsTableAndResetId(); //重写之前清空数据表
+                JSONArray jsonarrray = obj.getJSONArray("specialApps");
+                for (int i = 0; i < jsonarrray.length(); i++) {
+                    JSONObject jsonobject = jsonarrray.getJSONObject(i);
+                    String appName = jsonobject.getString("appName");
+                    String packageName = jsonobject.getString("packageName");
+
+                    Utils.specialAppsList += packageName;
+
+                    String iconPath = jsonobject.getString("iconPath");
+                    String continent = jsonobject.getString("continent");
+                    String countryCode = jsonobject.getString("countryCode");
+                    Drawable drawable = FileUtils.loadImageAsDrawable(this, iconPath);
+//                    if (!DBUtils.getInstance(this).isExistSpecial(packageName)) {
+                    long addCode = DBUtils.getInstance(this).addSpeciales(appName, packageName, drawable, continent, countryCode);
+                    Log.d(TAG, " specialApps 添加快捷数据库成功 " + appName + " " + packageName);
+//                    }
+                    Log.d(TAG, " specialApps读到的数据 " + appName + " " + packageName + " " + iconPath + " " + continent + " " + " " + countryCode);
+
+//                    Log.d(TAG," Utils.specialAppsList "+Utils.specialAppsList);
+                }
+                Log.d(TAG, " Utils.specialAppsList " + Utils.specialAppsList);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 //    ShortcutsAdapter.ItemCallBack itemCallBack = new ShortcutsAdapter.ItemCallBack() {
@@ -1304,13 +1395,17 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
         ArrayList<ShortInfoBean> shortInfoBeans = new ArrayList<>();
 
-        ArrayList<AppInfoBean> appList = AppUtils.getApplicationMsg(this);//获取所有的应用(排除了配置文件中拉黑的App)
 
         //xuhao add 默认添加我的应用按钮
         ShortInfoBean mshortInfoBean = new ShortInfoBean();
         mshortInfoBean.setAppicon(ContextCompat.getDrawable(this, R.drawable.muqi_apps));
         shortInfoBeans.add(mshortInfoBean);
         //xuhao
+
+        //特定IP配置
+        setIpShortInfo(shortInfoBeans);
+
+        ArrayList<AppInfoBean> appList = AppUtils.getApplicationMsg(this);//获取所有的应用(排除了配置文件中拉黑的App)
 
         Log.d(TAG, " loadHomeAppData快捷图标 appList " + appList.size());
         Log.d(TAG, " loadHomeAppData快捷图标 appSimpleBeans " + appSimpleBeans.size());
@@ -1330,6 +1425,45 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
 
         return shortInfoBeans;
+    }
+
+    private void setIpShortInfo(ArrayList<ShortInfoBean> shortInfoBeans) {
+        try {
+            String country_code = Settings.System.getString(getContentResolver(), "ip_country_code");
+            Log.d(TAG, " ip_country_code " + country_code);
+            if (country_code != null) {
+                String[] continent_countryCode = country_code.split(",");
+                String continent = null;
+                String code = null;
+                //分情况提取 continent 和 code
+                if (continent_countryCode.length > 1) {
+                    continent = continent_countryCode[0];
+                    code = continent_countryCode[1];
+                } else if (continent_countryCode.length == 1 && !continent_countryCode[0].isEmpty()) {
+                    if (continent_countryCode[0].contains("洲")) {
+                        continent = continent_countryCode[0];
+                        code = null;
+                    } else {
+                        continent = null;
+                        code = continent_countryCode[0];
+                    }
+                } else {
+                    Log.d(TAG, "setIpShortInfo 获取到的ip_country_code 格式不对");
+                    return;
+                }
+                Utils.specialApps = DBUtils.getInstance(this).querySpecialApps(continent, code);
+                if (Utils.specialApps != null) {
+                    ShortInfoBean shortInfoBean = new ShortInfoBean();
+                    shortInfoBean.setAppname(Utils.specialApps.getAppName());
+                    shortInfoBean.setPackageName(Utils.specialApps.getPackageName());
+                    shortInfoBean.setAppicon(DBUtils.getInstance(this).byteArrayToDrawable(Utils.specialApps.getIconData()));
+                    shortInfoBeans.add(shortInfoBean);
+                    Utils.specialAppsList = "";
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -1727,7 +1861,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         }
         DBUtils.getInstance(this).deleteFavorites(packageName);
         short_list = loadHomeAppData();
-        handler.sendEmptyMessage(204);
+        handler.sendEmptyMessage(205);
     }
 
     @Override
@@ -2098,7 +2232,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
             customBinding.rlMain.animate()
                     .alpha(1f)
-                    .setDuration(2000) // 设置动画持续时间
+                    .setDuration(200) // 设置动画持续时间
                     .withEndAction(() -> {
                         if (loadingDialog != null && loadingDialog.isShowing()) {
                             loadingDialog.dismiss();

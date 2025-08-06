@@ -38,6 +38,7 @@ import com.htc.smoonos.utils.AppUtils;
 import com.htc.smoonos.utils.DBUtils;
 import com.htc.smoonos.utils.ShareUtil;
 import com.htc.smoonos.utils.ToastUtil;
+import com.htc.smoonos.utils.Utils;
 import com.htc.smoonos.widget.GridViewItemOrderUtil;
 
 import java.io.File;
@@ -144,7 +145,14 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-				if (resident.contains(list.get(position).getApppackagename())) {
+				//特定IP Special
+				String specialPackage = "";
+				if(Utils.specialApps != null) {
+					specialPackage = Utils.specialApps.getPackageName();
+				}
+				Log.d(tag, " setOnItemClickListener specialPackage " + specialPackage);
+				if (resident.contains(list.get(position).getApppackagename())
+						|| list.get(position).getApppackagename().equals(specialPackage)) {
 					ToastUtil.showShortToast(AppFavoritesActivity.this,
 							getString(R.string.resident_app));
 					return;
@@ -166,6 +174,9 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 				File file = new File("/oem/shortcuts.config");
 				if (!file.exists()) {
 					file = new File("/system/shortcuts.config");
+				}
+				if (!file.exists()) {
+					file = new File("/system/others.config");
 				}
 				if (!file.exists()) {
 					favorites = count;
@@ -201,6 +212,9 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 					}
 				}else {
 					favorites = DBUtils.getInstance(getApplicationContext()).getFavoritesCount();
+					if (Utils.specialApps != null) {
+						favorites++;
+					}
 					max = 9;
 					Log.d(tag," 快捷栏数量 file.exists() ");
 					if (favorites > max && list.get(position).isCheck()) {
@@ -320,10 +334,15 @@ public class AppFavoritesActivity extends BaseActivity implements AppCallBack {
 	private void loadDataApp() {
 		// AppTask task = new AppTask();
 		// task.execute();
-		ArrayList<AppInfoBean> mList = AppUtils
-				.getApplicationMsg(AppFavoritesActivity.this);
-		ArrayList<AppSimpleBean> simpleList = DBUtils.getInstance(
-				AppFavoritesActivity.this).getFavorites();
+		ArrayList<AppInfoBean> mList = AppUtils.getApplicationMsg(AppFavoritesActivity.this);
+		ArrayList<AppSimpleBean> simpleList = DBUtils.getInstance(AppFavoritesActivity.this).getFavorites();
+		//特定IP Special APP
+		if(Utils.specialApps !=null) {
+			AppSimpleBean appSimpleBean = new AppSimpleBean();
+			appSimpleBean.setId(simpleList.size());
+			appSimpleBean.setPackagename(Utils.specialApps.getPackageName());
+			simpleList.add(appSimpleBean);
+		}
 		for (int i = 0; i < simpleList.size(); i++) {
 			for (int j = 0; j < mList.size(); j++) {
 				if (simpleList.get(i).getPackagename()

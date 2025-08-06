@@ -998,7 +998,8 @@ public class CorrectionActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 KeystoneUtils.resetKeystone();
-                KeystoneUtils.writeGlobalSettings(getApplicationContext(), KeystoneUtils.ZOOM_VALUE, 0);
+//                KeystoneUtils.writeGlobalSettings(getApplicationContext(), KeystoneUtils.ZOOM_VALUE, 0);
+                KeystoneUtils.writeSystemProperties(KeystoneUtils.PROP_ZOOM_VALUE,0);
 
                 KeystoneUtils.writeSystemProperties(KeystoneUtils.PROP_ZOOM_SCALE,0);
 

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 ext.build_number = "debug";
 
-def buildVersion = "713"
+def buildVersion = "716"
 
 android {
     compileSdkVersion 30
@@ -88,7 +88,7 @@ android {
 }
 
 static def getVersionNames() { //每次发布都要改
-    return "1.0.38"
+    return "1.0.40"
 }
 
 static def releaseTime() {
