@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothProfile;
 import android.os.SystemProperties;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,6 +45,7 @@ public class BluetoothBondAdapter extends RecyclerView.Adapter<BluetoothBondAdap
 
     private Map<String, Integer> stateMap = new HashMap<String, Integer>();
     BluetoothDevice CurDevice = null;
+    private static String TAG = "BluetoothBondAdapter";
 
     public BluetoothBondAdapter(List<BluetoothDevice> deviceList, Activity mContext){
         this.deviceList = deviceList;
@@ -189,20 +191,18 @@ public class BluetoothBondAdapter extends RecyclerView.Adapter<BluetoothBondAdap
                     disDeviceDialog.setOnClickCallBack(new DisDeviceDialog.OnDisDeviceCallBack() {
                         @Override
                         public void onEnterClick() {
-                            BluetoothAdapter.getDefaultAdapter().disconnectAllEnabledProfiles(device);
-                            updateConnectMap(device.getAddress(),3);
+                            disconnect(device);
+                            updateConnectMap(device.getAddress(), 3);
                             notifyDataSetChanged();
-                            /*if (mBluetoothProfile!=null)
-                            mBluetoothProfile.disconnect(device);*/
                         }
 
                         @Override
                         public void onUnPairClick() {
-                            View view =  mContext.getCurrentFocus();
-                            if (view!=null)
+                            View view = mContext.getCurrentFocus();
+                            if (view != null)
                                 view.clearFocus();
-
-                            delPairDevice(device);
+//                            delPairDevice(device);
+                            unpair(device);
                         }
                     });
                     disDeviceDialog.show();
@@ -265,4 +265,34 @@ public class BluetoothBondAdapter extends RecyclerView.Adapter<BluetoothBondAdap
         }
         return false;
     }
+
+    public void disconnect(BluetoothDevice mDevice) {
+        synchronized (this) {
+
+            Log.d(TAG, "Disconnect " + this);
+            mDevice.disconnect();
+        }
+    }
+
+    public void unpair(BluetoothDevice mDevice) {
+        if (mDevice != null) {
+            int state = getBondState(mDevice);
+            if (state == BluetoothDevice.BOND_BONDING) {
+                mDevice.cancelBondProcess();
+            }
+            if (state != BluetoothDevice.BOND_NONE) {
+                final boolean successful = mDevice.removeBond();
+                if (successful) {
+                    Log.d(TAG, "蓝牙解绑成功 " + mDevice.getName());
+                } else {
+                    Log.d(TAG, "蓝牙解绑失败 " + mDevice.getName());
+                }
+            }
+        }
+    }
+
+    public int getBondState(BluetoothDevice mDevice) {
+        return mDevice.getBondState();
+    }
+
 }

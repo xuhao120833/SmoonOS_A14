@@ -995,90 +995,79 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     public void onClick(View v) {
         String appname = null;
         String action = null;
-        switch (v.getId()) {
-            case R.id.rl_usb_connect:
-                AppUtils.startNewApp(MainActivity.this, "com.hisilicon.explorer");
-                break;
-            case R.id.rl_signal_source:
-                try {
-                    String listaction = DBUtils.getInstance(this).getActionFromListModules("list3");
-                    if (listaction != null && !listaction.isEmpty()) { //读取配置
-                        goAction(listaction);
-                    } else {// 默认跳转
-                        if (Utils.sourceList.length > 1) { //支持多信源
-                            showSourceDialog();
-                        } else {
-                            // 默认跳转
-                            startSource("HDMI1");
-                        }
+        int id = v.getId();
+        if (id == R.id.rl_usb_connect) {
+            AppUtils.startNewApp(MainActivity.this, "com.hisilicon.explorer");
+        } else if (id == R.id.rl_signal_source) {
+            try {
+                String listaction = DBUtils.getInstance(this).getActionFromListModules("list3");
+                if (listaction != null && !listaction.isEmpty()) { //读取配置
+                    goAction(listaction);
+                } else {// 默认跳转
+                    if (Utils.sourceList.length > 1) { //支持多信源
+                        showSourceDialog();
+                    } else {
+                        // 默认跳转
+                        startSource("HDMI1");
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-                break;
-            case R.id.rl_clear_memory:
-                goAction("com.htc.clearmemory/com.htc.clearmemory.MainActivity");
-                break;
-            case R.id.rl_wallpapers:
-                startNewActivity(WallPaperActivity.class);
-                break;
-            case R.id.rl_muqi_bt:
-                startNewActivity(BluetoothActivity.class);
-                break;
-            case R.id.rl_muqi_usb:
-                AppUtils.startNewApp(MainActivity.this, "com.hisilicon.explorer");
-                break;
-            case R.id.rl_muqi_settings:
-                startNewActivity(MainSettingActivity.class);
-                break;
-            case R.id.rl_muqi_wifi:
-                startNewActivity(WifiActivity.class);
-                break;
-            case R.id.rl_muqi_icon4:
-                int icon4position = -1;
-                if (appInfoBeans != null && circularQueue != null) {
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (id == R.id.rl_clear_memory) {
+            goAction("com.htc.clearmemory/com.htc.clearmemory.MainActivity");
+        } else if (id == R.id.rl_wallpapers) {
+            startNewActivity(WallPaperActivity.class);
+        } else if (id == R.id.rl_muqi_bt) {
+            startNewActivity(BluetoothActivity.class);
+        } else if (id == R.id.rl_muqi_usb) {
+            AppUtils.startNewApp(MainActivity.this, "com.hisilicon.explorer");
+        } else if (id == R.id.rl_muqi_settings) {
+            startNewActivity(MainSettingActivity.class);
+        } else if (id == R.id.rl_muqi_wifi) {
+            startNewActivity(WifiActivity.class);
+        } else if (id == R.id.rl_muqi_icon4) {
+            int icon4position = -1;
+            if (appInfoBeans != null && circularQueue != null) {
 //                    int icon4position = -1;
-                    if (circularQueue.front + 3 < appInfoBeans.size()) {
-                        icon4position = circularQueue.front + 3;
-                    } else if (circularQueue.front + 3 == appInfoBeans.size()) {
-                        icon4position = 0;
-                    } else if (circularQueue.front + 3 > appInfoBeans.size()) {
-                        icon4position = circularQueue.front + 3 - appInfoBeans.size();
-                    }
+                if (circularQueue.front + 3 < appInfoBeans.size()) {
+                    icon4position = circularQueue.front + 3;
+                } else if (circularQueue.front + 3 == appInfoBeans.size()) {
+                    icon4position = 0;
+                } else if (circularQueue.front + 3 > appInfoBeans.size()) {
+                    icon4position = circularQueue.front + 3 - appInfoBeans.size();
                 }
-                if (DBUtils.getInstance(getApplicationContext()).isMiddleAppsFull()) {
-                    if (appInfoBeans.get(icon4position).getApppackagename().contains("/")) {
-                        String[] parts = appInfoBeans.get(icon4position).getApppackagename().split("/", 2);
-                        String packageName = parts[0];
-                        String activityName = parts[1];
-                        Log.d(TAG, " goAction 包名活动名 " + packageName + " " + activityName);
-                        startNewActivity(packageName, activityName);
-                    }else if (!AppUtils.startNewApp(MainActivity.this, appInfoBeans.get(icon4position).getApppackagename())) {
-                        appName = appInfoBeans.get(icon4position).getAppname();
-                        requestChannelData();
-                    }
-                } else {
-                    AppUtils.startNewApp(MainActivity.this, appInfoBeans.get(icon4position).getApppackagename());
+            }
+            if (DBUtils.getInstance(getApplicationContext()).isMiddleAppsFull()) {
+                if (appInfoBeans.get(icon4position).getApppackagename().contains("/")) {
+                    String[] parts = appInfoBeans.get(icon4position).getApppackagename().split("/", 2);
+                    String packageName = parts[0];
+                    String activityName = parts[1];
+                    Log.d(TAG, " goAction 包名活动名 " + packageName + " " + activityName);
+                    startNewActivity(packageName, activityName);
+                } else if (!AppUtils.startNewApp(MainActivity.this, appInfoBeans.get(icon4position).getApppackagename())) {
+                    appName = appInfoBeans.get(icon4position).getAppname();
+                    requestChannelData();
                 }
-                break;
-            case R.id.muqi_left:
-                if (circularQueue != null) {
-                    circularQueue.moveLeft();
-                    update7Icon(circularQueue.front, circularQueue.rear);
-                }
-                if (getButtonSound()) {
-                    audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_DOWN);
-                }
-                break;
-            case R.id.muqi_right:
-                if (circularQueue != null) {
-                    circularQueue.moveRight();
-                    update7Icon(circularQueue.front, circularQueue.rear);
-                }
-                if (getButtonSound()) {
-                    audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_DOWN);
-                }
-                break;
+            } else {
+                AppUtils.startNewApp(MainActivity.this, appInfoBeans.get(icon4position).getApppackagename());
+            }
+        } else if (id == R.id.muqi_left) {
+            if (circularQueue != null) {
+                circularQueue.moveLeft();
+                update7Icon(circularQueue.front, circularQueue.rear);
+            }
+            if (getButtonSound()) {
+                audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_DOWN);
+            }
+        } else if (id == R.id.muqi_right) {
+            if (circularQueue != null) {
+                circularQueue.moveRight();
+                update7Icon(circularQueue.front, circularQueue.rear);
+            }
+            if (getButtonSound()) {
+                audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_DOWN);
+            }
         }
     }
 

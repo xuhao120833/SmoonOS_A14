@@ -123,8 +123,9 @@ public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak
             if (foundAdapter!=null)
                 foundAdapter.notifyDataSetChanged();
 
-            bluetoothAdapter.setScanMode(
-                    BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE, 0);
+            // Android 14 及以上，使用新的 setScanMode 方法
+            bluetoothAdapter.setScanMode(BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE);
+//            bluetoothAdapter.setScanMode(BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE, 0);
             handler.removeCallbacks(discoveryRunnable);
             handler.postDelayed(discoveryRunnable,3000);//蓝牙延迟搜索，不然蓝牙音箱的回链不上
             updatePairList();
@@ -574,20 +575,16 @@ public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.rl_bluetooth_switch:
-            case R.id.bluetooth_switch:
-                bluetoothBinding.bluetoothSwitch.setChecked(!bluetoothBinding.bluetoothSwitch.isChecked());
-                break;
-            case R.id.rl_search_ble:
-                if (!bluetoothAdapter.isDiscovering()) {
-                    scanList.clear();
-                    bluetoothAdapter.startDiscovery();
-                    updatePairList();
-                    searchAnim(true);
-                }
-                break;
-
+        int id = v.getId();
+        if (id == R.id.rl_bluetooth_switch || id == R.id.bluetooth_switch) {
+            bluetoothBinding.bluetoothSwitch.setChecked(!bluetoothBinding.bluetoothSwitch.isChecked());
+        } else if (id == R.id.rl_search_ble) {
+            if (!bluetoothAdapter.isDiscovering()) {
+                scanList.clear();
+                bluetoothAdapter.startDiscovery();
+                updatePairList();
+                searchAnim(true);
+            }
         }
     }
 
