@@ -99,7 +99,8 @@
     <string name="apps">Ứng dụng của tôi</string>
     <string name="google">Cửa hàng ứng dụng</string>
     <string name="settings">Cài đặt</string>
-    <string name="project_setting">Cài đặt chiếu</string>
+    <string name="projection_settings">Cài đặt chiếu</string>
+    <string name="projection">Cài đặt chiếu</string>
     <string name="wireless_network">Cài đặt mạng</string>
     <string name="apps_manager">Cài đặt ứng dụng</string>
     <string name="date_time">Ngày và giờ</string>
@@ -240,6 +241,7 @@
     <string name="device_mode0">Chế độ chuẩn</string>
     <string name="device_mode1">Chế độ tiết kiệm năng lượng</string>
     <string name="device_mode2">Chế độ sáng cao</string>
+    <string name="device_mode3">Chế độ tiếng ồn thấp</string>
     <string name="new_version">Phiên bản mới</string>
     <string name="update_content">Nội dung cập nhật</string>
     <string name="best_version">Phiên bản mới nhất</string>

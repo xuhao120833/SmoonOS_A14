@@ -90,40 +90,37 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
     @Override
     public void onClick(View v) {
         Log.d("xuhao", "onclick");
-        switch (v.getId()) {
-            case R.id.enter:
-                if (wifiConnectDialogBinding.etPassword.getText().toString().isEmpty() ||
-                        wifiConnectDialogBinding.etPassword.getText().toString().length() < 8) {
-                    wifiConnectDialogBinding.errMsg.setVisibility(View.VISIBLE);
-                    break;
-                }
+        int id = v.getId();
+        if (id == R.id.enter) {
+            if (wifiConnectDialogBinding.etPassword.getText().toString().isEmpty() ||
+                    wifiConnectDialogBinding.etPassword.getText().toString().length() < 8) {
+                wifiConnectDialogBinding.errMsg.setVisibility(View.VISIBLE);
+                return;
+            }
 
-                //dismiss();
-                connectingDialog = ConectingDialog(mContext, mContext.getString(R.string.connecting_ssid, wifi_name));
-                connectingDialog.show();
-                threads.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        disEnableNetwork();
-                    }
-                });
-                handler.sendEmptyMessageDelayed(2, 1500);
-                break;
-            case R.id.cancel:
-                dismiss();
-                break;
-            case R.id.password_visibility:
-                Log.d(TAG," wifiConnectDialogBinding.etPassword.getInputType() "+wifiConnectDialogBinding.etPassword.getInputType());
-                if (wifiConnectDialogBinding.etPassword.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
-                    // 显示密码
-                    wifiConnectDialogBinding.etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                    wifiConnectDialogBinding.passwordVisibility.setImageResource(R.drawable.password_eye); // 替换为显示密码的图标
-                } else {
-                    // 隐藏密码
-                    wifiConnectDialogBinding.etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    wifiConnectDialogBinding.passwordVisibility.setImageResource(R.drawable.password_eye_off); // 替换为隐藏密码的图标
+            //dismiss();
+            connectingDialog = ConectingDialog(mContext, mContext.getString(R.string.connecting_ssid, wifi_name));
+            connectingDialog.show();
+            threads.execute(new Runnable() {
+                @Override
+                public void run() {
+                    disEnableNetwork();
                 }
-                break;
+            });
+            handler.sendEmptyMessageDelayed(2, 1500);
+        } else if (id == R.id.cancel) {
+            dismiss();
+        } else if (id == R.id.password_visibility) {
+            Log.d(TAG, " wifiConnectDialogBinding.etPassword.getInputType() " + wifiConnectDialogBinding.etPassword.getInputType());
+            if (wifiConnectDialogBinding.etPassword.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                // 显示密码
+                wifiConnectDialogBinding.etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                wifiConnectDialogBinding.passwordVisibility.setImageResource(R.drawable.password_eye); // 替换为显示密码的图标
+            } else {
+                // 隐藏密码
+                wifiConnectDialogBinding.etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                wifiConnectDialogBinding.passwordVisibility.setImageResource(R.drawable.password_eye_off); // 替换为隐藏密码的图标
+            }
         }
     }
 

@@ -141,7 +141,7 @@
                 android:layout_marginTop="@dimen/y_33"
                 android:shadowColor="#80000000"
                 android:shadowRadius="4"
-                android:text="@string/project_setting"
+                android:text="@string/projection"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 android:singleLine="true"

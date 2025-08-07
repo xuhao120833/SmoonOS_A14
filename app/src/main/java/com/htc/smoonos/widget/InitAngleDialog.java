@@ -21,7 +21,7 @@ import com.htc.smoonos.MyApplication;
 import com.htc.smoonos.R;
 import com.htc.smoonos.activity.ProjectActivity;
 import com.htc.smoonos.databinding.InitAngleLayoutBinding;
-import com.htc.smoonos.utils.KeystoneUtils;
+import com.htc.smoonos.utils.KeystoneUtils_726;
 import com.htc.smoonos.utils.LogUtils;
 import com.htc.smoonos.utils.ReflectUtil;
 
@@ -68,15 +68,13 @@ public class InitAngleDialog extends BaseDialog implements View.OnClickListener 
             activeClose = true;
             projectActivity.setAuto();
         }
-        KeystoneUtils.resetKeystone();
-//        KeystoneUtils.writeGlobalSettings(getContext(), KeystoneUtils.ZOOM_VALUE, 0);
-        KeystoneUtils.writeSystemProperties(KeystoneUtils.PROP_ZOOM_VALUE,0);
+        KeystoneUtils_726.resetKeystone();
+//        KeystoneUtils_726.writeGlobalSettings(getContext(), KeystoneUtils_726.ZOOM_VALUE, 0);
+        KeystoneUtils_726.writeSystemProperties(KeystoneUtils_726.PROP_ZOOM_VALUE,0);
         projectActivity.All = 0;
         projectActivity.updateZoomView();
         SystemProperties.set("persist.sys.keystone_offset", "0");
-
-        KeystoneUtils.writeSystemProperties(KeystoneUtils.PROP_ZOOM_SCALE,0);
-        projectActivity.updateSzoomTv();
+        SystemProperties.set("persist.sys.keystone_offset", "0");
     }
 
     @Override
@@ -132,10 +130,8 @@ public class InitAngleDialog extends BaseDialog implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.start_init_angle:
-                initCorrectAngle();
-                break;
+        if (v.getId() == R.id.start_init_angle) {
+            initCorrectAngle();
         }
     }
 
@@ -157,5 +153,4 @@ public class InitAngleDialog extends BaseDialog implements View.OnClickListener 
             }
         }, 3000);
     }
-
 }

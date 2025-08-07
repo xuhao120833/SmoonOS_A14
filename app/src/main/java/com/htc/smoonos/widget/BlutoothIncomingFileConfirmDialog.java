@@ -38,14 +38,12 @@ public class BlutoothIncomingFileConfirmDialog extends Dialog implements View.On
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.accept:
-                Toast.makeText(mContext, mContext.getString(R.string.bluetooth_start_receive), Toast.LENGTH_SHORT).show();
-                onTransfer();
-                break;
-            case R.id.cancel:
-                CancelingTransfer();
-                break;
+        int id = v.getId();
+        if (id == R.id.accept) {
+            Toast.makeText(mContext, mContext.getString(R.string.bluetooth_start_receive), Toast.LENGTH_SHORT).show();
+            onTransfer();
+        } else if (id == R.id.cancel) {
+            CancelingTransfer();
         }
     }
 

@@ -1,8 +1,11 @@
 package com.htc.smoonos.activity;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -11,6 +14,7 @@ import com.htc.smoonos.databinding.ActivityMainSettingBinding;
 import com.htc.smoonos.databinding.ActivitySettingsCustomBinding;
 import com.htc.smoonos.databinding.MainSettingsCustomBinding;
 import com.htc.smoonos.databinding.SettingsCustomBinding;
+import com.htc.smoonos.receiver.DisplaySettingsReceiver;
 
 public class MainSettingActivity extends BaseActivity {
 
@@ -20,6 +24,7 @@ public class MainSettingActivity extends BaseActivity {
     SettingsCustomBinding settingsCustomBinding;
 
     MainSettingsCustomBinding mainSettingsCustomBinding;
+    private static String TAG = "MainSettingActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,8 @@ public class MainSettingActivity extends BaseActivity {
         setContentView(mainSettingsCustomBinding.getRoot());
         initView();
         initData();
+
+        handleDisplayBroadcast();
 
         //原生逻辑
 //        mainSettingBinding = ActivityMainSettingBinding.inflate(LayoutInflater.from(this));
@@ -123,17 +130,17 @@ public class MainSettingActivity extends BaseActivity {
         mainSettingsCustomBinding.rlProject.setOnHoverListener(this);
         mainSettingsCustomBinding.rlWifi.setOnHoverListener(this);
 
+        mainSettingsCustomBinding.rlAbout.setOnFocusChangeListener(this);
+        mainSettingsCustomBinding.rlAppsManager.setOnFocusChangeListener(this);
+        mainSettingsCustomBinding.rlBluetooth.setOnFocusChangeListener(this);
+        mainSettingsCustomBinding.rlDateTime.setOnFocusChangeListener(this);
+        mainSettingsCustomBinding.rlLanguage.setOnFocusChangeListener(this);
+        mainSettingsCustomBinding.rlOther.setOnFocusChangeListener(this);
+        mainSettingsCustomBinding.rlProject.setOnFocusChangeListener(this);
+        mainSettingsCustomBinding.rlWifi.setOnFocusChangeListener(this);
+
         mainSettingsCustomBinding.rlWifi.requestFocus();
         mainSettingsCustomBinding.rlWifi.requestFocusFromTouch();
-
-        mainSettingsCustomBinding.wifiTxt.setSelected(true);
-        mainSettingsCustomBinding.btTxt.setSelected(true);
-        mainSettingsCustomBinding.projectTxt.setSelected(true);
-        mainSettingsCustomBinding.languageTxt.setSelected(true);
-        mainSettingsCustomBinding.appsTxt.setSelected(true);
-        mainSettingsCustomBinding.timeTxt.setSelected(true);
-        mainSettingsCustomBinding.otherTxt.setSelected(true);
-        mainSettingsCustomBinding.aboutTxt.setSelected(true);
 
         //原生逻辑
 //        mainSettingBinding.rlAbout.setOnClickListener(this);
@@ -231,31 +238,23 @@ public class MainSettingActivity extends BaseActivity {
 //        }
 
         //原生逻辑
-        switch (v.getId()){
-            case R.id.rl_wifi:
-                startNewActivity(NetworkActivity.class);
-                break;
-            case R.id.rl_bluetooth:
-                startNewActivityBlue(BluetoothActivity.class);
-                break;
-            case R.id.rl_project:
-                startNewActivity(ProjectActivity.class);
-                break;
-            case R.id.rl_apps_manager:
-                startNewActivity(AppsManagerActivity.class);
-                break;
-            case R.id.rl_language:
-                startNewActivity(LanguageAndKeyboardActivity.class);
-                break;
-            case R.id.rl_date_time:
-                startNewActivity(DateTimeActivity.class);
-                break;
-            case R.id.rl_other:
-                startNewActivity(OtherSettingsActivity.class);
-                break;
-            case R.id.rl_about:
-                startNewActivity(AboutActivity.class);
-                break;
+        int id = v.getId();
+        if (id == R.id.rl_wifi) {
+            startNewActivity(NetworkActivity.class);
+        } else if (id == R.id.rl_bluetooth) {
+            startNewActivityBlue(BluetoothActivity.class);
+        } else if (id == R.id.rl_project) {
+            startNewActivity(ProjectActivity.class);
+        } else if (id == R.id.rl_apps_manager) {
+            startNewActivity(AppsManagerActivity.class);
+        } else if (id == R.id.rl_language) {
+            startNewActivity(LanguageAndKeyboardActivity.class);
+        } else if (id == R.id.rl_date_time) {
+            startNewActivity(DateTimeActivity.class);
+        } else if (id == R.id.rl_other) {
+            startNewActivity(OtherSettingsActivity.class);
+        } else if (id == R.id.rl_about) {
+            startNewActivity(AboutActivity.class);
         }
     }
 
@@ -266,6 +265,60 @@ public class MainSettingActivity extends BaseActivity {
         intent_hdmi.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent_hdmi.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent_hdmi);
+    }
+
+    private void handleDisplayBroadcast() {
+        Log.d(TAG," handleDisplayBroadcast ");
+        Context applicationContext = getApplicationContext();
+
+        applicationContext.unregisterReceiver(MainActivity.displaySettingsReceiver);
+        MainActivity.displaySettingsReceiver = null;
+        MainActivity.displaySettingsReceiver = new DisplaySettingsReceiver(applicationContext);
+        IntentFilter displayFilter = new IntentFilter();
+        displayFilter.addAction(DisplaySettingsReceiver.DisplayAction);
+        applicationContext.registerReceiver(MainActivity.displaySettingsReceiver, displayFilter);
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        int id = v.getId();
+        if (hasFocus) {
+            if (id == R.id.rl_about) {
+                mainSettingsCustomBinding.aboutTxt.setSelected(true);
+            } else if (id == R.id.rl_apps_manager) {
+                mainSettingsCustomBinding.appsTxt.setSelected(true);
+            } else if (id == R.id.rl_bluetooth) {
+                mainSettingsCustomBinding.btTxt.setSelected(true);
+            } else if (id == R.id.rl_date_time) {
+                mainSettingsCustomBinding.timeTxt.setSelected(true);
+            } else if (id == R.id.rl_language) {
+                mainSettingsCustomBinding.languageTxt.setSelected(true);
+            } else if (id == R.id.rl_other) {
+                mainSettingsCustomBinding.otherTxt.setSelected(true);
+            } else if (id == R.id.rl_project) {
+                mainSettingsCustomBinding.projectTxt.setSelected(true);
+            } else if (id == R.id.rl_wifi) {
+                mainSettingsCustomBinding.wifiTxt.setSelected(true);
+            }
+        } else {
+            if (id == R.id.rl_about) {
+                mainSettingsCustomBinding.aboutTxt.setSelected(false);
+            } else if (id == R.id.rl_apps_manager) {
+                mainSettingsCustomBinding.appsTxt.setSelected(false);
+            } else if (id == R.id.rl_bluetooth) {
+                mainSettingsCustomBinding.btTxt.setSelected(false);
+            } else if (id == R.id.rl_date_time) {
+                mainSettingsCustomBinding.timeTxt.setSelected(false);
+            } else if (id == R.id.rl_language) {
+                mainSettingsCustomBinding.languageTxt.setSelected(false);
+            } else if (id == R.id.rl_other) {
+                mainSettingsCustomBinding.otherTxt.setSelected(false);
+            } else if (id == R.id.rl_project) {
+                mainSettingsCustomBinding.projectTxt.setSelected(false);
+            } else if (id == R.id.rl_wifi) {
+                mainSettingsCustomBinding.wifiTxt.setSelected(false);
+            }
+        }
     }
 
 }

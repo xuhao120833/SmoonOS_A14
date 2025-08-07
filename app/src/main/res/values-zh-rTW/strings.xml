@@ -99,7 +99,8 @@
 	<string name="apps">我的應用</string>
 	<string name="google">應用商店</string>
 	<string name="settings">設定</string>
-	<string name="project_setting">投影設定</string>
+	<string name="projection_settings">投影設定</string>
+	<string name="projection">投影設定</string>
 	<string name="wireless_network">無線網絡</string>
 	<string name="apps_manager">應用設定</string>
 	<string name="date_time">日期和時間</string>
@@ -240,6 +241,7 @@
 	<string name="device_mode0">標準模式</string>
 	<string name="device_mode1">節能模式</string>
 	<string name="device_mode2">高亮模式</string>
+	<string name="device_mode3">低噪聲模式</string>
 	<string name="new_version">新版本</string>
 	<string name="update_content">更新內容</string>
 	<string name="best_version">已是最新版本</string>

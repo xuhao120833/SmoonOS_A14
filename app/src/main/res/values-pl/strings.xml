@@ -99,7 +99,8 @@
     <string name="apps">Moje aplikacje</string>
     <string name="google">Sklep z aplikacjami</string>
     <string name="settings">Ustawienia</string>
-    <string name="project_setting">Ustawienia projekcji</string>
+    <string name="projection_settings">Ustawienia projekcji</string>
+    <string name="projection">Ustawienia projekcji</string>
     <string name="wireless_network">Sieć bezprzewodowa</string>
     <string name="apps_manager">Ustawienia aplikacji</string>
     <string name="date_time">Data i czas</string>
@@ -240,6 +241,7 @@
     <string name="device_mode0">Tryb standardowy</string>
     <string name="device_mode1">Tryb oszczędzania energii</string>
     <string name="device_mode2">Tryb wysokiej jasności</string>
+    <string name="device_mode3">Tryb niskiego szumu</string>
     <string name="new_version">Nowa wersja</string>
     <string name="update_content">Zawartość aktualizacji</string>
     <string name="best_version">Już najnowsza wersja</string>

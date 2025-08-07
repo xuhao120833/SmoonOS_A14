@@ -45,7 +45,7 @@
             android:layout_centerHorizontal="true"
             android:duplicateParentState="true"
             android:gravity="center"
-            android:text="@string/project_setting"
+            android:text="@string/projection"
             android:textColor="@color/tv_color"
             android:textSize="@dimen/x_28" />
     </RelativeLayout>

@@ -99,7 +99,8 @@
     <string name="apps">マイアプリ</string>
     <string name="google">アプリストア</string>
     <string name="settings">設定</string>
-    <string name="project_setting">投影設定</string>
+    <string name="projection_settings">投影設定</string>
+    <string name="projection">投影設定</string>
     <string name="wireless_network">ワイヤレスネットワーク</string>
     <string name="apps_manager">アプリ設定</string>
     <string name="date_time">日付と時刻</string>
@@ -240,6 +241,7 @@
     <string name="device_mode0">標準モード</string>
     <string name="device_mode1">省エネルギーモード</string>
     <string name="device_mode2">高輝度モード</string>
+    <string name="device_mode3">低ノイズモード</string>
     <string name="new_version">新しいバージョン</string>
     <string name="update_content">更新内容</string>
     <string name="best_version">最新バージョンです</string>

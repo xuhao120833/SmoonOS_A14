@@ -99,7 +99,8 @@
     <string name="apps">Mine applikationer</string>
     <string name="google">App Store</string>
     <string name="settings">Indstillinger</string>
-    <string name="project_setting">Projektindstillinger</string>
+    <string name="projection_settings">Projektindstillinger</string>
+    <string name="projection">Projektindstillinger</string>
     <string name="wireless_network">Trådløst netværk</string>
     <string name="apps_manager">Applikationsindstillinger</string>
     <string name="date_time">Dato og tid</string>
@@ -240,6 +241,7 @@
     <string name="device_mode0">Standardmode</string>
     <string name="device_mode1">Energibesparende mode</string>
     <string name="device_mode2">Høj lysstyrke mode</string>
+    <string name="device_mode3" translatable="true">Lav støjtilstand</string>
     <string name="new_version">Ny version</string>
     <string name="update_content">Opdateringsindhold</string>
     <string name="best_version">Nyeste version allerede</string>

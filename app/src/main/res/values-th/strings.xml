@@ -99,7 +99,8 @@
     <string name="apps">แอปของฉัน</string>
     <string name="google">Google Play Store</string>
     <string name="settings">การตั้งค่า</string>
-    <string name="project_setting">การตั้งค่าการฉายภาพ</string>
+    <string name="projection_settings">การตั้งค่าการฉายภาพ</string>
+    <string name="projection">การตั้งค่าการฉายภาพ</string>
     <string name="wireless_network">เครือข่ายไร้สาย</string>
     <string name="apps_manager">การตั้งค่าแอป</string>
     <string name="date_time">วันที่และเวลา</string>
@@ -240,6 +241,7 @@
     <string name="device_mode0">โหมดมาตรฐาน</string>
     <string name="device_mode1">โหมดประหยัดพลังงาน</string>
     <string name="device_mode2">โหมดความสว่างสูง</string>
+    <string name="device_mode3">โหมดเสียงรบกวนต่ำ</string>
     <string name="new_version">เวอร์ชันใหม่</string>
     <string name="update_content">เนื้อหาอัปเดต</string>
     <string name="best_version">เวอร์ชันล่าสุดแล้ว</string>

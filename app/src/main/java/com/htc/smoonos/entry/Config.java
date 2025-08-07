@@ -35,6 +35,8 @@ public class Config {
     public boolean hue = true;
     public boolean saturation = true;
     public boolean sharpness = true;
+    public boolean arcSwitch = false;
+    public boolean low_noise_mode = false;
 
     //电源模式 上电开机 上电待机
     public boolean powerMode = false;

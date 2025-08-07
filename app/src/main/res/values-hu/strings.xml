@@ -99,7 +99,8 @@
     <string name="apps">Alkalmazásaim</string>
     <string name="google">Alkalmazásbolt</string>
     <string name="settings">Beállítások</string>
-    <string name="project_setting">Kivetítési beállítások</string>
+    <string name="projection_settings">Vetítési beállítások</string>
+    <string name="projection">Vetítési beállítások</string>
     <string name="wireless_network">Vezeték nélküli hálózat</string>
     <string name="apps_manager">Alkalmazáskezelő</string>
     <string name="date_time">Dátum és idő</string>
@@ -240,6 +241,7 @@
     <string name="device_mode0">Normál mód</string>
     <string name="device_mode1">Energiatakarékos mód</string>
     <string name="device_mode2">Magas fényerő mód</string>
+    <string name="device_mode3" translatable="true">Alacsony zajszintű mód</string>
     <string name="new_version">Új verzió</string>
     <string name="update_content">Frissítés tartalma</string>
     <string name="best_version">A legújabb verzió már telepítve</string>

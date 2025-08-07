@@ -31,6 +31,7 @@ public class Utils {
     public static SpecialApps specialApps = null;
 
     public static String specialAppsList ="";
+    public static boolean btAnim = false;
 
     public static int[] drawablesId = {
             R.drawable.background8,

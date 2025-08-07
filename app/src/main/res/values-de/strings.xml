@@ -99,7 +99,8 @@
 	<string name="apps">Meine Anwendungen</string>
 	<string name="google">Anwendungs-Shop</string>
 	<string name="settings">Einstellungen</string>
-	<string name="project_setting">Projektionseinstellungen</string>
+	<string name="projection_settings">Projektionseinstellungen</string>
+	<string name="projection">Projektionseinstellungen</string>
 	<string name="wireless_network">Drahtloses Netzwerk</string>
 	<string name="apps_manager">Anwendungseinstellungen</string>
 	<string name="date_time">Datum und Uhrzeit</string>
@@ -240,6 +241,7 @@
     <string name="device_mode0">Standardmodus</string>
     <string name="device_mode1">Energiesparmodus</string>
     <string name="device_mode2">Heller Modus</string>
+	<string name="device_mode3" translatable="true">Modus mit geringer Geräuschentwicklung</string>
     <string name="new_version">Neue Version</string>
     <string name="update_content">Aktualisierungsinhalt</string>
     <string name="best_version">Neueste Version bereits installiert</string>

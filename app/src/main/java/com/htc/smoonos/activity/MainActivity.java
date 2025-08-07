@@ -39,6 +39,7 @@ import com.htc.smoonos.databinding.ActivityMainMuqiBinding;
 import com.htc.smoonos.receiver.AppCallBack;
 import com.htc.smoonos.receiver.AppReceiver;
 import com.htc.smoonos.receiver.BatteryReceiver;
+import com.htc.smoonos.receiver.DisplaySettingsReceiver;
 import com.htc.smoonos.receiver.InitAngleReceiver;
 import com.htc.smoonos.receiver.UsbDeviceCallBack;
 import com.htc.smoonos.service.TimeOffService;
@@ -172,6 +173,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     //电池
     private BatteryReceiver batteryReceiver = null;
+    //Display Settings 悬浮窗
+    public static DisplaySettingsReceiver displaySettingsReceiver = null;
 
     private static String TAG = "MainActivity";
 
@@ -785,6 +788,15 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         initAngleFilter.addAction("com.htc.INITANGLE");
         registerReceiver(initAngleReceiver, initAngleFilter);
 
+        //Display Settings悬浮窗
+        if (displaySettingsReceiver == null) {
+            Log.d(TAG, "registerReceiver displaySettingsReceiver");
+            displaySettingsReceiver = new DisplaySettingsReceiver(getApplicationContext());
+            IntentFilter displayFilter = new IntentFilter();
+            displayFilter.addAction(DisplaySettingsReceiver.DisplayAction);
+            getApplicationContext().registerReceiver(displaySettingsReceiver, displayFilter);
+        }
+
     }
 
     BroadcastReceiver refreshAppsReceiver = new BroadcastReceiver() {
@@ -995,90 +1007,79 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
     public void onClick(View v) {
         String appname = null;
         String action = null;
-        switch (v.getId()) {
-            case R.id.rl_usb_connect:
-                AppUtils.startNewApp(MainActivity.this, "com.hisilicon.explorer");
-                break;
-            case R.id.rl_signal_source:
-                try {
-                    String listaction = DBUtils.getInstance(this).getActionFromListModules("list3");
-                    if (listaction != null && !listaction.isEmpty()) { //读取配置
-                        goAction(listaction);
-                    } else {// 默认跳转
-                        if (Utils.sourceList.length > 1) { //支持多信源
-                            showSourceDialog();
-                        } else {
-                            // 默认跳转
-                            startSource("HDMI1");
-                        }
+        int id = v.getId();
+        if (id == R.id.rl_usb_connect) {
+            AppUtils.startNewApp(MainActivity.this, "com.hisilicon.explorer");
+        } else if (id == R.id.rl_signal_source) {
+            try {
+                String listaction = DBUtils.getInstance(this).getActionFromListModules("list3");
+                if (listaction != null && !listaction.isEmpty()) { //读取配置
+                    goAction(listaction);
+                } else {// 默认跳转
+                    if (Utils.sourceList.length > 1) { //支持多信源
+                        showSourceDialog();
+                    } else {
+                        // 默认跳转
+                        startSource("HDMI1");
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-                break;
-            case R.id.rl_clear_memory:
-                goAction("com.htc.clearmemory/com.htc.clearmemory.MainActivity");
-                break;
-            case R.id.rl_wallpapers:
-                startNewActivity(WallPaperActivity.class);
-                break;
-            case R.id.rl_muqi_bt:
-                startNewActivity(BluetoothActivity.class);
-                break;
-            case R.id.rl_muqi_usb:
-                AppUtils.startNewApp(MainActivity.this, "com.hisilicon.explorer");
-                break;
-            case R.id.rl_muqi_settings:
-                startNewActivity(MainSettingActivity.class);
-                break;
-            case R.id.rl_muqi_wifi:
-                startNewActivity(WifiActivity.class);
-                break;
-            case R.id.rl_muqi_icon4:
-                int icon4position = -1;
-                if (appInfoBeans != null && circularQueue != null) {
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (id == R.id.rl_clear_memory) {
+            goAction("com.htc.clearmemory/com.htc.clearmemory.MainActivity");
+        } else if (id == R.id.rl_wallpapers) {
+            startNewActivity(WallPaperActivity.class);
+        } else if (id == R.id.rl_muqi_bt) {
+            startNewActivity(BluetoothActivity.class);
+        } else if (id == R.id.rl_muqi_usb) {
+            AppUtils.startNewApp(MainActivity.this, "com.hisilicon.explorer");
+        } else if (id == R.id.rl_muqi_settings) {
+            startNewActivity(MainSettingActivity.class);
+        } else if (id == R.id.rl_muqi_wifi) {
+            startNewActivity(WifiActivity.class);
+        } else if (id == R.id.rl_muqi_icon4) {
+            int icon4position = -1;
+            if (appInfoBeans != null && circularQueue != null) {
 //                    int icon4position = -1;
-                    if (circularQueue.front + 3 < appInfoBeans.size()) {
-                        icon4position = circularQueue.front + 3;
-                    } else if (circularQueue.front + 3 == appInfoBeans.size()) {
-                        icon4position = 0;
-                    } else if (circularQueue.front + 3 > appInfoBeans.size()) {
-                        icon4position = circularQueue.front + 3 - appInfoBeans.size();
-                    }
+                if (circularQueue.front + 3 < appInfoBeans.size()) {
+                    icon4position = circularQueue.front + 3;
+                } else if (circularQueue.front + 3 == appInfoBeans.size()) {
+                    icon4position = 0;
+                } else if (circularQueue.front + 3 > appInfoBeans.size()) {
+                    icon4position = circularQueue.front + 3 - appInfoBeans.size();
                 }
-                if (DBUtils.getInstance(getApplicationContext()).isMiddleAppsFull()) {
-                    if (appInfoBeans.get(icon4position).getApppackagename().contains("/")) {
-                        String[] parts = appInfoBeans.get(icon4position).getApppackagename().split("/", 2);
-                        String packageName = parts[0];
-                        String activityName = parts[1];
-                        Log.d(TAG, " goAction 包名活动名 " + packageName + " " + activityName);
-                        startNewActivity(packageName, activityName);
-                    }else if (!AppUtils.startNewApp(MainActivity.this, appInfoBeans.get(icon4position).getApppackagename())) {
-                        appName = appInfoBeans.get(icon4position).getAppname();
-                        requestChannelData();
-                    }
-                } else {
-                    AppUtils.startNewApp(MainActivity.this, appInfoBeans.get(icon4position).getApppackagename());
+            }
+            if (DBUtils.getInstance(getApplicationContext()).isMiddleAppsFull()) {
+                if (appInfoBeans.get(icon4position).getApppackagename().contains("/")) {
+                    String[] parts = appInfoBeans.get(icon4position).getApppackagename().split("/", 2);
+                    String packageName = parts[0];
+                    String activityName = parts[1];
+                    Log.d(TAG, " goAction 包名活动名 " + packageName + " " + activityName);
+                    startNewActivity(packageName, activityName);
+                } else if (!AppUtils.startNewApp(MainActivity.this, appInfoBeans.get(icon4position).getApppackagename())) {
+                    appName = appInfoBeans.get(icon4position).getAppname();
+                    requestChannelData();
                 }
-                break;
-            case R.id.muqi_left:
-                if (circularQueue != null) {
-                    circularQueue.moveLeft();
-                    update7Icon(circularQueue.front, circularQueue.rear);
-                }
-                if (getButtonSound()) {
-                    audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_DOWN);
-                }
-                break;
-            case R.id.muqi_right:
-                if (circularQueue != null) {
-                    circularQueue.moveRight();
-                    update7Icon(circularQueue.front, circularQueue.rear);
-                }
-                if (getButtonSound()) {
-                    audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_DOWN);
-                }
-                break;
+            } else {
+                AppUtils.startNewApp(MainActivity.this, appInfoBeans.get(icon4position).getApppackagename());
+            }
+        } else if (id == R.id.muqi_left) {
+            if (circularQueue != null) {
+                circularQueue.moveLeft();
+                update7Icon(circularQueue.front, circularQueue.rear);
+            }
+            if (getButtonSound()) {
+                audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_DOWN);
+            }
+        } else if (id == R.id.muqi_right) {
+            if (circularQueue != null) {
+                circularQueue.moveRight();
+                update7Icon(circularQueue.front, circularQueue.rear);
+            }
+            if (getButtonSound()) {
+                audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_DOWN);
+            }
         }
     }
 
@@ -1160,7 +1161,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 //读取filterApps屏蔽显示的APP
                 readFilterApps(obj);
                 //读取右边list第一个、第三个的配置
-//                readListModules(obj);
+                readListModules(obj);
                 Log.d(TAG, " 当前的语言环境是： " + LanguageUtil.getCurrentLanguage());
                 //读取品牌图标
                 readBrand(obj);
@@ -1333,24 +1334,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     JSONObject jsonobject = jsonarrray.getJSONObject(i);
                     String tag = jsonobject.getString("tag");
                     String iconPath = jsonobject.getString("iconPath");
-//                    JSONObject textObject = jsonobject.getJSONObject("text");
-//                    String zhCN = textObject.getString("zh-CN");
-//                    String zhTW = textObject.getString("zh-TW");
-//                    String zhHK = textObject.getString("zh-HK");
-//                    String ko = textObject.getString("ko-KR");
-//                    String ja = textObject.getString("ja-JP");
-//                    String en = textObject.getString("en-US");
-//                    String ru = textObject.getString("ru-RU");
-//                    String ar = textObject.getString("ar-EG");
                     String action = jsonobject.getString("action");
-//                    hashtable.put("zh-CN", zhCN);
-//                    hashtable.put("zh-TW", zhTW);
-//                    hashtable.put("zh-HK", zhHK);
-//                    hashtable.put("ko-KR", ko);
-//                    hashtable.put("ja-JP", ja);
-//                    hashtable.put("en-US", en);
-//                    hashtable.put("ru-RU", ru);
-//                    hashtable.put("ar-EG", ar);
                     JSONObject textObject = jsonobject.getJSONObject("text");
                     JSONArray keys = textObject.names();
                     Log.d(TAG, " 读取到的listModules keys " + keys);
@@ -1506,6 +1490,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         unregisterReceiver(usbDeviceReceiver);
         unregisterReceiver(appReceiver);
         unregisterReceiver(batteryReceiver);
+        getApplicationContext().unregisterReceiver(displaySettingsReceiver);
+        displaySettingsReceiver = null;
         super.onDestroy();
     }
 

@@ -34,6 +34,7 @@ import com.htc.smoonos.receiver.BondStateReceiver;
 import com.htc.smoonos.receiver.MyBlueBoothCallBack;
 import com.htc.smoonos.receiver.MyBlueBoothReceiver;
 import com.htc.smoonos.utils.Contants;
+import com.htc.smoonos.utils.Utils;
 import com.htc.smoonos.widget.SpacesItemDecoration;
 
 import java.lang.reflect.InvocationTargetException;
@@ -98,6 +99,7 @@ public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak
         bluetoothBinding.bluetoothSwitch.setOnClickListener(this);
         bluetoothBinding.rlSearchBle.setOnClickListener(this);
         bluetoothBinding.rlSearchBle.setOnHoverListener(this);
+        bluetoothBinding.rlSearchBle.setOnKeyListener(this);
         bluetoothBinding.pairRv.setItemAnimator(null);
         bluetoothBinding.pairRv.addItemDecoration(new SpacesItemDecoration(0,0,SpacesItemDecoration.px2dp(4),0));
         bluetoothBinding.availableRv.setItemAnimator(null);
@@ -123,8 +125,9 @@ public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak
             if (foundAdapter!=null)
                 foundAdapter.notifyDataSetChanged();
 
-            bluetoothAdapter.setScanMode(
-                    BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE, 0);
+            // Android 14 及以上，使用新的 setScanMode 方法
+            bluetoothAdapter.setScanMode(BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE);
+//            bluetoothAdapter.setScanMode(BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE, 0);
             handler.removeCallbacks(discoveryRunnable);
             handler.postDelayed(discoveryRunnable,3000);//蓝牙延迟搜索，不然蓝牙音箱的回链不上
             updatePairList();
@@ -167,7 +170,6 @@ public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak
                     .equals(action)) {
                 searchAnim(false);
             }
-
         }
 
     };
@@ -334,9 +336,8 @@ public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak
     }
 
     private void searchAnim(boolean isAnim) {
-
-
         if (!isAnim){
+            Utils.btAnim = false;
             bluetoothBinding.refreshIv.setVisibility(View.GONE);
             bluetoothBinding.refreshIv.clearAnimation();
             return;
@@ -365,10 +366,8 @@ public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak
                 // TODO Auto-generated method stub
             }
         });
-
+        Utils.btAnim = true;
         bluetoothBinding.refreshIv.startAnimation(anim);
-
-
     }
 
     /**
@@ -401,7 +400,6 @@ public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak
      * @return
      */
     private void setConnectedState() {
-
         //重置状态
         bondAdapter.clearConnectMap();
         if (a2dp==null)
@@ -429,46 +427,31 @@ public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak
      * @return
      */
     private List<BluetoothDevice> getCurrentConnectDevice() {
-
         Class<BluetoothAdapter> bluetoothAdapterClass = BluetoothAdapter.class;// 得到BluetoothAdapter的Class对象
         try {// 得到蓝牙状态的方法
-            Method method = bluetoothAdapterClass.getDeclaredMethod(
-                    "getConnectionState", (Class[]) null);
+            Method method = bluetoothAdapterClass.getDeclaredMethod("getConnectionState", (Class[]) null);
             // 打开权限
             method.setAccessible(true);
-            int state = (Integer) method.invoke(bluetoothAdapter,
-                    (Object[]) null);
+            int state = (Integer) method.invoke(bluetoothAdapter, (Object[]) null);
             if (state == BluetoothAdapter.STATE_CONNECTED) {
-
                 List<BluetoothDevice> deviceconnectList = new ArrayList<BluetoothDevice>();
-
-                Set<BluetoothDevice> devices = bluetoothAdapter
-                        .getBondedDevices();
-
+                Set<BluetoothDevice> devices = bluetoothAdapter.getBondedDevices();
                 for (BluetoothDevice device : devices) {
-
-                    Method isConnectedMethod = BluetoothDevice.class
-                            .getDeclaredMethod("isConnected", (Class[]) null);
+                    Method isConnectedMethod = BluetoothDevice.class.getDeclaredMethod("isConnected", (Class[]) null);
                     method.setAccessible(true);
-                    boolean isConnected = (Boolean) isConnectedMethod.invoke(
-                            device, (Object[]) null);
+                    boolean isConnected = (Boolean) isConnectedMethod.invoke(device, (Object[]) null);
                     if (isConnected) {
-
-//
                         if(device!=null){
                             deviceconnectList.add(device);
                         }
                     }
                 }
-
                 return deviceconnectList;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
-
     }
 
     /**
@@ -574,20 +557,16 @@ public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.rl_bluetooth_switch:
-            case R.id.bluetooth_switch:
-                bluetoothBinding.bluetoothSwitch.setChecked(!bluetoothBinding.bluetoothSwitch.isChecked());
-                break;
-            case R.id.rl_search_ble:
-                if (!bluetoothAdapter.isDiscovering()) {
-                    scanList.clear();
-                    bluetoothAdapter.startDiscovery();
-                    updatePairList();
-                    searchAnim(true);
-                }
-                break;
-
+        int id = v.getId();
+        if (id == R.id.rl_bluetooth_switch || id == R.id.bluetooth_switch) {
+            bluetoothBinding.bluetoothSwitch.setChecked(!bluetoothBinding.bluetoothSwitch.isChecked());
+        } else if (id == R.id.rl_search_ble) {
+            if (!bluetoothAdapter.isDiscovering()) {
+                scanList.clear();
+                bluetoothAdapter.startDiscovery();
+                updatePairList();
+                searchAnim(true);
+            }
         }
     }
 
@@ -623,10 +602,10 @@ public class BluetoothActivity extends BaseActivity implements BluetoothCallBcak
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         int id = v.getId();
-        //解决按下键焦点跑到文件管理器的问题
         if ((id == R.id.rl_search_ble) && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
             Log.d(TAG, " keCode " + keyCode + " " + event.getEventTime());
             if ((bluetoothBinding.rlSearchBle.hasFocus()) && event.getAction() == KeyEvent.ACTION_DOWN) {
+//                return (bondList.isEmpty() && scanList.isEmpty()) || Utils.btAnim; //没有扫描完成，焦点不移动到蓝牙Found列表
                 return bondList.isEmpty() && scanList.isEmpty();
             }
         }

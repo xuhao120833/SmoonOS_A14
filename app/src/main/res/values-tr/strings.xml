@@ -99,7 +99,8 @@
     <string name="apps">Uygulamalarım</string>
     <string name="google">Uygulama Mağazası</string>
     <string name="settings">Ayarlar</string>
-    <string name="project_setting">Projeksiyon Ayarları</string>
+    <string name="projection_settings">Projeksiyon Ayarları</string>
+    <string name="projection">Projeksiyon Ayarları</string>
     <string name="wireless_network">Kablosuz Ağ</string>
     <string name="apps_manager">Uygulama Ayarları</string>
     <string name="date_time">Tarih ve Saat</string>
@@ -240,6 +241,7 @@
     <string name="device_mode0">Standart Mod</string>
     <string name="device_mode1">Enerji Tasarrufu Modu</string>
     <string name="device_mode2">Aşırı Aydınlatma Modu</string>
+    <string name="device_mode3">Düşük gürültü modu</string>
     <string name="new_version">Yeni Sürüm</string>
     <string name="update_content">Güncelleme İçeriği</string>
     <string name="best_version">Zaten en son sürüm</string>

@@ -99,7 +99,8 @@
     <string name="apps">Aplikasi saya</string>
     <string name="google">Kedai aplikasi</string>
     <string name="settings">Tetapan</string>
-    <string name="project_setting">Tetapan Projek</string>
+    <string name="projection_settings">Tetapan Projek</string>
+    <string name="projection">Tetapan Projek</string>
     <string name="wireless_network">Rangkaian Tanpa Wayar</string>
     <string name="apps_manager">Tetapan Aplikasi</string>
     <string name="date_time">Tarikh dan Masa</string>
@@ -240,6 +241,7 @@
     <string name="device_mode0">Mod Standard</string>
     <string name="device_mode1">Mod Penjimatan Tenaga</string>
     <string name="device_mode2">Mod Terang</string>
+    <string name="device_mode3">Mod Bunyi Rendah</string>
     <string name="new_version">Versi Baru</string>
     <string name="update_content">Kandungan Kemas Kini</string>
     <string name="best_version">Versi terkini sudah ada</string>
