@@ -32,6 +32,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -338,6 +340,27 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        wifiConnectDialogBinding.etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                Log.d(TAG, "actionId " + actionId);
+                if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_DONE
+                        || actionId == EditorInfo.IME_ACTION_SEND || actionId == EditorInfo.IME_ACTION_GO) {
+                    //隐藏软键盘
+                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    }
+                    v.clearFocus();
+                    wifiConnectDialogBinding.enter.requestFocus();
+                    wifiConnectDialogBinding.enter.performClick();
+//                    Toast.makeText(mContext, " 生效了Baby ", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+                return false;
             }
         });
     }
