@@ -34,6 +34,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -446,6 +447,11 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
         });
 
         dialog.show();
-
+        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        if (positiveButton != null) {
+            positiveButton.setBackgroundColor(Color.parseColor("#4684f3")); // #80 是 50% 透明度，后面是黑色
+            positiveButton.setTextColor(Color.WHITE); // 白色文字，方便看
+            positiveButton.setPadding(40, 20, 40, 20); // 给按钮留点内边距
+        }
     }
 }
