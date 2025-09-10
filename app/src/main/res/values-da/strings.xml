@@ -289,5 +289,6 @@
     <string name="bluetooth_receive_request">Vil du acceptere den indkommende fil?</string>
     <string name="bluetooth_start_receive">Begynd at modtage data</string>
     <string name="accept">Acceptere</string>
+    <string name="support">Understøttelse</string>
 </resources>
 

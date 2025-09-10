@@ -289,4 +289,5 @@
 	<string name="bluetooth_receive_request">要接受傳入的檔案嗎?</string>
 	<string name="bluetooth_start_receive">開始接收資料</string>
 	<string name="accept">接受</string>
+	<string name="support">支援</string>
 </resources>

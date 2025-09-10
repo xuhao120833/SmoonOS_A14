@@ -289,5 +289,6 @@
     <string name="bluetooth_receive_request">Gelen dosyayı kabul etmek istiyor musunuz?</string>
     <string name="bluetooth_start_receive">Veri alımına başla</string>
     <string name="accept">Kabul et</string>
+    <string name="support">Destek</string>
 </resources>
 

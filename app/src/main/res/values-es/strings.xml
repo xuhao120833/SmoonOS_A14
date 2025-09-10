@@ -289,4 +289,5 @@
 	<string name="bluetooth_receive_request">¿Quieres aceptar el archivo entrante?</string>
 	<string name="bluetooth_start_receive">Comenzar a recibir datos</string>
 	<string name="accept">Aceptar</string>
+	<string name="support">Soporte</string>
 </resources>

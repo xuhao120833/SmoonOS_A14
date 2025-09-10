@@ -289,4 +289,5 @@
     <string name="bluetooth_receive_request">受信するファイルを受け入れますか？</string>
     <string name="bluetooth_start_receive">データの受信を開始</string>
     <string name="accept">受け入れる</string>
+    <string name="support">サポート</string>
 </resources>

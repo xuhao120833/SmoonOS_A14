@@ -17,9 +17,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -33,9 +35,13 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.htc.smoonos.MyApplication;
 import com.htc.smoonos.adapter.ShortcutsAdapterMuQi;
 import com.htc.smoonos.databinding.ActivityMainMuqiBinding;
+import com.htc.smoonos.databinding.DialogSupportBinding;
 import com.htc.smoonos.receiver.AppCallBack;
 import com.htc.smoonos.receiver.AppReceiver;
 import com.htc.smoonos.receiver.BatteryReceiver;
@@ -57,10 +63,13 @@ import android.os.storage.StorageVolume;
 import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -128,6 +137,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -273,6 +283,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             customBinding = ActivityMainMuqiBinding.inflate(LayoutInflater.from(this));
             setContentView(customBinding.getRoot());
             setDefaultBackgroundById();
+            //加载support图片路径
+            loadSupport();
             setViewInvisible();
             initViewCustom();
             initDataCustom();
@@ -299,7 +311,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         if (circularQueue != null) {
             outState.putInt("front", circularQueue.front);                // 保存头指针
             outState.putInt("rear", circularQueue.rear);                // 保存尾指针
-            Log.d(TAG,"onSaveInstanceState 保存头尾指针 front "+circularQueue.front+" rear"+circularQueue.rear);
+            Log.d(TAG, "onSaveInstanceState 保存头尾指针 front " + circularQueue.front + " rear" + circularQueue.rear);
         }
     }
 
@@ -341,7 +353,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         startService(intent);
     }
 
-    private void setViewInvisible(){
+    private void setViewInvisible() {
 //        customBinding.rlMain.setVisibility(View.INVISIBLE);
         showLottieLoading();
 //        //icon1
@@ -455,6 +467,11 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         customBinding.rlMuqiWifi.setOnClickListener(this);
         customBinding.rlMuqiWifi.setOnHoverListener(this);
         customBinding.rlMuqiWifi.setOnFocusChangeListener(this);
+        //support
+        customBinding.rlSupport.setOnClickListener(this);
+        customBinding.rlSupport.setOnHoverListener(this);
+        customBinding.rlSupport.setOnFocusChangeListener(this);
+        customBinding.rlSupport.setVisibility((MyApplication.config.support && !Utils.support_image_path.isEmpty()) ? View.VISIBLE : View.GONE);
         //icon1
         customBinding.rlMuqiIcon1.setOnClickListener(this);
         //icon2
@@ -694,7 +711,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                                     circularQueue.front = front;
                                     circularQueue.rear = rear;
                                 }
-                                Log.d(TAG,"initDataCustom 读取头尾指针 front "+circularQueue.front+" rear"+circularQueue.rear);
+                                Log.d(TAG, "initDataCustom 读取头尾指针 front " + circularQueue.front + " rear" + circularQueue.rear);
                                 Log.d(TAG, " update7Icon " + circularQueue.rear);
                                 update7Icon(circularQueue.front, circularQueue.rear);
 //                                timerManager.stopTimer();
@@ -1008,7 +1025,9 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         String appname = null;
         String action = null;
         int id = v.getId();
-        if (id == R.id.rl_usb_connect) {
+        if (id == R.id.rl_support) {
+            showSupportDialog();
+        } else if (id == R.id.rl_usb_connect) {
             AppUtils.startNewApp(MainActivity.this, "com.hisilicon.explorer");
         } else if (id == R.id.rl_signal_source) {
             try {
@@ -1121,8 +1140,8 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         SharedPreferences.Editor editor = sharedPreferences.edit();
         int code = sharedPreferences.getInt("code", 0);
         Log.d(TAG, " initDataApp读code值 " + code);
-        int reload = SystemProperties.getInt("persist.htc.reload",0);
-        if(reload == 1) {
+        int reload = SystemProperties.getInt("persist.htc.reload", 0);
+        if (reload == 1) {
             DBUtils.getInstance(this).deleteTable();
         }
         if (code == 0 || reload == 1) {  //保证配置文件只在最初读一次
@@ -1620,7 +1639,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
 
     private void startAppFormChannel() {
         for (AppsData appsData : channelData.getData()) {
-            Log.d(TAG,"startAppFormChannel appsData.getName: "+appsData.getName());
+            Log.d(TAG, "startAppFormChannel appsData.getName: " + appsData.getName());
             if (appName.equals(appsData.getName())) {
                 Intent intent = new Intent();
                 intent.setComponent(new ComponentName("com.htc.storeos", "com.htc.storeos.AppDetailActivity"));
@@ -1767,22 +1786,22 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
         int number = Integer.parseInt(defaultbg);
         Log.d(TAG, " setDefaultBackground number " + number);
         Log.d(TAG, " setDefaultBackground defaultbg " + defaultbg);
-        if(Utils.customBackground) {
-            String path = (String) Utils.drawables.get(number-1);
+        if (Utils.customBackground) {
+            String path = (String) Utils.drawables.get(number - 1);
             Log.d(TAG, " loadImageFromPath path " + path);
-            Drawable drawable = ImageUtils.loadImageFromPath(path,getApplicationContext());
+            Drawable drawable = ImageUtils.loadImageFromPath(path, getApplicationContext());
             MyApplication.mainDrawable = (BitmapDrawable) drawable;
             setDefaultBg(drawable);
-        }else {
+        } else {
             if (number > Utils.drawablesId.length) {
                 Log.d(TAG, " setDefaultBackground 用户设置的默认背景，超出了范围");
                 return;
             }
-            if(number == 1) {
+            if (number == 1) {
                 Drawable drawable = (Drawable) Utils.drawables.get(0);
                 MyApplication.mainDrawable = (BitmapDrawable) drawable;
                 setDefaultBg(drawable);
-            }else if(number>1) {
+            } else if (number > 1) {
                 setWallPaper(Utils.drawablesId[number - 1]);
                 Drawable drawable = getResources().getDrawable(Utils.drawablesId[number - 1]);
                 MyApplication.mainDrawable = (BitmapDrawable) drawable;
@@ -2045,12 +2064,12 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     } else {
                         iconViews[i].setImageResource(getAppIcon(appInfoBeans.get(index).getApppackagename()));
                     }
-                    String name = AppUtils.getAppInfoByPackageName(getApplicationContext(),appInfoBeans.get(index).getApppackagename());
-                    if(name != null) {
-                        Log.d(TAG,"textViews[i].setText(name) "+name);
+                    String name = AppUtils.getAppInfoByPackageName(getApplicationContext(), appInfoBeans.get(index).getApppackagename());
+                    if (name != null) {
+                        Log.d(TAG, "textViews[i].setText(name) " + name);
                         textViews[i].setText(name);
                     } else {
-                        Log.d(TAG,"textViews[i].setText(appInfoBeans.get(index).getAppname()");
+                        Log.d(TAG, "textViews[i].setText(appInfoBeans.get(index).getAppname()");
                         textViews[i].setText(appInfoBeans.get(index).getAppname());
                     }
 //                    textViews[i].setText(appInfoBeans.get(index).getAppname());
@@ -2065,12 +2084,12 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     } else {
                         iconViews[i].setImageResource(getAppIcon(appInfoBeans.get(index).getApppackagename()));
                     }
-                    String name = AppUtils.getAppInfoByPackageName(getApplicationContext(),appInfoBeans.get(index).getApppackagename());
-                    if(name != null) {
-                        Log.d(TAG,"textViews[i].setText(name) "+name);
+                    String name = AppUtils.getAppInfoByPackageName(getApplicationContext(), appInfoBeans.get(index).getApppackagename());
+                    if (name != null) {
+                        Log.d(TAG, "textViews[i].setText(name) " + name);
                         textViews[i].setText(name);
                     } else {
-                        Log.d(TAG,"textViews[i].setText(appInfoBeans.get(index).getAppname()");
+                        Log.d(TAG, "textViews[i].setText(appInfoBeans.get(index).getAppname()");
                         textViews[i].setText(appInfoBeans.get(index).getAppname());
                     }
 //                    textViews[i].setText(appInfoBeans.get(index).getAppname());
@@ -2083,12 +2102,12 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                     } else {
                         iconViews[i].setImageResource(getAppIcon(appInfoBeans.get(index).getApppackagename()));
                     }
-                    String name = AppUtils.getAppInfoByPackageName(getApplicationContext(),appInfoBeans.get(index).getApppackagename());
-                    if(name != null) {
-                        Log.d(TAG,"textViews[i].setText(name) "+name);
+                    String name = AppUtils.getAppInfoByPackageName(getApplicationContext(), appInfoBeans.get(index).getApppackagename());
+                    if (name != null) {
+                        Log.d(TAG, "textViews[i].setText(name) " + name);
                         textViews[i].setText(name);
                     } else {
-                        Log.d(TAG,"textViews[i].setText(appInfoBeans.get(index).getAppname()");
+                        Log.d(TAG, "textViews[i].setText(appInfoBeans.get(index).getAppname()");
                         textViews[i].setText(appInfoBeans.get(index).getAppname());
                     }
 //                    textViews[i].setText(appInfoBeans.get(index).getAppname());
@@ -2262,7 +2281,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 layout.addView(source_item);
                 source_title.setSelected(true);
             } else {
-                String title = Utils.sourceListTitle[i-1];
+                String title = Utils.sourceListTitle[i - 1];
                 // 获取 LayoutInflater 对象
                 source_title.setText(title);
                 // 设置上下外边距
@@ -2278,7 +2297,7 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
                 source_item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startSource(Utils.sourceList[finalI-1]);
+                        startSource(Utils.sourceList[finalI - 1]);
                     }
                 });
                 source_item.setOnHoverListener(this);
@@ -2287,6 +2306,99 @@ public class MainActivity extends BaseMainActivity implements BluetoothCallBcak,
             }
         }
         // 显示 Dialog
+        dialog.show();
+    }
+
+    private void loadSupport() {
+        Log.d(TAG, "loadSupport");
+        if ((MyApplication.config.support_directory.isEmpty() || !MyApplication.config.support) && !MyApplication.config.about_support) {
+            Log.d(TAG, "loadSupport 配置不对不加载");
+            return;
+        }
+        String[] imageExtensions = {".jpg", ".jpeg", ".png", ".bmp", ".webp"};
+        File directory = new File(MyApplication.config.support_directory);
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        if (judgeLanguage(file)) {
+                            Log.d(TAG, "找到当前语言的support图片路径 " + file.getAbsolutePath());
+                            break; // 找到一个匹配后就跳出循环
+                        }
+                    }
+                }
+                // 如果当前语言没找到，尝试找英文
+                Log.d(TAG, "loadSupport Utils.support_image_path " + Utils.support_image_path);
+                if (Utils.support_image_path.isEmpty()) {
+                    for (File file : files) {
+                        if (file.isFile() && file.getName().contains("_en")) {
+                            Utils.support_image_path = file.getAbsolutePath();
+                            Log.d(TAG, "找不到当前语言，使用英文support图片路径: " + file.getAbsolutePath());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean judgeLanguage(File file) {
+        String name = file.getName();
+        Locale currentLocale = Resources.getSystem().getConfiguration().getLocales().get(0);
+        String languageCode;
+        if ("zh".equals(currentLocale.getLanguage())) {
+            // 区分 zh-CN、zh-TW、zh-HK
+            languageCode = "_zh_" + currentLocale.getCountry();
+        } else {
+            // 其他语言只用语言码
+            languageCode = "_" + currentLocale.getLanguage();
+        }
+        Log.d("JudgeLanguage", "当前语言码: " + languageCode);
+        if (name.contains(languageCode)) {
+            Utils.support_image_path = file.getAbsolutePath();
+            return true;
+        }
+        return false;
+    }
+
+    private void showSupportDialog() {
+        Dialog dialog = new Dialog(this, R.style.DialogTheme);
+        DialogSupportBinding supportBinding = DialogSupportBinding.inflate(LayoutInflater.from(this));
+        dialog.setContentView(supportBinding.getRoot());
+        File file = new File(Utils.support_image_path);
+        if (file.exists()) {
+            Glide.with(this)
+                    .load(file)
+                    .into(new CustomTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                            supportBinding.rlMain.setBackground(resource);
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                            // 可选：清除背景或设置占位图
+                        }
+                    });
+        } else {
+            Log.e("ImageLoad", "File not found: " + Utils.support_image_path);
+        }
+        Window window = dialog.getWindow();
+        if (window != null) {
+            //去除系统自带的margin
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            //设置dialog在界面中的属性
+            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+            //背景全透明
+            window.setDimAmount(0f);
+        }
+        WindowManager manager = getWindowManager();
+        Display d = manager.getDefaultDisplay(); // 获取屏幕宽、高度
+        WindowManager.LayoutParams params = window.getAttributes(); // 获取对话框当前的参数值
+        params.width = d.getWidth();
+        params.height = d.getHeight();
+        window.setAttributes(params);
         dialog.show();
     }
 

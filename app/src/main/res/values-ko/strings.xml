@@ -289,4 +289,5 @@
     <string name="bluetooth_receive_request">수신 파일을 받으시겠습니까?</string>
     <string name="bluetooth_start_receive">데이터 수신 시작</string>
     <string name="accept">수락</string>
+    <string name="support">지원</string>
 </resources>

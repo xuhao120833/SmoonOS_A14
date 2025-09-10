@@ -31,6 +31,7 @@ public class Utils {
     public static SpecialApps specialApps = null;
 
     public static String specialAppsList ="";
+    public static String support_image_path = "";
     public static boolean btAnim = false;
 
     public static int[] drawablesId = {

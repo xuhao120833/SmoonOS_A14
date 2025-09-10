@@ -289,4 +289,5 @@
     <string name="bluetooth_receive_request">Apakah Anda ingin menerima file yang masuk?</string>
     <string name="bluetooth_start_receive">Mulai terima data</string>
     <string name="accept">Terima</string>
+    <string name="support">Dukungan</string>
 </resources>

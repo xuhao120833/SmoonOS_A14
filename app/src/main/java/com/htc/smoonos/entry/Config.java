@@ -41,6 +41,11 @@ public class Config {
     //电源模式 上电开机 上电待机
     public boolean powerMode = false;
 
+    //状态栏support图标开关
+    public boolean support = false;
+    //support多语言目录
+    public String support_directory = "";
+    public boolean about_support = false;
     public int brightnessDefault = 50;
     public int contrastDefault = 50;
     public int hueDefault = 50;
