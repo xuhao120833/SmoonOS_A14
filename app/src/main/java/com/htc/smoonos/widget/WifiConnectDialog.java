@@ -368,18 +368,22 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
 
     public Dialog ConectingDialog(Context context, String msg) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.loading_dialog, null);// 得到加载view
+        View v = inflater.inflate(R.layout.loading_dialog2, null);// 得到加载view
         RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.loadding_layout);// 加载布局
+
+        //改成用ProgressBar来实现旋转动画，不用原来的ImageView旋转方案，原来的会卡。2025/5/8
         // main.xml中的ImageView
-        ImageView spaceshipImage = (ImageView) v.findViewById(R.id.loadding_iv);
+//        ImageView spaceshipImage = (ImageView) v.findViewById(R.id.loadding_iv);
         TextView tipTextView = (TextView) v.findViewById(R.id.loadding_tv);// 提示文字
         // 加载动画
-        Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(
-                context, R.anim.loading_animation);
-        // 使用ImageView显示动画
-        spaceshipImage.startAnimation(hyperspaceJumpAnimation);
-        tipTextView.setText(msg);// 设置加载信息
+//        Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(
+//                context, R.anim.loading_animation);
+//        // 使用ImageView显示动画
+//        hyperspaceJumpAnimation.setInterpolator(new LinearInterpolator());
+//        spaceshipImage.startAnimation(hyperspaceJumpAnimation);
+//        startanim(true,spaceshipImage);
 
+        tipTextView.setText(msg);// 设置加载信息
         Dialog connectingDialog = new Dialog(context, R.style.DialogTheme);// 创建自定义样式dialog
         connectingDialog.setOnDismissListener(new OnDismissListener() {
             @Override
@@ -391,7 +395,6 @@ public class WifiConnectDialog extends BaseDialog implements View.OnClickListene
                 RelativeLayout.LayoutParams.FILL_PARENT,
                 RelativeLayout.LayoutParams.FILL_PARENT));// 设置布局
         return connectingDialog;
-
     }
 
     public void hideConnectingDialog() {
