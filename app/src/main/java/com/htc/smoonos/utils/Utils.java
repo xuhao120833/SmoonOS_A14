@@ -33,6 +33,7 @@ public class Utils {
     public static String specialAppsList ="";
     public static String support_image_path = "";
     public static boolean btAnim = false;
+    public static boolean audio_change = false;
 
     public static int[] drawablesId = {
             R.drawable.background8,
