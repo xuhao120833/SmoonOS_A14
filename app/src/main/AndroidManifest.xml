@@ -186,6 +186,9 @@
             android:name=".activity.InitAngleActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.AccountActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.WifiIpSetActivity"
             android:exported="false" />
 

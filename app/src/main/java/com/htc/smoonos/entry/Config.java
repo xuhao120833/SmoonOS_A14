@@ -46,6 +46,11 @@ public class Config {
     //support多语言目录
     public String support_directory = "";
     public boolean about_support = false;
+
+    //其它设置 谷歌账号切换，默认打开
+    public boolean account = true;
+    //无障碍服务
+    public boolean accessibility = false;
     public int brightnessDefault = 50;
     public int contrastDefault = 50;
     public int hueDefault = 50;
