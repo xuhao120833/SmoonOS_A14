@@ -191,6 +191,12 @@
         <activity
             android:name=".activity.WifiIpSetActivity"
             android:exported="false" />
+        <activity
+            android:name=".activity.PasswordVerifyActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".activity.PasswordVerifyActivity"
+            android:exported="false" />
 
         <service
             android:name="com.htc.smoonos.service.TimeOffService"

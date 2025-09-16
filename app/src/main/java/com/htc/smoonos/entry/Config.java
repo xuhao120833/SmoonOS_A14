@@ -51,6 +51,7 @@ public class Config {
     public boolean account = true;
     //无障碍服务
     public boolean accessibility = false;
+    public boolean set_password = false;
     public int brightnessDefault = 50;
     public int contrastDefault = 50;
     public int hueDefault = 50;

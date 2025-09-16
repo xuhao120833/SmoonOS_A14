@@ -13,6 +13,7 @@ import android.view.animation.ScaleAnimation;
 
 import com.htc.smoonos.MyApplication;
 import com.htc.smoonos.R;
+import com.htc.smoonos.utils.PasswordUtils;
 import com.htc.smoonos.utils.Utils;
 
 import androidx.annotation.Nullable;
@@ -28,7 +29,14 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (PasswordUtils.isPasswordSwitchEnabled() && !PasswordUtils.isSessionVerified()) {
+            if(!PasswordUtils.hasPasswordBeenSet(getApplicationContext())) {
+                startNewActivity(PasswordVerifyActivity.class);
+            } else {
+                startNewActivity(PasswordVerifyActivity2.class);
+            }
+            finish();
+        }
     }
 
     @Override

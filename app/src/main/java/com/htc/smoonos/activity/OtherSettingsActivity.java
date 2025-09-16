@@ -17,6 +17,7 @@ import com.htc.smoonos.utils.Contants;
 import com.htc.smoonos.utils.ShareUtil;
 import com.htc.smoonos.utils.Utils;
 import com.htc.smoonos.widget.FactoryResetDialog;
+import com.htc.smoonos.widget.SetPasswordDialog;
 import com.softwinner.tv.AwTvSystemManager;
 import com.softwinner.tv.common.AwTvSystemTypes;
 
@@ -73,6 +74,8 @@ public class OtherSettingsActivity extends BaseActivity implements View.OnKeyLis
         otherSettingsBinding.rlAccount.setOnClickListener(this);
         otherSettingsBinding.rlAccessibility.setOnClickListener(this);
         otherSettingsBinding.rlDeveloper.setOnClickListener(this);
+        otherSettingsBinding.rlSetPassword.setOnClickListener(this);
+
         otherSettingsBinding.rlButtonSound.setOnHoverListener(this);
         otherSettingsBinding.buttonSoundSwitch.setOnHoverListener(this);
 //        otherSettingsBinding.rlAudioMode.setOnHoverListener(this);
@@ -84,6 +87,7 @@ public class OtherSettingsActivity extends BaseActivity implements View.OnKeyLis
         otherSettingsBinding.rlAccount.setOnHoverListener(this);
         otherSettingsBinding.rlAccessibility.setOnHoverListener(this);
         otherSettingsBinding.rlDeveloper.setOnHoverListener(this);
+        otherSettingsBinding.rlSetPassword.setOnHoverListener(this);
 
         otherSettingsBinding.rlScreenSaver.setOnKeyListener(this);
         otherSettingsBinding.rlTimerOff.setOnKeyListener(this);
@@ -98,6 +102,7 @@ public class OtherSettingsActivity extends BaseActivity implements View.OnKeyLis
         otherSettingsBinding.rlBootInput.setVisibility(MyApplication.config.bootSource?View.VISIBLE:View.GONE);
         otherSettingsBinding.rlAccount.setVisibility(MyApplication.config.account ? View.VISIBLE : View.GONE);
         otherSettingsBinding.rlAccessibility.setVisibility(MyApplication.config.accessibility ? View.VISIBLE : View.GONE);
+        otherSettingsBinding.rlSetPassword.setVisibility(MyApplication.config.set_password ? View.VISIBLE : View.GONE);
 
         if ((boolean)ShareUtil.get(this,Contants.KEY_DEVELOPER_MODE,false)){
             otherSettingsBinding.rlDeveloper.setVisibility(View.VISIBLE);
@@ -259,6 +264,9 @@ public class OtherSettingsActivity extends BaseActivity implements View.OnKeyLis
             Intent intent = new Intent("android.settings.ACCESSIBILITY_SETTINGS");
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             startActivity(intent);
+        } else if (id == R.id.rl_set_password) {
+            SetPasswordDialog passwordDialog = new SetPasswordDialog(this);
+            passwordDialog.show();
         }
     }
 
