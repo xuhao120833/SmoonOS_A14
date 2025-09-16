@@ -60,6 +60,7 @@ public class AboutActivity extends BaseActivity {
     private ActivityAboutBinding aboutBinding;
 
     private final long GBYTE = 1024 * 1024 * 1024;
+    private final long MBYTE = 1024 * 1024;
     List<Integer> ENTER_FACTORY_REBOOT = new ArrayList<>();
     List<Integer> ENTER_FACTORY = new ArrayList<>();
     List<Integer> ENTER_MAC = new ArrayList<>();
@@ -242,8 +243,8 @@ public class AboutActivity extends BaseActivity {
     private void getMemorySize() {
         String total_memory = "1GB";
         long memorySize = ClearMemoryUtils.getTotalMemorySize(this);
-        memorySize = memorySize * MyApplication.config.memoryScale;
-        try {
+        if (VerifyDDRStatus(memorySize)) {
+            memorySize = memorySize * MyApplication.config.memoryScale;
             if (memorySize > 8 * GBYTE)
                 total_memory = "10GB";
             else if (memorySize > 6 * GBYTE)
@@ -254,13 +255,27 @@ public class AboutActivity extends BaseActivity {
                 total_memory = "4GB";
             else if (memorySize > GBYTE)
                 total_memory = "2GB";
-        } catch (Exception e) {
-            total_memory = "1GB";
+            else
+                total_memory = "1GB";
+        } else {
+            memorySize = memorySize * MyApplication.config.memoryScale;
+            // 转成 MB 字符串
+            long memoryMB = memorySize / (1024L * 1024L);
+            total_memory = memoryMB + "MB";
         }
 
         aboutBinding.memoryTv.setText(total_memory + "/"
                 + ClearMemoryUtils.formatFileSize(ClearMemoryUtils
                 .getAvailableMemory(this) * MyApplication.config.memoryScale, false));
+    }
+
+    private boolean VerifyDDRStatus(long memorySize) {
+        if (memorySize < 800 * MBYTE) {
+            return false;
+        } else if (1024 * MBYTE < memorySize && memorySize < 1600 * MBYTE) {
+            return false;
+        }
+        return true;
     }
 
     private void getStorageSize() {
