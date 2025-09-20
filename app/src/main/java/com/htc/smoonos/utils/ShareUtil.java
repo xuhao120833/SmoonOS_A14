@@ -14,12 +14,15 @@ public class ShareUtil {
     private static SharedPreferences preferences;
 
     private static String TAG = "ShareUtil";
-    public static SharedPreferences getInstans(Context context){
-        if (preferences==null){
-            synchronized (ShareUtil.class){
-                if (preferences==null)
-                    preferences = context.getSharedPreferences(Contants.FILE_NAME,
-                            Context.MODE_PRIVATE);
+    public static SharedPreferences getInstans(Context context) {
+        Context deviceContext = context.isDeviceProtectedStorage()
+                ? context
+                : context.createDeviceProtectedStorageContext();
+        if (preferences == null) {
+            synchronized (ShareUtil.class) {
+                if (preferences == null) {
+                    preferences = deviceContext.getSharedPreferences(Contants.FILE_NAME, Context.MODE_PRIVATE);
+                }
             }
         }
         return preferences;

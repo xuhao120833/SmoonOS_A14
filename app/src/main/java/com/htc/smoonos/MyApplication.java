@@ -227,7 +227,7 @@ public class MyApplication extends Application {
 
     private void copyMyWallpaper() {
         String[] imageExtensions = {".jpg", ".jpeg", ".png", ".bmp", ".webp",".gif"};
-        File directory = new File("/sdcard/.mywallpaper");
+        File directory = new File("/data/user_de/0/com.htc.smoonos/files/.mywallpaper");
         if (directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles();
             if (files != null) {

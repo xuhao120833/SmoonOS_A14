@@ -51,7 +51,8 @@ public class DBUtils extends SQLiteOpenHelper {
 
     public static DBUtils getInstance(Context context) {
         if (mInstance == null) {
-            mInstance = new DBUtils(context);
+            Context deContext = context.createDeviceProtectedStorageContext();
+            mInstance = new DBUtils(deContext);
         }
         return mInstance;
     }
@@ -60,7 +61,6 @@ public class DBUtils extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, VERSION);
         sharedPreferences = ShareUtil.getInstans(context);
     }
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
